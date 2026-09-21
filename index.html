@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ganesh Chaturthi Utsav Quiz | Host & Participant Portal</title>
+  <title>Ganesh Chaturthi Utsav Quiz | Department Championship & Host Portal</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google Fonts for Festive Indian Typography -->
@@ -95,7 +95,6 @@
       border-color: #f59e0b;
     }
 
-    /* Option locked in state (Zero spoiler: neutral saffron highlight) */
     .option-card.locked-in {
       background: linear-gradient(135deg, rgba(245, 158, 11, 0.25), rgba(234, 88, 12, 0.3)) !important;
       border-color: #facc15 !important;
@@ -119,49 +118,43 @@
 </head>
 <body class="font-sans antialiased relative selection:bg-marigold-500 selection:text-kumkum-900">
 
-  <!-- Background Pattern -->
+  <!-- Background Pattern and Ambient Lights -->
   <div class="fixed inset-0 bg-pattern pointer-events-none z-0"></div>
-
-  <!-- Ambient Light Orbs -->
   <div class="fixed top-8 left-1/2 -translate-x-1/2 w-96 h-96 bg-amber-500/15 rounded-full blur-3xl pointer-events-none z-0"></div>
   <div class="fixed bottom-10 -right-20 w-80 h-80 bg-red-600/15 rounded-full blur-3xl pointer-events-none z-0"></div>
 
-  <!-- Top Global Header -->
-  <header class="relative z-20 w-full max-w-4xl mx-auto px-4 pt-4 sm:pt-6 flex items-center justify-between">
-    <!-- Brand / Home Link -->
+  <!-- Header -->
+  <header class="relative z-20 w-full max-w-5xl mx-auto px-4 pt-4 sm:pt-6 flex items-center justify-between">
     <button onclick="goToHome()" class="flex items-center gap-2.5 text-left group">
       <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-marigold-600 to-amber-300 flex items-center justify-center shadow-lg shadow-amber-500/20 text-kumkum-900 font-festive text-xl group-hover:scale-105 transition-transform">
         卐
       </div>
       <div>
-        <h1 class="font-festive text-lg sm:text-xl text-amber-200 tracking-wider">गणेश उत्सव</h1>
-        <p class="text-[10px] text-amber-400/80 font-medium uppercase tracking-widest">Chaturthi Trivia</p>
+        <h1 class="font-festive text-lg sm:text-xl text-amber-200 tracking-wider">गणेश उत्सव २०२६</h1>
+        <p class="text-[10px] text-amber-400/80 font-medium uppercase tracking-widest">Inter-Department Quiz Championship</p>
       </div>
     </button>
 
-    <!-- Top Action Controls -->
     <div class="flex items-center gap-2">
-      <!-- Sound FX Toggle Button -->
+      <!-- Sound Toggle -->
       <button id="soundToggleBtn" onclick="toggleSound()" class="px-3 py-1.5 rounded-full bg-black/45 border border-amber-500/30 hover:border-amber-400 text-amber-300 text-xs sm:text-sm font-medium flex items-center gap-1.5 backdrop-blur-md transition-all shadow-inner" title="Toggle Sound Effects">
         <i id="soundIcon" data-lucide="volume-2" class="w-4 h-4"></i>
         <span id="soundText" class="hidden sm:inline">Audio: On</span>
       </button>
 
-      <!-- Host / Admin Only Portal Access Button (Secured with PIN) -->
+      <!-- Host / Admin Button (PIN 787898 Protected) -->
       <button onclick="openHostAuthModal()" class="px-3.5 py-1.5 rounded-full bg-stone-900/80 hover:bg-stone-850 border border-amber-500/40 hover:border-amber-300 text-amber-300 text-xs sm:text-sm font-semibold flex items-center gap-1.5 backdrop-blur-md transition-all shadow-md group" title="Host Only - Access Leaderboard & Admin Controls">
-        <i data-lucide="lock" class="w-3.5 h-3.5 text-amber-400 group-hover:text-amber-300"></i>
-        <span>Host / Admin</span>
+        <i data-lucide="shield" class="w-3.5 h-3.5 text-amber-400 group-hover:text-amber-300"></i>
+        <span>Host Dashboard</span>
       </button>
     </div>
   </header>
 
-  <!-- Main Content Container -->
-  <main class="relative z-10 w-full max-w-3xl mx-auto px-4 py-4 sm:py-6 flex flex-col justify-center min-h-[calc(100vh-100px)]">
+  <main class="relative z-10 w-full max-w-4xl mx-auto px-4 py-4 sm:py-6 flex flex-col justify-center min-h-[calc(100vh-100px)]">
 
-    <!-- ==================== SCREEN 1: WELCOME SCREEN (PARTICIPANT) ==================== -->
+    <!-- SCREEN 1: PARTICIPANT REGISTRATION & WELCOME -->
     <section id="welcomeScreen" class="bg-gradient-to-b from-kumkum-700/60 to-kumkum-800/90 border border-amber-500/30 rounded-3xl p-6 sm:p-10 backdrop-blur-xl shadow-2xl relative overflow-hidden transition-all duration-500">
       
-      <!-- Decorative Ganesha Silhouette -->
       <div class="flex justify-center mb-4">
         <div class="relative w-28 h-28 sm:w-32 sm:h-32 flex items-center justify-center rounded-full bg-gradient-to-tr from-amber-500/20 via-marigold-500/30 to-amber-300/10 border-2 border-amber-400/50 p-3 shadow-xl shadow-amber-500/25 animate-pulse-glow">
           <svg class="w-20 h-20 sm:w-24 sm:h-24 text-amber-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
@@ -180,95 +173,109 @@
         </div>
       </div>
 
-      <div class="text-center space-y-3">
+      <div class="text-center space-y-2 mb-6">
         <h2 class="font-festive text-3xl sm:text-4xl lg:text-5xl text-gold-gradient tracking-wide">
           Ganesh Chaturthi Utsav Quiz
         </h2>
-        <p class="text-amber-200/90 text-sm sm:text-base max-w-xl mx-auto leading-relaxed">
-          Welcome devotees! Enter your name to test your wisdom. Answers remain locked in secrecy during the quiz, and your score will be safely submitted to the Host for the official leaderboard.
+        <p class="text-amber-200/90 text-xs sm:text-sm max-w-xl mx-auto leading-relaxed">
+          30 questions spanning mythology, rituals, Ashtavinayak pilgrimages, and cultural history. Fast responses earn precise millisecond time bonuses with automated tie-breaker scoring!
         </p>
       </div>
 
       <!-- Feature Badges -->
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 my-6 text-xs text-amber-100/90">
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-6 text-xs text-amber-100/90">
         <div class="bg-black/35 border border-amber-500/20 rounded-xl p-3 text-center flex flex-col items-center">
           <i data-lucide="help-circle" class="w-5 h-5 text-amber-400 mb-1"></i>
-          <span class="font-bold">15 Questions</span>
-          <span class="text-[10px] text-amber-300/70">Mythology & Utsav</span>
+          <span class="font-bold">30 Questions</span>
+          <span class="text-[10px] text-amber-300/70">Sacred & Historic</span>
+        </div>
+        <div class="bg-black/35 border border-amber-500/20 rounded-xl p-3 text-center flex flex-col items-center">
+          <i data-lucide="building-2" class="w-5 h-5 text-amber-400 mb-1"></i>
+          <span class="font-bold">13 Departments</span>
+          <span class="text-[10px] text-amber-300/70">Inter-Team Battle</span>
+        </div>
+        <div class="bg-black/35 border border-amber-500/20 rounded-xl p-3 text-center flex flex-col items-center">
+          <i data-lucide="zap" class="w-5 h-5 text-amber-400 mb-1"></i>
+          <span class="font-bold">Zero Ties</span>
+          <span class="text-[10px] text-amber-300/70">Millisecond Scoring</span>
         </div>
         <div class="bg-black/35 border border-amber-500/20 rounded-xl p-3 text-center flex flex-col items-center">
           <i data-lucide="shield-check" class="w-5 h-5 text-amber-400 mb-1"></i>
-          <span class="font-bold">Zero Spoilers</span>
-          <span class="text-[10px] text-amber-300/70">Answers stay hidden</span>
-        </div>
-        <div class="bg-black/35 border border-amber-500/20 rounded-xl p-3 text-center flex flex-col items-center">
-          <i data-lucide="timer" class="w-5 h-5 text-amber-400 mb-1"></i>
-          <span class="font-bold">20s per Question</span>
-          <span class="text-[10px] text-amber-300/70">Speed bonus points</span>
-        </div>
-        <div class="bg-black/35 border border-amber-500/20 rounded-xl p-3 text-center flex flex-col items-center">
-          <i data-lucide="user-check" class="w-5 h-5 text-amber-400 mb-1"></i>
-          <span class="font-bold">Auto Recorded</span>
-          <span class="text-[10px] text-amber-300/70">Score sent to host</span>
+          <span class="font-bold">Hidden Answers</span>
+          <span class="text-[10px] text-amber-300/70">Zero Spoilers</span>
         </div>
       </div>
 
-      <!-- Player Name Input & Start Button -->
-      <div class="max-w-md mx-auto space-y-4 pt-2">
+      <!-- Mandatory Name & Department Form -->
+      <form id="startQuizForm" onsubmit="handleStartQuizSubmit(event)" class="max-w-md mx-auto space-y-4">
         <div>
-          <label for="playerNameInput" class="block text-xs font-semibold uppercase tracking-wider text-amber-300/90 mb-1.5 text-center">
-            Enter Participant / Devotee Name:
+          <label for="playerNameInput" class="block text-xs font-semibold uppercase tracking-wider text-amber-300/90 mb-1">
+            Participant Name <span class="text-red-400">*</span>
           </label>
-          <input type="text" id="playerNameInput" maxlength="24" placeholder="e.g. Atharva, Meera, Arjun" class="w-full bg-black/45 border border-amber-500/40 rounded-xl px-4 py-3 text-center text-amber-100 placeholder-amber-400/40 focus:outline-none focus:ring-2 focus:ring-amber-400 font-medium transition-all shadow-inner">
+          <input type="text" id="playerNameInput" required maxlength="32" placeholder="Enter your full name" class="w-full bg-black/50 border border-amber-500/40 rounded-xl px-4 py-2.5 text-amber-100 placeholder-amber-400/40 focus:outline-none focus:ring-2 focus:ring-amber-400 font-medium transition-all shadow-inner text-sm">
         </div>
 
-        <button onclick="startQuiz()" class="w-full py-4 px-6 bg-gradient-to-r from-amber-500 via-marigold-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-kumkum-900 font-bold rounded-2xl shadow-lg shadow-amber-500/30 flex items-center justify-center gap-2 transform active:scale-[0.98] transition-all text-base sm:text-lg">
+        <div>
+          <label for="playerDeptSelect" class="block text-xs font-semibold uppercase tracking-wider text-amber-300/90 mb-1">
+            Department / Team <span class="text-red-400">*</span>
+          </label>
+          <select id="playerDeptSelect" required class="w-full bg-black/70 border border-amber-500/40 rounded-xl px-4 py-2.5 text-amber-100 focus:outline-none focus:ring-2 focus:ring-amber-400 font-medium transition-all shadow-inner text-sm">
+            <option value="" disabled selected>-- Select your Department --</option>
+            <!-- 13 Departments Configured -->
+            <option value="Planning">Planning</option>
+            <option value="Marketing">Marketing</option>
+            <option value="Finance">Finance</option>
+            <option value="Finance - GCC">Finance - GCC</option>
+            <option value="L&D">L&D</option>
+            <option value="Project">Project</option>
+            <option value="Operation">Operation</option>
+            <option value="BI">BI</option>
+            <option value="HR">HR</option>
+            <option value="Ecom">Ecom</option>
+            <option value="Customer Care">Customer Care</option>
+            <option value="Admin">Admin</option>
+            <option value="VM">VM</option>
+          </select>
+        </div>
+
+        <p id="validationErrorMessage" class="hidden text-xs text-red-400 font-semibold text-center"></p>
+
+        <button type="submit" class="w-full py-3.5 px-6 bg-gradient-to-r from-amber-500 via-marigold-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-kumkum-900 font-bold rounded-2xl shadow-lg shadow-amber-500/30 flex items-center justify-center gap-2 transform active:scale-[0.98] transition-all text-base mt-2">
           <i data-lucide="play" class="w-5 h-5 fill-current"></i>
-          <span>Begin Chaturthi Quiz</span>
+          <span>Begin 30-Question Quiz</span>
         </button>
 
-        <!-- Organizer link notice -->
-        <p class="text-center text-[11px] text-amber-300/50">
-          Quiz Organizer or Teacher? <button onclick="openHostAuthModal()" class="text-amber-300 underline font-medium hover:text-amber-200">Open Host Board</button>
+        <p class="text-center text-[11px] text-amber-300/60 pt-1">
+          Are you the organizer? <button type="button" onclick="openHostAuthModal()" class="text-amber-300 underline font-semibold hover:text-amber-200">Host Dashboard (PIN Protected)</button>
         </p>
-      </div>
-
-      <p class="text-center text-[11px] text-amber-300/60 mt-6 tracking-widest font-mono">
-        वक्रतुण्ड महाकाय सूर्यकोटि समप्रभ • निर्विघ्नं कुरु मे देव सर्वकार्येषु सर्वदा
-      </p>
+      </form>
     </section>
 
-    <!-- ==================== SCREEN 2: ACTIVE QUIZ ==================== -->
+    <!-- SCREEN 2: ACTIVE QUIZ -->
     <section id="quizScreen" class="hidden flex-col gap-4">
-      
-      <!-- Top Progress & Timer Bar -->
       <div class="bg-black/40 backdrop-blur-md border border-amber-500/30 rounded-2xl p-4 flex flex-col gap-3 shadow-lg">
-        
         <div class="flex items-center justify-between">
-          <!-- Question Counter -->
           <div class="flex items-center gap-2">
             <span class="text-xs uppercase tracking-wider font-bold text-amber-400/80">Question</span>
-            <span id="questionProgressText" class="font-festive text-xl text-amber-200">1 / 15</span>
+            <span id="questionProgressText" class="font-festive text-xl text-amber-200">1 / 30</span>
           </div>
 
-          <!-- Question Category Badge -->
           <span id="questionCategory" class="px-2.5 py-1 rounded-md bg-amber-500/15 border border-amber-500/30 text-amber-300 font-semibold tracking-wide text-xs uppercase hidden sm:inline-block">
             Mythology
           </span>
 
-          <!-- Timer Numerical -->
           <div class="flex items-center gap-1.5 bg-black/45 border border-amber-500/30 px-3 py-1 rounded-full text-amber-300 font-bold text-xs sm:text-sm">
             <i data-lucide="clock" class="w-4 h-4 text-amber-400"></i>
             <span id="timerSecondsText" class="font-mono">20s</span>
           </div>
         </div>
 
-        <!-- Overall Progress Track -->
+        <!-- Overall Progress Bar -->
         <div class="w-full bg-stone-900/80 rounded-full h-2.5 overflow-hidden border border-amber-500/20">
-          <div id="overallProgressBar" class="h-full bg-gradient-to-r from-amber-500 to-orange-500 rounded-full transition-all duration-300" style="width: 7%;"></div>
+          <div id="overallProgressBar" class="h-full bg-gradient-to-r from-amber-500 to-orange-500 rounded-full transition-all duration-300" style="width: 3.33%;"></div>
         </div>
 
-        <!-- Timer Linear Bar -->
+        <!-- Per-question Timer Bar -->
         <div class="w-full bg-stone-900 rounded-full h-1.5 overflow-hidden border border-amber-500/20">
           <div id="timerBar" class="h-full bg-gradient-to-r from-emerald-500 via-amber-400 to-red-500 rounded-full transition-all duration-100 ease-linear" style="width: 100%;"></div>
         </div>
@@ -276,26 +283,22 @@
 
       <!-- Question Card -->
       <div class="bg-gradient-to-b from-kumkum-700/60 to-kumkum-800/90 border border-amber-500/30 rounded-3xl p-5 sm:p-7 backdrop-blur-xl shadow-xl flex flex-col gap-4">
-        
-        <!-- Mobile Category badge -->
         <div class="flex items-center justify-between text-xs sm:hidden">
           <span id="questionCategoryMobile" class="px-2 py-0.5 rounded bg-amber-500/15 border border-amber-500/30 text-amber-300 font-semibold text-[11px] uppercase">
             Mythology
           </span>
-          <span class="text-amber-300/70 text-[11px]">Select and lock your choice</span>
+          <span class="text-amber-300/70 text-[11px]">Select your answer</span>
         </div>
 
-        <!-- Question Prompt -->
         <h3 id="questionTitle" class="text-lg sm:text-xl md:text-2xl font-bold text-amber-100 leading-snug">
           Loading Question...
         </h3>
 
-        <!-- Options Container -->
         <div id="optionsContainer" class="grid grid-cols-1 gap-2.5 pt-2">
           <!-- Populated by JS -->
         </div>
 
-        <!-- Locked In Banner (Acknowledges player input WITHOUT exposing if correct/incorrect) -->
+        <!-- Locked-in indicator -->
         <div id="lockedInBanner" class="hidden mt-2 p-3.5 rounded-2xl bg-amber-500/15 border border-amber-400/40 text-amber-200 text-xs sm:text-sm items-center justify-between">
           <div class="flex items-center gap-2">
             <i data-lucide="check-circle-2" class="w-5 h-5 text-amber-400 shrink-0"></i>
@@ -303,19 +306,15 @@
           </div>
         </div>
 
-        <!-- Next / Continue Button -->
         <button id="nextBtn" onclick="nextQuestion()" class="hidden mt-1 w-full py-3.5 px-6 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-kumkum-900 font-bold rounded-xl shadow-md shadow-amber-500/20 items-center justify-center gap-2 transform active:scale-[0.99] transition-all">
           <span id="nextBtnText">Next Question</span>
           <i data-lucide="arrow-right" class="w-4 h-4"></i>
         </button>
-
       </div>
     </section>
 
-    <!-- ==================== SCREEN 3: RESULTS / SCORECARD (PARTICIPANT VIEW) ==================== -->
+    <!-- SCREEN 3: PARTICIPANT FINAL SCORECARD -->
     <section id="resultsScreen" class="hidden bg-gradient-to-b from-kumkum-700/70 to-kumkum-800/90 border border-amber-500/30 rounded-3xl p-6 sm:p-8 backdrop-blur-xl shadow-2xl relative overflow-hidden">
-      
-      <!-- Top Trophy & Rank Badge Header -->
       <div class="text-center space-y-2">
         <div class="inline-flex items-center justify-center p-3 rounded-2xl bg-amber-500/20 border border-amber-400/40 text-amber-300 mb-1">
           <i data-lucide="crown" class="w-8 h-8 text-amber-300"></i>
@@ -324,7 +323,10 @@
         <h2 id="resultPlayerGreeting" class="font-festive text-3xl sm:text-4xl text-gold-gradient">
           Dhanya Ho, Devotee!
         </h2>
-        <!-- Rank Title Badge -->
+        <div class="flex items-center justify-center gap-2">
+          <span class="text-xs text-amber-300/80 font-semibold uppercase tracking-wider">Department:</span>
+          <span id="resultPlayerDepartment" class="px-2.5 py-0.5 rounded-full bg-amber-500/20 border border-amber-400/30 text-amber-300 text-xs font-bold uppercase"></span>
+        </div>
         <div class="pt-1">
           <span id="rankBadgeText" class="inline-block px-4 py-1.5 rounded-full bg-gradient-to-r from-amber-500/30 to-orange-500/30 border border-amber-400 text-amber-200 font-bold text-sm tracking-wide shadow">
             Modak Master
@@ -332,52 +334,48 @@
         </div>
       </div>
 
-      <!-- Secure Submission Notice for Participants -->
+      <!-- Confirmation Notice of submission to Host -->
       <div class="my-4 p-3.5 rounded-2xl bg-black/40 border border-amber-500/30 flex items-center justify-between gap-3 text-xs sm:text-sm">
         <div class="flex items-center gap-2.5 text-amber-200">
           <i data-lucide="shield-check" class="w-5 h-5 text-emerald-400 shrink-0"></i>
-          <span>Your score has been registered in the <strong>Host's official leaderboard</strong>!</span>
+          <span>Your score has been registered in the <strong>Live Host Department Championship</strong>!</span>
         </div>
         <span class="px-2 py-0.5 rounded bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 font-bold text-[11px] shrink-0 uppercase tracking-wide">
           Submitted
         </span>
       </div>
 
-      <!-- Core Score Metrics Grid -->
+      <!-- Metrics Breakdown with Tie-Breaker Details -->
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 my-5">
-        <!-- Final Score -->
         <div class="bg-black/35 border border-amber-500/25 rounded-2xl p-3.5 text-center">
-          <span class="text-[11px] text-amber-400/80 font-medium uppercase block">Your Score</span>
+          <span class="text-[11px] text-amber-400/80 font-medium uppercase block">Total Points</span>
           <span id="resultFinalScore" class="font-festive text-2xl sm:text-3xl text-amber-300">0</span>
-          <span class="text-[10px] text-amber-300/60 block mt-0.5">points</span>
+          <span class="text-[10px] text-amber-300/60 block mt-0.5">Tie-Breaker Calibrated</span>
         </div>
 
-        <!-- Accuracy -->
         <div class="bg-black/35 border border-amber-500/25 rounded-2xl p-3.5 text-center">
           <span class="text-[11px] text-amber-400/80 font-medium uppercase block">Accuracy</span>
           <span id="resultAccuracy" class="font-festive text-2xl sm:text-3xl text-emerald-400">0%</span>
-          <span id="resultCorrectCount" class="text-[10px] text-amber-300/60 block mt-0.5">0 of 15 Correct</span>
+          <span id="resultCorrectCount" class="text-[10px] text-amber-300/60 block mt-0.5">0 of 30 Correct</span>
         </div>
 
-        <!-- Highest Streak -->
         <div class="bg-black/35 border border-amber-500/25 rounded-2xl p-3.5 text-center">
           <span class="text-[11px] text-amber-400/80 font-medium uppercase block">Best Streak</span>
           <div class="flex items-center justify-center gap-1">
             <i data-lucide="flame" class="w-4 h-4 text-orange-400 fill-orange-400"></i>
             <span id="resultMaxStreak" class="font-festive text-2xl sm:text-3xl text-orange-400">0</span>
           </div>
-          <span class="text-[10px] text-amber-300/60 block mt-0.5">in a row</span>
+          <span class="text-[10px] text-amber-300/60 block mt-0.5">consecutive</span>
         </div>
 
-        <!-- Time Taken -->
         <div class="bg-black/35 border border-amber-500/25 rounded-2xl p-3.5 text-center">
-          <span class="text-[11px] text-amber-400/80 font-medium uppercase block">Time Spent</span>
-          <span id="resultTotalTime" class="font-festive text-2xl sm:text-3xl text-amber-300">0s</span>
-          <span class="text-[10px] text-amber-300/60 block mt-0.5">total duration</span>
+          <span class="text-[11px] text-amber-400/80 font-medium uppercase block">Completion Time</span>
+          <span id="resultTotalTime" class="font-mono font-bold text-xl sm:text-2xl text-amber-300">00:00.000</span>
+          <span class="text-[10px] text-amber-300/60 block mt-0.5">MM:SS.ms (Exact)</span>
         </div>
       </div>
 
-      <!-- Action Buttons (Participants cannot access leaderboard; Host PIN required) -->
+      <!-- Action buttons -->
       <div class="flex flex-col sm:flex-row gap-3">
         <button onclick="restartQuiz()" class="flex-1 py-3.5 px-4 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-kumkum-900 font-bold rounded-xl shadow-lg flex items-center justify-center gap-2 transition-all">
           <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
@@ -399,13 +397,13 @@
         ✓ Personal score summary copied to clipboard!
       </div>
 
-      <!-- Participant Question Review Section (Revealed only here) -->
+      <!-- Participant Question Review Section -->
       <div id="answersReviewSection" class="hidden mt-6 pt-6 border-t border-amber-500/20 space-y-4">
         <h4 class="font-festive text-xl text-amber-200 flex items-center gap-2">
           <i data-lucide="book-open" class="w-5 h-5 text-amber-400"></i>
-          <span>Review Answers & Divine Stories</span>
+          <span>Review Answers & Sacred Lore</span>
         </h4>
-        <p class="text-xs text-amber-300/70">Here are your locked-in choices compared with the sacred answers and legends:</p>
+        <p class="text-xs text-amber-300/70">Compare your choices against the verified answers and historical explanations:</p>
         
         <div id="reviewItemsContainer" class="space-y-3 max-h-96 overflow-y-auto pr-1">
           <!-- Populated by JS -->
@@ -415,7 +413,7 @@
 
   </main>
 
-  <!-- ==================== HOST AUTHENTICATION MODAL (PIN REQUIRED) ==================== -->
+  <!-- HOST AUTH MODAL (PIN 787898) -->
   <div id="hostAuthModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
     <div class="bg-gradient-to-b from-kumkum-800 to-kumkum-950 border border-amber-500/40 rounded-3xl w-full max-w-sm p-6 shadow-2xl space-y-5 text-center relative">
       <button onclick="closeHostAuthModal()" class="absolute top-4 right-4 p-1.5 rounded-full hover:bg-black/30 text-amber-300/70 hover:text-amber-200 transition-colors">
@@ -423,22 +421,19 @@
       </button>
 
       <div class="w-14 h-14 rounded-2xl bg-amber-500/20 border border-amber-400/40 text-amber-300 mx-auto flex items-center justify-center shadow-lg">
-        <i data-lucide="shield-alert" class="w-7 h-7"></i>
+        <i data-lucide="lock" class="w-7 h-7"></i>
       </div>
 
       <div>
         <h3 class="font-festive text-2xl text-amber-200">Host / Admin Login</h3>
         <p class="text-xs text-amber-300/80 mt-1">
-          Participant access is restricted. Enter your Host PIN to view the full leaderboard and manage quiz data.
+          Department scorecard and participant records are protected. Enter the Host PIN to proceed.
         </p>
       </div>
 
-      <!-- PIN Input -->
       <div class="space-y-2">
-        <input type="password" id="hostPinInput" maxlength="8" placeholder="Enter Host PIN" class="w-full bg-black/60 border border-amber-500/50 rounded-xl px-4 py-3 text-center text-xl text-amber-100 placeholder-amber-400/30 tracking-widest font-mono focus:outline-none focus:ring-2 focus:ring-amber-400" onkeydown="if(event.key==='Enter') verifyHostPin()">
-        
+        <input type="password" id="hostPinInput" maxlength="12" placeholder="Enter Host PIN" class="w-full bg-black/60 border border-amber-500/50 rounded-xl px-4 py-3 text-center text-xl text-amber-100 placeholder-amber-400/30 tracking-widest font-mono focus:outline-none focus:ring-2 focus:ring-amber-400" onkeydown="if(event.key==='Enter') verifyHostPin()">
         <p id="pinErrorMessage" class="hidden text-xs text-red-400 font-semibold"></p>
-        <p class="text-[11px] text-amber-400/60 font-mono">Default Host PIN: <strong>1234</strong></p>
       </div>
 
       <div class="flex gap-2">
@@ -446,30 +441,30 @@
           Cancel
         </button>
         <button onclick="verifyHostPin()" class="flex-1 py-2.5 px-4 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-kumkum-900 font-bold text-xs shadow-md transition-all">
-          Unlock Portal
+          Unlock Dashboard
         </button>
       </div>
     </div>
   </div>
 
-  <!-- ==================== HOST LEADERBOARD PORTAL (ORGANIZER ONLY) ==================== -->
-  <div id="hostLeaderboardModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
-    <div class="bg-gradient-to-b from-kumkum-800 to-kumkum-950 border border-amber-500/50 rounded-3xl w-full max-w-2xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
+  <!-- HOST COMPREHENSIVE LIVE DASHBOARD & LEADERBOARD -->
+  <div id="hostLeaderboardModal" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-black/90 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
+    <div class="bg-gradient-to-b from-kumkum-800 to-kumkum-950 border border-amber-500/50 rounded-3xl w-full max-w-5xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh]">
       
       <!-- Modal Header -->
-      <div class="p-5 border-b border-amber-500/25 flex items-center justify-between bg-black/40">
+      <div class="p-4 sm:p-5 border-b border-amber-500/25 flex items-center justify-between bg-black/40">
         <div class="flex items-center gap-3">
           <div class="p-2.5 rounded-xl bg-amber-500/20 border border-amber-500/40 text-amber-400">
             <i data-lucide="crown" class="w-6 h-6 fill-amber-400/20"></i>
           </div>
           <div>
             <div class="flex items-center gap-2">
-              <h3 class="font-festive text-xl text-amber-200">Host Master Leaderboard</h3>
-              <span class="px-2 py-0.5 rounded bg-amber-500/20 border border-amber-400/40 text-amber-300 text-[10px] font-bold uppercase tracking-wider">
-                Admin Mode
+              <h3 class="font-festive text-xl text-amber-200">Host Live Championship Dashboard</h3>
+              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-[10px] font-bold uppercase tracking-wider">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span> Live Sync
               </span>
             </div>
-            <p class="text-xs text-amber-400/80">Only you can view and control these participant records</p>
+            <p class="text-xs text-amber-400/80">Department Scorecards, Podium, and Tie-Breaker Individual Standings</p>
           </div>
         </div>
         <button onclick="closeHostLeaderboardModal()" class="p-2 rounded-full hover:bg-black/40 text-amber-300 transition-colors" title="Close Panel">
@@ -477,50 +472,119 @@
         </button>
       </div>
 
-      <!-- Controls & Search Bar -->
-      <div class="p-4 bg-black/25 border-b border-amber-500/20 flex flex-col sm:flex-row items-center gap-2.5 justify-between">
-        <div class="relative w-full sm:w-72">
-          <i data-lucide="search" class="w-4 h-4 text-amber-400/60 absolute left-3 top-1/2 -translate-y-1/2"></i>
-          <input type="text" id="leaderboardSearchInput" placeholder="Filter by participant name..." oninput="filterLeaderboardView()" class="w-full bg-black/50 border border-amber-500/30 rounded-xl pl-9 pr-3 py-1.5 text-xs text-amber-100 placeholder-amber-400/40 focus:outline-none focus:border-amber-400">
+      <!-- Navigation Tabs in Host Portal -->
+      <div class="flex border-b border-amber-500/20 bg-black/30 px-4 gap-2 pt-2">
+        <button id="tabBtnDept" onclick="switchHostTab('dept')" class="py-2.5 px-4 font-bold text-xs sm:text-sm rounded-t-xl border-t border-x border-amber-400 bg-amber-500/20 text-amber-200 flex items-center gap-1.5 transition-all">
+          <i data-lucide="trophy" class="w-4 h-4 text-amber-400"></i>
+          <span>Department Championship</span>
+        </button>
+        <button id="tabBtnIndiv" onclick="switchHostTab('indiv')" class="py-2.5 px-4 font-bold text-xs sm:text-sm rounded-t-xl border-t border-x border-transparent text-amber-300/70 hover:text-amber-200 flex items-center gap-1.5 transition-all">
+          <i data-lucide="users" class="w-4 h-4 text-amber-400"></i>
+          <span>Individual Leaderboard</span>
+        </button>
+      </div>
+
+      <!-- TAB 1: DEPARTMENT CHAMPIONSHIP VIEW -->
+      <div id="hostTabDeptView" class="p-4 overflow-y-auto flex-1 space-y-4">
+        <!-- Live Podium Top 3 Departments -->
+        <div id="deptPodiumContainer" class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <!-- Populated by JS -->
         </div>
-        <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
-          <button onclick="toggleChangePinView()" class="px-3 py-1.5 rounded-lg bg-black/40 border border-amber-500/30 hover:border-amber-400 text-amber-300 text-xs font-medium flex items-center gap-1.5 transition-colors">
-            <i data-lucide="key" class="w-3.5 h-3.5 text-amber-400"></i>
-            <span>Change PIN</span>
-          </button>
-          <button onclick="exportLeaderboardCSV()" class="px-3 py-1.5 rounded-lg bg-amber-500/20 border border-amber-500/40 hover:bg-amber-500/30 text-amber-200 text-xs font-medium flex items-center gap-1.5 transition-colors">
-            <i data-lucide="download" class="w-3.5 h-3.5 text-amber-300"></i>
-            <span>Export CSV</span>
-          </button>
+
+        <div class="bg-black/30 border border-amber-500/20 rounded-2xl p-4">
+          <div class="flex items-center justify-between mb-3">
+            <h4 class="font-festive text-base text-amber-200 flex items-center gap-2">
+              <i data-lucide="bar-chart-3" class="w-4 h-4 text-amber-400"></i>
+              <span>Live Department Standings (13 Departments)</span>
+            </h4>
+            <span class="text-[11px] text-amber-300/70">Ranked by Average Score</span>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead>
+                <tr class="border-b border-amber-500/20 text-amber-300/70">
+                  <th class="py-2 px-2">Rank</th>
+                  <th class="py-2 px-3">Department</th>
+                  <th class="py-2 px-2 text-right">Avg Score</th>
+                  <th class="py-2 px-2 text-right">Participants</th>
+                  <th class="py-2 px-2 text-right">Avg Accuracy</th>
+                  <th class="py-2 px-3 text-right">Top Devotee</th>
+                </tr>
+              </thead>
+              <tbody id="deptTableBody" class="divide-y divide-amber-500/10 text-amber-100">
+                <!-- Populated by JS -->
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 
-      <!-- Change PIN Inline Section (Collapsible) -->
-      <div id="changePinContainer" class="hidden p-4 bg-black/60 border-b border-amber-500/30">
-        <div class="flex flex-col sm:flex-row items-center gap-2">
-          <input type="password" id="newPinInput" placeholder="Enter new PIN (4-8 digits)" maxlength="8" class="bg-black/50 border border-amber-500/40 rounded-xl px-3 py-1.5 text-xs text-amber-100 font-mono focus:outline-none flex-1 w-full sm:w-auto">
-          <button onclick="saveNewPin()" class="px-4 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-kumkum-900 font-bold text-xs transition-colors w-full sm:w-auto">
-            Save New PIN
-          </button>
-          <button onclick="toggleChangePinView()" class="px-3 py-1.5 rounded-xl bg-stone-800 text-amber-200 text-xs hover:bg-stone-700 transition-colors">
-            Cancel
-          </button>
+      <!-- TAB 2: INDIVIDUAL DEVOTEES LEADERBOARD -->
+      <div id="hostTabIndivView" class="hidden flex-col flex-1 overflow-hidden">
+        <!-- Filters & Actions -->
+        <div class="p-3 bg-black/25 border-b border-amber-500/20 flex flex-col sm:flex-row items-center gap-2.5 justify-between">
+          <div class="flex items-center gap-2 w-full sm:w-auto flex-1">
+            <div class="relative flex-1">
+              <i data-lucide="search" class="w-4 h-4 text-amber-400/60 absolute left-3 top-1/2 -translate-y-1/2"></i>
+              <input type="text" id="leaderboardSearchInput" placeholder="Filter by Name or Department..." oninput="filterLeaderboardView()" class="w-full bg-black/50 border border-amber-500/30 rounded-xl pl-9 pr-3 py-1.5 text-xs text-amber-100 placeholder-amber-400/40 focus:outline-none focus:border-amber-400">
+            </div>
+            <select id="leaderboardDeptFilter" onchange="filterLeaderboardView()" class="bg-black/60 border border-amber-500/30 rounded-xl px-2.5 py-1.5 text-xs text-amber-200 focus:outline-none">
+              <option value="">All Departments</option>
+              <option value="Planning">Planning</option>
+              <option value="Marketing">Marketing</option>
+              <option value="Finance">Finance</option>
+              <option value="Finance - GCC">Finance - GCC</option>
+              <option value="L&D">L&D</option>
+              <option value="Project">Project</option>
+              <option value="Operation">Operation</option>
+              <option value="BI">BI</option>
+              <option value="HR">HR</option>
+              <option value="Ecom">Ecom</option>
+              <option value="Customer Care">Customer Care</option>
+              <option value="Admin">Admin</option>
+              <option value="VM">VM</option>
+            </select>
+          </div>
+          <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
+            <button onclick="toggleChangePinView()" class="px-3 py-1.5 rounded-lg bg-black/40 border border-amber-500/30 hover:border-amber-400 text-amber-300 text-xs font-medium flex items-center gap-1.5 transition-colors">
+              <i data-lucide="key" class="w-3.5 h-3.5 text-amber-400"></i>
+              <span>Change PIN</span>
+            </button>
+            <button onclick="exportLeaderboardCSV()" class="px-3 py-1.5 rounded-lg bg-amber-500/20 border border-amber-500/40 hover:bg-amber-500/30 text-amber-200 text-xs font-medium flex items-center gap-1.5 transition-colors">
+              <i data-lucide="download" class="w-3.5 h-3.5 text-amber-300"></i>
+              <span>Export CSV</span>
+            </button>
+          </div>
         </div>
-        <p id="changePinMsg" class="text-[11px] mt-1.5 hidden"></p>
+
+        <!-- Change PIN Section -->
+        <div id="changePinContainer" class="hidden p-3 bg-black/60 border-b border-amber-500/30">
+          <div class="flex flex-col sm:flex-row items-center gap-2">
+            <input type="password" id="newPinInput" placeholder="Enter new PIN (min 4 digits)" maxlength="12" class="bg-black/50 border border-amber-500/40 rounded-xl px-3 py-1.5 text-xs text-amber-100 font-mono focus:outline-none flex-1 w-full sm:w-auto">
+            <button onclick="saveNewPin()" class="px-4 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-kumkum-900 font-bold text-xs transition-colors w-full sm:w-auto">
+              Save New PIN
+            </button>
+            <button onclick="toggleChangePinView()" class="px-3 py-1.5 rounded-xl bg-stone-800 text-amber-200 text-xs hover:bg-stone-700 transition-colors">
+              Cancel
+            </button>
+          </div>
+          <p id="changePinMsg" class="text-[11px] mt-1.5 hidden"></p>
+        </div>
+
+        <!-- Leaderboard Devotees List -->
+        <div class="p-4 overflow-y-auto flex-1 space-y-2.5" id="hostLeaderboardList">
+          <!-- Rendered via JavaScript -->
+        </div>
       </div>
 
-      <!-- Leaderboard Devotees List -->
-      <div class="p-4 overflow-y-auto flex-1 space-y-2" id="hostLeaderboardList">
-        <!-- Rendered via JavaScript -->
-      </div>
-
-      <!-- Modal Footer with Working Leaderboard Reset Button -->
-      <div class="p-4 border-t border-amber-500/20 bg-black/50 flex items-center justify-between text-xs text-amber-300/80">
+      <!-- Modal Footer -->
+      <div class="p-3.5 border-t border-amber-500/20 bg-black/50 flex items-center justify-between text-xs text-amber-300/80">
         <span id="participantTotalCountText" class="flex items-center gap-1.5">
           <i data-lucide="users" class="w-4 h-4 text-amber-400"></i>
           <span>0 Participants Recorded</span>
         </span>
-        <button onclick="promptResetLeaderboard()" class="px-3.5 py-2 rounded-xl bg-red-950/60 hover:bg-red-900/80 border border-red-500/50 text-red-200 hover:text-white font-bold text-xs flex items-center gap-1.5 transition-colors shadow-sm">
+        <button onclick="promptResetLeaderboard()" class="px-3.5 py-1.5 rounded-xl bg-red-950/60 hover:bg-red-900/80 border border-red-500/50 text-red-200 hover:text-white font-bold text-xs flex items-center gap-1.5 transition-colors shadow-sm">
           <i data-lucide="trash-2" class="w-3.5 h-3.5 text-red-400"></i>
           <span>Reset / Clear Leaderboard</span>
         </button>
@@ -528,15 +592,15 @@
     </div>
   </div>
 
-  <!-- ==================== RESET CONFIRMATION MODAL ==================== -->
+  <!-- Reset Confirmation Modal -->
   <div id="resetConfirmModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md hidden opacity-0 transition-opacity duration-200">
     <div class="bg-gradient-to-b from-kumkum-800 to-kumkum-950 border border-red-500/50 rounded-2xl w-full max-w-sm p-6 shadow-2xl text-center space-y-4">
       <div class="w-12 h-12 rounded-full bg-red-500/20 border border-red-500/40 text-red-400 mx-auto flex items-center justify-center">
         <i data-lucide="alert-triangle" class="w-6 h-6"></i>
       </div>
       <div>
-        <h4 class="font-festive text-xl text-amber-200">Clear All Participant Scores?</h4>
-        <p class="text-xs text-amber-200/80 mt-1">This will permanently delete all contestant entries, scores, and timestamps from the host record.</p>
+        <h4 class="font-festive text-xl text-amber-200">Clear All Scores & Standings?</h4>
+        <p class="text-xs text-amber-200/80 mt-1">This will permanently delete all contestant submissions and reset both department and individual leaderboards.</p>
       </div>
       <div class="flex gap-2 pt-2">
         <button onclick="cancelResetLeaderboard()" class="flex-1 py-2.5 px-4 rounded-xl bg-black/40 border border-amber-500/30 text-amber-200 text-xs font-semibold hover:bg-black/60 transition-colors">
@@ -550,12 +614,26 @@
   </div>
 
   <script>
-    /* ==========================================================================
-       1. COMPREHENSIVE QUESTION DATA (15 Authentic Ganesh Chaturthi Questions)
-       ========================================================================== */
-    const ALL_QUESTIONS = [
+    // 13 Official Departments
+    const ALL_DEPARTMENTS = [
+      "Planning",
+      "Marketing",
+      "Finance",
+      "Finance - GCC",
+      "L&D",
+      "Project",
+      "Operation",
+      "BI",
+      "HR",
+      "Ecom",
+      "Customer Care",
+      "Admin",
+      "VM"
+    ];
+
+    const ALL_QUESTIONS_30 = [
       {
-        question: "According to sacred tradition, how was Lord Ganesha created by Goddess Parvati?",
+        question: "According to sacred tradition, how was Lord Ganesha originally created by Goddess Parvati?",
         options: [
           "From turmeric & sandalwood paste (ubtan) of her body",
           "From a sacred yajna fire lit on Mount Kailash",
@@ -563,7 +641,7 @@
           "He descended directly from the celestial heavens"
         ],
         correctIndex: 0,
-        category: "Mythology & Birth",
+        category: "Mythology & Creation",
         explanation: "Goddess Parvati crafted Ganesha using turmeric and sandalwood paste from her body, infusing him with life (Prana Pratishtha) before asking him to guard her chamber."
       },
       {
@@ -579,19 +657,19 @@
         explanation: "Mushakraj represents humility, sharpness, and the intellect's ability to conquer desires and slip through any tight obstacle."
       },
       {
-        question: "Why is Lord Ganesha revered by the revered epithet 'Ekadanta' (The One-Tusked)?",
+        question: "Why is Lord Ganesha revered by the epithet 'Ekadanta' (The One-Tusked)?",
         options: [
           "He broke one tusk to transcribe the epic Mahabharata without pause",
-          "He gifted it to Indra as a sacred boon during churning of the ocean",
+          "He gifted it to Indra during the cosmic churning of the ocean",
           "It was dissolved while creating the sacred river Kaveri",
           "He traded it with Ravana for a cosmic jewel"
         ],
         correctIndex: 0,
-        category: "Legends",
+        category: "Scriptures & Legends",
         explanation: "Sage Vyasa required the Mahabharata to be written without pause. When Lord Ganesha's stylus broke, he broke his own tusk to continue transcribing without interruption."
       },
       {
-        question: "Which Indian freedom fighter transformed Ganesh Chaturthi into a grand public festival (Sarvajanik Utsav)?",
+        question: "Which Indian freedom fighter transformed Ganesh Chaturthi into a grand public festival (Sarvajanik Utsav) in 1893?",
         options: [
           "Lokmanya Bal Gangadhar Tilak",
           "Gopal Krishna Gokhale",
@@ -600,7 +678,7 @@
         ],
         correctIndex: 0,
         category: "History & Society",
-        explanation: "In 1893, Lokmanya Bal Gangadhar Tilak organized public celebrations (Sarvajanik Ganeshotsav) in Pune to unite Indians and foster national pride against colonial British rule."
+        explanation: "In 1893, Lokmanya Bal Gangadhar Tilak organized public celebrations in Pune to unite Indians across communities and foster national pride against colonial rule."
       },
       {
         question: "Which delicious sweet dumpling is traditionally offered as Lord Ganesha's favorite prasad?",
@@ -612,7 +690,7 @@
         ],
         correctIndex: 0,
         category: "Prasad & Rituals",
-        explanation: "Lord Ganesha is famously called 'Modakpriya'. Ukadiche Modak, filled with freshly grated coconut, jaggery, and cardamom encased in steamed rice flour, is offered with deep reverence."
+        explanation: "Lord Ganesha is lovingly called 'Modakpriya'. Ukadiche Modak, filled with fresh grated coconut, jaggery, and fragrant cardamom enclosed in steamed rice flour dough, is offered with deep devotion."
       },
       {
         question: "On which sacred day does the 10-day Ganesh festival culminate with the immersion (Visarjan) ceremony?",
@@ -624,7 +702,7 @@
         ],
         correctIndex: 0,
         category: "Festivals & Calendar",
-        explanation: "The festival begins on Bhadrapada Shukla Chaturthi and culminates on Anant Chaturdashi, when statues of Bappa are immersed in water amidst joyous chants of 'Pudhchya Varshi Laukariya'."
+        explanation: "The festival begins on Bhadrapada Shukla Chaturthi and culminates on Anant Chaturdashi, when statues of Bappa are immersed in water amidst joyous chants."
       },
       {
         question: "The famed 'Ashtavinayak' pilgrimage circuit of eight self-manifested Ganesha temples is located in which state?",
@@ -733,12 +811,196 @@
         correctIndex: 0,
         category: "Puranic Texts",
         explanation: "The Ganesha Purana details 8 Avatars (Vakratunda, Ekadanta, Mahodara, Gajanana, Lambodara, Vikata, Vighnaraja, and Dhumravarna), each incarnating to conquer human flaws like ego, greed, and anger."
+      },
+      {
+        question: "Which two consorts or divine shaktis of Lord Ganesha symbolize spiritual intellect and accomplishment?",
+        options: [
+          "Riddhi & Siddhi",
+          "Ganga & Yamuna",
+          "Usha & Pratyusha",
+          "Rati & Priti"
+        ],
+        correctIndex: 0,
+        category: "Mythology & Symbolism",
+        explanation: "Riddhi represents prosperity and intellect, while Siddhi represents spiritual power and accomplishment. Together they personify divine completeness."
+      },
+      {
+        question: "What is the first temple visited in the traditional pilgrimage sequence of the Ashtavinayak circuit?",
+        options: [
+          "Mayureshwar of Morgaon",
+          "Siddhivinayak of Siddhatek",
+          "Ballaleshwar of Pali",
+          "Chintamani of Theur"
+        ],
+        correctIndex: 0,
+        category: "Sacred Pilgrimages",
+        explanation: "The pilgrimage traditionally begins and ends at Sri Mayureshwar temple situated in Morgaon, Pune district."
+      },
+      {
+        question: "Which of the eight Ashtavinayak temples is named after a devoted child devotee who worshipped Ganesha unwaveringly?",
+        options: [
+          "Ballaleshwar (named after Ballal)",
+          "Varadavinayak",
+          "Girijatmaj",
+          "Mahaganapati"
+        ],
+        correctIndex: 0,
+        category: "Sacred Pilgrimages",
+        explanation: "Ballaleshwar in Pali is the only Ganesha temple named after an ardent devotee—a young boy named Ballal whose devotion moved Ganesha to stay there."
+      },
+      {
+        question: "Which demon did Lord Ganesha swallow to save the universe from scorching celestial heat?",
+        options: [
+          "Analasura (The Fire Demon)",
+          "Tarakasura",
+          "Tripurasura",
+          "Bhasmasura"
+        ],
+        correctIndex: 0,
+        category: "Mythology & Legends",
+        explanation: "Analasura emitted fiery flames that scorched creation. Ganesha swallowed the demon whole, and sages cooled his body by offering 21 Durva blades."
+      },
+      {
+        question: "In classical Sanskrit iconography, what does Lord Ganesha hold in his upper right and left hands?",
+        options: [
+          "An Axe (Parashu) & an Elephant Goad/Noose (Ankusha/Pasha)",
+          "A Bow & Arrow",
+          "A Sword & Shield",
+          "A Conch & Discus"
+        ],
+        correctIndex: 0,
+        category: "Iconography",
+        explanation: "The axe (parashu) cuts off attachments and worldly bonds, while the noose (pasha) and goad (ankusha) steer the mind towards righteousness."
+      },
+      {
+        question: "Who was the legendary sage that recited the Mahabharata while Lord Ganesha wrote it down?",
+        options: [
+          "Sage Veda Vyasa",
+          "Sage Valmiki",
+          "Sage Agastya",
+          "Sage Vishwamitra"
+        ],
+        correctIndex: 0,
+        category: "Scriptures & Epics",
+        explanation: "Sage Veda Vyasa composed the epic Mahabharata and recited it aloud, while Lord Ganesha scribed every verse with supreme speed and intellect."
+      },
+      {
+        question: "What divine festival is celebrated alongside Ganesh Chaturthi in Maharashtra honoring the divine mothers?",
+        options: [
+          "Gauri Avahan & Pujan",
+          "Karwa Chauth",
+          "Sheetala Saptami",
+          "Ahoi Ashtami"
+        ],
+        correctIndex: 0,
+        category: "Rituals & Traditions",
+        explanation: "Gauri Avahan occurs 3 to 4 days after Ganesh Chaturthi, welcoming Gauri (Goddess Parvati) as Ganesha's mother, celebrated with lavish feasts."
+      },
+      {
+        question: "What is the symbolic meaning of Lord Ganesha's large belly (Lambodara)?",
+        options: [
+          "It digests both good and evil fortunes of the entire cosmos with calm patience",
+          "His enormous appetite for sweet modaks",
+          "His supreme royal lineage",
+          "Accumulation of temporal treasures"
+        ],
+        correctIndex: 0,
+        category: "Iconography & Philosophy",
+        explanation: "Lambodara represents the infinite universe contained within Him, signifying the ability to digest and accept both pleasant and unpleasant life circumstances with serenity."
+      },
+      {
+        question: "Which sacred seed syllable (Bija Mantra) is dedicated to Lord Ganesha in Tantric tradition?",
+        options: [
+          "Gam (गं)",
+          "Hreem (ह्रीं)",
+          "Aim (ऐं)",
+          "Shreem (श्रीं)"
+        ],
+        correctIndex: 0,
+        category: "Mantras & Philosophy",
+        explanation: "The root seed syllable 'Gam' is the sonic embodiment of Lord Ganesha, as expounded in the Ganapati Atharvashirsha: 'Ganadin purvamuccharya varnadim tadanantaram'."
+      },
+      {
+        question: "Which of the Ashtavinayak temples is uniquely located inside a mountain cave complex?",
+        options: [
+          "Girijatmaj at Lenyadri",
+          "Vighnahar at Ozar",
+          "Siddhivinayak at Siddhatek",
+          "Varadavinayak at Mahad"
+        ],
+        correctIndex: 0,
+        category: "Sacred Pilgrimages",
+        explanation: "Girijatmaj is situated in Cave 7 of the Lenyadri Buddhist caves near Junnar, reached by climbing over 300 stone steps."
+      },
+      {
+        question: "Which musical instrument is Lord Ganesha frequently depicted playing as 'Narthana Ganapati' (Dancing Ganesha)?",
+        options: [
+          "Mridangam / Pakhawaj drum",
+          "Veena",
+          "Bansuri (Flute)",
+          "Santoor"
+        ],
+        correctIndex: 0,
+        category: "Art & Classical Music",
+        explanation: "As Narthana Ganapati, Ganesha is often depicted dancing rhythmically while holding or playing the mridangam or pakhawaj drum with divine mastery."
+      },
+      {
+        question: "According to Hindu astrological tradition, what is Lord Ganesha's birth nakshatra (constellation)?",
+        options: [
+          "Swati Nakshatra",
+          "Rohini Nakshatra",
+          "Ashwini Nakshatra",
+          "Pushya Nakshatra"
+        ],
+        correctIndex: 0,
+        category: "Astrology & Calendar",
+        explanation: "According to Vedic astrology, Lord Ganesha was born during the midday (Madhyahna) under the auspicious Swati nakshatra and Simha lagna."
+      },
+      {
+        question: "How many sacred names are traditionally chanted in the Sri Ganesha Ashtottara Shatanamavali?",
+        options: [
+          "108 Names",
+          "1008 Names",
+          "21 Names",
+          "54 Names"
+        ],
+        correctIndex: 0,
+        category: "Chants & Rituals",
+        explanation: "The Ashtottara Shatanamavali contains 108 sacred names chanting each divine attribute of Ganesha, often accompanied by offerings of modaks or durva grass."
+      },
+      {
+        question: "What does the large forehead and elephant head of Lord Ganesha spiritually symbolize?",
+        options: [
+          "Grand thinking, immense intellect, and supreme wisdom",
+          "Physical invincibility in battle",
+          "Strict obedience to celestial rulers",
+          "Renunciation of worldly arts"
+        ],
+        correctIndex: 0,
+        category: "Philosophy & Symbolism",
+        explanation: "The majestic elephant head represents boundless wisdom, supreme intellect, and the capacity to think broadly without narrow prejudices."
+      },
+      {
+        question: "Which river's origin in South India is celebrated in folklore as being helped by Lord Ganesha disguised as a crow?",
+        options: [
+          "River Kaveri",
+          "River Godavari",
+          "River Krishna",
+          "River Tungabhadra"
+        ],
+        correctIndex: 0,
+        category: "Folklore & Geography",
+        explanation: "According to legend, Lord Ganesha took the form of a crow and tipped Sage Agastya's kamandalu at Talakaveri, unleashing the sacred river Kaveri to nourish the drought-stricken South."
       }
     ];
 
-    /* ==========================================================================
-       2. WEB AUDIO API SYNTHESIZER
-       ========================================================================== */
+    const HOST_DEFAULT_PIN = '787898';
+    const STORAGE_KEY_LEADERBOARD = 'ganesh_quiz_host_records_v3';
+    const STORAGE_KEY_PIN = 'ganesh_quiz_host_pin_v3';
+
+    // BroadcastChannel for instant cross-tab live synchronization
+    const liveQuizChannel = typeof BroadcastChannel !== 'undefined' ? new BroadcastChannel('ganesh_utsav_quiz_sync') : null;
+
     class FestiveSoundEngine {
       constructor() {
         this.ctx = null;
@@ -771,7 +1033,7 @@
         osc.frequency.exponentialRampToValueAtTime(1760, now + 0.08);
         osc.frequency.exponentialRampToValueAtTime(1320, now + 0.35);
 
-        gain.gain.setValueAtTime(0.3, now);
+        gain.gain.setValueAtTime(0.28, now);
         gain.gain.exponentialRampToValueAtTime(0.001, now + 1.2);
 
         osc.connect(gain);
@@ -791,8 +1053,8 @@
         const gain = this.ctx.createGain();
 
         osc.type = 'triangle';
-        osc.frequency.setValueAtTime(587.33, now); // D5
-        osc.frequency.exponentialRampToValueAtTime(880, now + 0.15); // A5
+        osc.frequency.setValueAtTime(587.33, now);
+        osc.frequency.exponentialRampToValueAtTime(880, now + 0.15);
 
         gain.gain.setValueAtTime(0.18, now);
         gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
@@ -815,8 +1077,7 @@
 
         osc.type = 'sine';
         osc.frequency.setValueAtTime(700, now);
-
-        gain.gain.setValueAtTime(0.08, now);
+        gain.gain.setValueAtTime(0.07, now);
         gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
 
         osc.connect(gain);
@@ -831,29 +1092,28 @@
         this.init();
         if (!this.ctx) return;
 
-        const chords = [
+        const notes = [
           { freq: 440, delay: 0 },
           { freq: 554.37, delay: 0.12 },
           { freq: 659.25, delay: 0.24 },
           { freq: 880, delay: 0.38 }
         ];
 
-        chords.forEach(item => {
+        notes.forEach(item => {
           const osc = this.ctx.createOscillator();
           const gain = this.ctx.createGain();
           const st = this.ctx.currentTime + item.delay;
 
           osc.type = 'triangle';
           osc.frequency.setValueAtTime(item.freq, st);
-
-          gain.gain.setValueAtTime(0.25, st);
-          gain.gain.exponentialRampToValueAtTime(0.001, st + 1.2);
+          gain.gain.setValueAtTime(0.22, st);
+          gain.gain.exponentialRampToValueAtTime(0.001, st + 1.1);
 
           osc.connect(gain);
           gain.connect(this.ctx.destination);
 
           osc.start(st);
-          osc.stop(st + 1.2);
+          osc.stop(st + 1.1);
         });
       }
 
@@ -868,7 +1128,7 @@
 
         osc.type = 'sine';
         osc.frequency.setValueAtTime(450, now);
-        gain.gain.setValueAtTime(0.06, now);
+        gain.gain.setValueAtTime(0.05, now);
         gain.gain.exponentialRampToValueAtTime(0.001, now + 0.03);
 
         osc.connect(gain);
@@ -897,23 +1157,23 @@
       lucide.createIcons();
     }
 
-    /* ==========================================================================
-       3. QUIZ STATE & LOGIC (ZERO SPOILERS FOR PARTICIPANTS)
-       ========================================================================== */
-    const QUESTION_TIME_LIMIT = 20;
+    const QUESTION_TIME_LIMIT_MS = 20000;
     let questions = [];
     let currentQuestionIndex = 0;
-    let userAnswers = []; // Records user's selected choice per question
+    let userAnswers = [];
     let score = 0;
     let correctCount = 0;
     let currentStreak = 0;
     let highestStreak = 0;
-    let questionTimer = null;
-    let secondsLeft = QUESTION_TIME_LIMIT;
+
+    let questionStartTime = 0;
+    let questionTimerInterval = null;
     let hasAnswered = false;
-    let quizStartTime = null;
-    let totalQuizSeconds = 0;
-    let currentPlayerName = "Bappa Bhakt";
+
+    let quizStartPerfTime = 0;
+    let totalElapsedDurationMs = 0;
+    let currentPlayerName = "";
+    let currentPlayerDepartment = "";
 
     function shuffleArray(arr) {
       const copy = [...arr];
@@ -925,7 +1185,7 @@
     }
 
     function prepareQuiz() {
-      const shuffledQuestions = shuffleArray(ALL_QUESTIONS);
+      const shuffledQuestions = shuffleArray(ALL_QUESTIONS_30);
       questions = shuffledQuestions.map(q => {
         const originalCorrectText = q.options[q.correctIndex];
         const shuffledOpts = shuffleArray(q.options);
@@ -939,19 +1199,44 @@
       userAnswers = new Array(questions.length).fill(null);
     }
 
+    function handleStartQuizSubmit(e) {
+      e.preventDefault();
+      const nameInput = document.getElementById('playerNameInput');
+      const deptSelect = document.getElementById('playerDeptSelect');
+      const errEl = document.getElementById('validationErrorMessage');
+
+      const nameVal = (nameInput.value || '').trim();
+      const deptVal = (deptSelect.value || '').trim();
+
+      if (!nameVal) {
+        errEl.textContent = "Please enter your name.";
+        errEl.classList.remove('hidden');
+        return;
+      }
+
+      if (!deptVal) {
+        errEl.textContent = "Please select your department from the list.";
+        errEl.classList.remove('hidden');
+        return;
+      }
+
+      errEl.classList.add('hidden');
+      currentPlayerName = nameVal;
+      currentPlayerDepartment = deptVal;
+
+      startQuiz();
+    }
+
     function startQuiz() {
       sound.init();
       sound.playBell();
-
-      const nameInput = document.getElementById('playerNameInput');
-      currentPlayerName = (nameInput.value || '').trim() || "Devotee " + Math.floor(100 + Math.random() * 900);
 
       score = 0;
       correctCount = 0;
       currentStreak = 0;
       highestStreak = 0;
       currentQuestionIndex = 0;
-      quizStartTime = Date.now();
+      quizStartPerfTime = performance.now();
 
       prepareQuiz();
 
@@ -964,8 +1249,8 @@
 
     function renderQuestion() {
       hasAnswered = false;
-      clearInterval(questionTimer);
-      secondsLeft = QUESTION_TIME_LIMIT;
+      clearInterval(questionTimerInterval);
+      questionStartTime = performance.now();
 
       const q = questions[currentQuestionIndex];
 
@@ -999,62 +1284,69 @@
         container.appendChild(btn);
       });
 
-      // Reset locked-in indicator and next button
       document.getElementById('lockedInBanner').classList.add('hidden');
       document.getElementById('lockedInBanner').classList.remove('flex');
       document.getElementById('nextBtn').classList.add('hidden');
       document.getElementById('nextBtn').classList.remove('flex');
 
-      updateTimerDisplay();
-      questionTimer = setInterval(() => {
-        secondsLeft--;
-        updateTimerDisplay();
+      updateTimerUI(QUESTION_TIME_LIMIT_MS);
 
-        if (secondsLeft <= 5 && secondsLeft > 0) {
+      let lastTickSec = 20;
+      questionTimerInterval = setInterval(() => {
+        const elapsed = performance.now() - questionStartTime;
+        const remaining = Math.max(0, QUESTION_TIME_LIMIT_MS - elapsed);
+
+        updateTimerUI(remaining);
+
+        const currentSec = Math.ceil(remaining / 1000);
+        if (currentSec <= 5 && currentSec > 0 && currentSec !== lastTickSec) {
+          lastTickSec = currentSec;
           sound.playTick();
         }
 
-        if (secondsLeft <= 0) {
-          clearInterval(questionTimer);
+        if (remaining <= 0) {
+          clearInterval(questionTimerInterval);
           handleTimeout();
         }
-      }, 1000);
+      }, 50);
 
       lucide.createIcons();
     }
 
-    function updateTimerDisplay() {
+    function updateTimerUI(remainingMs) {
       const timerText = document.getElementById('timerSecondsText');
       const timerBar = document.getElementById('timerBar');
 
-      timerText.textContent = `${secondsLeft}s`;
-      const ratio = (secondsLeft / QUESTION_TIME_LIMIT) * 100;
+      const sec = Math.ceil(remainingMs / 1000);
+      timerText.textContent = `${sec}s`;
+      const ratio = (remainingMs / QUESTION_TIME_LIMIT_MS) * 100;
       timerBar.style.width = `${ratio}%`;
 
-      if (secondsLeft <= 5) {
+      if (remainingMs <= 5000) {
         timerText.className = "font-mono font-bold text-red-400 text-xs sm:text-sm animate-pulse";
-        timerBar.className = "h-full bg-gradient-to-r from-red-600 to-red-400 rounded-full transition-all duration-100";
+        timerBar.className = "h-full bg-gradient-to-r from-red-600 to-red-400 rounded-full transition-all duration-75";
       } else {
         timerText.className = "font-mono font-bold text-amber-300 text-xs sm:text-sm";
-        timerBar.className = "h-full bg-gradient-to-r from-emerald-500 via-amber-400 to-red-500 rounded-full transition-all duration-100";
+        timerBar.className = "h-full bg-gradient-to-r from-emerald-500 via-amber-400 to-red-500 rounded-full transition-all duration-75";
       }
     }
 
-    /* ZERO SPOILER ANSWER LOCK-IN */
     function lockInAnswer(selectedIndex) {
       if (hasAnswered) return;
       hasAnswered = true;
-      clearInterval(questionTimer);
+      clearInterval(questionTimerInterval);
+
+      const elapsedMs = performance.now() - questionStartTime;
+      const remainingMs = Math.max(0, QUESTION_TIME_LIMIT_MS - elapsedMs);
 
       userAnswers[currentQuestionIndex] = selectedIndex;
       const q = questions[currentQuestionIndex];
       const isCorrect = (selectedIndex === q.correctIndex);
 
-      // Disable buttons
       const allButtons = document.querySelectorAll('.option-card');
       allButtons.forEach(b => b.disabled = true);
 
-      // Highlight selected option in neutral festive gold without revealing correct/wrong
+      // Mask answer: neutral saffron highlight with no correct/wrong tells
       if (selectedIndex !== null) {
         const chosenBtn = document.getElementById(`optBtn_${selectedIndex}`);
         chosenBtn.classList.add('locked-in');
@@ -1062,36 +1354,38 @@
         sound.playLockIn();
       }
 
-      // Internal score calculation (hidden until completion)
+      /* TIE-BREAKER SCORING:
+         - Base: 100 pts per correct answer
+         - Time bonus: Exact remaining milliseconds (0 to 20,000 points dynamically scaled)
+         - Streak multiplier: +5% per consecutive correct answer */
       if (isCorrect) {
         correctCount++;
         currentStreak++;
         if (currentStreak > highestStreak) highestStreak = currentStreak;
 
-        const basePoints = 100;
-        const speedBonus = secondsLeft * 10;
-        const streakMultiplier = currentStreak > 1 ? 1 + (currentStreak * 0.1) : 1;
-        score += Math.round((basePoints + speedBonus) * streakMultiplier);
+        const baseScore = 100;
+        const timeBonus = Math.round(remainingMs / 20); // 0 - 1000 pts with millisecond precision
+        const streakMultiplier = currentStreak > 1 ? 1 + (currentStreak * 0.05) : 1;
+
+        score += Math.round((baseScore + timeBonus) * streakMultiplier);
       } else {
         currentStreak = 0;
       }
 
-      // Show locked-in acknowledgment without leaking the answer
       const banner = document.getElementById('lockedInBanner');
       const msg = document.getElementById('lockedInMessage');
       if (selectedIndex !== null) {
-        msg.textContent = `Answer locked in! Proceeding to next question...`;
+        msg.textContent = `Answer locked in! Proceed to next question.`;
       } else {
-        msg.textContent = `Time expired! No option selected for this question.`;
+        msg.textContent = `Time expired! No choice was selected for this question.`;
       }
       banner.classList.remove('hidden');
       banner.classList.add('flex');
 
-      // Next Question Button
       const nextBtn = document.getElementById('nextBtn');
       const nextBtnText = document.getElementById('nextBtnText');
       if (currentQuestionIndex === questions.length - 1) {
-        nextBtnText.textContent = "Finish Quiz & View Your Score";
+        nextBtnText.textContent = "Finish 30-Q Quiz & Register Score";
       } else {
         nextBtnText.textContent = "Continue to Next Question";
       }
@@ -1115,12 +1409,17 @@
       }
     }
 
-    /* ==========================================================================
-       4. RESULTS SCREEN (PARTICIPANT VIEW ONLY)
-       ========================================================================== */
+    function formatTimeDuration(totalMs) {
+      const minutes = Math.floor(totalMs / 60000);
+      const seconds = Math.floor((totalMs % 60000) / 1000);
+      const ms = Math.floor(totalMs % 1000);
+      return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}.${String(ms).padStart(3, '0')}`;
+    }
+
     function finishQuiz() {
-      clearInterval(questionTimer);
-      totalQuizSeconds = Math.round((Date.now() - quizStartTime) / 1000);
+      clearInterval(questionTimerInterval);
+      totalElapsedDurationMs = Math.round(performance.now() - quizStartPerfTime);
+      const formattedDuration = formatTimeDuration(totalElapsedDurationMs);
 
       document.getElementById('quizScreen').classList.add('hidden');
       document.getElementById('resultsScreen').classList.remove('hidden');
@@ -1128,37 +1427,40 @@
       const accuracy = Math.round((correctCount / questions.length) * 100);
 
       let rankTitle = "Ganesh Bhakt (Devotee)";
-      if (score >= 2000 && accuracy >= 85) {
+      if (score >= 25000 && accuracy >= 85) {
         rankTitle = "Param Super-Devotee 🌟";
-      } else if (score >= 1500) {
+      } else if (score >= 18000) {
         rankTitle = "Modak Master 🥟";
-      } else if (score >= 1000) {
+      } else if (score >= 12000) {
         rankTitle = "Mythology Scholar 📜";
       } else {
         rankTitle = "Seeker of Wisdom 🌱";
       }
 
       document.getElementById('resultPlayerGreeting').textContent = `${currentPlayerName}!`;
+      document.getElementById('resultPlayerDepartment').textContent = currentPlayerDepartment;
       document.getElementById('rankBadgeText').textContent = rankTitle;
       document.getElementById('resultFinalScore').textContent = score.toLocaleString();
       document.getElementById('resultAccuracy').textContent = `${accuracy}%`;
       document.getElementById('resultCorrectCount').textContent = `${correctCount} of ${questions.length} Correct`;
       document.getElementById('resultMaxStreak').textContent = highestStreak;
-      document.getElementById('resultTotalTime').textContent = `${totalQuizSeconds}s`;
+      document.getElementById('resultTotalTime').textContent = formattedDuration;
 
-      // Save quietly to Host's store
+      const submissionDate = new Date();
       saveHostLeaderboardEntry({
         name: currentPlayerName,
+        department: currentPlayerDepartment,
         score: score,
         accuracy: accuracy,
         streak: highestStreak,
-        time: totalQuizSeconds,
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+        durationMs: totalElapsedDurationMs,
+        durationFormatted: formattedDuration,
+        timestamp: submissionDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+        date: submissionDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+        rawEpoch: submissionDate.getTime()
       });
 
       buildAnswerReviewList();
-
       sound.playVictory();
       triggerConfetti();
       lucide.createIcons();
@@ -1217,7 +1519,7 @@
           </div>
 
           <div class="bg-black/35 p-2.5 rounded-xl border border-amber-500/20 text-xs text-amber-200/90 leading-relaxed">
-            <span class="font-semibold text-amber-300">Divine Lore:</span> ${escapeHtml(q.explanation)}
+            <span class="font-semibold text-amber-300">Sacred Lore:</span> ${escapeHtml(q.explanation)}
           </div>
         `;
         container.appendChild(item);
@@ -1228,8 +1530,8 @@
       if (typeof confetti !== 'undefined') {
         const colors = ['#f59e0b', '#ea580c', '#fbbf24', '#b91c1c', '#ffffff'];
         confetti({
-          particleCount: 80,
-          spread: 70,
+          particleCount: 90,
+          spread: 80,
           origin: { y: 0.6 },
           colors: colors
         });
@@ -1244,7 +1546,7 @@
 
     function goToHome() {
       sound.playTap();
-      clearInterval(questionTimer);
+      clearInterval(questionTimerInterval);
       document.getElementById('quizScreen').classList.add('hidden');
       document.getElementById('resultsScreen').classList.add('hidden');
       document.getElementById('welcomeScreen').classList.remove('hidden');
@@ -1252,7 +1554,7 @@
 
     function shareScore() {
       sound.playTap();
-      const shareText = `🪔 I scored ${score.toLocaleString()} points (${correctCount}/15 correct) in the Ganesh Chaturthi Utsav Quiz! Ganpati Bappa Morya! 🙏`;
+      const shareText = `🪔 I scored ${score.toLocaleString()} points (${correctCount}/30 correct in ${formatTimeDuration(totalElapsedDurationMs)}) in the Ganesh Chaturthi Utsav Quiz representing Department: ${currentPlayerDepartment}! Ganpati Bappa Morya! 🙏`;
       
       const tempTextArea = document.createElement('textarea');
       tempTextArea.value = shareText;
@@ -1264,23 +1566,16 @@
         notice.classList.remove('hidden');
         setTimeout(() => notice.classList.add('hidden'), 4000);
       } catch (err) {
-        console.error("Unable to copy", err);
+        console.error("Copy failed", err);
       }
       document.body.removeChild(tempTextArea);
     }
 
-    /* ==========================================================================
-       5. HOST/ADMIN ONLY LEADERBOARD & PIN PROTECTION
-       ========================================================================== */
-    const STORAGE_KEY_LEADERBOARD = 'ganesh_quiz_host_records_v1';
-    const STORAGE_KEY_PIN = 'ganesh_quiz_host_pin_v1';
-    const DEFAULT_PIN = '1234';
-
     function getHostPin() {
       try {
-        return localStorage.getItem(STORAGE_KEY_PIN) || DEFAULT_PIN;
+        return localStorage.getItem(STORAGE_KEY_PIN) || HOST_DEFAULT_PIN;
       } catch (e) {
-        return DEFAULT_PIN;
+        return HOST_DEFAULT_PIN;
       }
     }
 
@@ -1301,7 +1596,7 @@
           if (Array.isArray(parsed)) return parsed;
         }
       } catch (e) {
-        console.warn("Storage error", e);
+        console.warn("Read error", e);
       }
       return [];
     }
@@ -1309,16 +1604,47 @@
     function saveHostLeaderboardEntry(entry) {
       let list = getHostLeaderboard();
       list.push(entry);
-      // Sort primarily by highest score, then highest accuracy, then faster time
-      list.sort((a, b) => b.score - a.score || b.accuracy - a.accuracy || a.time - b.time);
+      /* RANKING LOGIC (GUARANTEED TIE-BREAKER):
+         1. Highest Score
+         2. Highest Accuracy %
+         3. Lowest Completion Duration in milliseconds
+         4. Earliest Epoch submission timestamp */
+      list.sort((a, b) => {
+        if (b.score !== a.score) return b.score - a.score;
+        if (b.accuracy !== a.accuracy) return b.accuracy - a.accuracy;
+        if (a.durationMs !== b.durationMs) return a.durationMs - b.durationMs;
+        return a.rawEpoch - b.rawEpoch;
+      });
       try {
         localStorage.setItem(STORAGE_KEY_LEADERBOARD, JSON.stringify(list));
       } catch (e) {
-        console.warn("Write error", e);
+        console.warn("Storage write error", e);
+      }
+
+      // Notify other open tabs (e.g., Host Monitor on projector or separate laptop)
+      if (liveQuizChannel) {
+        try {
+          liveQuizChannel.postMessage({ type: 'NEW_SUBMISSION', entry: entry });
+        } catch (err) {
+          console.warn(err);
+        }
       }
     }
 
-    /* Authentication Modal Controls */
+    // Cross-tab synchronization listener
+    if (liveQuizChannel) {
+      liveQuizChannel.onmessage = (event) => {
+        if (event.data && (event.data.type === 'NEW_SUBMISSION' || event.data.type === 'RESET')) {
+          renderHostDashboard();
+        }
+      };
+    }
+    window.addEventListener('storage', (e) => {
+      if (e.key === STORAGE_KEY_LEADERBOARD) {
+        renderHostDashboard();
+      }
+    });
+
     function openHostAuthModal() {
       sound.playTap();
       const modal = document.getElementById('hostAuthModal');
@@ -1351,18 +1677,43 @@
         closeHostAuthModal();
         setTimeout(openHostLeaderboardModal, 260);
       } else {
-        err.textContent = "Incorrect Host PIN! Devotees cannot access this board.";
+        err.textContent = "Incorrect Host PIN! Devotees cannot access this dashboard.";
         err.classList.remove('hidden');
         document.getElementById('hostPinInput').classList.add('border-red-500');
         setTimeout(() => document.getElementById('hostPinInput').classList.remove('border-red-500'), 1500);
       }
     }
 
-    /* Host Leaderboard Modal Display */
+    let activeHostTab = 'dept';
     let currentFilterTerm = '';
+    let currentDeptFilter = '';
+
+    function switchHostTab(tab) {
+      sound.playTap();
+      activeHostTab = tab;
+      const deptView = document.getElementById('hostTabDeptView');
+      const indivView = document.getElementById('hostTabIndivView');
+      const tabBtnDept = document.getElementById('tabBtnDept');
+      const tabBtnIndiv = document.getElementById('tabBtnIndiv');
+
+      if (tab === 'dept') {
+        deptView.classList.remove('hidden');
+        indivView.classList.add('hidden');
+        indivView.classList.remove('flex');
+        tabBtnDept.className = "py-2.5 px-4 font-bold text-xs sm:text-sm rounded-t-xl border-t border-x border-amber-400 bg-amber-500/20 text-amber-200 flex items-center gap-1.5 transition-all";
+        tabBtnIndiv.className = "py-2.5 px-4 font-bold text-xs sm:text-sm rounded-t-xl border-t border-x border-transparent text-amber-300/70 hover:text-amber-200 flex items-center gap-1.5 transition-all";
+      } else {
+        deptView.classList.add('hidden');
+        indivView.classList.remove('hidden');
+        indivView.classList.add('flex');
+        tabBtnIndiv.className = "py-2.5 px-4 font-bold text-xs sm:text-sm rounded-t-xl border-t border-x border-amber-400 bg-amber-500/20 text-amber-200 flex items-center gap-1.5 transition-all";
+        tabBtnDept.className = "py-2.5 px-4 font-bold text-xs sm:text-sm rounded-t-xl border-t border-x border-transparent text-amber-300/70 hover:text-amber-200 flex items-center gap-1.5 transition-all";
+      }
+      renderHostDashboard();
+    }
 
     function openHostLeaderboardModal() {
-      renderHostLeaderboard();
+      renderHostDashboard();
       const modal = document.getElementById('hostLeaderboardModal');
       modal.classList.remove('hidden');
       setTimeout(() => modal.classList.remove('opacity-0'), 20);
@@ -1377,28 +1728,158 @@
 
     function filterLeaderboardView() {
       currentFilterTerm = (document.getElementById('leaderboardSearchInput').value || '').toLowerCase().trim();
-      renderHostLeaderboard();
+      currentDeptFilter = (document.getElementById('leaderboardDeptFilter').value || '').trim();
+      renderIndividualLeaderboard();
     }
 
-    function renderHostLeaderboard() {
-      const allEntries = getHostLeaderboard();
-      const container = document.getElementById('hostLeaderboardList');
-      const totalCountText = document.getElementById('participantTotalCountText');
+    function renderHostDashboard() {
+      renderDepartmentScorecard();
+      renderIndividualLeaderboard();
+      lucide.createIcons();
+    }
 
+    function renderDepartmentScorecard() {
+      const allEntries = getHostLeaderboard();
+      const totalCountText = document.getElementById('participantTotalCountText');
       totalCountText.innerHTML = `<i data-lucide="users" class="w-4 h-4 text-amber-400"></i><span>${allEntries.length} Participant${allEntries.length === 1 ? '' : 's'} Recorded</span>`;
 
+      // Group by 13 Departments
+      const deptStats = {};
+      ALL_DEPARTMENTS.forEach(dept => {
+        deptStats[dept] = {
+          name: dept,
+          participants: 0,
+          totalScore: 0,
+          totalAccuracy: 0,
+          topDevotee: null,
+          topScore: 0
+        };
+      });
+
+      allEntries.forEach(entry => {
+        const d = entry.department || 'Other';
+        if (!deptStats[d]) {
+          deptStats[d] = {
+            name: d,
+            participants: 0,
+            totalScore: 0,
+            totalAccuracy: 0,
+            topDevotee: null,
+            topScore: 0
+          };
+        }
+        deptStats[d].participants += 1;
+        deptStats[d].totalScore += Number(entry.score) || 0;
+        deptStats[d].totalAccuracy += Number(entry.accuracy) || 0;
+
+        if (!deptStats[d].topDevotee || (Number(entry.score) > deptStats[d].topScore)) {
+          deptStats[d].topDevotee = entry.name;
+          deptStats[d].topScore = Number(entry.score);
+        }
+      });
+
+      const deptList = Object.values(deptStats).map(d => ({
+        ...d,
+        avgScore: d.participants > 0 ? Math.round(d.totalScore / d.participants) : 0,
+        avgAccuracy: d.participants > 0 ? Math.round(d.totalAccuracy / d.participants) : 0,
+      }));
+
+      // Sort departments by Average Score descending, then total participants
+      deptList.sort((a, b) => {
+        if (b.avgScore !== a.avgScore) return b.avgScore - a.avgScore;
+        if (b.participants !== a.participants) return b.participants - a.participants;
+        return b.totalScore - a.totalScore;
+      });
+
+      // Render Podium for Top 3
+      const podium = document.getElementById('deptPodiumContainer');
+      podium.innerHTML = '';
+
+      const topThree = deptList.slice(0, 3);
+      const podiumOrder = [topThree[1], topThree[0], topThree[2]]; // Silver (Left), Gold (Center), Bronze (Right)
+      const podiumConfigs = [
+        { rank: '#2', title: 'Runner-Up', color: 'border-slate-400 bg-slate-500/10 text-slate-200', icon: 'medal', scale: 'sm:translate-y-2' },
+        { rank: '#1', title: 'Champion Department', color: 'border-amber-400 bg-amber-500/20 text-amber-300 ring-2 ring-amber-400/40', icon: 'crown', scale: 'sm:-translate-y-1' },
+        { rank: '#3', title: '3rd Place', color: 'border-amber-700 bg-amber-800/10 text-amber-500', icon: 'award', scale: 'sm:translate-y-3' },
+      ];
+
+      podiumOrder.forEach((d, idx) => {
+        const conf = podiumConfigs[idx];
+        const card = document.createElement('div');
+        card.className = `p-4 rounded-2xl border text-center transition-all ${conf.color} ${conf.scale}`;
+        if (!d || d.participants === 0) {
+          card.innerHTML = `
+            <div class="flex items-center justify-center gap-1.5 text-xs font-bold uppercase mb-1 opacity-70">
+              <i data-lucide="${conf.icon}" class="w-4 h-4"></i> ${conf.title}
+            </div>
+            <p class="font-festive text-xl text-amber-200/50">Awaiting Devotees</p>
+            <p class="text-[11px] text-amber-300/40">No entries yet</p>
+          `;
+        } else {
+          card.innerHTML = `
+            <div class="flex items-center justify-center gap-1.5 text-xs font-bold uppercase mb-1">
+              <i data-lucide="${conf.icon}" class="w-4 h-4"></i> ${conf.title} (${conf.rank})
+            </div>
+            <h5 class="font-festive text-lg sm:text-xl text-amber-100 font-bold">${escapeHtml(d.name)}</h5>
+            <div class="mt-2 text-2xl font-festive text-amber-300">${d.avgScore.toLocaleString()} <span class="text-[10px] uppercase font-mono">avg pts</span></div>
+            <div class="text-[11px] text-amber-200/80 mt-1 flex justify-center gap-3">
+              <span>${d.participants} player${d.participants === 1 ? '' : 's'}</span>
+              <span>• ${d.avgAccuracy}% acc</span>
+            </div>
+            <div class="text-[10px] text-amber-300/80 mt-1 truncate">
+              Star: <strong class="text-amber-200">${escapeHtml(d.topDevotee || 'N/A')}</strong>
+            </div>
+          `;
+        }
+        podium.appendChild(card);
+      });
+
+      // Render Department Table
+      const tableBody = document.getElementById('deptTableBody');
+      tableBody.innerHTML = '';
+
+      deptList.forEach((d, index) => {
+        const tr = document.createElement('tr');
+        tr.className = `hover:bg-amber-500/10 transition-colors ${d.participants > 0 ? '' : 'opacity-50'}`;
+
+        let rankBadge = `<span class="font-mono text-amber-400/80">#${index + 1}</span>`;
+        if (index === 0 && d.participants > 0) rankBadge = `<span class="text-amber-300 font-bold flex items-center gap-1"><i data-lucide="crown" class="w-3.5 h-3.5 text-amber-400"></i> #1</span>`;
+        else if (index === 1 && d.participants > 0) rankBadge = `<span class="text-slate-300 font-bold flex items-center gap-1"><i data-lucide="medal" class="w-3.5 h-3.5 text-slate-300"></i> #2</span>`;
+        else if (index === 2 && d.participants > 0) rankBadge = `<span class="text-amber-600 font-bold flex items-center gap-1"><i data-lucide="award" class="w-3.5 h-3.5 text-amber-600"></i> #3</span>`;
+
+        tr.innerHTML = `
+          <td class="py-2.5 px-2">${rankBadge}</td>
+          <td class="py-2.5 px-3 font-semibold text-amber-100 flex items-center gap-1.5">
+            <span>${escapeHtml(d.name)}</span>
+            ${d.name === 'Finance - GCC' ? '<span class="px-1.5 py-0.2 rounded bg-amber-400/20 text-[9px] text-amber-300 border border-amber-400/30">GCC</span>' : ''}
+          </td>
+          <td class="py-2.5 px-2 text-right font-festive text-sm text-amber-300">${d.avgScore.toLocaleString()}</td>
+          <td class="py-2.5 px-2 text-right font-mono">${d.participants}</td>
+          <td class="py-2.5 px-2 text-right font-mono text-emerald-400">${d.avgAccuracy}%</td>
+          <td class="py-2.5 px-3 text-right text-amber-200/90 truncate max-w-[120px]">${escapeHtml(d.topDevotee || '—')}</td>
+        `;
+        tableBody.appendChild(tr);
+      });
+    }
+
+    function renderIndividualLeaderboard() {
+      const allEntries = getHostLeaderboard();
+      const container = document.getElementById('hostLeaderboardList');
       container.innerHTML = '';
 
-      const filtered = allEntries.filter(entry => 
-        (entry.name || '').toLowerCase().includes(currentFilterTerm)
-      );
+      const filtered = allEntries.filter(entry => {
+        const matchesTerm = (entry.name || '').toLowerCase().includes(currentFilterTerm) ||
+                            (entry.department || '').toLowerCase().includes(currentFilterTerm);
+        const matchesDept = !currentDeptFilter || entry.department === currentDeptFilter;
+        return matchesTerm && matchesDept;
+      });
 
       if (filtered.length === 0) {
         container.innerHTML = `
           <div class="text-center py-10 text-amber-300/60 text-sm space-y-2">
             <i data-lucide="inbox" class="w-10 h-10 mx-auto text-amber-400/40"></i>
-            <p class="font-medium">${allEntries.length === 0 ? 'No participants have submitted scores yet.' : 'No participants match your filter query.'}</p>
-            <p class="text-xs text-amber-400/40">${allEntries.length === 0 ? 'As participants complete the quiz, their scores will stream into this secure board.' : 'Clear search query to see all participants.'}</p>
+            <p class="font-medium">${allEntries.length === 0 ? 'No participants have submitted scores yet.' : 'No matching participants found.'}</p>
+            <p class="text-xs text-amber-400/40">${allEntries.length === 0 ? 'When participants complete their 30-question quiz, records appear here automatically.' : 'Try changing search terms or department filters.'}</p>
           </div>
         `;
         lucide.createIcons();
@@ -1407,7 +1888,7 @@
 
       filtered.forEach((item, index) => {
         const row = document.createElement('div');
-        const isTopThree = index < 3 && !currentFilterTerm;
+        const isTopThree = index < 3 && !currentFilterTerm && !currentDeptFilter;
 
         let badge = '';
         if (isTopThree && index === 0) badge = `<span class="text-amber-300 font-bold flex items-center gap-1"><i data-lucide="crown" class="w-4 h-4 fill-amber-400 text-amber-400"></i> #1</span>`;
@@ -1415,7 +1896,7 @@
         else if (isTopThree && index === 2) badge = `<span class="text-amber-600 font-bold flex items-center gap-1"><i data-lucide="award" class="w-4 h-4"></i> #3</span>`;
         else badge = `<span class="text-amber-300/60 font-medium font-mono text-xs">#${index + 1}</span>`;
 
-        row.className = `p-3 sm:p-3.5 rounded-2xl flex items-center justify-between transition-all ${
+        row.className = `p-3.5 sm:p-4 rounded-2xl flex items-center justify-between transition-all ${
           isTopThree ? 'bg-amber-500/15 border border-amber-500/35' : 'bg-black/30 border border-amber-500/15'
         }`;
 
@@ -1425,17 +1906,23 @@
               ${badge}
             </div>
             <div>
-              <p class="font-bold text-amber-100 text-sm sm:text-base">${escapeHtml(item.name)}</p>
-              <div class="flex items-center gap-2 text-[11px] text-amber-300/70">
-                <span>${item.date || 'Recent'} ${item.timestamp ? '• ' + item.timestamp : ''}</span>
+              <div class="flex items-center gap-2">
+                <p class="font-bold text-amber-100 text-sm sm:text-base">${escapeHtml(item.name)}</p>
+                <span class="px-2 py-0.5 rounded-full bg-amber-500/20 border border-amber-400/30 text-amber-300 font-semibold text-[10px] uppercase">
+                  ${escapeHtml(item.department || 'N/A')}
+                </span>
+              </div>
+              <div class="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[11px] text-amber-300/70 mt-0.5">
+                <span>Time: <strong class="font-mono text-amber-200">${item.durationFormatted || item.time + 's'}</strong></span>
                 <span>• Acc: <strong class="text-amber-200">${item.accuracy || 0}%</strong></span>
                 <span>• Streak: <strong class="text-orange-400">${item.streak || 0}</strong></span>
+                <span>• ${item.date || ''} ${item.timestamp || ''}</span>
               </div>
             </div>
           </div>
           <div class="text-right">
-            <span class="font-festive text-lg sm:text-xl text-amber-300">${Number(item.score).toLocaleString()}</span>
-            <span class="text-[10px] text-amber-400/60 block -mt-1 font-mono">${item.time ? item.time + 's' : 'pts'}</span>
+            <span class="font-festive text-lg sm:text-2xl text-amber-300">${Number(item.score).toLocaleString()}</span>
+            <span class="text-[10px] text-amber-400/60 block -mt-1 font-mono">pts</span>
           </div>
         `;
         container.appendChild(row);
@@ -1444,7 +1931,6 @@
       lucide.createIcons();
     }
 
-    /* Change Host PIN */
     function toggleChangePinView() {
       sound.playTap();
       const container = document.getElementById('changePinContainer');
@@ -1475,31 +1961,29 @@
       }, 1500);
     }
 
-    /* Export Scores to CSV for Host Records */
     function exportLeaderboardCSV() {
       sound.playTap();
       const entries = getHostLeaderboard();
       if (entries.length === 0) {
-        window.alert("No entries to export yet.");
+        alert("No participant records available to export.");
         return;
       }
 
-      let csv = "Rank,Devotee Name,Score,Accuracy (%),Highest Streak,Time (Seconds),Date\n";
+      let csv = "Rank,Participant Name,Department,Total Score,Accuracy (%),Highest Streak,Exact Duration (MM:SS.ms),Duration (ms),Submission Date,Submission Time\n";
       entries.forEach((e, idx) => {
-        csv += `"${idx + 1}","${(e.name || '').replace(/"/g, '""')}","${e.score}","${e.accuracy}","${e.streak || 0}","${e.time || 0}","${e.date || ''}"\n`;
+        csv += `"${idx + 1}","${(e.name || '').replace(/"/g, '""')}","${(e.department || '').replace(/"/g, '""')}","${e.score}","${e.accuracy}","${e.streak || 0}","${e.durationFormatted || ''}","${e.durationMs || ''}","${e.date || ''}","${e.timestamp || ''}"\n`;
       });
 
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.setAttribute("href", url);
-      link.setAttribute("download", `ganesh_quiz_scores_${Date.now()}.csv`);
+      link.setAttribute("download", `ganesh_utsav_quiz_leaderboard_${Date.now()}.csv`);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
     }
 
-    /* Working Reset Confirmation Logic */
     function promptResetLeaderboard() {
       sound.playTap();
       const confirmModal = document.getElementById('resetConfirmModal');
@@ -1522,8 +2006,17 @@
       } catch (e) {
         console.warn("Storage reset error", e);
       }
+
+      if (liveQuizChannel) {
+        try {
+          liveQuizChannel.postMessage({ type: 'RESET' });
+        } catch (err) {
+          console.warn(err);
+        }
+      }
+
       cancelResetLeaderboard();
-      renderHostLeaderboard();
+      renderHostDashboard();
     }
 
     function escapeHtml(str) {
