@@ -3,17 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ganesh Chaturthi Utsav Quiz | Department Championship & Host Portal</title>
-  <!-- Tailwind CSS -->
+  <title>Ganesh Chaturthi Utsav Quiz | Host-Controlled Live Championship</title>
+  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Google Fonts for Festive Indian Typography -->
+  <!-- Google Fonts: Rozha One & Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
   <!-- Canvas Confetti -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
   <script>
     tailwind.config = {
       theme: {
@@ -23,48 +24,47 @@
             sans: ['"Plus Jakarta Sans"', 'sans-serif'],
           },
           colors: {
-            saffron: {
-              400: '#fb923c',
-              500: '#f97316',
-              600: '#ea580c',
-            },
-            marigold: {
-              400: '#fbbf24',
-              500: '#f59e0b',
-              600: '#d97706',
-            },
-            kumkum: {
-              500: '#b91c1c',
-              600: '#991b1b',
-              700: '#7f1d1d',
-              800: '#450a0a',
-              900: '#2a0505',
-              950: '#170202',
-            },
-            gold: {
-              300: '#fde047',
-              400: '#facc15',
-              500: '#eab308',
-            }
+            saffron: { 400: '#fb923c', 500: '#f97316', 600: '#ea580c' },
+            marigold: { 400: '#fbbf24', 500: '#f59e0b', 600: '#d97706' },
+            kumkum: { 500: '#b91c1c', 600: '#991b1b', 700: '#7f1d1d', 800: '#450a0a', 900: '#2a0505', 950: '#170202' },
+            gold: { 300: '#fde047', 400: '#facc15', 500: '#eab308' }
           },
           animation: {
-            'float-slow': 'float 6s ease-in-out infinite',
             'pulse-glow': 'pulseGlow 2.5s infinite',
+            'shimmer': 'shimmer 2.2s linear infinite',
+            'bounce-subtle': 'bounceSubtle 1.8s ease-in-out infinite',
+            'rank-up': 'rankUp 1.2s ease-out',
+            'rank-down': 'rankDown 1.2s ease-out',
+            'pulse-fast': 'pulse 0.9s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'spin-slow': 'spin 12s linear infinite',
           },
           keyframes: {
-            float: {
-              '0%, 100%': { transform: 'translateY(0px)' },
-              '50%': { transform: 'translateY(-8px)' },
-            },
             pulseGlow: {
               '0%, 100%': { filter: 'drop-shadow(0 0 10px rgba(245, 158, 11, 0.35))' },
-              '50%': { filter: 'drop-shadow(0 0 22px rgba(249, 115, 22, 0.7))' },
+              '50%': { filter: 'drop-shadow(0 0 26px rgba(249, 115, 22, 0.8))' },
+            },
+            shimmer: {
+              '0%': { backgroundPosition: '-200% 0' },
+              '100%': { backgroundPosition: '200% 0' },
+            },
+            bounceSubtle: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-4px)' }
+            },
+            rankUp: {
+              '0%': { backgroundColor: 'rgba(16, 185, 129, 0.45)', transform: 'translateY(8px)' },
+              '100%': { backgroundColor: 'transparent', transform: 'translateY(0)' }
+            },
+            rankDown: {
+              '0%': { backgroundColor: 'rgba(239, 68, 68, 0.45)', transform: 'translateY(-8px)' },
+              '100%': { backgroundColor: 'transparent', transform: 'translateY(0)' }
             }
           }
         }
       }
     }
   </script>
+
   <style>
     body {
       background: radial-gradient(circle at 50% 15%, #450a0a 0%, #1f0202 85%, #0d0101 100%);
@@ -86,6 +86,25 @@
       -webkit-text-fill-color: transparent;
     }
 
+    .winner-gold-card {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.35) 0%, rgba(217, 119, 6, 0.45) 50%, rgba(180, 83, 9, 0.5) 100%);
+      border: 2px solid #facc15 !important;
+      box-shadow: 0 0 35px rgba(250, 204, 21, 0.45), inset 0 0 20px rgba(250, 204, 21, 0.25);
+      position: relative;
+    }
+
+    .winner-gold-card::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      border-radius: inherit;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+      background-size: 200% 100%;
+      animation: shimmer 2.5s infinite;
+      pointer-events: none;
+      opacity: 0.6;
+    }
+
     .option-card {
       transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     }
@@ -96,34 +115,50 @@
     }
 
     .option-card.locked-in {
-      background: linear-gradient(135deg, rgba(245, 158, 11, 0.25), rgba(234, 88, 12, 0.3)) !important;
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.28), rgba(234, 88, 12, 0.35)) !important;
       border-color: #facc15 !important;
       box-shadow: 0 0 22px rgba(250, 204, 21, 0.4) !important;
     }
 
-    ::-webkit-scrollbar {
-      width: 6px;
+    .table-row-item {
+      transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.6s ease;
     }
-    ::-webkit-scrollbar-track {
-      background: rgba(0, 0, 0, 0.25);
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #b45309;
-      border-radius: 4px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #d97706;
-    }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.25); }
+    ::-webkit-scrollbar-thumb { background: #b45309; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #d97706; }
   </style>
 </head>
 <body class="font-sans antialiased relative selection:bg-marigold-500 selection:text-kumkum-900">
 
-  <!-- Background Pattern and Ambient Lights -->
+  <!-- Background decorative glows -->
   <div class="fixed inset-0 bg-pattern pointer-events-none z-0"></div>
   <div class="fixed top-8 left-1/2 -translate-x-1/2 w-96 h-96 bg-amber-500/15 rounded-full blur-3xl pointer-events-none z-0"></div>
   <div class="fixed bottom-10 -right-20 w-80 h-80 bg-red-600/15 rounded-full blur-3xl pointer-events-none z-0"></div>
 
-  <!-- Header -->
+  <!-- Live Toast Notification Container -->
+  <div id="toastNotificationContainer" class="fixed top-5 right-5 z-[9999] flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- COUNTDOWN OVERLAY WHEN HOST STARTS THE GAME -->
+  <div id="countdownLaunchOverlay" class="fixed inset-0 z-[10000] bg-black/95 backdrop-blur-xl flex flex-col items-center justify-center hidden opacity-0 transition-opacity duration-300">
+    <div class="text-center space-y-4 px-4">
+      <div class="inline-flex p-4 rounded-full bg-amber-500/20 border-2 border-amber-400 text-amber-300 animate-pulse">
+        <i data-lucide="bell" class="w-12 h-12 text-amber-300"></i>
+      </div>
+      <p class="font-festive text-2xl sm:text-3xl text-amber-300 uppercase tracking-widest">
+        Host Has Started The Quiz!
+      </p>
+      <div id="countdownNumber" class="font-festive text-7xl sm:text-9xl text-gold-gradient font-black scale-125 transition-transform duration-300">
+        3
+      </div>
+      <p class="text-xs sm:text-sm text-amber-200/80 uppercase tracking-wider font-semibold">
+        Preparing sacred questions for all participants...
+      </p>
+    </div>
+  </div>
+
+  <!-- Header Bar -->
   <header class="relative z-20 w-full max-w-5xl mx-auto px-4 pt-4 sm:pt-6 flex items-center justify-between">
     <button onclick="goToHome()" class="flex items-center gap-2.5 text-left group">
       <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-marigold-600 to-amber-300 flex items-center justify-center shadow-lg shadow-amber-500/20 text-kumkum-900 font-festive text-xl group-hover:scale-105 transition-transform">
@@ -131,30 +166,30 @@
       </div>
       <div>
         <h1 class="font-festive text-lg sm:text-xl text-amber-200 tracking-wider">गणेश उत्सव २०२६</h1>
-        <p class="text-[10px] text-amber-400/80 font-medium uppercase tracking-widest">Inter-Department Quiz Championship</p>
+        <p class="text-[10px] text-amber-400/80 font-medium uppercase tracking-widest">Host-Controlled Inter-Department Championship</p>
       </div>
     </button>
 
     <div class="flex items-center gap-2">
-      <!-- Sound Toggle -->
+      <!-- Audio Toggle -->
       <button id="soundToggleBtn" onclick="toggleSound()" class="px-3 py-1.5 rounded-full bg-black/45 border border-amber-500/30 hover:border-amber-400 text-amber-300 text-xs sm:text-sm font-medium flex items-center gap-1.5 backdrop-blur-md transition-all shadow-inner" title="Toggle Sound Effects">
         <i id="soundIcon" data-lucide="volume-2" class="w-4 h-4"></i>
         <span id="soundText" class="hidden sm:inline">Audio: On</span>
       </button>
 
-      <!-- Host / Admin Button (PIN 787898 Protected) -->
-      <button onclick="openHostAuthModal()" class="px-3.5 py-1.5 rounded-full bg-stone-900/80 hover:bg-stone-850 border border-amber-500/40 hover:border-amber-300 text-amber-300 text-xs sm:text-sm font-semibold flex items-center gap-1.5 backdrop-blur-md transition-all shadow-md group" title="Host Only - Access Leaderboard & Admin Controls">
-        <i data-lucide="shield" class="w-3.5 h-3.5 text-amber-400 group-hover:text-amber-300"></i>
-        <span>Host Dashboard</span>
+      <!-- Host / Admin Login Button (PIN 787898) -->
+      <button onclick="openHostAuthModal()" class="px-3.5 py-1.5 rounded-full bg-stone-900/85 hover:bg-stone-800 border border-amber-500/50 hover:border-amber-300 text-amber-300 text-xs sm:text-sm font-bold flex items-center gap-1.5 backdrop-blur-md transition-all shadow-md group">
+        <i data-lucide="shield" class="w-3.5 h-3.5 text-amber-400 group-hover:text-amber-200"></i>
+        <span>Host Portal</span>
       </button>
     </div>
   </header>
 
+
   <main class="relative z-10 w-full max-w-4xl mx-auto px-4 py-4 sm:py-6 flex flex-col justify-center min-h-[calc(100vh-100px)]">
 
-    <!-- SCREEN 1: PARTICIPANT REGISTRATION & WELCOME -->
+    <!-- SCREEN 1: ENROLLMENT & REGISTRATION -->
     <section id="welcomeScreen" class="bg-gradient-to-b from-kumkum-700/60 to-kumkum-800/90 border border-amber-500/30 rounded-3xl p-6 sm:p-10 backdrop-blur-xl shadow-2xl relative overflow-hidden transition-all duration-500">
-      
       <div class="flex justify-center mb-4">
         <div class="relative w-28 h-28 sm:w-32 sm:h-32 flex items-center justify-center rounded-full bg-gradient-to-tr from-amber-500/20 via-marigold-500/30 to-amber-300/10 border-2 border-amber-400/50 p-3 shadow-xl shadow-amber-500/25 animate-pulse-glow">
           <svg class="w-20 h-20 sm:w-24 sm:h-24 text-amber-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
@@ -178,36 +213,36 @@
           Ganesh Chaturthi Utsav Quiz
         </h2>
         <p class="text-amber-200/90 text-xs sm:text-sm max-w-xl mx-auto leading-relaxed">
-          30 questions spanning mythology, rituals, Ashtavinayak pilgrimages, and cultural history. Fast responses earn precise millisecond time bonuses with automated tie-breaker scoring!
+          Enroll with your Name and Department to join the live waiting lobby. Once all devotees have assembled, <strong>the Host will initiate the synchronized quiz</strong>!
         </p>
       </div>
 
-      <!-- Feature Badges -->
+      <!-- Feature Highlights -->
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-6 text-xs text-amber-100/90">
         <div class="bg-black/35 border border-amber-500/20 rounded-xl p-3 text-center flex flex-col items-center">
-          <i data-lucide="help-circle" class="w-5 h-5 text-amber-400 mb-1"></i>
-          <span class="font-bold">30 Questions</span>
-          <span class="text-[10px] text-amber-300/70">Sacred & Historic</span>
+          <i data-lucide="radio" class="w-5 h-5 text-amber-400 mb-1 animate-pulse"></i>
+          <span class="font-bold">Host-Controlled</span>
+          <span class="text-[10px] text-amber-300/70">Synchronized Start</span>
         </div>
         <div class="bg-black/35 border border-amber-500/20 rounded-xl p-3 text-center flex flex-col items-center">
-          <i data-lucide="building-2" class="w-5 h-5 text-amber-400 mb-1"></i>
-          <span class="font-bold">13 Departments</span>
-          <span class="text-[10px] text-amber-300/70">Inter-Team Battle</span>
+          <i data-lucide="users" class="w-5 h-5 text-emerald-400 mb-1"></i>
+          <span class="font-bold">Live Lobby</span>
+          <span class="text-[10px] text-emerald-300/80">Real-Time Devotees</span>
         </div>
         <div class="bg-black/35 border border-amber-500/20 rounded-xl p-3 text-center flex flex-col items-center">
           <i data-lucide="zap" class="w-5 h-5 text-amber-400 mb-1"></i>
-          <span class="font-bold">Zero Ties</span>
-          <span class="text-[10px] text-amber-300/70">Millisecond Scoring</span>
+          <span class="font-bold">Tie-Breaker</span>
+          <span class="text-[10px] text-amber-300/70">Millisecond Precision</span>
         </div>
         <div class="bg-black/35 border border-amber-500/20 rounded-xl p-3 text-center flex flex-col items-center">
           <i data-lucide="shield-check" class="w-5 h-5 text-amber-400 mb-1"></i>
           <span class="font-bold">Hidden Answers</span>
-          <span class="text-[10px] text-amber-300/70">Zero Spoilers</span>
+          <span class="text-[10px] text-amber-300/70">No Spoiler During Play</span>
         </div>
       </div>
 
-      <!-- Mandatory Name & Department Form -->
-      <form id="startQuizForm" onsubmit="handleStartQuizSubmit(event)" class="max-w-md mx-auto space-y-4">
+      <!-- Mandatory Registration Form -->
+      <form id="enrollmentForm" onsubmit="handleEnrollmentSubmit(event)" class="max-w-md mx-auto space-y-4">
         <div>
           <label for="playerNameInput" class="block text-xs font-semibold uppercase tracking-wider text-amber-300/90 mb-1">
             Participant Name <span class="text-red-400">*</span>
@@ -221,7 +256,6 @@
           </label>
           <select id="playerDeptSelect" required class="w-full bg-black/70 border border-amber-500/40 rounded-xl px-4 py-2.5 text-amber-100 focus:outline-none focus:ring-2 focus:ring-amber-400 font-medium transition-all shadow-inner text-sm">
             <option value="" disabled selected>-- Select your Department --</option>
-            <!-- 13 Departments Configured -->
             <option value="Planning">Planning</option>
             <option value="Marketing">Marketing</option>
             <option value="Finance">Finance</option>
@@ -241,15 +275,63 @@
         <p id="validationErrorMessage" class="hidden text-xs text-red-400 font-semibold text-center"></p>
 
         <button type="submit" class="w-full py-3.5 px-6 bg-gradient-to-r from-amber-500 via-marigold-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-kumkum-900 font-bold rounded-2xl shadow-lg shadow-amber-500/30 flex items-center justify-center gap-2 transform active:scale-[0.98] transition-all text-base mt-2">
-          <i data-lucide="play" class="w-5 h-5 fill-current"></i>
-          <span>Begin 30-Question Quiz</span>
+          <i data-lucide="log-in" class="w-5 h-5 fill-current"></i>
+          <span>Enroll & Join Waiting Lobby</span>
         </button>
 
         <p class="text-center text-[11px] text-amber-300/60 pt-1">
-          Are you the organizer? <button type="button" onclick="openHostAuthModal()" class="text-amber-300 underline font-semibold hover:text-amber-200">Host Dashboard (PIN Protected)</button>
+          Are you the organizer? <button type="button" onclick="openHostAuthModal()" class="text-amber-300 underline font-semibold hover:text-amber-200">Host Portal (PIN 787898)</button>
         </p>
       </form>
     </section>
+
+
+    <!-- SCREEN 1.5: WAITING LOBBY (PARTICIPANT WAITING FOR HOST TO START) -->
+    <section id="waitingLobbyScreen" class="hidden bg-gradient-to-b from-kumkum-700/60 to-kumkum-800/90 border border-amber-500/30 rounded-3xl p-6 sm:p-10 backdrop-blur-xl shadow-2xl relative overflow-hidden transition-all duration-500 text-center space-y-6">
+      <div class="relative w-24 h-24 mx-auto flex items-center justify-center rounded-full bg-amber-500/20 border-2 border-amber-400/60 p-4 shadow-xl shadow-amber-500/20">
+        <i data-lucide="loader-2" class="w-12 h-12 text-amber-300 animate-spin"></i>
+        <div class="absolute inset-0 rounded-full border-2 border-dashed border-amber-400/30 animate-spin-slow"></div>
+      </div>
+
+      <div class="space-y-2">
+        <span class="px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs font-bold uppercase tracking-wider inline-flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> You Are Successfully Enrolled!
+        </span>
+        <h2 class="font-festive text-3xl sm:text-4xl text-gold-gradient">
+          Waiting for Host to Start the Quiz...
+        </h2>
+        <p class="text-amber-200/90 text-sm max-w-lg mx-auto">
+          Welcome, <strong id="lobbyRegisteredName" class="text-amber-300 font-bold">Devotee</strong>! Your department is <strong id="lobbyRegisteredDept" class="text-amber-300 font-bold uppercase"></strong>.
+        </p>
+        <p class="text-xs text-amber-300/70 max-w-md mx-auto">
+          Please stay on this screen. As soon as the host launches the championship from the Host Portal, your 30 questions will start automatically with a 3-second countdown!
+        </p>
+      </div>
+
+      <!-- Real-time joined count in lobby -->
+      <div class="max-w-md mx-auto p-4 rounded-2xl bg-black/45 border border-amber-500/25 space-y-3">
+        <div class="flex items-center justify-between text-xs text-amber-300">
+          <span class="flex items-center gap-1.5 font-bold uppercase tracking-wide">
+            <i data-lucide="users" class="w-4 h-4 text-amber-400"></i>
+            <span>Participants in Lobby</span>
+          </span>
+          <span id="lobbyTotalCountBadge" class="px-2 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/40 font-mono font-bold text-amber-200">
+            1 Ready
+          </span>
+        </div>
+        <div id="lobbyContestantsChips" class="flex flex-wrap gap-1.5 justify-center max-h-36 overflow-y-auto pr-1">
+          <!-- Dynamically populated with joined participants -->
+        </div>
+      </div>
+
+      <div class="pt-2 flex justify-center">
+        <button onclick="leaveLobby()" class="px-4 py-2 rounded-xl bg-black/40 border border-amber-500/30 text-amber-300/80 hover:text-amber-200 text-xs font-semibold hover:bg-black/60 transition-colors flex items-center gap-1.5">
+          <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+          <span>Change Name or Department</span>
+        </button>
+      </div>
+    </section>
+
 
     <!-- SCREEN 2: ACTIVE QUIZ -->
     <section id="quizScreen" class="hidden flex-col gap-4">
@@ -260,9 +342,11 @@
             <span id="questionProgressText" class="font-festive text-xl text-amber-200">1 / 30</span>
           </div>
 
-          <span id="questionCategory" class="px-2.5 py-1 rounded-md bg-amber-500/15 border border-amber-500/30 text-amber-300 font-semibold tracking-wide text-xs uppercase hidden sm:inline-block">
-            Mythology
-          </span>
+          <div class="flex items-center gap-2">
+            <span class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs font-bold uppercase tracking-wider">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> Live to Host Board
+            </span>
+          </div>
 
           <div class="flex items-center gap-1.5 bg-black/45 border border-amber-500/30 px-3 py-1 rounded-full text-amber-300 font-bold text-xs sm:text-sm">
             <i data-lucide="clock" class="w-4 h-4 text-amber-400"></i>
@@ -283,11 +367,11 @@
 
       <!-- Question Card -->
       <div class="bg-gradient-to-b from-kumkum-700/60 to-kumkum-800/90 border border-amber-500/30 rounded-3xl p-5 sm:p-7 backdrop-blur-xl shadow-xl flex flex-col gap-4">
-        <div class="flex items-center justify-between text-xs sm:hidden">
-          <span id="questionCategoryMobile" class="px-2 py-0.5 rounded bg-amber-500/15 border border-amber-500/30 text-amber-300 font-semibold text-[11px] uppercase">
+        <div class="flex items-center justify-between text-xs">
+          <span id="questionCategory" class="px-2.5 py-0.5 rounded-md bg-amber-500/15 border border-amber-500/30 text-amber-300 font-semibold text-[11px] uppercase">
             Mythology
           </span>
-          <span class="text-amber-300/70 text-[11px]">Select your answer</span>
+          <span class="text-amber-300/70 text-[11px]">Rank updates dynamically as you answer</span>
         </div>
 
         <h3 id="questionTitle" class="text-lg sm:text-xl md:text-2xl font-bold text-amber-100 leading-snug">
@@ -298,11 +382,11 @@
           <!-- Populated by JS -->
         </div>
 
-        <!-- Locked-in indicator -->
+        <!-- Anti-Spoiler Locked-in indicator -->
         <div id="lockedInBanner" class="hidden mt-2 p-3.5 rounded-2xl bg-amber-500/15 border border-amber-400/40 text-amber-200 text-xs sm:text-sm items-center justify-between">
           <div class="flex items-center gap-2">
             <i data-lucide="check-circle-2" class="w-5 h-5 text-amber-400 shrink-0"></i>
-            <span id="lockedInMessage" class="font-medium">Answer locked in! Proceed to next question.</span>
+            <span id="lockedInMessage" class="font-medium">Answer locked in! Score broadcasted live to Host.</span>
           </div>
         </div>
 
@@ -313,7 +397,7 @@
       </div>
     </section>
 
-    <!-- SCREEN 3: PARTICIPANT FINAL SCORECARD -->
+    <!-- SCREEN 3: RESULTS -->
     <section id="resultsScreen" class="hidden bg-gradient-to-b from-kumkum-700/70 to-kumkum-800/90 border border-amber-500/30 rounded-3xl p-6 sm:p-8 backdrop-blur-xl shadow-2xl relative overflow-hidden">
       <div class="text-center space-y-2">
         <div class="inline-flex items-center justify-center p-3 rounded-2xl bg-amber-500/20 border border-amber-400/40 text-amber-300 mb-1">
@@ -334,23 +418,23 @@
         </div>
       </div>
 
-      <!-- Confirmation Notice of submission to Host -->
+      <!-- Submission confirmation notification -->
       <div class="my-4 p-3.5 rounded-2xl bg-black/40 border border-amber-500/30 flex items-center justify-between gap-3 text-xs sm:text-sm">
         <div class="flex items-center gap-2.5 text-amber-200">
           <i data-lucide="shield-check" class="w-5 h-5 text-emerald-400 shrink-0"></i>
-          <span>Your score has been registered in the <strong>Live Host Department Championship</strong>!</span>
+          <span>Your final scorecard is locked into the <strong>Host Live Department Championship</strong>!</span>
         </div>
         <span class="px-2 py-0.5 rounded bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 font-bold text-[11px] shrink-0 uppercase tracking-wide">
-          Submitted
+          Finalized
         </span>
       </div>
 
-      <!-- Metrics Breakdown with Tie-Breaker Details -->
+      <!-- Metrics Breakdown -->
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 my-5">
         <div class="bg-black/35 border border-amber-500/25 rounded-2xl p-3.5 text-center">
           <span class="text-[11px] text-amber-400/80 font-medium uppercase block">Total Points</span>
           <span id="resultFinalScore" class="font-festive text-2xl sm:text-3xl text-amber-300">0</span>
-          <span class="text-[10px] text-amber-300/60 block mt-0.5">Tie-Breaker Calibrated</span>
+          <span class="text-[10px] text-amber-300/60 block mt-0.5">Tie-Breaker Score</span>
         </div>
 
         <div class="bg-black/35 border border-amber-500/25 rounded-2xl p-3.5 text-center">
@@ -375,11 +459,11 @@
         </div>
       </div>
 
-      <!-- Action buttons -->
+      <!-- Action Buttons -->
       <div class="flex flex-col sm:flex-row gap-3">
-        <button onclick="restartQuiz()" class="flex-1 py-3.5 px-4 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-kumkum-900 font-bold rounded-xl shadow-lg flex items-center justify-center gap-2 transition-all">
-          <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
-          <span>Play Again</span>
+        <button onclick="goToHome()" class="flex-1 py-3.5 px-4 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-kumkum-900 font-bold rounded-xl shadow-lg flex items-center justify-center gap-2 transition-all">
+          <i data-lucide="home" class="w-4 h-4"></i>
+          <span>Return to Lobby</span>
         </button>
 
         <button onclick="toggleAnswerReview()" id="toggleReviewBtn" class="flex-1 py-3.5 px-4 bg-black/45 border border-amber-500/40 hover:border-amber-400 text-amber-200 rounded-xl flex items-center justify-center gap-2 transition-all font-semibold">
@@ -397,14 +481,12 @@
         ✓ Personal score summary copied to clipboard!
       </div>
 
-      <!-- Participant Question Review Section -->
+      <!-- Answer Review Section -->
       <div id="answersReviewSection" class="hidden mt-6 pt-6 border-t border-amber-500/20 space-y-4">
         <h4 class="font-festive text-xl text-amber-200 flex items-center gap-2">
           <i data-lucide="book-open" class="w-5 h-5 text-amber-400"></i>
           <span>Review Answers & Sacred Lore</span>
         </h4>
-        <p class="text-xs text-amber-300/70">Compare your choices against the verified answers and historical explanations:</p>
-        
         <div id="reviewItemsContainer" class="space-y-3 max-h-96 overflow-y-auto pr-1">
           <!-- Populated by JS -->
         </div>
@@ -413,7 +495,8 @@
 
   </main>
 
-  <!-- HOST AUTH MODAL (PIN 787898) -->
+
+  <!-- HOST AUTH MODAL (PIN: 787898) -->
   <div id="hostAuthModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
     <div class="bg-gradient-to-b from-kumkum-800 to-kumkum-950 border border-amber-500/40 rounded-3xl w-full max-w-sm p-6 shadow-2xl space-y-5 text-center relative">
       <button onclick="closeHostAuthModal()" class="absolute top-4 right-4 p-1.5 rounded-full hover:bg-black/30 text-amber-300/70 hover:text-amber-200 transition-colors">
@@ -421,13 +504,13 @@
       </button>
 
       <div class="w-14 h-14 rounded-2xl bg-amber-500/20 border border-amber-400/40 text-amber-300 mx-auto flex items-center justify-center shadow-lg">
-        <i data-lucide="lock" class="w-7 h-7"></i>
+        <i data-lucide="shield" class="w-7 h-7"></i>
       </div>
 
       <div>
-        <h3 class="font-festive text-2xl text-amber-200">Host / Admin Login</h3>
+        <h3 class="font-festive text-2xl text-amber-200">Host Administration</h3>
         <p class="text-xs text-amber-300/80 mt-1">
-          Department scorecard and participant records are protected. Enter the Host PIN to proceed.
+          Enter Host PIN to launch the live game for all participants and monitor real-time rankings.
         </p>
       </div>
 
@@ -441,53 +524,86 @@
           Cancel
         </button>
         <button onclick="verifyHostPin()" class="flex-1 py-2.5 px-4 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-kumkum-900 font-bold text-xs shadow-md transition-all">
-          Unlock Dashboard
+          Unlock Portal
         </button>
       </div>
     </div>
   </div>
 
-  <!-- HOST COMPREHENSIVE LIVE DASHBOARD & LEADERBOARD -->
+  <!-- HOST CHAMPIONSHIP & GAME CONTROL DASHBOARD MODAL -->
   <div id="hostLeaderboardModal" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-black/90 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
     <div class="bg-gradient-to-b from-kumkum-800 to-kumkum-950 border border-amber-500/50 rounded-3xl w-full max-w-5xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh]">
       
-      <!-- Modal Header -->
-      <div class="p-4 sm:p-5 border-b border-amber-500/25 flex items-center justify-between bg-black/40">
+      <!-- Modal Top Header with Live Game Control -->
+      <div class="p-4 sm:p-5 border-b border-amber-500/25 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-black/40">
         <div class="flex items-center gap-3">
-          <div class="p-2.5 rounded-xl bg-amber-500/20 border border-amber-500/40 text-amber-400">
+          <div class="p-2.5 rounded-xl bg-amber-500/20 border border-amber-500/40 text-amber-400 shrink-0">
             <i data-lucide="crown" class="w-6 h-6 fill-amber-400/20"></i>
           </div>
           <div>
-            <div class="flex items-center gap-2">
-              <h3 class="font-festive text-xl text-amber-200">Host Live Championship Dashboard</h3>
-              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-[10px] font-bold uppercase tracking-wider">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span> Live Sync
+            <div class="flex items-center gap-2 flex-wrap">
+              <h3 class="font-festive text-xl text-amber-200">Host Game Control & Championship</h3>
+              <span id="hostGameStatusBadge" class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-300 text-[10px] font-bold uppercase tracking-wider">
+                <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping"></span> Lobby Open
               </span>
             </div>
-            <p class="text-xs text-amber-400/80">Department Scorecards, Podium, and Tie-Breaker Individual Standings</p>
+            <p class="text-xs text-amber-400/80">Launch game when all are enrolled. Watch ranks move live up & down!</p>
           </div>
         </div>
-        <button onclick="closeHostLeaderboardModal()" class="p-2 rounded-full hover:bg-black/40 text-amber-300 transition-colors" title="Close Panel">
-          <i data-lucide="x" class="w-5 h-5"></i>
-        </button>
+
+        <div class="flex items-center gap-2 flex-wrap justify-end">
+          <!-- CRITICAL HOST ACTION: START GAME FOR ALL -->
+          <button id="hostStartGameBtn" onclick="hostStartGameForAll()" class="px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-400 hover:to-green-500 text-kumkum-950 font-black text-xs sm:text-sm flex items-center gap-2 shadow-lg shadow-emerald-500/30 transform active:scale-95 transition-all">
+            <i data-lucide="rocket" class="w-4 h-4 fill-current"></i>
+            <span>START GAME FOR ALL</span>
+          </button>
+
+          <!-- Simulation button for host to test rank movements -->
+          <button onclick="simulateLiveParticipantMovement()" class="px-3 py-1.5 rounded-xl bg-purple-600/30 hover:bg-purple-600/50 border border-purple-400/40 text-purple-200 text-xs font-semibold flex items-center gap-1.5 transition-all" title="Simulate a participant answering to test real-time rank moves">
+            <i data-lucide="bot" class="w-3.5 h-3.5 text-purple-300"></i>
+            <span class="hidden md:inline">Simulate Move</span>
+          </button>
+
+          <button onclick="closeHostLeaderboardModal()" class="p-2 rounded-full hover:bg-black/40 text-amber-300 transition-colors" title="Close Panel">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
       </div>
 
-      <!-- Navigation Tabs in Host Portal -->
+      <!-- ACTIVE & ENROLLED PARTICIPANTS TICKER -->
+      <div id="activePlayersSection" class="bg-black/60 border-b border-amber-500/20 px-4 py-2.5">
+        <div class="flex items-center justify-between gap-2 mb-1.5">
+          <div class="flex items-center gap-2">
+            <span class="relative flex h-2.5 w-2.5">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+            </span>
+            <span id="activeSectionTitle" class="text-xs font-bold uppercase tracking-wider text-emerald-300">Enrolled Devotees in Waiting Lobby</span>
+            <span id="activeCountBadge" class="px-2 py-0.2 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-mono font-bold border border-emerald-500/30">0 Enrolled</span>
+          </div>
+          <span class="text-[11px] text-amber-300/60 hidden sm:inline">All participants will automatically start when you click "START GAME FOR ALL"</span>
+        </div>
+        <div id="activePlayersTicker" class="flex gap-2 overflow-x-auto pb-1 text-xs">
+          <!-- Populated dynamically: Shows names and departments -->
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
       <div class="flex border-b border-amber-500/20 bg-black/30 px-4 gap-2 pt-2">
         <button id="tabBtnDept" onclick="switchHostTab('dept')" class="py-2.5 px-4 font-bold text-xs sm:text-sm rounded-t-xl border-t border-x border-amber-400 bg-amber-500/20 text-amber-200 flex items-center gap-1.5 transition-all">
           <i data-lucide="trophy" class="w-4 h-4 text-amber-400"></i>
-          <span>Department Championship</span>
+          <span>Department Championship (13 Teams)</span>
         </button>
         <button id="tabBtnIndiv" onclick="switchHostTab('indiv')" class="py-2.5 px-4 font-bold text-xs sm:text-sm rounded-t-xl border-t border-x border-transparent text-amber-300/70 hover:text-amber-200 flex items-center gap-1.5 transition-all">
           <i data-lucide="users" class="w-4 h-4 text-amber-400"></i>
-          <span>Individual Leaderboard</span>
+          <span>Individual Contestants (Live Up/Down)</span>
         </button>
       </div>
 
       <!-- TAB 1: DEPARTMENT CHAMPIONSHIP VIEW -->
       <div id="hostTabDeptView" class="p-4 overflow-y-auto flex-1 space-y-4">
-        <!-- Live Podium Top 3 Departments -->
-        <div id="deptPodiumContainer" class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <!-- Live Podium -->
+        <div id="deptPodiumContainer" class="grid grid-cols-1 sm:grid-cols-3 gap-3 items-end">
           <!-- Populated by JS -->
         </div>
 
@@ -497,7 +613,7 @@
               <i data-lucide="bar-chart-3" class="w-4 h-4 text-amber-400"></i>
               <span>Live Department Standings (13 Departments)</span>
             </h4>
-            <span class="text-[11px] text-amber-300/70">Ranked by Average Score</span>
+            <span class="text-[11px] text-amber-300/70">Dynamically Shifts With Each Answer</span>
           </div>
 
           <div class="overflow-x-auto">
@@ -520,7 +636,7 @@
         </div>
       </div>
 
-      <!-- TAB 2: INDIVIDUAL DEVOTEES LEADERBOARD -->
+      <!-- TAB 2: INDIVIDUAL DEVOTEES LEADERBOARD WITH LIVE UP/DOWN MOVEMENT -->
       <div id="hostTabIndivView" class="hidden flex-col flex-1 overflow-hidden">
         <!-- Filters & Actions -->
         <div class="p-3 bg-black/25 border-b border-amber-500/20 flex flex-col sm:flex-row items-center gap-2.5 justify-between">
@@ -572,7 +688,16 @@
           <p id="changePinMsg" class="text-[11px] mt-1.5 hidden"></p>
         </div>
 
-        <!-- Leaderboard Devotees List -->
+        <!-- Live Movement Explanation Banner -->
+        <div class="px-4 py-2 bg-amber-500/10 border-b border-amber-500/20 flex items-center justify-between text-[11px] text-amber-300">
+          <span class="flex items-center gap-1.5">
+            <i data-lucide="activity" class="w-3.5 h-3.5 text-emerald-400"></i>
+            Contestants shift dynamically UP (<span class="text-emerald-400 font-bold">▲</span>) or DOWN (<span class="text-red-400 font-bold">▼</span>) in real-time as answers are submitted.
+          </span>
+          <span class="text-amber-400/80 font-mono hidden sm:inline">Tie-breaker: Points → Correct → Time</span>
+        </div>
+
+        <!-- Individual Contestants List -->
         <div class="p-4 overflow-y-auto flex-1 space-y-2.5" id="hostLeaderboardList">
           <!-- Rendered via JavaScript -->
         </div>
@@ -586,35 +711,35 @@
         </span>
         <button onclick="promptResetLeaderboard()" class="px-3.5 py-1.5 rounded-xl bg-red-950/60 hover:bg-red-900/80 border border-red-500/50 text-red-200 hover:text-white font-bold text-xs flex items-center gap-1.5 transition-colors shadow-sm">
           <i data-lucide="trash-2" class="w-3.5 h-3.5 text-red-400"></i>
-          <span>Reset / Clear Leaderboard</span>
+          <span>Reset / End Championship</span>
         </button>
       </div>
     </div>
   </div>
 
-  <!-- Reset Confirmation Modal -->
+  <!-- RESET CONFIRMATION MODAL -->
   <div id="resetConfirmModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md hidden opacity-0 transition-opacity duration-200">
     <div class="bg-gradient-to-b from-kumkum-800 to-kumkum-950 border border-red-500/50 rounded-2xl w-full max-w-sm p-6 shadow-2xl text-center space-y-4">
       <div class="w-12 h-12 rounded-full bg-red-500/20 border border-red-500/40 text-red-400 mx-auto flex items-center justify-center">
         <i data-lucide="alert-triangle" class="w-6 h-6"></i>
       </div>
       <div>
-        <h4 class="font-festive text-xl text-amber-200">Clear All Scores & Standings?</h4>
-        <p class="text-xs text-amber-200/80 mt-1">This will permanently delete all contestant submissions and reset both department and individual leaderboards.</p>
+        <h4 class="font-festive text-xl text-amber-200">Reset Game & Clear Leaderboard?</h4>
+        <p class="text-xs text-amber-200/80 mt-1">This will permanently delete all contestant scores, return the game to lobby enrollment status, and notify all participants.</p>
       </div>
       <div class="flex gap-2 pt-2">
         <button onclick="cancelResetLeaderboard()" class="flex-1 py-2.5 px-4 rounded-xl bg-black/40 border border-amber-500/30 text-amber-200 text-xs font-semibold hover:bg-black/60 transition-colors">
           Cancel
         </button>
         <button onclick="confirmResetLeaderboard()" class="flex-1 py-2.5 px-4 rounded-xl bg-red-700 hover:bg-red-600 text-white text-xs font-bold transition-colors shadow-md">
-          Yes, Wipe Board
+          Yes, Reset All
         </button>
       </div>
     </div>
   </div>
 
+
   <script>
-    // 13 Official Departments
     const ALL_DEPARTMENTS = [
       "Planning",
       "Marketing",
@@ -995,147 +1120,179 @@
     ];
 
     const HOST_DEFAULT_PIN = '787898';
-    const STORAGE_KEY_LEADERBOARD = 'ganesh_quiz_host_records_v3';
-    const STORAGE_KEY_PIN = 'ganesh_quiz_host_pin_v3';
+    const STORAGE_KEY_LEADERBOARD = 'ganesh_quiz_host_records_v7';
+    const STORAGE_KEY_PIN = 'ganesh_quiz_host_pin_v7';
+    const STORAGE_KEY_LAST_UPDATE = 'ganesh_quiz_last_update_ts_v7';
+    const STORAGE_KEY_GAME_STATE = 'ganesh_quiz_game_state_v7'; // 'LOBBY' or 'PLAYING'
+    const STORAGE_KEY_GAME_LAUNCH_TS = 'ganesh_quiz_game_launch_ts_v7';
 
-    // BroadcastChannel for instant cross-tab live synchronization
-    const liveQuizChannel = typeof BroadcastChannel !== 'undefined' ? new BroadcastChannel('ganesh_utsav_quiz_sync') : null;
 
     class FestiveSoundEngine {
       constructor() {
         this.ctx = null;
         this.muted = false;
       }
-
       init() {
         if (!this.ctx) {
           const AudioContext = window.AudioContext || window.webkitAudioContext;
-          if (AudioContext) {
-            this.ctx = new AudioContext();
-          }
+          if (AudioContext) this.ctx = new AudioContext();
         }
         if (this.ctx && this.ctx.state === 'suspended') {
           this.ctx.resume();
         }
       }
-
       playBell() {
         if (this.muted) return;
         this.init();
         if (!this.ctx) return;
-
         const now = this.ctx.currentTime;
         const osc = this.ctx.createOscillator();
         const gain = this.ctx.createGain();
-
         osc.type = 'sine';
         osc.frequency.setValueAtTime(880, now);
         osc.frequency.exponentialRampToValueAtTime(1760, now + 0.08);
         osc.frequency.exponentialRampToValueAtTime(1320, now + 0.35);
-
         gain.gain.setValueAtTime(0.28, now);
         gain.gain.exponentialRampToValueAtTime(0.001, now + 1.2);
-
         osc.connect(gain);
         gain.connect(this.ctx.destination);
-
         osc.start(now);
         osc.stop(now + 1.2);
       }
-
+      playLaunchFanfare() {
+        if (this.muted) return;
+        this.init();
+        if (!this.ctx) return;
+        const notes = [
+          { f: 523.25, d: 0 },
+          { f: 659.25, d: 0.1 },
+          { f: 783.99, d: 0.2 },
+          { f: 1046.50, d: 0.35 }
+        ];
+        notes.forEach(n => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          const st = this.ctx.currentTime + n.d;
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(n.f, st);
+          gain.gain.setValueAtTime(0.25, st);
+          gain.gain.exponentialRampToValueAtTime(0.001, st + 0.9);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(st);
+          osc.stop(st + 0.9);
+        });
+      }
+      playCountdownTick() {
+        if (this.muted) return;
+        this.init();
+        if (!this.ctx) return;
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(880, now);
+        gain.gain.setValueAtTime(0.2, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.13);
+      }
       playLockIn() {
         if (this.muted) return;
         this.init();
         if (!this.ctx) return;
-
         const now = this.ctx.currentTime;
         const osc = this.ctx.createOscillator();
         const gain = this.ctx.createGain();
-
         osc.type = 'triangle';
         osc.frequency.setValueAtTime(587.33, now);
         osc.frequency.exponentialRampToValueAtTime(880, now + 0.15);
-
         gain.gain.setValueAtTime(0.18, now);
         gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
-
         osc.connect(gain);
         gain.connect(this.ctx.destination);
-
         osc.start(now);
         osc.stop(now + 0.3);
       }
-
       playTick() {
         if (this.muted) return;
         this.init();
         if (!this.ctx) return;
-
         const now = this.ctx.currentTime;
         const osc = this.ctx.createOscillator();
         const gain = this.ctx.createGain();
-
         osc.type = 'sine';
         osc.frequency.setValueAtTime(700, now);
         gain.gain.setValueAtTime(0.07, now);
         gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
-
         osc.connect(gain);
         gain.connect(this.ctx.destination);
-
         osc.start(now);
         osc.stop(now + 0.05);
       }
-
       playVictory() {
         if (this.muted) return;
         this.init();
         if (!this.ctx) return;
-
         const notes = [
           { freq: 440, delay: 0 },
           { freq: 554.37, delay: 0.12 },
           { freq: 659.25, delay: 0.24 },
           { freq: 880, delay: 0.38 }
         ];
-
         notes.forEach(item => {
           const osc = this.ctx.createOscillator();
           const gain = this.ctx.createGain();
           const st = this.ctx.currentTime + item.delay;
-
           osc.type = 'triangle';
           osc.frequency.setValueAtTime(item.freq, st);
           gain.gain.setValueAtTime(0.22, st);
           gain.gain.exponentialRampToValueAtTime(0.001, st + 1.1);
-
           osc.connect(gain);
           gain.connect(this.ctx.destination);
-
           osc.start(st);
           osc.stop(st + 1.1);
         });
       }
-
       playTap() {
         if (this.muted) return;
         this.init();
         if (!this.ctx) return;
-
         const now = this.ctx.currentTime;
         const osc = this.ctx.createOscillator();
         const gain = this.ctx.createGain();
-
         osc.type = 'sine';
         osc.frequency.setValueAtTime(450, now);
         gain.gain.setValueAtTime(0.05, now);
         gain.gain.exponentialRampToValueAtTime(0.001, now + 0.03);
-
         osc.connect(gain);
         gain.connect(this.ctx.destination);
-
         osc.start(now);
         osc.stop(now + 0.04);
+      }
+      playRankShift(isUp) {
+        if (this.muted) return;
+        this.init();
+        if (!this.ctx) return;
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        if (isUp) {
+          osc.frequency.setValueAtTime(523.25, now);
+          osc.frequency.exponentialRampToValueAtTime(783.99, now + 0.18);
+        } else {
+          osc.frequency.setValueAtTime(659.25, now);
+          osc.frequency.exponentialRampToValueAtTime(392.00, now + 0.18);
+        }
+        gain.gain.setValueAtTime(0.12, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.25);
       }
     }
 
@@ -1145,7 +1302,6 @@
       sound.muted = !sound.muted;
       const soundIcon = document.getElementById('soundIcon');
       const soundText = document.getElementById('soundText');
-
       if (sound.muted) {
         soundIcon.setAttribute('data-lucide', 'volume-x');
         soundText.textContent = 'Audio: Off';
@@ -1156,6 +1312,156 @@
       }
       lucide.createIcons();
     }
+
+
+    let liveQuizChannel = null;
+    try {
+      if (typeof BroadcastChannel !== 'undefined') {
+        liveQuizChannel = new BroadcastChannel('ganesh_quiz_live_channel_v7');
+      }
+    } catch (e) {
+      console.warn("BroadcastChannel unsupported", e);
+    }
+
+    let lastKnownStorageTimestamp = 0;
+    let previousContestantRanks = {};
+    let previousDeptRanks = {};
+
+    function showLiveToast(title, subtitle, type = 'info') {
+      const container = document.getElementById('toastNotificationContainer');
+      if (!container) return;
+
+      const toast = document.createElement('div');
+      const bgColors = type === 'up' 
+        ? 'from-emerald-700 to-green-600 border-emerald-400' 
+        : type === 'down' 
+        ? 'from-red-800 to-rose-700 border-red-400' 
+        : type === 'start'
+        ? 'from-blue-700 to-cyan-600 border-cyan-300'
+        : type === 'launch'
+        ? 'from-amber-500 to-orange-500 border-amber-300 text-kumkum-950 font-bold'
+        : 'from-amber-600 to-orange-600 border-amber-300';
+
+      toast.className = `bg-gradient-to-r ${bgColors} border p-3 rounded-2xl shadow-2xl flex items-center gap-3 animate-bounce-subtle pointer-events-auto transition-all duration-300`;
+      toast.innerHTML = `
+        <div class="w-7 h-7 rounded-full bg-black/30 text-white flex items-center justify-center font-bold shrink-0 text-xs">
+          ${type === 'up' ? '▲' : type === 'down' ? '▼' : type === 'start' ? '🙋' : type === 'launch' ? '🚀' : '⚡'}
+        </div>
+        <div class="text-xs">
+          <p class="font-bold text-amber-100">${escapeHtml(title)}</p>
+          <p class="text-amber-200/90 text-[11px]">${escapeHtml(subtitle)}</p>
+        </div>
+      `;
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(20px)';
+        setTimeout(() => toast.remove(), 350);
+      }, 3500);
+    }
+
+    // BroadcastChannel Event Handler
+    if (liveQuizChannel) {
+      liveQuizChannel.onmessage = (event) => {
+        if (!event.data) return;
+        const data = event.data;
+
+        if (data.type === 'PARTICIPANT_ENROLLED') {
+          handleIncomingParticipantEnrolled(data.entry);
+        } else if (data.type === 'GAME_LAUNCHED') {
+          handleIncomingGameLaunch();
+        } else if (data.type === 'LIVE_PROGRESS' || data.type === 'FINAL_SUBMISSION') {
+          handleIncomingLiveUpdate(data.entry);
+        } else if (data.type === 'RESET') {
+          handleIncomingReset();
+        }
+      };
+    }
+
+    // Storage event for multi-window / multi-tab synchronization
+    window.addEventListener('storage', (e) => {
+      if (e.key === STORAGE_KEY_LEADERBOARD || e.key === STORAGE_KEY_LAST_UPDATE) {
+        renderHostDashboard();
+        updateWaitingLobbyUI();
+      } else if (e.key === STORAGE_KEY_GAME_STATE) {
+        if (e.newValue === 'PLAYING') {
+          handleIncomingGameLaunch();
+        } else if (e.newValue === 'LOBBY') {
+          handleIncomingReset();
+        }
+      }
+    });
+
+    // 400ms polling fallback for throttled browser environments
+    setInterval(() => {
+      try {
+        const storedTs = Number(localStorage.getItem(STORAGE_KEY_LAST_UPDATE) || 0);
+        if (storedTs > lastKnownStorageTimestamp) {
+          lastKnownStorageTimestamp = storedTs;
+          renderHostDashboard();
+          updateWaitingLobbyUI();
+        }
+        const gameState = getGameGlobalState();
+        if (gameState === 'PLAYING' && isCurrentlyInLobby) {
+          handleIncomingGameLaunch();
+        }
+      } catch (err) {}
+    }, 400);
+
+    function getGameGlobalState() {
+      try {
+        return localStorage.getItem(STORAGE_KEY_GAME_STATE) || 'LOBBY';
+      } catch (e) {
+        return 'LOBBY';
+      }
+    }
+
+    function setGameGlobalState(state) {
+      try {
+        localStorage.setItem(STORAGE_KEY_GAME_STATE, state);
+        localStorage.setItem(STORAGE_KEY_LAST_UPDATE, Date.now().toString());
+      } catch (e) {}
+    }
+
+    function handleIncomingParticipantEnrolled(entry) {
+      renderHostDashboard();
+      updateWaitingLobbyUI();
+      showLiveToast("New Devotee Enrolled", `${entry.name} (${entry.department}) joined the lobby!`, 'start');
+      sound.playBell();
+    }
+
+    function handleIncomingLiveUpdate(entry) {
+      renderHostDashboard();
+      if (entry && entry.rankMovement && entry.rankMovement !== 0) {
+        const isUp = entry.rankMovement > 0;
+        showLiveToast(
+          `${entry.name} shifted ${isUp ? 'UP ▲' : 'DOWN ▼'}!`, 
+          `${entry.department} • Correct: ${entry.correctCount}/30 • Score: ${entry.score.toLocaleString()}`,
+          isUp ? 'up' : 'down'
+        );
+        sound.playRankShift(isUp);
+      }
+    }
+
+    function handleIncomingReset() {
+      previousContestantRanks = {};
+      previousDeptRanks = {};
+      renderHostDashboard();
+      updateWaitingLobbyUI();
+      
+      // If participant was playing or in lobby, return them cleanly to registration
+      if (!isHostDashboardOpen) {
+        clearInterval(questionTimerInterval);
+        document.getElementById('quizScreen').classList.add('hidden');
+        document.getElementById('resultsScreen').classList.add('hidden');
+        document.getElementById('waitingLobbyScreen').classList.add('hidden');
+        document.getElementById('welcomeScreen').classList.remove('hidden');
+        isCurrentlyInLobby = false;
+        showLiveToast("Championship Reset", "Host has reset the game to enrollment lobby.", "launch");
+      }
+    }
+
 
     const QUESTION_TIME_LIMIT_MS = 20000;
     let questions = [];
@@ -1172,8 +1478,11 @@
 
     let quizStartPerfTime = 0;
     let totalElapsedDurationMs = 0;
+    let currentParticipantId = "";
     let currentPlayerName = "";
     let currentPlayerDepartment = "";
+    let isCurrentlyInLobby = false;
+    let isHostDashboardOpen = false;
 
     function shuffleArray(arr) {
       const copy = [...arr];
@@ -1199,7 +1508,8 @@
       userAnswers = new Array(questions.length).fill(null);
     }
 
-    function handleStartQuizSubmit(e) {
+    // Step 1: Participant Enrolls and Enters Waiting Room
+    function handleEnrollmentSubmit(e) {
       e.preventDefault();
       const nameInput = document.getElementById('playerNameInput');
       const deptSelect = document.getElementById('playerDeptSelect');
@@ -1209,7 +1519,7 @@
       const deptVal = (deptSelect.value || '').trim();
 
       if (!nameVal) {
-        errEl.textContent = "Please enter your name.";
+        errEl.textContent = "Please enter your full name.";
         errEl.classList.remove('hidden');
         return;
       }
@@ -1221,16 +1531,176 @@
       }
 
       errEl.classList.add('hidden');
+      currentParticipantId = 'p_' + Date.now() + '_' + Math.floor(Math.random() * 10000);
       currentPlayerName = nameVal;
       currentPlayerDepartment = deptVal;
 
-      startQuiz();
-    }
-
-    function startQuiz() {
       sound.init();
       sound.playBell();
 
+      // Check if host already launched game
+      const gameState = getGameGlobalState();
+      if (gameState === 'PLAYING') {
+        // Late joiner can jump straight into active game!
+        launchParticipantQuizNow();
+        return;
+      }
+
+      // Transition to Waiting Room Lobby
+      enterWaitingLobby();
+    }
+
+    function enterWaitingLobby() {
+      isCurrentlyInLobby = true;
+      document.getElementById('welcomeScreen').classList.add('hidden');
+      document.getElementById('quizScreen').classList.add('hidden');
+      document.getElementById('resultsScreen').classList.add('hidden');
+      document.getElementById('waitingLobbyScreen').classList.remove('hidden');
+
+      document.getElementById('lobbyRegisteredName').textContent = currentPlayerName;
+      document.getElementById('lobbyRegisteredDept').textContent = currentPlayerDepartment;
+
+      // Broadcast registration so Host sees them enrolled in real time
+      const entry = {
+        id: currentParticipantId,
+        name: currentPlayerName,
+        department: currentPlayerDepartment,
+        score: 0,
+        correctCount: 0,
+        answeredCount: 0,
+        currentQuestionNumber: 0,
+        totalQuestions: 30,
+        accuracy: 0,
+        streak: 0,
+        durationMs: 0,
+        durationFormatted: "00:00.000",
+        status: "In Waiting Lobby",
+        isEnrolled: true,
+        isFinished: false,
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+        date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+        rawEpoch: Date.now()
+      };
+
+      saveOrUpdateHostRecord(entry, false, false, 'ENROLL');
+      updateWaitingLobbyUI();
+      lucide.createIcons();
+    }
+
+    function updateWaitingLobbyUI() {
+      const allEntries = getHostLeaderboard();
+      const enrolled = allEntries.filter(e => e.isEnrolled && !e.isFinished);
+      const badge = document.getElementById('lobbyTotalCountBadge');
+      const container = document.getElementById('lobbyContestantsChips');
+      if (!badge || !container) return;
+
+      badge.textContent = `${enrolled.length} Ready`;
+      container.innerHTML = '';
+
+      if (enrolled.length === 0) {
+        container.innerHTML = `<span class="text-xs text-amber-300/50">You are the first to enroll! Awaiting others...</span>`;
+        return;
+      }
+
+      enrolled.forEach(p => {
+        const chip = document.createElement('div');
+        const isSelf = p.id === currentParticipantId;
+        chip.className = `px-2.5 py-1 rounded-xl text-xs flex items-center gap-1.5 border ${
+          isSelf 
+            ? 'bg-amber-500/25 border-amber-400 text-amber-200 font-bold shadow' 
+            : 'bg-black/40 border-amber-500/20 text-amber-300/80'
+        }`;
+        chip.innerHTML = `
+          <span class="w-1.5 h-1.5 rounded-full ${isSelf ? 'bg-amber-300 animate-ping' : 'bg-emerald-400'}"></span>
+          <span>${escapeHtml(p.name)}</span>
+          <span class="text-[10px] opacity-75 font-mono">(${escapeHtml(p.department)})</span>
+          ${isSelf ? '<span class="text-[9px] bg-amber-400 text-kumkum-950 font-black px-1 rounded ml-0.5">YOU</span>' : ''}
+        `;
+        container.appendChild(chip);
+      });
+    }
+
+    function leaveLobby() {
+      sound.playTap();
+      // Remove from lobby
+      let list = getHostLeaderboard();
+      list = list.filter(item => item.id !== currentParticipantId);
+      try {
+        localStorage.setItem(STORAGE_KEY_LEADERBOARD, JSON.stringify(list));
+        localStorage.setItem(STORAGE_KEY_LAST_UPDATE, Date.now().toString());
+      } catch (e) {}
+
+      isCurrentlyInLobby = false;
+      document.getElementById('waitingLobbyScreen').classList.add('hidden');
+      document.getElementById('welcomeScreen').classList.remove('hidden');
+      renderHostDashboard();
+    }
+
+    // Step 2: Host Starts the Game for All
+    function hostStartGameForAll() {
+      sound.init();
+      sound.playLaunchFanfare();
+      
+      const allEntries = getHostLeaderboard();
+      const enrolled = allEntries.filter(e => e.isEnrolled && !e.isFinished);
+
+      setGameGlobalState('PLAYING');
+      const launchTs = Date.now();
+      try {
+        localStorage.setItem(STORAGE_KEY_GAME_LAUNCH_TS, launchTs.toString());
+      } catch (e) {}
+
+      if (liveQuizChannel) {
+        liveQuizChannel.postMessage({
+          type: 'GAME_LAUNCHED',
+          ts: launchTs
+        });
+      }
+
+      showLiveToast("🚀 GAME LAUNCHED!", "Starting 30-question quiz countdown for all participants!", "launch");
+      renderHostDashboard();
+
+      // Trigger countdown if host is also on participant screen
+      if (isCurrentlyInLobby) {
+        handleIncomingGameLaunch();
+      }
+    }
+
+    // Step 3: Synchronized Countdown (3.. 2.. 1.. GO!) for Enrolled Participants
+    function handleIncomingGameLaunch() {
+      if (!isCurrentlyInLobby) return; // Only trigger for enrolled participants waiting in lobby
+      isCurrentlyInLobby = false;
+
+      const overlay = document.getElementById('countdownLaunchOverlay');
+      const numEl = document.getElementById('countdownNumber');
+      overlay.classList.remove('hidden');
+      setTimeout(() => overlay.classList.remove('opacity-0'), 20);
+
+      sound.init();
+      sound.playCountdownTick();
+      let count = 3;
+      numEl.textContent = count;
+
+      const countInterval = setInterval(() => {
+        count--;
+        if (count > 0) {
+          numEl.textContent = count;
+          sound.playCountdownTick();
+        } else if (count === 0) {
+          numEl.textContent = "GO!";
+          sound.playLaunchFanfare();
+        } else {
+          clearInterval(countInterval);
+          overlay.classList.add('opacity-0');
+          setTimeout(() => {
+            overlay.classList.add('hidden');
+            launchParticipantQuizNow();
+          }, 350);
+        }
+      }, 1000);
+    }
+
+    function launchParticipantQuizNow() {
       score = 0;
       correctCount = 0;
       currentStreak = 0;
@@ -1241,11 +1711,15 @@
       prepareQuiz();
 
       document.getElementById('welcomeScreen').classList.add('hidden');
+      document.getElementById('waitingLobbyScreen').classList.add('hidden');
       document.getElementById('resultsScreen').classList.add('hidden');
       document.getElementById('quizScreen').classList.remove('hidden');
 
+      // Update participant record to active status
+      broadcastLiveQuestionAdvance(1);
       renderQuestion();
     }
+
 
     function renderQuestion() {
       hasAnswered = false;
@@ -1256,7 +1730,6 @@
 
       document.getElementById('questionProgressText').textContent = `${currentQuestionIndex + 1} / ${questions.length}`;
       document.getElementById('questionCategory').textContent = q.category;
-      document.getElementById('questionCategoryMobile').textContent = q.category;
       document.getElementById('questionTitle').textContent = q.question;
 
       const progressPercent = ((currentQuestionIndex) / questions.length) * 100;
@@ -1346,7 +1819,7 @@
       const allButtons = document.querySelectorAll('.option-card');
       allButtons.forEach(b => b.disabled = true);
 
-      // Mask answer: neutral saffron highlight with no correct/wrong tells
+      // Saffron glow anti-spoiler lock-in
       if (selectedIndex !== null) {
         const chosenBtn = document.getElementById(`optBtn_${selectedIndex}`);
         chosenBtn.classList.add('locked-in');
@@ -1354,30 +1827,29 @@
         sound.playLockIn();
       }
 
-      /* TIE-BREAKER SCORING:
-         - Base: 100 pts per correct answer
-         - Time bonus: Exact remaining milliseconds (0 to 20,000 points dynamically scaled)
-         - Streak multiplier: +5% per consecutive correct answer */
+      // Tie-Breaker Scoring Calculation
       if (isCorrect) {
         correctCount++;
         currentStreak++;
         if (currentStreak > highestStreak) highestStreak = currentStreak;
 
         const baseScore = 100;
-        const timeBonus = Math.round(remainingMs / 20); // 0 - 1000 pts with millisecond precision
+        const timeBonus = Math.round(remainingMs / 20); // 0 - 1000 pts
         const streakMultiplier = currentStreak > 1 ? 1 + (currentStreak * 0.05) : 1;
-
         score += Math.round((baseScore + timeBonus) * streakMultiplier);
       } else {
         currentStreak = 0;
       }
 
+      // Broadcast this answer update live to Host so leaderboards move up & down!
+      broadcastLiveProgress(currentQuestionIndex + 1, false);
+
       const banner = document.getElementById('lockedInBanner');
       const msg = document.getElementById('lockedInMessage');
       if (selectedIndex !== null) {
-        msg.textContent = `Answer locked in! Proceed to next question.`;
+        msg.textContent = `Answer locked in! Score & rank broadcasted live to Host.`;
       } else {
-        msg.textContent = `Time expired! No choice was selected for this question.`;
+        msg.textContent = `Time expired! Moving to next question.`;
       }
       banner.classList.remove('hidden');
       banner.classList.add('flex');
@@ -1385,7 +1857,7 @@
       const nextBtn = document.getElementById('nextBtn');
       const nextBtnText = document.getElementById('nextBtnText');
       if (currentQuestionIndex === questions.length - 1) {
-        nextBtnText.textContent = "Finish 30-Q Quiz & Register Score";
+        nextBtnText.textContent = "Finish 30-Q Quiz & Finalize Score";
       } else {
         nextBtnText.textContent = "Continue to Next Question";
       }
@@ -1403,6 +1875,7 @@
       sound.playTap();
       if (currentQuestionIndex < questions.length - 1) {
         currentQuestionIndex++;
+        broadcastLiveQuestionAdvance(currentQuestionIndex + 1);
         renderQuestion();
       } else {
         finishQuiz();
@@ -1414,6 +1887,60 @@
       const seconds = Math.floor((totalMs % 60000) / 1000);
       const ms = Math.floor(totalMs % 1000);
       return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}.${String(ms).padStart(3, '0')}`;
+    }
+
+    function broadcastLiveQuestionAdvance(newQuestionNum) {
+      totalElapsedDurationMs = Math.round(performance.now() - quizStartPerfTime);
+      const entry = {
+        id: currentParticipantId,
+        name: currentPlayerName,
+        department: currentPlayerDepartment,
+        score: score,
+        correctCount: correctCount,
+        answeredCount: currentQuestionIndex,
+        currentQuestionNumber: newQuestionNum,
+        totalQuestions: 30,
+        accuracy: currentQuestionIndex > 0 ? Math.round((correctCount / currentQuestionIndex) * 100) : 0,
+        streak: highestStreak,
+        durationMs: totalElapsedDurationMs,
+        durationFormatted: formatTimeDuration(totalElapsedDurationMs),
+        status: `Playing Q${newQuestionNum}/30`,
+        isEnrolled: true,
+        isFinished: false,
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+        date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+        rawEpoch: Date.now()
+      };
+      saveOrUpdateHostRecord(entry, false, false, 'PROGRESS');
+    }
+
+    function broadcastLiveProgress(answeredCount, isFinished = false) {
+      totalElapsedDurationMs = Math.round(performance.now() - quizStartPerfTime);
+      const formattedDuration = formatTimeDuration(totalElapsedDurationMs);
+      const calculatedAccuracy = answeredCount > 0 ? Math.round((correctCount / answeredCount) * 100) : 0;
+
+      const entry = {
+        id: currentParticipantId,
+        name: currentPlayerName,
+        department: currentPlayerDepartment,
+        score: score,
+        correctCount: correctCount,
+        answeredCount: answeredCount,
+        currentQuestionNumber: answeredCount,
+        totalQuestions: 30,
+        accuracy: calculatedAccuracy,
+        streak: highestStreak,
+        durationMs: totalElapsedDurationMs,
+        durationFormatted: formattedDuration,
+        status: isFinished ? 'Completed' : `Q${answeredCount}/30 Live`,
+        isEnrolled: true,
+        isFinished: isFinished,
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+        date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+        rawEpoch: Date.now()
+      };
+
+      saveOrUpdateHostRecord(entry, isFinished, false, isFinished ? 'FINAL' : 'PROGRESS');
     }
 
     function finishQuiz() {
@@ -1446,19 +1973,7 @@
       document.getElementById('resultMaxStreak').textContent = highestStreak;
       document.getElementById('resultTotalTime').textContent = formattedDuration;
 
-      const submissionDate = new Date();
-      saveHostLeaderboardEntry({
-        name: currentPlayerName,
-        department: currentPlayerDepartment,
-        score: score,
-        accuracy: accuracy,
-        streak: highestStreak,
-        durationMs: totalElapsedDurationMs,
-        durationFormatted: formattedDuration,
-        timestamp: submissionDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
-        date: submissionDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
-        rawEpoch: submissionDate.getTime()
-      });
+      broadcastLiveProgress(30, true);
 
       buildAnswerReviewList();
       sound.playVictory();
@@ -1530,18 +2045,12 @@
       if (typeof confetti !== 'undefined') {
         const colors = ['#f59e0b', '#ea580c', '#fbbf24', '#b91c1c', '#ffffff'];
         confetti({
-          particleCount: 90,
-          spread: 80,
+          particleCount: 110,
+          spread: 85,
           origin: { y: 0.6 },
           colors: colors
         });
       }
-    }
-
-    function restartQuiz() {
-      sound.playTap();
-      document.getElementById('resultsScreen').classList.add('hidden');
-      document.getElementById('welcomeScreen').classList.remove('hidden');
     }
 
     function goToHome() {
@@ -1549,13 +2058,14 @@
       clearInterval(questionTimerInterval);
       document.getElementById('quizScreen').classList.add('hidden');
       document.getElementById('resultsScreen').classList.add('hidden');
+      document.getElementById('waitingLobbyScreen').classList.add('hidden');
       document.getElementById('welcomeScreen').classList.remove('hidden');
+      isCurrentlyInLobby = false;
     }
 
     function shareScore() {
       sound.playTap();
       const shareText = `🪔 I scored ${score.toLocaleString()} points (${correctCount}/30 correct in ${formatTimeDuration(totalElapsedDurationMs)}) in the Ganesh Chaturthi Utsav Quiz representing Department: ${currentPlayerDepartment}! Ganpati Bappa Morya! 🙏`;
-      
       const tempTextArea = document.createElement('textarea');
       tempTextArea.value = shareText;
       document.body.appendChild(tempTextArea);
@@ -1565,11 +2075,10 @@
         const notice = document.getElementById('shareNotice');
         notice.classList.remove('hidden');
         setTimeout(() => notice.classList.add('hidden'), 4000);
-      } catch (err) {
-        console.error("Copy failed", err);
-      }
+      } catch (err) {}
       document.body.removeChild(tempTextArea);
     }
+
 
     function getHostPin() {
       try {
@@ -1601,49 +2110,56 @@
       return [];
     }
 
-    function saveHostLeaderboardEntry(entry) {
-      let list = getHostLeaderboard();
-      list.push(entry);
-      /* RANKING LOGIC (GUARANTEED TIE-BREAKER):
-         1. Highest Score
-         2. Highest Accuracy %
-         3. Lowest Completion Duration in milliseconds
-         4. Earliest Epoch submission timestamp */
-      list.sort((a, b) => {
+    function sortLeaderboardList(list) {
+      return list.sort((a, b) => {
         if (b.score !== a.score) return b.score - a.score;
-        if (b.accuracy !== a.accuracy) return b.accuracy - a.accuracy;
+        if (b.correctCount !== a.correctCount) return b.correctCount - a.correctCount;
         if (a.durationMs !== b.durationMs) return a.durationMs - b.durationMs;
         return a.rawEpoch - b.rawEpoch;
       });
+    }
+
+    function saveOrUpdateHostRecord(entry, isFinished = false, isInitialStart = false, actionType = 'PROGRESS') {
+      let list = getHostLeaderboard();
+      const existingIdx = list.findIndex(item => item.id === entry.id);
+
+      const oldRank = previousContestantRanks[entry.id] || (existingIdx !== -1 ? existingIdx + 1 : null);
+
+      if (existingIdx !== -1) {
+        list[existingIdx] = { ...list[existingIdx], ...entry };
+      } else {
+        list.push(entry);
+      }
+
+      list = sortLeaderboardList(list);
+
+      const newRank = list.findIndex(item => item.id === entry.id) + 1;
+      let rankMovement = 0;
+      if (oldRank !== null && oldRank !== newRank) {
+        rankMovement = oldRank - newRank; // positive = moved up, negative = dropped down
+      }
+      entry.rankMovement = rankMovement;
+
+      const updateTs = Date.now();
       try {
         localStorage.setItem(STORAGE_KEY_LEADERBOARD, JSON.stringify(list));
+        localStorage.setItem(STORAGE_KEY_LAST_UPDATE, updateTs.toString());
       } catch (e) {
         console.warn("Storage write error", e);
       }
 
-      // Notify other open tabs (e.g., Host Monitor on projector or separate laptop)
       if (liveQuizChannel) {
         try {
-          liveQuizChannel.postMessage({ type: 'NEW_SUBMISSION', entry: entry });
-        } catch (err) {
-          console.warn(err);
-        }
+          liveQuizChannel.postMessage({
+            type: actionType === 'ENROLL' ? 'PARTICIPANT_ENROLLED' : isFinished ? 'FINAL_SUBMISSION' : 'LIVE_PROGRESS',
+            entry: entry,
+            ts: updateTs
+          });
+        } catch (err) {}
       }
-    }
 
-    // Cross-tab synchronization listener
-    if (liveQuizChannel) {
-      liveQuizChannel.onmessage = (event) => {
-        if (event.data && (event.data.type === 'NEW_SUBMISSION' || event.data.type === 'RESET')) {
-          renderHostDashboard();
-        }
-      };
+      renderHostDashboard();
     }
-    window.addEventListener('storage', (e) => {
-      if (e.key === STORAGE_KEY_LEADERBOARD) {
-        renderHostDashboard();
-      }
-    });
 
     function openHostAuthModal() {
       sound.playTap();
@@ -1713,6 +2229,7 @@
     }
 
     function openHostLeaderboardModal() {
+      isHostDashboardOpen = true;
       renderHostDashboard();
       const modal = document.getElementById('hostLeaderboardModal');
       modal.classList.remove('hidden');
@@ -1720,6 +2237,7 @@
     }
 
     function closeHostLeaderboardModal() {
+      isHostDashboardOpen = false;
       sound.playTap();
       const modal = document.getElementById('hostLeaderboardModal');
       modal.classList.add('opacity-0');
@@ -1733,9 +2251,75 @@
     }
 
     function renderHostDashboard() {
+      updateHostGameStatusBadge();
+      renderActiveContestantsTicker();
       renderDepartmentScorecard();
       renderIndividualLeaderboard();
       lucide.createIcons();
+    }
+
+    function updateHostGameStatusBadge() {
+      const gameState = getGameGlobalState();
+      const badge = document.getElementById('hostGameStatusBadge');
+      const btn = document.getElementById('hostStartGameBtn');
+      const activeTitle = document.getElementById('activeSectionTitle');
+
+      if (gameState === 'PLAYING') {
+        badge.className = "inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-[10px] font-bold uppercase tracking-wider";
+        badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span> Game In Progress`;
+        btn.innerHTML = `<i data-lucide="check-circle-2" class="w-4 h-4 fill-current"></i><span>GAME RUNNING</span>`;
+        btn.className = "px-4 py-2 rounded-xl bg-emerald-600/30 border border-emerald-500/40 text-emerald-300 font-bold text-xs sm:text-sm flex items-center gap-2 cursor-default";
+        btn.disabled = true;
+        activeTitle.textContent = "Contestants In-Progress & Active";
+      } else {
+        badge.className = "inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-300 text-[10px] font-bold uppercase tracking-wider";
+        badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping"></span> Waiting Lobby Open`;
+        btn.innerHTML = `<i data-lucide="rocket" class="w-4 h-4 fill-current"></i><span>START GAME FOR ALL</span>`;
+        btn.className = "px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-400 hover:to-green-500 text-kumkum-950 font-black text-xs sm:text-sm flex items-center gap-2 shadow-lg shadow-emerald-500/30 transform active:scale-95 transition-all";
+        btn.disabled = false;
+        activeTitle.textContent = "Enrolled Devotees in Waiting Lobby";
+      }
+    }
+
+    function renderActiveContestantsTicker() {
+      const allEntries = getHostLeaderboard();
+      const ticker = document.getElementById('activePlayersTicker');
+      const countBadge = document.getElementById('activeCountBadge');
+      if (!ticker) return;
+
+      const activeList = allEntries.filter(e => !e.isFinished);
+      countBadge.textContent = `${activeList.length} Devotees`;
+
+      if (activeList.length === 0) {
+        ticker.innerHTML = `
+          <div class="text-amber-300/50 text-[11px] py-1 flex items-center gap-1.5">
+            <i data-lucide="info" class="w-3.5 h-3.5"></i>
+            <span>No participants have enrolled yet. Share the quiz link to have contestants join the waiting lobby!</span>
+          </div>
+        `;
+        return;
+      }
+
+      ticker.innerHTML = '';
+      activeList.forEach(p => {
+        const chip = document.createElement('div');
+        chip.className = "shrink-0 bg-emerald-950/40 border border-emerald-500/40 rounded-xl px-2.5 py-1.5 flex items-center gap-2 text-emerald-200 shadow-sm animate-pulse-fast";
+        chip.innerHTML = `
+          <div class="w-2 h-2 rounded-full bg-emerald-400"></div>
+          <div>
+            <div class="flex items-center gap-1.5">
+              <span class="font-bold text-amber-100 text-xs">${escapeHtml(p.name)}</span>
+              <span class="px-1.5 py-0.2 rounded bg-amber-500/20 text-[9px] text-amber-300 font-semibold uppercase">${escapeHtml(p.department)}</span>
+            </div>
+            <div class="text-[10px] text-emerald-300/80 font-mono flex items-center gap-1.5">
+              <span>${p.status || 'Active'}</span>
+              <span>• Score: ${p.score || 0}</span>
+              <span>• Acc: ${p.accuracy || 0}%</span>
+            </div>
+          </div>
+        `;
+        ticker.appendChild(chip);
+      });
     }
 
     function renderDepartmentScorecard() {
@@ -1743,13 +2327,13 @@
       const totalCountText = document.getElementById('participantTotalCountText');
       totalCountText.innerHTML = `<i data-lucide="users" class="w-4 h-4 text-amber-400"></i><span>${allEntries.length} Participant${allEntries.length === 1 ? '' : 's'} Recorded</span>`;
 
-      // Group by 13 Departments
       const deptStats = {};
       ALL_DEPARTMENTS.forEach(dept => {
         deptStats[dept] = {
           name: dept,
           participants: 0,
           totalScore: 0,
+          totalCorrect: 0,
           totalAccuracy: 0,
           topDevotee: null,
           topScore: 0
@@ -1763,6 +2347,7 @@
             name: d,
             participants: 0,
             totalScore: 0,
+            totalCorrect: 0,
             totalAccuracy: 0,
             topDevotee: null,
             topScore: 0
@@ -1770,6 +2355,7 @@
         }
         deptStats[d].participants += 1;
         deptStats[d].totalScore += Number(entry.score) || 0;
+        deptStats[d].totalCorrect += Number(entry.correctCount) || 0;
         deptStats[d].totalAccuracy += Number(entry.accuracy) || 0;
 
         if (!deptStats[d].topDevotee || (Number(entry.score) > deptStats[d].topScore)) {
@@ -1784,74 +2370,99 @@
         avgAccuracy: d.participants > 0 ? Math.round(d.totalAccuracy / d.participants) : 0,
       }));
 
-      // Sort departments by Average Score descending, then total participants
       deptList.sort((a, b) => {
         if (b.avgScore !== a.avgScore) return b.avgScore - a.avgScore;
+        if (b.totalCorrect !== a.totalCorrect) return b.totalCorrect - a.totalCorrect;
         if (b.participants !== a.participants) return b.participants - a.participants;
         return b.totalScore - a.totalScore;
       });
 
-      // Render Podium for Top 3
       const podium = document.getElementById('deptPodiumContainer');
       podium.innerHTML = '';
 
       const topThree = deptList.slice(0, 3);
-      const podiumOrder = [topThree[1], topThree[0], topThree[2]]; // Silver (Left), Gold (Center), Bronze (Right)
+      const podiumOrder = [topThree[1], topThree[0], topThree[2]];
       const podiumConfigs = [
         { rank: '#2', title: 'Runner-Up', color: 'border-slate-400 bg-slate-500/10 text-slate-200', icon: 'medal', scale: 'sm:translate-y-2' },
-        { rank: '#1', title: 'Champion Department', color: 'border-amber-400 bg-amber-500/20 text-amber-300 ring-2 ring-amber-400/40', icon: 'crown', scale: 'sm:-translate-y-1' },
+        { rank: '#1', title: '👑 CHAMPION WINNER', color: 'winner-gold-card text-amber-200', icon: 'trophy', scale: 'sm:-translate-y-2 sm:scale-105 z-10' },
         { rank: '#3', title: '3rd Place', color: 'border-amber-700 bg-amber-800/10 text-amber-500', icon: 'award', scale: 'sm:translate-y-3' },
       ];
 
       podiumOrder.forEach((d, idx) => {
         const conf = podiumConfigs[idx];
         const card = document.createElement('div');
-        card.className = `p-4 rounded-2xl border text-center transition-all ${conf.color} ${conf.scale}`;
+        const isWinner = (idx === 1 && d && d.participants > 0);
+        card.className = `p-4 sm:p-5 rounded-2xl border text-center transition-all ${conf.color} ${conf.scale}`;
+        
         if (!d || d.participants === 0) {
           card.innerHTML = `
             <div class="flex items-center justify-center gap-1.5 text-xs font-bold uppercase mb-1 opacity-70">
               <i data-lucide="${conf.icon}" class="w-4 h-4"></i> ${conf.title}
             </div>
             <p class="font-festive text-xl text-amber-200/50">Awaiting Devotees</p>
-            <p class="text-[11px] text-amber-300/40">No entries yet</p>
+            <p class="text-[11px] text-amber-300/40">No live answers yet</p>
           `;
         } else {
           card.innerHTML = `
-            <div class="flex items-center justify-center gap-1.5 text-xs font-bold uppercase mb-1">
-              <i data-lucide="${conf.icon}" class="w-4 h-4"></i> ${conf.title} (${conf.rank})
+            <div class="flex items-center justify-center gap-1.5 text-xs font-black uppercase mb-1 ${isWinner ? 'text-amber-300 drop-shadow' : ''}">
+              <i data-lucide="${conf.icon}" class="w-4 h-4 ${isWinner ? 'text-amber-300 animate-bounce' : ''}"></i> ${conf.title} (${conf.rank})
             </div>
-            <h5 class="font-festive text-lg sm:text-xl text-amber-100 font-bold">${escapeHtml(d.name)}</h5>
-            <div class="mt-2 text-2xl font-festive text-amber-300">${d.avgScore.toLocaleString()} <span class="text-[10px] uppercase font-mono">avg pts</span></div>
-            <div class="text-[11px] text-amber-200/80 mt-1 flex justify-center gap-3">
-              <span>${d.participants} player${d.participants === 1 ? '' : 's'}</span>
-              <span>• ${d.avgAccuracy}% acc</span>
+            <h5 class="font-festive text-lg sm:text-2xl text-amber-100 font-extrabold tracking-wide">${escapeHtml(d.name)}</h5>
+            <div class="mt-2 text-2xl sm:text-3xl font-festive text-amber-300 drop-shadow-md">
+              ${d.avgScore.toLocaleString()} <span class="text-[10px] uppercase font-mono font-bold">avg pts</span>
             </div>
-            <div class="text-[10px] text-amber-300/80 mt-1 truncate">
-              Star: <strong class="text-amber-200">${escapeHtml(d.topDevotee || 'N/A')}</strong>
+            <div class="text-[11px] text-amber-200/90 mt-1 flex justify-center gap-3">
+              <span><strong>${d.participants}</strong> player${d.participants === 1 ? '' : 's'}</span>
+              <span>• <strong>${d.avgAccuracy}%</strong> acc</span>
+            </div>
+            <div class="text-[11px] text-amber-300 mt-2 truncate bg-black/40 py-1 px-2 rounded-lg border border-amber-500/20">
+              Star Devotee: <strong class="text-amber-200">${escapeHtml(d.topDevotee || 'N/A')}</strong>
             </div>
           `;
         }
         podium.appendChild(card);
       });
 
-      // Render Department Table
       const tableBody = document.getElementById('deptTableBody');
       tableBody.innerHTML = '';
 
-      deptList.forEach((d, index) => {
-        const tr = document.createElement('tr');
-        tr.className = `hover:bg-amber-500/10 transition-colors ${d.participants > 0 ? '' : 'opacity-50'}`;
+      const currentNewDeptRanks = {};
 
-        let rankBadge = `<span class="font-mono text-amber-400/80">#${index + 1}</span>`;
-        if (index === 0 && d.participants > 0) rankBadge = `<span class="text-amber-300 font-bold flex items-center gap-1"><i data-lucide="crown" class="w-3.5 h-3.5 text-amber-400"></i> #1</span>`;
+      deptList.forEach((d, index) => {
+        const currentRank = index + 1;
+        currentNewDeptRanks[d.name] = currentRank;
+        const oldRank = previousDeptRanks[d.name] || currentRank;
+        const rankDiff = oldRank - currentRank;
+
+        let rankMovementBadge = '';
+        let rowAnimationClass = '';
+        if (rankDiff > 0 && d.participants > 0) {
+          rankMovementBadge = `<span class="inline-flex items-center text-[10px] font-bold text-emerald-400 bg-emerald-500/20 px-1 rounded ml-1 animate-pulse">▲ +${rankDiff}</span>`;
+          rowAnimationClass = 'animate-rank-up';
+        } else if (rankDiff < 0 && d.participants > 0) {
+          rankMovementBadge = `<span class="inline-flex items-center text-[10px] font-bold text-red-400 bg-red-500/20 px-1 rounded ml-1 animate-pulse">▼ ${rankDiff}</span>`;
+          rowAnimationClass = 'animate-rank-down';
+        }
+
+        const tr = document.createElement('tr');
+        const isWinnerDept = (index === 0 && d.participants > 0);
+        tr.className = `table-row-item transition-all ${rowAnimationClass} ${
+          isWinnerDept ? 'bg-amber-500/25 border-l-4 border-l-amber-400 font-bold' : 'hover:bg-amber-500/10'
+        } ${d.participants > 0 ? '' : 'opacity-50'}`;
+
+        let rankBadge = `<span class="font-mono text-amber-400/80">#${currentRank}</span>`;
+        if (index === 0 && d.participants > 0) rankBadge = `<span class="text-amber-300 font-extrabold flex items-center gap-1"><i data-lucide="crown" class="w-4 h-4 text-amber-300 fill-amber-300"></i> #1 WINNER</span>`;
         else if (index === 1 && d.participants > 0) rankBadge = `<span class="text-slate-300 font-bold flex items-center gap-1"><i data-lucide="medal" class="w-3.5 h-3.5 text-slate-300"></i> #2</span>`;
         else if (index === 2 && d.participants > 0) rankBadge = `<span class="text-amber-600 font-bold flex items-center gap-1"><i data-lucide="award" class="w-3.5 h-3.5 text-amber-600"></i> #3</span>`;
 
         tr.innerHTML = `
-          <td class="py-2.5 px-2">${rankBadge}</td>
+          <td class="py-2.5 px-2 flex items-center gap-1">
+            ${rankBadge} ${rankMovementBadge}
+          </td>
           <td class="py-2.5 px-3 font-semibold text-amber-100 flex items-center gap-1.5">
             <span>${escapeHtml(d.name)}</span>
             ${d.name === 'Finance - GCC' ? '<span class="px-1.5 py-0.2 rounded bg-amber-400/20 text-[9px] text-amber-300 border border-amber-400/30">GCC</span>' : ''}
+            ${isWinnerDept ? '<span class="px-2 py-0.5 rounded-full bg-amber-400 text-kumkum-950 font-black text-[9px] uppercase tracking-wider ml-1 shadow">Leading</span>' : ''}
           </td>
           <td class="py-2.5 px-2 text-right font-festive text-sm text-amber-300">${d.avgScore.toLocaleString()}</td>
           <td class="py-2.5 px-2 text-right font-mono">${d.participants}</td>
@@ -1860,10 +2471,14 @@
         `;
         tableBody.appendChild(tr);
       });
+
+      previousDeptRanks = currentNewDeptRanks;
     }
 
     function renderIndividualLeaderboard() {
-      const allEntries = getHostLeaderboard();
+      let allEntries = getHostLeaderboard();
+      allEntries = sortLeaderboardList(allEntries);
+
       const container = document.getElementById('hostLeaderboardList');
       container.innerHTML = '';
 
@@ -1878,57 +2493,172 @@
         container.innerHTML = `
           <div class="text-center py-10 text-amber-300/60 text-sm space-y-2">
             <i data-lucide="inbox" class="w-10 h-10 mx-auto text-amber-400/40"></i>
-            <p class="font-medium">${allEntries.length === 0 ? 'No participants have submitted scores yet.' : 'No matching participants found.'}</p>
-            <p class="text-xs text-amber-400/40">${allEntries.length === 0 ? 'When participants complete their 30-question quiz, records appear here automatically.' : 'Try changing search terms or department filters.'}</p>
+            <p class="font-medium">${allEntries.length === 0 ? 'No participants have enrolled yet.' : 'No matching participants found.'}</p>
+            <p class="text-xs text-amber-400/40">${allEntries.length === 0 ? 'When contestants enroll in the lobby, they appear above. When you click Start Game, their ranks shift here live!' : 'Try clearing filters.'}</p>
           </div>
         `;
         lucide.createIcons();
         return;
       }
 
+      const currentNewContestantRanks = {};
+
       filtered.forEach((item, index) => {
+        const currentRank = index + 1;
+        currentNewContestantRanks[item.id] = currentRank;
+
+        const oldRank = previousContestantRanks[item.id] || currentRank;
+        const rankDiff = oldRank - currentRank;
+
+        let rankMovementTag = '';
+        let animationClass = '';
+        if (rankDiff > 0) {
+          rankMovementTag = `<span class="inline-flex items-center text-xs font-black text-emerald-400 bg-emerald-500/20 border border-emerald-400/30 px-1.5 py-0.5 rounded-md shadow animate-bounce">▲ +${rankDiff}</span>`;
+          animationClass = 'animate-rank-up';
+        } else if (rankDiff < 0) {
+          rankMovementTag = `<span class="inline-flex items-center text-xs font-black text-red-400 bg-red-500/20 border border-red-400/30 px-1.5 py-0.5 rounded-md shadow animate-pulse">▼ ${rankDiff}</span>`;
+          animationClass = 'animate-rank-down';
+        } else {
+          rankMovementTag = `<span class="inline-flex items-center text-[10px] text-amber-400/60 font-mono">━</span>`;
+        }
+
+        const isOverallWinner = (index === 0 && !currentFilterTerm && !currentDeptFilter && item.score > 0);
+        const isTopThree = index < 3 && !currentFilterTerm && !currentDeptFilter && item.score > 0;
+
+        let rankNumberBadge = '';
+        if (isOverallWinner) {
+          rankNumberBadge = `
+            <div class="flex items-center gap-1.5 bg-amber-400 text-kumkum-950 font-black px-2.5 py-1 rounded-full text-xs shadow-lg uppercase tracking-wider animate-pulse">
+              <i data-lucide="crown" class="w-4 h-4 fill-kumkum-950 text-kumkum-950"></i>
+              <span>#1 WINNER</span>
+            </div>
+          `;
+        } else if (isTopThree && index === 1) {
+          rankNumberBadge = `<span class="text-slate-200 font-extrabold flex items-center gap-1 text-sm"><i data-lucide="medal" class="w-4 h-4 text-slate-300"></i> #2</span>`;
+        } else if (isTopThree && index === 2) {
+          rankNumberBadge = `<span class="text-amber-500 font-extrabold flex items-center gap-1 text-sm"><i data-lucide="award" class="w-4 h-4 text-amber-500"></i> #3</span>`;
+        } else {
+          rankNumberBadge = `<span class="text-amber-300/70 font-semibold font-mono text-xs">#${currentRank}</span>`;
+        }
+
         const row = document.createElement('div');
-        const isTopThree = index < 3 && !currentFilterTerm && !currentDeptFilter;
+        row.className = `table-row-item ${animationClass}`;
 
-        let badge = '';
-        if (isTopThree && index === 0) badge = `<span class="text-amber-300 font-bold flex items-center gap-1"><i data-lucide="crown" class="w-4 h-4 fill-amber-400 text-amber-400"></i> #1</span>`;
-        else if (isTopThree && index === 1) badge = `<span class="text-slate-300 font-bold flex items-center gap-1"><i data-lucide="medal" class="w-4 h-4"></i> #2</span>`;
-        else if (isTopThree && index === 2) badge = `<span class="text-amber-600 font-bold flex items-center gap-1"><i data-lucide="award" class="w-4 h-4"></i> #3</span>`;
-        else badge = `<span class="text-amber-300/60 font-medium font-mono text-xs">#${index + 1}</span>`;
-
-        row.className = `p-3.5 sm:p-4 rounded-2xl flex items-center justify-between transition-all ${
-          isTopThree ? 'bg-amber-500/15 border border-amber-500/35' : 'bg-black/30 border border-amber-500/15'
-        }`;
-
-        row.innerHTML = `
-          <div class="flex items-center gap-3">
-            <div class="w-8 flex items-center justify-center font-mono text-sm shrink-0">
-              ${badge}
-            </div>
-            <div>
-              <div class="flex items-center gap-2">
-                <p class="font-bold text-amber-100 text-sm sm:text-base">${escapeHtml(item.name)}</p>
-                <span class="px-2 py-0.5 rounded-full bg-amber-500/20 border border-amber-400/30 text-amber-300 font-semibold text-[10px] uppercase">
-                  ${escapeHtml(item.department || 'N/A')}
-                </span>
+        if (isOverallWinner) {
+          row.className += ` p-4 sm:p-5 rounded-3xl winner-gold-card flex flex-col sm:flex-row sm:items-center justify-between gap-3`;
+          row.innerHTML = `
+            <div class="flex items-center gap-3.5">
+              <div class="flex flex-col items-center gap-1 shrink-0">
+                ${rankNumberBadge}
+                ${rankMovementTag}
               </div>
-              <div class="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[11px] text-amber-300/70 mt-0.5">
-                <span>Time: <strong class="font-mono text-amber-200">${item.durationFormatted || item.time + 's'}</strong></span>
-                <span>• Acc: <strong class="text-amber-200">${item.accuracy || 0}%</strong></span>
-                <span>• Streak: <strong class="text-orange-400">${item.streak || 0}</strong></span>
-                <span>• ${item.date || ''} ${item.timestamp || ''}</span>
+              <div>
+                <div class="flex items-center gap-2 flex-wrap">
+                  <p class="font-festive text-xl sm:text-2xl text-amber-100 font-black tracking-wide">${escapeHtml(item.name)}</p>
+                  <span class="px-2.5 py-0.5 rounded-full bg-kumkum-900 text-amber-300 border border-amber-400/50 font-bold text-xs uppercase shadow">
+                    ${escapeHtml(item.department || 'N/A')}
+                  </span>
+                  <span class="px-2 py-0.5 rounded-full ${item.isFinished ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' : 'bg-amber-500/20 text-amber-300 border border-amber-500/30'} text-[10px] font-bold uppercase">
+                    ${escapeHtml(item.status || 'Active')}
+                  </span>
+                </div>
+                <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-amber-100/90 mt-1">
+                  <span>Correct: <strong class="text-emerald-300 font-bold text-sm">${item.correctCount || 0} / 30</strong></span>
+                  <span>• Accuracy: <strong class="text-emerald-300">${item.accuracy || 0}%</strong></span>
+                  <span>• Streak: <strong class="text-orange-300">${item.streak || 0}</strong></span>
+                  <span>• Time: <strong class="font-mono text-amber-200">${item.durationFormatted || '00:00.000'}</strong></span>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="text-right">
-            <span class="font-festive text-lg sm:text-2xl text-amber-300">${Number(item.score).toLocaleString()}</span>
-            <span class="text-[10px] text-amber-400/60 block -mt-1 font-mono">pts</span>
-          </div>
-        `;
+            <div class="text-left sm:text-right shrink-0 bg-black/40 px-4 py-2 rounded-2xl border border-amber-400/40">
+              <span class="font-festive text-2xl sm:text-3xl text-amber-300 font-black drop-shadow">${Number(item.score).toLocaleString()}</span>
+              <span class="text-[10px] text-amber-200/80 block -mt-1 font-mono uppercase font-bold">Grand Points</span>
+            </div>
+          `;
+        } else {
+          row.className += ` p-3 sm:p-3.5 rounded-2xl flex items-center justify-between transition-all ${
+            isTopThree ? 'bg-amber-500/15 border border-amber-500/35' : 'bg-black/30 border border-amber-500/15'
+          }`;
+
+          row.innerHTML = `
+            <div class="flex items-center gap-3">
+              <div class="w-12 flex flex-col items-center justify-center shrink-0">
+                ${rankNumberBadge}
+                ${rankMovementTag}
+              </div>
+              <div>
+                <div class="flex items-center gap-2">
+                  <p class="font-bold text-amber-100 text-sm sm:text-base">${escapeHtml(item.name)}</p>
+                  <span class="px-2 py-0.5 rounded-full bg-amber-500/20 border border-amber-400/30 text-amber-300 font-semibold text-[10px] uppercase">
+                    ${escapeHtml(item.department || 'N/A')}
+                  </span>
+                  <span class="px-1.5 py-0.2 rounded text-[9px] font-mono font-semibold ${item.isFinished ? 'text-emerald-400 bg-emerald-500/10' : 'text-amber-400 bg-amber-500/10'}">
+                    ${escapeHtml(item.status || 'Active')}
+                  </span>
+                </div>
+                <div class="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[11px] text-amber-300/70 mt-0.5">
+                  <span>Correct: <strong class="text-emerald-300 font-bold">${item.correctCount || 0}/30</strong></span>
+                  <span>• Acc: <strong class="text-amber-200">${item.accuracy || 0}%</strong></span>
+                  <span>• Streak: <strong class="text-orange-400">${item.streak || 0}</strong></span>
+                  <span>• Time: <strong class="font-mono text-amber-200">${item.durationFormatted || '00:00.000'}</strong></span>
+                </div>
+              </div>
+            </div>
+            <div class="text-right">
+              <span class="font-festive text-lg sm:text-2xl text-amber-300">${Number(item.score).toLocaleString()}</span>
+              <span class="text-[10px] text-amber-400/60 block -mt-1 font-mono">pts</span>
+            </div>
+          `;
+        }
         container.appendChild(row);
       });
 
+      previousContestantRanks = currentNewContestantRanks;
       lucide.createIcons();
+    }
+
+    function simulateLiveParticipantMovement() {
+      sound.playTap();
+      const mockContestants = [
+        { name: "Aarav Sharma", dept: "Marketing" },
+        { name: "Pooja Deshmukh", dept: "Finance - GCC" },
+        { name: "Rohan Kulkarni", dept: "Project" },
+        { name: "Sneha Nair", dept: "Planning" },
+        { name: "Vikram Mehta", dept: "Operation" }
+      ];
+      const randomPerson = mockContestants[Math.floor(Math.random() * mockContestants.length)];
+      const simId = 'sim_' + randomPerson.name.replace(/\s+/g, '_').toLowerCase();
+
+      let list = getHostLeaderboard();
+      let existing = list.find(item => item.id === simId);
+
+      let currentAns = existing ? (existing.answeredCount || 0) + 1 : 1;
+      let currentCor = existing ? (existing.correctCount || 0) + 1 : 1;
+      let addedScore = Math.floor(Math.random() * 450) + 850;
+      let currentSc = existing ? existing.score + addedScore : addedScore;
+
+      const simEntry = {
+        id: simId,
+        name: randomPerson.name,
+        department: randomPerson.dept,
+        score: currentSc,
+        correctCount: currentCor,
+        answeredCount: currentAns,
+        currentQuestionNumber: currentAns,
+        totalQuestions: 30,
+        accuracy: Math.round((currentCor / currentAns) * 100),
+        streak: (existing ? existing.streak || 0 : 0) + 1,
+        durationMs: (existing ? existing.durationMs : 10000) + Math.floor(Math.random() * 5000),
+        durationFormatted: formatTimeDuration((existing ? existing.durationMs : 10000) + 4500),
+        status: currentAns >= 30 ? 'Completed' : `Q${currentAns}/30 Live`,
+        isEnrolled: true,
+        isFinished: currentAns >= 30,
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+        date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+        rawEpoch: Date.now()
+      };
+
+      saveOrUpdateHostRecord(simEntry, currentAns >= 30, false, 'PROGRESS');
     }
 
     function toggleChangePinView() {
@@ -1969,16 +2699,16 @@
         return;
       }
 
-      let csv = "Rank,Participant Name,Department,Total Score,Accuracy (%),Highest Streak,Exact Duration (MM:SS.ms),Duration (ms),Submission Date,Submission Time\n";
+      let csv = "Rank,Participant Name,Department,Total Score,Correct Count,Total Answered,Accuracy (%),Highest Streak,Exact Duration (MM:SS.ms),Status,Submission Date,Submission Time\n";
       entries.forEach((e, idx) => {
-        csv += `"${idx + 1}","${(e.name || '').replace(/"/g, '""')}","${(e.department || '').replace(/"/g, '""')}","${e.score}","${e.accuracy}","${e.streak || 0}","${e.durationFormatted || ''}","${e.durationMs || ''}","${e.date || ''}","${e.timestamp || ''}"\n`;
+        csv += `"${idx + 1}","${(e.name || '').replace(/"/g, '""')}","${(e.department || '').replace(/"/g, '""')}","${e.score}","${e.correctCount || 0}","${e.answeredCount || 0}","${e.accuracy}","${e.streak || 0}","${e.durationFormatted || ''}","${e.status || ''}","${e.date || ''}","${e.timestamp || ''}"\n`;
       });
 
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.setAttribute("href", url);
-      link.setAttribute("download", `ganesh_utsav_quiz_leaderboard_${Date.now()}.csv`);
+      link.setAttribute("download", `ganesh_live_quiz_leaderboard_${Date.now()}.csv`);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -2000,19 +2730,24 @@
 
     function confirmResetLeaderboard() {
       sound.playTap();
+      const resetTs = Date.now();
       try {
         localStorage.removeItem(STORAGE_KEY_LEADERBOARD);
         localStorage.setItem(STORAGE_KEY_LEADERBOARD, JSON.stringify([]));
+        localStorage.setItem(STORAGE_KEY_GAME_STATE, 'LOBBY');
+        localStorage.removeItem(STORAGE_KEY_GAME_LAUNCH_TS);
+        localStorage.setItem(STORAGE_KEY_LAST_UPDATE, resetTs.toString());
       } catch (e) {
         console.warn("Storage reset error", e);
       }
 
+      previousContestantRanks = {};
+      previousDeptRanks = {};
+
       if (liveQuizChannel) {
         try {
-          liveQuizChannel.postMessage({ type: 'RESET' });
-        } catch (err) {
-          console.warn(err);
-        }
+          liveQuizChannel.postMessage({ type: 'RESET', ts: resetTs });
+        } catch (err) {}
       }
 
       cancelResetLeaderboard();
@@ -2031,6 +2766,7 @@
 
     window.addEventListener('DOMContentLoaded', () => {
       lucide.createIcons();
+      lastKnownStorageTimestamp = Number(localStorage.getItem(STORAGE_KEY_LAST_UPDATE) || 0);
     });
   </script>
 </body>
