@@ -158,7 +158,6 @@
     </div>
   </div>
 
-  <!-- Header Bar -->
   <header class="relative z-20 w-full max-w-5xl mx-auto px-4 pt-4 sm:pt-6 flex items-center justify-between">
     <button onclick="goToHome()" class="flex items-center gap-2.5 text-left group">
       <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-marigold-600 to-amber-300 flex items-center justify-center shadow-lg shadow-amber-500/20 text-kumkum-900 font-festive text-xl group-hover:scale-105 transition-transform">
@@ -166,7 +165,7 @@
       </div>
       <div>
         <h1 class="font-festive text-lg sm:text-xl text-amber-200 tracking-wider">गणेश उत्सव २०२६</h1>
-        <p class="text-[10px] text-amber-400/80 font-medium uppercase tracking-widest">Host-Controlled Inter-Department Championship</p>
+        <p class="text-[10px] text-amber-400/80 font-medium uppercase tracking-widest">Host-Controlled Live Championship</p>
       </div>
     </button>
 
@@ -184,7 +183,6 @@
       </button>
     </div>
   </header>
-
 
   <main class="relative z-10 w-full max-w-4xl mx-auto px-4 py-4 sm:py-6 flex flex-col justify-center min-h-[calc(100vh-100px)]">
 
@@ -213,7 +211,7 @@
           Ganesh Chaturthi Utsav Quiz
         </h2>
         <p class="text-amber-200/90 text-xs sm:text-sm max-w-xl mx-auto leading-relaxed">
-          Enroll with your Name and Department to join the live waiting lobby. Once all devotees have assembled, <strong>the Host will initiate the synchronized quiz</strong>!
+          Enroll with your Name and Department to enter the waiting lobby. Once participants have assembled, <strong>the Host will initiate the synchronized quiz</strong>!
         </p>
       </div>
 
@@ -280,11 +278,10 @@
         </button>
 
         <p class="text-center text-[11px] text-amber-300/60 pt-1">
-          Are you the organizer? <button type="button" onclick="openHostAuthModal()" class="text-amber-300 underline font-semibold hover:text-amber-200">Host Portal (PIN 787898)</button>
+          Organizer / Host? <button type="button" onclick="openHostAuthModal()" class="text-amber-300 underline font-semibold hover:text-amber-200">Host Portal (PIN 787898)</button>
         </p>
       </form>
     </section>
-
 
     <!-- SCREEN 1.5: WAITING LOBBY (PARTICIPANT WAITING FOR HOST TO START) -->
     <section id="waitingLobbyScreen" class="hidden bg-gradient-to-b from-kumkum-700/60 to-kumkum-800/90 border border-amber-500/30 rounded-3xl p-6 sm:p-10 backdrop-blur-xl shadow-2xl relative overflow-hidden transition-all duration-500 text-center space-y-6">
@@ -331,7 +328,6 @@
         </button>
       </div>
     </section>
-
 
     <!-- SCREEN 2: ACTIVE QUIZ -->
     <section id="quizScreen" class="hidden flex-col gap-4">
@@ -463,7 +459,7 @@
       <div class="flex flex-col sm:flex-row gap-3">
         <button onclick="goToHome()" class="flex-1 py-3.5 px-4 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-kumkum-900 font-bold rounded-xl shadow-lg flex items-center justify-center gap-2 transition-all">
           <i data-lucide="home" class="w-4 h-4"></i>
-          <span>Return to Lobby</span>
+          <span>Return to Home</span>
         </button>
 
         <button onclick="toggleAnswerReview()" id="toggleReviewBtn" class="flex-1 py-3.5 px-4 bg-black/45 border border-amber-500/40 hover:border-amber-400 text-amber-200 rounded-xl flex items-center justify-center gap-2 transition-all font-semibold">
@@ -494,7 +490,6 @@
     </section>
 
   </main>
-
 
   <!-- HOST AUTH MODAL (PIN: 787898) -->
   <div id="hostAuthModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
@@ -556,6 +551,12 @@
           <button id="hostStartGameBtn" onclick="hostStartGameForAll()" class="px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-400 hover:to-green-500 text-kumkum-950 font-black text-xs sm:text-sm flex items-center gap-2 shadow-lg shadow-emerald-500/30 transform active:scale-95 transition-all">
             <i data-lucide="rocket" class="w-4 h-4 fill-current"></i>
             <span>START GAME FOR ALL</span>
+          </button>
+
+          <!-- CRITICAL HOST ACTION: STOP / END GAME FOR ALL -->
+          <button id="hostEndGameBtn" onclick="promptHostEndGame()" class="hidden px-4 py-2 rounded-xl bg-gradient-to-r from-rose-600 to-red-700 hover:from-rose-500 hover:to-red-600 text-white font-black text-xs sm:text-sm flex items-center gap-2 shadow-lg shadow-red-600/30 transform active:scale-95 transition-all">
+            <i data-lucide="square" class="w-4 h-4 fill-current"></i>
+            <span>STOP / END GAME</span>
           </button>
 
           <!-- Simulation button for host to test rank movements -->
@@ -711,7 +712,7 @@
         </span>
         <button onclick="promptResetLeaderboard()" class="px-3.5 py-1.5 rounded-xl bg-red-950/60 hover:bg-red-900/80 border border-red-500/50 text-red-200 hover:text-white font-bold text-xs flex items-center gap-1.5 transition-colors shadow-sm">
           <i data-lucide="trash-2" class="w-3.5 h-3.5 text-red-400"></i>
-          <span>Reset / End Championship</span>
+          <span>Reset / Clear Board</span>
         </button>
       </div>
     </div>
@@ -738,8 +739,40 @@
     </div>
   </div>
 
+  <!-- HOST STOP / END GAME CONFIRMATION MODAL -->
+  <div id="hostEndGameConfirmModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md hidden opacity-0 transition-opacity duration-200">
+    <div class="bg-gradient-to-b from-kumkum-800 to-kumkum-950 border border-amber-500/50 rounded-2xl w-full max-w-sm p-6 shadow-2xl text-center space-y-4">
+      <div class="w-12 h-12 rounded-full bg-rose-500/20 border border-rose-500/40 text-rose-400 mx-auto flex items-center justify-center">
+        <i data-lucide="stop-circle" class="w-7 h-7 text-rose-400"></i>
+      </div>
+      <div>
+        <h4 class="font-festive text-xl text-amber-200">Stop & Finalize the Quiz?</h4>
+        <p class="text-xs text-amber-200/80 mt-1">
+          This will immediately stop active timers for all players, lock in their existing scores, display a "Game Ended by Host" banner, and redirect them to their final results.
+        </p>
+      </div>
+      <div class="flex gap-2 pt-2">
+        <button onclick="cancelHostEndGame()" class="flex-1 py-2.5 px-4 rounded-xl bg-black/40 border border-amber-500/30 text-amber-200 text-xs font-semibold hover:bg-black/60 transition-colors">
+          Continue Playing
+        </button>
+        <button onclick="confirmHostEndGame()" class="flex-1 py-2.5 px-4 rounded-xl bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-white text-xs font-bold transition-all shadow-md">
+          Yes, Stop Quiz Now
+        </button>
+      </div>
+    </div>
+  </div>
 
   <script>
+    /* ==========================================================================
+       1. CONSTANTS, STORAGE KEYS & QUESTION REPOSITORY (30 AUTHENTIC QUESTIONS)
+       ========================================================================== */
+    const STORAGE_KEY_LEADERBOARD = 'ganesh_quiz_master_leaderboard_v3';
+    const STORAGE_KEY_PIN = 'ganesh_quiz_host_pin_v3';
+    const STORAGE_KEY_GAME_STATE = 'ganesh_quiz_game_state_v3'; // LOBBY, PLAYING, ENDED
+    const STORAGE_KEY_GAME_LAUNCH_TS = 'ganesh_quiz_game_launch_ts_v3';
+    const STORAGE_KEY_LAST_UPDATE = 'ganesh_quiz_last_update_v3';
+    const HOST_DEFAULT_PIN = '787898';
+
     const ALL_DEPARTMENTS = [
       "Planning",
       "Marketing",
@@ -758,601 +791,388 @@
 
     const ALL_QUESTIONS_30 = [
       {
-        question: "According to sacred tradition, how was Lord Ganesha originally created by Goddess Parvati?",
-        options: [
-          "From turmeric & sandalwood paste (ubtan) of her body",
-          "From a sacred yajna fire lit on Mount Kailash",
-          "From a divine lotus flower blooming in Mansarovar",
-          "He descended directly from the celestial heavens"
-        ],
+        question: "According to sacred tradition, what sacred paste did Goddess Parvati use to create Lord Ganesha?",
+        options: ["Sandalwood and turmeric ubtan", "Holy river clay from Ganga", "Sacred Bhasma ash", "Powdered saffron petals"],
         correctIndex: 0,
-        category: "Mythology & Creation",
-        explanation: "Goddess Parvati crafted Ganesha using turmeric and sandalwood paste from her body, infusing him with life (Prana Pratishtha) before asking him to guard her chamber."
+        category: "Sacred Lore",
+        explanation: "Maa Parvati formed young Ganesha from the cleansing herbal paste (ubtan / chandan) before bathing on Mount Kailash."
       },
       {
-        question: "What is the name of Lord Ganesha's celestial vehicle (Vahana)?",
-        options: [
-          "Mushak (The divine Mouse)",
-          "Garuda (The divine Eagle)",
-          "Nandi (The sacred Bull)",
-          "Mayura (The royal Peacock)"
-        ],
+        question: "Why did Lord Ganesha break off his own right tusk, earning the title 'Ekadanta'?",
+        options: ["To use as a divine stylus to write the Mahabharata", "During a fierce duel with demon Gajasura", "He gave it as a gift to Sage Agastya", "To defeat demon Sindhu"],
+        correctIndex: 0,
+        category: "Mahabharata Lore",
+        explanation: "When Sage Vyasa dictated the Mahabharata without pause, Ganesha's feather pen broke. Not to interrupt the sacred flow, he broke his tusk to continue writing."
+      },
+      {
+        question: "Which sacred grass offering with 21 blades is quintessential in Ganesha Puja to cool his body?",
+        options: ["Durva (Cynodon dactylon)", "Kusha grass", "Tulsi leaves", "Barley sprouts"],
+        correctIndex: 0,
+        category: "Rituals",
+        explanation: "After Ganesha swallowed the fire-demon Analasura, sages offered 21 blades of Durva grass, which miraculously extinguished the burning agony within."
+      },
+      {
+        question: "Which prominent freedom fighter transformed Ganesh Chaturthi from a private puja into a massive public festival in 1893?",
+        options: ["Lokmanya Bal Gangadhar Tilak", "Gopal Krishna Gokhale", "Mahatma Jyotirao Phule", "Veer Savarkar"],
+        correctIndex: 0,
+        category: "History",
+        explanation: "Lokmanya Tilak established Sarvajanik Ganeshotsav in Pune in 1893 to bridge caste divides and unite people against colonial rule."
+      },
+      {
+        question: "Which steamed sweet dumpling, made from rice flour, jaggery, and grated coconut, is Ganesha's supreme favorite?",
+        options: ["Modak", "Puran Poli", "Karanji", "Laddoo"],
+        correctIndex: 0,
+        category: "Traditions",
+        explanation: "Ukadiche Modak (steamed modak) is considered dearest to Ganesha, earning him the affectionate epithet 'Modakpriya'."
+      },
+      {
+        question: "In the famous race around the universe against Kartikeya, what did Lord Ganesha circumambulate?",
+        options: ["His parents, Lord Shiva and Goddess Parvati", "Mount Kailash sacred peak", "The sacred wish-granting Kalpavriksha tree", "The sacred fire of Brahma"],
+        correctIndex: 0,
+        category: "Wisdom Lore",
+        explanation: "Ganesha proved that parents encompass the entire cosmos. By circling Shiva and Parvati three times, he won the fruit of supreme divine knowledge."
+      },
+      {
+        question: "Who is the humble vahana (mount/vehicle) of Lord Ganesha?",
+        options: ["Krauncha the divine mouse (Mooshak)", "Garuda the eagle", "Nandi the sacred bull", "Mayura the peacock"],
         correctIndex: 0,
         category: "Iconography",
-        explanation: "Mushakraj represents humility, sharpness, and the intellect's ability to conquer desires and slip through any tight obstacle."
+        explanation: "Mooshakraj represents human desires and restless ego; Ganesha riding upon the mouse signifies mastery and control over wandering worldly senses."
       },
       {
-        question: "Why is Lord Ganesha revered by the epithet 'Ekadanta' (The One-Tusked)?",
-        options: [
-          "He broke one tusk to transcribe the epic Mahabharata without pause",
-          "He gifted it to Indra during the cosmic churning of the ocean",
-          "It was dissolved while creating the sacred river Kaveri",
-          "He traded it with Ravana for a cosmic jewel"
-        ],
+        question: "On which sacred Tithi of the Hindu calendar does Ganesh Chaturthi commence?",
+        options: ["Bhadrapada Shukla Chaturthi", "Kartik Shukla Pratipada", "Chaitra Shukla Navami", "Magha Krishna Chaturthi"],
         correctIndex: 0,
-        category: "Scriptures & Legends",
-        explanation: "Sage Vyasa required the Mahabharata to be written without pause. When Lord Ganesha's stylus broke, he broke his own tusk to continue transcribing without interruption."
+        category: "Calendar",
+        explanation: "Ganesh Chaturthi is celebrated on Shukla Paksha Chaturthi during the lunar month of Bhadrapada (August–September)."
       },
       {
-        question: "Which Indian freedom fighter transformed Ganesh Chaturthi into a grand public festival (Sarvajanik Utsav) in 1893?",
-        options: [
-          "Lokmanya Bal Gangadhar Tilak",
-          "Gopal Krishna Gokhale",
-          "Mahatma Jyotirao Phule",
-          "Veer Savarkar"
-        ],
+        question: "Which flower, known for its fiery red radiance, is especially dear and traditionally offered to Ganpati?",
+        options: ["Jaswand (Red Hibiscus)", "Blue Lotus (Neelkamal)", "White Champa", "Kewda bloom"],
         correctIndex: 0,
-        category: "History & Society",
-        explanation: "In 1893, Lokmanya Bal Gangadhar Tilak organized public celebrations in Pune to unite Indians across communities and foster national pride against colonial rule."
+        category: "Rituals",
+        explanation: "The vibrant red Hibiscus (Jaswand) resonates with the root Muladhara chakra, governed by Lord Ganesha."
       },
       {
-        question: "Which delicious sweet dumpling is traditionally offered as Lord Ganesha's favorite prasad?",
-        options: [
-          "Steamed Modak (Ukadiche Modak)",
-          "Puran Poli",
-          "Jalebi with Rabri",
-          "Mysore Pak"
-        ],
+        question: "Why is sighting the moon traditionally forbidden on the night of Bhadrapada Ganesh Chaturthi?",
+        options: ["Due to the curse given after Chandra laughed at Ganesha", "It brings solar eclipse energies", "Moon god was defeated by Ravana", "To maintain total meditation during puja"],
         correctIndex: 0,
-        category: "Prasad & Rituals",
-        explanation: "Lord Ganesha is lovingly called 'Modakpriya'. Ukadiche Modak, filled with fresh grated coconut, jaggery, and fragrant cardamom enclosed in steamed rice flour dough, is offered with deep devotion."
+        category: "Mythology",
+        explanation: "When Chandra vainly mocked Ganesha's belly, Ganesha cursed him that anyone gazing upon the moon on Chaturthi would suffer false allegations (Mithya Kalanka)."
       },
       {
-        question: "On which sacred day does the 10-day Ganesh festival culminate with the immersion (Visarjan) ceremony?",
-        options: [
-          "Anant Chaturdashi",
-          "Tulsi Vivah",
-          "Sharad Purnima",
-          "Devutthana Ekadashi"
-        ],
+        question: "How many sacred shrines comprise the renowned 'Ashtavinayak' pilgrimage in Maharashtra?",
+        options: ["8 Swayambhu temples", "12 Jyotirlinga shrines", "108 Mahapithas", "21 Shakti temples"],
         correctIndex: 0,
-        category: "Festivals & Calendar",
-        explanation: "The festival begins on Bhadrapada Shukla Chaturthi and culminates on Anant Chaturdashi, when statues of Bappa are immersed in water amidst joyous chants."
+        category: "Pilgrimage",
+        explanation: "The Ashtavinayak yatra covers eight self-manifested (Swayambhu) stone temples of Ganesha across Maharashtra."
       },
       {
-        question: "The famed 'Ashtavinayak' pilgrimage circuit of eight self-manifested Ganesha temples is located in which state?",
-        options: [
-          "Maharashtra",
-          "Gujarat",
-          "Madhya Pradesh",
-          "Karnataka"
-        ],
+        question: "On which auspicious 14th day of Bhadrapada does the grand Visarjan (immersion) climax take place?",
+        options: ["Anant Chaturdashi", "Vaikuntha Ekadashi", "Sharad Purnima", "Narak Chaturdashi"],
         correctIndex: 0,
-        category: "Sacred Pilgrimages",
-        explanation: "The eight revered Ashtavinayak temples (Mayureshwar, Siddhivinayak, Ballaleshwar, Varadavinayak, Chintamani, Girijatmaj, Vighnahar, and Mahaganapati) are venerated across Maharashtra."
+        category: "Festivals",
+        explanation: "Anant Chaturdashi marks the conclusion of the 10-day celebration, where murtis are immersed amidst chants of 'Pudhchya varshi laukar ya'."
       },
       {
-        question: "According to legend, why did Lord Ganesha circle his parents Shiva & Parvati three times?",
-        options: [
-          "To prove that his parents represented the entire universe in a cosmic race",
-          "To seek their permission before slaying demon Tripurasura",
-          "To complete his initiation ceremony (Upanayana)",
-          "To receive the golden nectar bowl from Brahma"
-        ],
+        question: "What sacred seed mantra (Bija Akshara) is primarily invoked for Lord Ganesha?",
+        options: ["Gam (गं)", "Hreem (ह्रीं)", "Shreem (श्रीं)", "Kleem (क्लीं)"],
         correctIndex: 0,
-        category: "Wisdom & Wit",
-        explanation: "While Kartikeya flew around the world on his peacock, Ganesha circumambulated his parents, showing that loving parents encompass the supreme universe."
+        category: "Mantras",
+        explanation: "'Om Gam Ganapataye Namaha' begins with the fundamental root vibration 'Gam'."
       },
       {
-        question: "Which sacred grass blade is considered especially auspicious and dearest when offering puja to Lord Ganesha?",
-        options: [
-          "Durva (Bermuda / Cynodon grass)",
-          "Kusha grass",
-          "Darbha grass",
-          "Tulsi leaves"
-        ],
+        question: "Which famous Mumbai Sarvajanik Ganpati mandal is revered as 'Navsacha Ganpati' (fulfiller of wishes)?",
+        options: ["Lalbaugcha Raja", "Ganeshgalli Mumbaicha Raja", "Andhericha Raja", "Khetwadicha Ganraj"],
         correctIndex: 0,
-        category: "Puja Rituals",
-        explanation: "A bundle of 21 tender Durva grass shoots is offered to Ganesha. According to the Puranas, it cooled the burning digestive heat after he swallowed demon Analasura."
+        category: "Culture",
+        explanation: "Founded in 1934 by local fishermen in Lalbaug, Lalbaugcha Raja attracts millions of devotees seeking blessings."
       },
       {
-        question: "What auspicious flower is most beloved by Lord Ganesha and widely offered during puja?",
-        options: [
-          "Red Hibiscus (Jaswand)",
-          "White Jasmine",
-          "Blue Nilotpala",
-          "Yellow Marigold only"
-        ],
+        question: "Which sacred chakra at the base of the spine is presided over by Lord Ganesha?",
+        options: ["Muladhara Chakra", "Anahata Chakra", "Manipura Chakra", "Ajna Chakra"],
         correctIndex: 0,
-        category: "Rituals & Symbols",
-        explanation: "The bright red Hibiscus (Jaswand) flower is synonymous with Ganesha worship, representing vitality, shakti, and divine consciousness."
+        category: "Yoga & Philosophy",
+        explanation: "Ganesha embodies the grounding earth element and resides in the four-petaled Muladhara (root) chakra."
       },
       {
-        question: "Which renowned Mumbai public Ganesh pandal is historically known as 'Navasacha Ganpati' (Fulfiller of Vows)?",
-        options: [
-          "Lalbaugcha Raja",
-          "GSB Seva Mandal",
-          "Andhericha Raja",
-          "Khetwadicha Ganraj"
-        ],
+        question: "What is the name of Lord Ganesha's elder brother, the commander of divine celestial armies?",
+        options: ["Kartikeya (Murugan / Skanda)", "Ayyappa", "Bhairava", "Hanuman"],
         correctIndex: 0,
-        category: "Cultural Traditions",
-        explanation: "Founded in 1934 by local fishermen in Lalbaug, Mumbai, Lalbaugcha Raja attracts millions of pilgrims annually seeking fulfillment of their prayers."
+        category: "Family",
+        explanation: "Lord Kartikeya, also worshipped as Murugan and Subrahmanya, is the elder son of Shiva and Parvati."
       },
       {
-        question: "What is the spiritual symbolism of Lord Ganesha's prominent trunk turned toward his left (Vamamukhi)?",
-        options: [
-          "Ida Nadi (Chandra / cooling lunar energy, ideal for peaceful household worship)",
-          "Pingala Nadi (Sun energy requiring stringent ascetic rituals)",
-          "Total renunciation of household responsibilities",
-          "Destruction of cosmic enemies"
-        ],
+        question: "Which leaf is traditionally strictly forbidden in the worship of Lord Ganesha?",
+        options: ["Tulsi (Holy Basil) leaf", "Bel patra (Bael leaf)", "Shami leaf", "Mango leaf"],
         correctIndex: 0,
-        category: "Iconography & Yoga",
-        explanation: "A left-turned trunk symbolizes Ida Nadi (Chandra energy), blessing peace, prosperity, and domestic joy, making it ideal for household worship."
+        category: "Traditions",
+        explanation: "According to the Ganesha Purana, after Ganesha turned down Tulsi's marriage proposal, they exchanged mutual curses, making Tulsi taboo in his regular puja."
       },
       {
-        question: "Which Vedic prayer/hymn dedicated to Lord Ganesha is most famously recited for removing obstacles?",
-        options: [
-          "Ganapati Atharvashirsha",
-          "Purusha Suktam",
-          "Sri Suktam",
-          "Rudra Prashna"
-        ],
+        question: "What does the large belly of Lord Ganesha symbolically represent?",
+        options: ["Digestive assimilation of all joys, sorrows, and the cosmos", "A fondness for rich festive foods", "The bounty of winter crops", "The vast depth of sacred oceans"],
         correctIndex: 0,
-        category: "Scriptures & Chants",
-        explanation: "The Ganapati Atharvashirsha, from the Atharva Veda, praises Ganesha as the supreme reality (Brahman), supreme intellect, and remover of all hindrances."
+        category: "Symbolism",
+        explanation: "His magnificent belly signifies that a wise mind peacefully digests both pleasant and unpleasant realities of the world."
       },
       {
-        question: "What is the reason devotees traditionally avoid looking at the Moon on the night of Ganesh Chaturthi?",
-        options: [
-          "Legend says the Moon mocked Ganesha's form, incurring a curse of false accusations (Mithya Dosha)",
-          "The Moon undergoes a rare celestial eclipse on this night",
-          "Looking at the moon causes loss of eyesight according to astrology",
-          "Lord Shiva prohibited it in Kailash"
-        ],
+        question: "What are the names of Lord Ganesha's two consorts, symbolizing intellect and prosperity?",
+        options: ["Riddhi (Prosperity) and Siddhi (Spiritual Attainment)", "Sharda and Lakshmi", "Ganga and Yamuna", "Usha and Pratyusha"],
         correctIndex: 0,
-        category: "Folklore & Calendar",
-        explanation: "According to myth, Chandra mocked Ganesha's gait. Ganesha decreed that anyone looking at the moon on Chaturthi might face false accusations, an ordeal even Lord Krishna underwent with the Syamantaka jewel."
+        category: "Mythology",
+        explanation: "Ganesha is flanked by Riddhi and Siddhi, signifying that where divine wisdom leads, prosperity and spiritual accomplishment naturally follow."
       },
       {
-        question: "How many canonical divine incarnations (avataras) of Ganesha are detailed in the sacred Ganesha Purana?",
-        options: [
-          "8 Incarnations (Ashta Avataras)",
-          "10 Incarnations (Dashavatara)",
-          "12 Incarnations (Dwadashavatara)",
-          "4 Incarnations (Chaturvyuha)"
-        ],
+        question: "Which elephant head was placed upon young Ganesha by Lord Shiva?",
+        options: ["Airavata’s descendant facing north (Gajasura's redeemed spirit)", "An Asian tusker from Vindhyas", "A mythical white horse head", "Nandi's twin celestial bull"],
         correctIndex: 0,
-        category: "Puranic Texts",
-        explanation: "The Ganesha Purana details 8 Avatars (Vakratunda, Ekadanta, Mahodara, Gajanana, Lambodara, Vikata, Vighnaraja, and Dhumravarna), each incarnating to conquer human flaws like ego, greed, and anger."
+        category: "Puranic Lore",
+        explanation: "Shiva sent the Ganas northwards; the first noble creature found facing north was an elephant, whose head was sanctified and placed upon Ganesha."
       },
       {
-        question: "Which two consorts or divine shaktis of Lord Ganesha symbolize spiritual intellect and accomplishment?",
-        options: [
-          "Riddhi & Siddhi",
-          "Ganga & Yamuna",
-          "Usha & Pratyusha",
-          "Rati & Priti"
-        ],
+        question: "Which sacred Vedic Upanishad is dedicated entirely to the glories, nature, and mantras of Ganesha?",
+        options: ["Ganapati Atharvashirsha", "Isha Upanishad", "Mandukya Upanishad", "Katha Upanishad"],
         correctIndex: 0,
-        category: "Mythology & Symbolism",
-        explanation: "Riddhi represents prosperity and intellect, while Siddhi represents spiritual power and accomplishment. Together they personify divine completeness."
+        category: "Scriptures",
+        explanation: "The Ganapati Atharvashirsha, from the Atharva Veda, is regularly chanted by priests during morning abhisheka."
       },
       {
-        question: "What is the first temple visited in the traditional pilgrimage sequence of the Ashtavinayak circuit?",
-        options: [
-          "Mayureshwar of Morgaon",
-          "Siddhivinayak of Siddhatek",
-          "Ballaleshwar of Pali",
-          "Chintamani of Theur"
-        ],
+        question: "What is the symbolic meaning of Ganesha's single broken tusk remaining intact?",
+        options: ["Transcendence of duality (good vs evil, pleasure vs pain)", "A sign of fierce combat strength", "Attachment to gold ornaments", "The lunar cycle phases"],
         correctIndex: 0,
-        category: "Sacred Pilgrimages",
-        explanation: "The pilgrimage traditionally begins and ends at Sri Mayureshwar temple situated in Morgaon, Pune district."
+        category: "Philosophy",
+        explanation: "Having one tusk represents singular divine focus, rising above worldly dualities into unity consciousness."
       },
       {
-        question: "Which of the eight Ashtavinayak temples is named after a devoted child devotee who worshipped Ganesha unwaveringly?",
-        options: [
-          "Ballaleshwar (named after Ballal)",
-          "Varadavinayak",
-          "Girijatmaj",
-          "Mahaganapati"
-        ],
+        question: "Which sacred tree leaf, known as 'Shami Patra', is offered to Ganesha on special occasions?",
+        options: ["Prosopis cineraria (Shami)", "Peepal leaf", "Neem leaf", "Banyan leaf"],
         correctIndex: 0,
-        category: "Sacred Pilgrimages",
-        explanation: "Ballaleshwar in Pali is the only Ganesha temple named after an ardent devotee—a young boy named Ballal whose devotion moved Ganesha to stay there."
+        category: "Botany & Lore",
+        explanation: "Shami leaves hold immense purifying spiritual power and are offered to Lord Ganesha, especially on Angaraki Chaturthi."
       },
       {
-        question: "Which demon did Lord Ganesha swallow to save the universe from scorching celestial heat?",
-        options: [
-          "Analasura (The Fire Demon)",
-          "Tarakasura",
-          "Tripurasura",
-          "Bhasmasura"
-        ],
+        question: "What special name is given to a Sankashti Chaturthi when it falls on a Tuesday?",
+        options: ["Angaraki Sankashti Chaturthi", "Vinayaki Chaturthi", "Maha Chaturthi", "Bhauma Ekadashi"],
         correctIndex: 0,
-        category: "Mythology & Legends",
-        explanation: "Analasura emitted fiery flames that scorched creation. Ganesha swallowed the demon whole, and sages cooled his body by offering 21 Durva blades."
+        category: "Auspicious Days",
+        explanation: "A Tuesday (Mangalwar / Angarak) coinciding with Sankashti is hailed as Angaraki Chaturthi, delivering immense spiritual merit."
       },
       {
-        question: "In classical Sanskrit iconography, what does Lord Ganesha hold in his upper right and left hands?",
-        options: [
-          "An Axe (Parashu) & an Elephant Goad/Noose (Ankusha/Pasha)",
-          "A Bow & Arrow",
-          "A Sword & Shield",
-          "A Conch & Discus"
-        ],
+        question: "What divine weapon is typically held in Ganesha's upper right hand to cut worldly attachments?",
+        options: ["Ankusha (Elephant Goad) or Axe (Parashu)", "Sudarshana Chakra", "Trishula", "Bow and Arrow"],
         correctIndex: 0,
         category: "Iconography",
-        explanation: "The axe (parashu) cuts off attachments and worldly bonds, while the noose (pasha) and goad (ankusha) steer the mind towards righteousness."
+        explanation: "The sharp axe or goad severs worldly illusions, greed, and binds, freeing the seeker toward self-realization."
       },
       {
-        question: "Who was the legendary sage that recited the Mahabharata while Lord Ganesha wrote it down?",
-        options: [
-          "Sage Veda Vyasa",
-          "Sage Valmiki",
-          "Sage Agastya",
-          "Sage Vishwamitra"
-        ],
+        question: "In classical iconography, what does the noose (Pasha) in Ganesha's left hand signify?",
+        options: ["Capturing wandering minds and pulling seekers closer to truth", "Trapping wild forest beasts", "Binding celestial demons", "Measuring moral deeds"],
         correctIndex: 0,
-        category: "Scriptures & Epics",
-        explanation: "Sage Veda Vyasa composed the epic Mahabharata and recited it aloud, while Lord Ganesha scribed every verse with supreme speed and intellect."
+        category: "Iconography",
+        explanation: "The Pasha (lasso) gently tames the unruly mind, tethering the devotee closely to righteous dharma."
       },
       {
-        question: "What divine festival is celebrated alongside Ganesh Chaturthi in Maharashtra honoring the divine mothers?",
-        options: [
-          "Gauri Avahan & Pujan",
-          "Karwa Chauth",
-          "Sheetala Saptami",
-          "Ahoi Ashtami"
-        ],
+        question: "Which traditional musical percussion instrument is famously played during Ganeshotsav street processions?",
+        options: ["Dhol-Tasha", "Sarangi", "Santoor", "Ghatam"],
         correctIndex: 0,
-        category: "Rituals & Traditions",
-        explanation: "Gauri Avahan occurs 3 to 4 days after Ganesh Chaturthi, welcoming Gauri (Goddess Parvati) as Ganesha's mother, celebrated with lavish feasts."
+        category: "Traditions",
+        explanation: "Energetic Dhol-Tasha pathaks (troupes) lead festive immersions across Maharashtra with thunderous synchronized beats."
       },
       {
-        question: "What is the symbolic meaning of Lord Ganesha's large belly (Lambodara)?",
-        options: [
-          "It digests both good and evil fortunes of the entire cosmos with calm patience",
-          "His enormous appetite for sweet modaks",
-          "His supreme royal lineage",
-          "Accumulation of temporal treasures"
-        ],
+        question: "In the Ashtavinayak circuit, which Ganesha idol is celebrated for having its trunk turned to the right?",
+        options: ["Siddhivinayak of Siddhatek", "Mayureshwar of Morgaon", "Ballaleshwar of Pali", "Varadavinayak of Mahad"],
         correctIndex: 0,
-        category: "Iconography & Philosophy",
-        explanation: "Lambodara represents the infinite universe contained within Him, signifying the ability to digest and accept both pleasant and unpleasant life circumstances with serenity."
+        category: "Ashtavinayak",
+        explanation: "Siddhatek's Siddhivinayak idol features a trunk curved to the right (Dakshinabhimukhi), requiring rigorous ritual purity."
       },
       {
-        question: "Which sacred seed syllable (Bija Mantra) is dedicated to Lord Ganesha in Tantric tradition?",
-        options: [
-          "Gam (गं)",
-          "Hreem (ह्रीं)",
-          "Aim (ऐं)",
-          "Shreem (श्रीं)"
-        ],
+        question: "What is the traditional greeting chanted by devotees during Ganeshotsav processions?",
+        options: ["Ganpati Bappa Morya, Pudhchya Varshi Lavkar Ya!", "Har Har Mahadev!", "Jai Shri Krishna!", "Om Namah Shivaya!"],
         correctIndex: 0,
-        category: "Mantras & Philosophy",
-        explanation: "The root seed syllable 'Gam' is the sonic embodiment of Lord Ganesha, as expounded in the Ganapati Atharvashirsha: 'Ganadin purvamuccharya varnadim tadanantaram'."
+        category: "Traditions",
+        explanation: "This celebrated chant honors both the Lord and his 14th-century mystic devotee Morya Gosavi."
       },
       {
-        question: "Which of the Ashtavinayak temples is uniquely located inside a mountain cave complex?",
-        options: [
-          "Girijatmaj at Lenyadri",
-          "Vighnahar at Ozar",
-          "Siddhivinayak at Siddhatek",
-          "Varadavinayak at Mahad"
-        ],
+        question: "Why do devotees whisper their secret wishes into the ears of Mooshakraj at the temple?",
+        options: ["Mooshak is Ganesha’s closest messenger who conveys earnest prayers directly", "Ganesha is said to be sleeping", "To prevent other devotees from overhearing", "It is considered a secret mantra"],
         correctIndex: 0,
-        category: "Sacred Pilgrimages",
-        explanation: "Girijatmaj is situated in Cave 7 of the Lenyadri Buddhist caves near Junnar, reached by climbing over 300 stone steps."
-      },
-      {
-        question: "Which musical instrument is Lord Ganesha frequently depicted playing as 'Narthana Ganapati' (Dancing Ganesha)?",
-        options: [
-          "Mridangam / Pakhawaj drum",
-          "Veena",
-          "Bansuri (Flute)",
-          "Santoor"
-        ],
-        correctIndex: 0,
-        category: "Art & Classical Music",
-        explanation: "As Narthana Ganapati, Ganesha is often depicted dancing rhythmically while holding or playing the mridangam or pakhawaj drum with divine mastery."
-      },
-      {
-        question: "According to Hindu astrological tradition, what is Lord Ganesha's birth nakshatra (constellation)?",
-        options: [
-          "Swati Nakshatra",
-          "Rohini Nakshatra",
-          "Ashwini Nakshatra",
-          "Pushya Nakshatra"
-        ],
-        correctIndex: 0,
-        category: "Astrology & Calendar",
-        explanation: "According to Vedic astrology, Lord Ganesha was born during the midday (Madhyahna) under the auspicious Swati nakshatra and Simha lagna."
-      },
-      {
-        question: "How many sacred names are traditionally chanted in the Sri Ganesha Ashtottara Shatanamavali?",
-        options: [
-          "108 Names",
-          "1008 Names",
-          "21 Names",
-          "54 Names"
-        ],
-        correctIndex: 0,
-        category: "Chants & Rituals",
-        explanation: "The Ashtottara Shatanamavali contains 108 sacred names chanting each divine attribute of Ganesha, often accompanied by offerings of modaks or durva grass."
-      },
-      {
-        question: "What does the large forehead and elephant head of Lord Ganesha spiritually symbolize?",
-        options: [
-          "Grand thinking, immense intellect, and supreme wisdom",
-          "Physical invincibility in battle",
-          "Strict obedience to celestial rulers",
-          "Renunciation of worldly arts"
-        ],
-        correctIndex: 0,
-        category: "Philosophy & Symbolism",
-        explanation: "The majestic elephant head represents boundless wisdom, supreme intellect, and the capacity to think broadly without narrow prejudices."
-      },
-      {
-        question: "Which river's origin in South India is celebrated in folklore as being helped by Lord Ganesha disguised as a crow?",
-        options: [
-          "River Kaveri",
-          "River Godavari",
-          "River Krishna",
-          "River Tungabhadra"
-        ],
-        correctIndex: 0,
-        category: "Folklore & Geography",
-        explanation: "According to legend, Lord Ganesha took the form of a crow and tipped Sage Agastya's kamandalu at Talakaveri, unleashing the sacred river Kaveri to nourish the drought-stricken South."
+        category: "Rituals",
+        explanation: "Because Mooshakraj is constantly at Lord Ganesha's lotus feet, whispering into his ear guarantees the prayer reaches the Lord with utmost humility."
       }
     ];
 
-    const HOST_DEFAULT_PIN = '787898';
-    const STORAGE_KEY_LEADERBOARD = 'ganesh_quiz_host_records_v7';
-    const STORAGE_KEY_PIN = 'ganesh_quiz_host_pin_v7';
-    const STORAGE_KEY_LAST_UPDATE = 'ganesh_quiz_last_update_ts_v7';
-    const STORAGE_KEY_GAME_STATE = 'ganesh_quiz_game_state_v7'; // 'LOBBY' or 'PLAYING'
-    const STORAGE_KEY_GAME_LAUNCH_TS = 'ganesh_quiz_game_launch_ts_v7';
-
-
+    /* ==========================================================================
+       2. WEB AUDIO API SYNTHESIZER (NO EXTERNAL AUDIO FILES)
+       ========================================================================== */
     class FestiveSoundEngine {
       constructor() {
         this.ctx = null;
-        this.muted = false;
+        this.enabled = true;
       }
+
       init() {
         if (!this.ctx) {
           const AudioContext = window.AudioContext || window.webkitAudioContext;
-          if (AudioContext) this.ctx = new AudioContext();
+          if (AudioContext) {
+            this.ctx = new AudioContext();
+          }
         }
         if (this.ctx && this.ctx.state === 'suspended') {
           this.ctx.resume();
         }
       }
+
+      playTone(freq, duration, type = 'sine', gainVal = 0.15) {
+        if (!this.enabled || !this.ctx) return;
+        try {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = type;
+          osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+
+          gain.gain.setValueAtTime(gainVal, this.ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + duration);
+
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+
+          osc.start();
+          osc.stop(this.ctx.currentTime + duration);
+        } catch (e) {}
+      }
+
       playBell() {
-        if (this.muted) return;
-        this.init();
-        if (!this.ctx) return;
-        const now = this.ctx.currentTime;
-        const osc = this.ctx.createOscillator();
-        const gain = this.ctx.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(880, now);
-        osc.frequency.exponentialRampToValueAtTime(1760, now + 0.08);
-        osc.frequency.exponentialRampToValueAtTime(1320, now + 0.35);
-        gain.gain.setValueAtTime(0.28, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 1.2);
-        osc.connect(gain);
-        gain.connect(this.ctx.destination);
-        osc.start(now);
-        osc.stop(now + 1.2);
+        if (!this.enabled || !this.ctx) return;
+        try {
+          const freqs = [587.33, 880, 1174.66, 1760];
+          freqs.forEach((f, i) => {
+            setTimeout(() => {
+              this.playTone(f, 0.8 + i * 0.2, 'triangle', 0.12 - i * 0.02);
+            }, i * 35);
+          });
+        } catch (e) {}
       }
-      playLaunchFanfare() {
-        if (this.muted) return;
-        this.init();
-        if (!this.ctx) return;
-        const notes = [
-          { f: 523.25, d: 0 },
-          { f: 659.25, d: 0.1 },
-          { f: 783.99, d: 0.2 },
-          { f: 1046.50, d: 0.35 }
-        ];
-        notes.forEach(n => {
-          const osc = this.ctx.createOscillator();
-          const gain = this.ctx.createGain();
-          const st = this.ctx.currentTime + n.d;
-          osc.type = 'triangle';
-          osc.frequency.setValueAtTime(n.f, st);
-          gain.gain.setValueAtTime(0.25, st);
-          gain.gain.exponentialRampToValueAtTime(0.001, st + 0.9);
-          osc.connect(gain);
-          gain.connect(this.ctx.destination);
-          osc.start(st);
-          osc.stop(st + 0.9);
-        });
-      }
-      playCountdownTick() {
-        if (this.muted) return;
-        this.init();
-        if (!this.ctx) return;
-        const now = this.ctx.currentTime;
-        const osc = this.ctx.createOscillator();
-        const gain = this.ctx.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(880, now);
-        gain.gain.setValueAtTime(0.2, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
-        osc.connect(gain);
-        gain.connect(this.ctx.destination);
-        osc.start(now);
-        osc.stop(now + 0.13);
-      }
-      playLockIn() {
-        if (this.muted) return;
-        this.init();
-        if (!this.ctx) return;
-        const now = this.ctx.currentTime;
-        const osc = this.ctx.createOscillator();
-        const gain = this.ctx.createGain();
-        osc.type = 'triangle';
-        osc.frequency.setValueAtTime(587.33, now);
-        osc.frequency.exponentialRampToValueAtTime(880, now + 0.15);
-        gain.gain.setValueAtTime(0.18, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
-        osc.connect(gain);
-        gain.connect(this.ctx.destination);
-        osc.start(now);
-        osc.stop(now + 0.3);
-      }
-      playTick() {
-        if (this.muted) return;
-        this.init();
-        if (!this.ctx) return;
-        const now = this.ctx.currentTime;
-        const osc = this.ctx.createOscillator();
-        const gain = this.ctx.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(700, now);
-        gain.gain.setValueAtTime(0.07, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
-        osc.connect(gain);
-        gain.connect(this.ctx.destination);
-        osc.start(now);
-        osc.stop(now + 0.05);
-      }
-      playVictory() {
-        if (this.muted) return;
-        this.init();
-        if (!this.ctx) return;
-        const notes = [
-          { freq: 440, delay: 0 },
-          { freq: 554.37, delay: 0.12 },
-          { freq: 659.25, delay: 0.24 },
-          { freq: 880, delay: 0.38 }
-        ];
-        notes.forEach(item => {
-          const osc = this.ctx.createOscillator();
-          const gain = this.ctx.createGain();
-          const st = this.ctx.currentTime + item.delay;
-          osc.type = 'triangle';
-          osc.frequency.setValueAtTime(item.freq, st);
-          gain.gain.setValueAtTime(0.22, st);
-          gain.gain.exponentialRampToValueAtTime(0.001, st + 1.1);
-          osc.connect(gain);
-          gain.connect(this.ctx.destination);
-          osc.start(st);
-          osc.stop(st + 1.1);
-        });
-      }
+
       playTap() {
-        if (this.muted) return;
-        this.init();
-        if (!this.ctx) return;
-        const now = this.ctx.currentTime;
-        const osc = this.ctx.createOscillator();
-        const gain = this.ctx.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(450, now);
-        gain.gain.setValueAtTime(0.05, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.03);
-        osc.connect(gain);
-        gain.connect(this.ctx.destination);
-        osc.start(now);
-        osc.stop(now + 0.04);
+        this.playTone(480, 0.06, 'sine', 0.08);
       }
+
+      playLockIn() {
+        if (!this.enabled || !this.ctx) return;
+        try {
+          this.playTone(523.25, 0.1, 'sine', 0.12);
+          setTimeout(() => this.playTone(659.25, 0.18, 'sine', 0.14), 70);
+        } catch (e) {}
+      }
+
+      playTick() {
+        this.playTone(700, 0.04, 'square', 0.03);
+      }
+
+      playCountdownTick() {
+        this.playTone(440, 0.12, 'triangle', 0.2);
+      }
+
+      playLaunchFanfare() {
+        if (!this.enabled || !this.ctx) return;
+        try {
+          const notes = [440, 554.37, 659.25, 880];
+          notes.forEach((f, idx) => {
+            setTimeout(() => {
+              this.playTone(f, 0.35, 'triangle', 0.2);
+            }, idx * 100);
+          });
+        } catch (e) {}
+      }
+
+      playVictory() {
+        if (!this.enabled || !this.ctx) return;
+        try {
+          const melody = [523.25, 659.25, 783.99, 1046.5];
+          melody.forEach((freq, idx) => {
+            setTimeout(() => {
+              this.playTone(freq, 0.45, 'triangle', 0.22);
+            }, idx * 120);
+          });
+        } catch (e) {}
+      }
+
       playRankShift(isUp) {
-        if (this.muted) return;
-        this.init();
-        if (!this.ctx) return;
-        const now = this.ctx.currentTime;
-        const osc = this.ctx.createOscillator();
-        const gain = this.ctx.createGain();
-        osc.type = 'sine';
-        if (isUp) {
-          osc.frequency.setValueAtTime(523.25, now);
-          osc.frequency.exponentialRampToValueAtTime(783.99, now + 0.18);
-        } else {
-          osc.frequency.setValueAtTime(659.25, now);
-          osc.frequency.exponentialRampToValueAtTime(392.00, now + 0.18);
-        }
-        gain.gain.setValueAtTime(0.12, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
-        osc.connect(gain);
-        gain.connect(this.ctx.destination);
-        osc.start(now);
-        osc.stop(now + 0.25);
+        if (!this.enabled || !this.ctx) return;
+        try {
+          if (isUp) {
+            this.playTone(600, 0.08, 'sine', 0.1);
+            setTimeout(() => this.playTone(900, 0.15, 'sine', 0.12), 60);
+          } else {
+            this.playTone(450, 0.09, 'sawtooth', 0.07);
+            setTimeout(() => this.playTone(320, 0.15, 'sawtooth', 0.07), 60);
+          }
+        } catch (e) {}
       }
     }
 
     const sound = new FestiveSoundEngine();
 
     function toggleSound() {
-      sound.muted = !sound.muted;
-      const soundIcon = document.getElementById('soundIcon');
-      const soundText = document.getElementById('soundText');
-      if (sound.muted) {
-        soundIcon.setAttribute('data-lucide', 'volume-x');
-        soundText.textContent = 'Audio: Off';
-      } else {
-        soundIcon.setAttribute('data-lucide', 'volume-2');
-        soundText.textContent = 'Audio: On';
+      sound.init();
+      sound.enabled = !sound.enabled;
+      const icon = document.getElementById('soundIcon');
+      const text = document.getElementById('soundText');
+
+      if (sound.enabled) {
+        icon.setAttribute('data-lucide', 'volume-2');
+        text.textContent = 'Audio: On';
         sound.playBell();
+      } else {
+        icon.setAttribute('data-lucide', 'volume-x');
+        text.textContent = 'Audio: Off';
       }
       lucide.createIcons();
     }
 
-
+    /* ==========================================================================
+       3. BROADCAST CHANNEL & CROSS-TAB REAL-TIME SYNCHRONIZATION
+       ========================================================================== */
     let liveQuizChannel = null;
     try {
-      if (typeof BroadcastChannel !== 'undefined') {
-        liveQuizChannel = new BroadcastChannel('ganesh_quiz_live_channel_v7');
+      if (typeof window.BroadcastChannel !== 'undefined') {
+        liveQuizChannel = new BroadcastChannel('ganesh_chaturthi_live_championship_v3');
       }
     } catch (e) {
-      console.warn("BroadcastChannel unsupported", e);
+      console.warn("BroadcastChannel not supported", e);
     }
 
-    let lastKnownStorageTimestamp = 0;
     let previousContestantRanks = {};
     let previousDeptRanks = {};
+    let lastKnownStorageTimestamp = 0;
 
     function showLiveToast(title, subtitle, type = 'info') {
       const container = document.getElementById('toastNotificationContainer');
       if (!container) return;
 
       const toast = document.createElement('div');
-      const bgColors = type === 'up' 
-        ? 'from-emerald-700 to-green-600 border-emerald-400' 
-        : type === 'down' 
-        ? 'from-red-800 to-rose-700 border-red-400' 
-        : type === 'start'
-        ? 'from-blue-700 to-cyan-600 border-cyan-300'
-        : type === 'launch'
-        ? 'from-amber-500 to-orange-500 border-amber-300 text-kumkum-950 font-bold'
-        : 'from-amber-600 to-orange-600 border-amber-300';
+      toast.className = `pointer-events-auto flex items-center gap-2.5 p-3 rounded-2xl border shadow-xl backdrop-blur-md transition-all duration-300 transform translate-x-0 ${
+        type === 'up' ? 'bg-emerald-950/90 border-emerald-500/50 text-emerald-200' :
+        type === 'down' ? 'bg-red-950/90 border-red-500/50 text-red-200' :
+        type === 'launch' ? 'bg-amber-950/90 border-amber-400 text-amber-200' :
+        'bg-stone-900/90 border-amber-500/40 text-amber-200'
+      }`;
 
-      toast.className = `bg-gradient-to-r ${bgColors} border p-3 rounded-2xl shadow-2xl flex items-center gap-3 animate-bounce-subtle pointer-events-auto transition-all duration-300`;
+      let iconHtml = '<i data-lucide="bell" class="w-4 h-4 text-amber-300"></i>';
+      if (type === 'up') iconHtml = '<i data-lucide="arrow-up-right" class="w-4 h-4 text-emerald-300"></i>';
+      else if (type === 'down') iconHtml = '<i data-lucide="arrow-down-right" class="w-4 h-4 text-red-300"></i>';
+      else if (type === 'launch') iconHtml = '<i data-lucide="rocket" class="w-4 h-4 text-amber-300"></i>';
+
       toast.innerHTML = `
-        <div class="w-7 h-7 rounded-full bg-black/30 text-white flex items-center justify-center font-bold shrink-0 text-xs">
-          ${type === 'up' ? '▲' : type === 'down' ? '▼' : type === 'start' ? '🙋' : type === 'launch' ? '🚀' : '⚡'}
-        </div>
+        <div class="p-1 rounded-lg bg-black/40">${iconHtml}</div>
         <div class="text-xs">
           <p class="font-bold text-amber-100">${escapeHtml(title)}</p>
           <p class="text-amber-200/90 text-[11px]">${escapeHtml(subtitle)}</p>
         </div>
       `;
       container.appendChild(toast);
+      lucide.createIcons();
 
       setTimeout(() => {
         toast.style.opacity = '0';
@@ -1361,7 +1181,6 @@
       }, 3500);
     }
 
-    // BroadcastChannel Event Handler
     if (liveQuizChannel) {
       liveQuizChannel.onmessage = (event) => {
         if (!event.data) return;
@@ -1371,6 +1190,8 @@
           handleIncomingParticipantEnrolled(data.entry);
         } else if (data.type === 'GAME_LAUNCHED') {
           handleIncomingGameLaunch();
+        } else if (data.type === 'GAME_ENDED_BY_HOST') {
+          handleIncomingGameEnded();
         } else if (data.type === 'LIVE_PROGRESS' || data.type === 'FINAL_SUBMISSION') {
           handleIncomingLiveUpdate(data.entry);
         } else if (data.type === 'RESET') {
@@ -1379,7 +1200,6 @@
       };
     }
 
-    // Storage event for multi-window / multi-tab synchronization
     window.addEventListener('storage', (e) => {
       if (e.key === STORAGE_KEY_LEADERBOARD || e.key === STORAGE_KEY_LAST_UPDATE) {
         renderHostDashboard();
@@ -1387,13 +1207,14 @@
       } else if (e.key === STORAGE_KEY_GAME_STATE) {
         if (e.newValue === 'PLAYING') {
           handleIncomingGameLaunch();
+        } else if (e.newValue === 'ENDED') {
+          handleIncomingGameEnded();
         } else if (e.newValue === 'LOBBY') {
           handleIncomingReset();
         }
       }
     });
 
-    // 400ms polling fallback for throttled browser environments
     setInterval(() => {
       try {
         const storedTs = Number(localStorage.getItem(STORAGE_KEY_LAST_UPDATE) || 0);
@@ -1405,6 +1226,11 @@
         const gameState = getGameGlobalState();
         if (gameState === 'PLAYING' && isCurrentlyInLobby) {
           handleIncomingGameLaunch();
+        } else if (gameState === 'ENDED') {
+          const quizScreen = document.getElementById('quizScreen');
+          if (quizScreen && !quizScreen.classList.contains('hidden')) {
+            handleIncomingGameEnded();
+          }
         }
       } catch (err) {}
     }, 400);
@@ -1427,7 +1253,7 @@
     function handleIncomingParticipantEnrolled(entry) {
       renderHostDashboard();
       updateWaitingLobbyUI();
-      showLiveToast("New Devotee Enrolled", `${entry.name} (${entry.department}) joined the lobby!`, 'start');
+      showLiveToast("New Devotee Enrolled", `${entry.name} (${entry.department}) joined the lobby!`, 'launch');
       sound.playBell();
     }
 
@@ -1450,7 +1276,6 @@
       renderHostDashboard();
       updateWaitingLobbyUI();
       
-      // If participant was playing or in lobby, return them cleanly to registration
       if (!isHostDashboardOpen) {
         clearInterval(questionTimerInterval);
         document.getElementById('quizScreen').classList.add('hidden');
@@ -1462,7 +1287,9 @@
       }
     }
 
-
+    /* ==========================================================================
+       4. PARTICIPANT STATE & QUIZ EXECUTION ENGINE
+       ========================================================================== */
     const QUESTION_TIME_LIMIT_MS = 20000;
     let questions = [];
     let currentQuestionIndex = 0;
@@ -1508,7 +1335,6 @@
       userAnswers = new Array(questions.length).fill(null);
     }
 
-    // Step 1: Participant Enrolls and Enters Waiting Room
     function handleEnrollmentSubmit(e) {
       e.preventDefault();
       const nameInput = document.getElementById('playerNameInput');
@@ -1538,15 +1364,12 @@
       sound.init();
       sound.playBell();
 
-      // Check if host already launched game
       const gameState = getGameGlobalState();
       if (gameState === 'PLAYING') {
-        // Late joiner can jump straight into active game!
         launchParticipantQuizNow();
         return;
       }
 
-      // Transition to Waiting Room Lobby
       enterWaitingLobby();
     }
 
@@ -1560,7 +1383,6 @@
       document.getElementById('lobbyRegisteredName').textContent = currentPlayerName;
       document.getElementById('lobbyRegisteredDept').textContent = currentPlayerDepartment;
 
-      // Broadcast registration so Host sees them enrolled in real time
       const entry = {
         id: currentParticipantId,
         name: currentPlayerName,
@@ -1622,7 +1444,6 @@
 
     function leaveLobby() {
       sound.playTap();
-      // Remove from lobby
       let list = getHostLeaderboard();
       list = list.filter(item => item.id !== currentParticipantId);
       try {
@@ -1636,13 +1457,9 @@
       renderHostDashboard();
     }
 
-    // Step 2: Host Starts the Game for All
     function hostStartGameForAll() {
       sound.init();
       sound.playLaunchFanfare();
-      
-      const allEntries = getHostLeaderboard();
-      const enrolled = allEntries.filter(e => e.isEnrolled && !e.isFinished);
 
       setGameGlobalState('PLAYING');
       const launchTs = Date.now();
@@ -1660,15 +1477,13 @@
       showLiveToast("🚀 GAME LAUNCHED!", "Starting 30-question quiz countdown for all participants!", "launch");
       renderHostDashboard();
 
-      // Trigger countdown if host is also on participant screen
       if (isCurrentlyInLobby) {
         handleIncomingGameLaunch();
       }
     }
 
-    // Step 3: Synchronized Countdown (3.. 2.. 1.. GO!) for Enrolled Participants
     function handleIncomingGameLaunch() {
-      if (!isCurrentlyInLobby) return; // Only trigger for enrolled participants waiting in lobby
+      if (!isCurrentlyInLobby) return;
       isCurrentlyInLobby = false;
 
       const overlay = document.getElementById('countdownLaunchOverlay');
@@ -1715,11 +1530,9 @@
       document.getElementById('resultsScreen').classList.add('hidden');
       document.getElementById('quizScreen').classList.remove('hidden');
 
-      // Update participant record to active status
       broadcastLiveQuestionAdvance(1);
       renderQuestion();
     }
-
 
     function renderQuestion() {
       hasAnswered = false;
@@ -1819,7 +1632,6 @@
       const allButtons = document.querySelectorAll('.option-card');
       allButtons.forEach(b => b.disabled = true);
 
-      // Saffron glow anti-spoiler lock-in
       if (selectedIndex !== null) {
         const chosenBtn = document.getElementById(`optBtn_${selectedIndex}`);
         chosenBtn.classList.add('locked-in');
@@ -1827,21 +1639,19 @@
         sound.playLockIn();
       }
 
-      // Tie-Breaker Scoring Calculation
       if (isCorrect) {
         correctCount++;
         currentStreak++;
         if (currentStreak > highestStreak) highestStreak = currentStreak;
 
         const baseScore = 100;
-        const timeBonus = Math.round(remainingMs / 20); // 0 - 1000 pts
+        const timeBonus = Math.round(remainingMs / 20);
         const streakMultiplier = currentStreak > 1 ? 1 + (currentStreak * 0.05) : 1;
         score += Math.round((baseScore + timeBonus) * streakMultiplier);
       } else {
         currentStreak = 0;
       }
 
-      // Broadcast this answer update live to Host so leaderboards move up & down!
       broadcastLiveProgress(currentQuestionIndex + 1, false);
 
       const banner = document.getElementById('lockedInBanner');
@@ -2079,7 +1889,9 @@
       document.body.removeChild(tempTextArea);
     }
 
-
+    /* ==========================================================================
+       5. HOST ADMINISTRATION PORTAL (PIN: 787898) & LIVE DASHBOARD
+       ========================================================================== */
     function getHostPin() {
       try {
         return localStorage.getItem(STORAGE_KEY_PIN) || HOST_DEFAULT_PIN;
@@ -2136,7 +1948,7 @@
       const newRank = list.findIndex(item => item.id === entry.id) + 1;
       let rankMovement = 0;
       if (oldRank !== null && oldRank !== newRank) {
-        rankMovement = oldRank - newRank; // positive = moved up, negative = dropped down
+        rankMovement = oldRank - newRank;
       }
       entry.rankMovement = rankMovement;
 
@@ -2261,23 +2073,117 @@
     function updateHostGameStatusBadge() {
       const gameState = getGameGlobalState();
       const badge = document.getElementById('hostGameStatusBadge');
-      const btn = document.getElementById('hostStartGameBtn');
+      const startBtn = document.getElementById('hostStartGameBtn');
+      const endBtn = document.getElementById('hostEndGameBtn');
       const activeTitle = document.getElementById('activeSectionTitle');
 
       if (gameState === 'PLAYING') {
         badge.className = "inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-[10px] font-bold uppercase tracking-wider";
         badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span> Game In Progress`;
-        btn.innerHTML = `<i data-lucide="check-circle-2" class="w-4 h-4 fill-current"></i><span>GAME RUNNING</span>`;
-        btn.className = "px-4 py-2 rounded-xl bg-emerald-600/30 border border-emerald-500/40 text-emerald-300 font-bold text-xs sm:text-sm flex items-center gap-2 cursor-default";
-        btn.disabled = true;
+        
+        startBtn.classList.add('hidden');
+        endBtn.classList.remove('hidden');
+        endBtn.classList.add('flex');
+        
         activeTitle.textContent = "Contestants In-Progress & Active";
+      } else if (gameState === 'ENDED') {
+        badge.className = "inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-rose-500/20 border border-rose-500/40 text-rose-300 text-[10px] font-bold uppercase tracking-wider";
+        badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span> Championship Concluded`;
+        
+        startBtn.classList.remove('hidden');
+        startBtn.classList.remove('flex');
+        startBtn.innerHTML = `<i data-lucide="rotate-ccw" class="w-4 h-4"></i><span>RESTART NEW GAME</span>`;
+        startBtn.className = "px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-kumkum-950 font-bold text-xs sm:text-sm flex items-center gap-2 shadow-md transition-all";
+        startBtn.disabled = false;
+        
+        endBtn.classList.add('hidden');
+        activeTitle.textContent = "Finalized Participant Standings";
       } else {
         badge.className = "inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-300 text-[10px] font-bold uppercase tracking-wider";
         badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping"></span> Waiting Lobby Open`;
-        btn.innerHTML = `<i data-lucide="rocket" class="w-4 h-4 fill-current"></i><span>START GAME FOR ALL</span>`;
-        btn.className = "px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-400 hover:to-green-500 text-kumkum-950 font-black text-xs sm:text-sm flex items-center gap-2 shadow-lg shadow-emerald-500/30 transform active:scale-95 transition-all";
-        btn.disabled = false;
+        
+        startBtn.classList.remove('hidden');
+        startBtn.innerHTML = `<i data-lucide="rocket" class="w-4 h-4 fill-current"></i><span>START GAME FOR ALL</span>`;
+        startBtn.className = "px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-400 hover:to-green-500 text-kumkum-950 font-black text-xs sm:text-sm flex items-center gap-2 shadow-lg shadow-emerald-500/30 transform active:scale-95 transition-all";
+        startBtn.disabled = false;
+        
+        endBtn.classList.add('hidden');
         activeTitle.textContent = "Enrolled Devotees in Waiting Lobby";
+      }
+    }
+
+    function promptHostEndGame() {
+      sound.playTap();
+      const modal = document.getElementById('hostEndGameConfirmModal');
+      modal.classList.remove('hidden');
+      setTimeout(() => modal.classList.remove('opacity-0'), 20);
+    }
+
+    function cancelHostEndGame() {
+      sound.playTap();
+      const modal = document.getElementById('hostEndGameConfirmModal');
+      modal.classList.add('opacity-0');
+      setTimeout(() => modal.classList.add('hidden'), 200);
+    }
+
+    function confirmHostEndGame() {
+      sound.playTap();
+      cancelHostEndGame();
+
+      setGameGlobalState('ENDED');
+      const endTs = Date.now();
+
+      let list = getHostLeaderboard();
+      list = list.map(item => {
+        if (!item.isFinished) {
+          return {
+            ...item,
+            isFinished: true,
+            status: `Concluded (Q${item.currentQuestionNumber || item.answeredCount || 0}/30)`
+          };
+        }
+        return item;
+      });
+
+      try {
+        localStorage.setItem(STORAGE_KEY_LEADERBOARD, JSON.stringify(list));
+        localStorage.setItem(STORAGE_KEY_LAST_UPDATE, endTs.toString());
+      } catch (e) {}
+
+      if (liveQuizChannel) {
+        try {
+          liveQuizChannel.postMessage({
+            type: 'GAME_ENDED_BY_HOST',
+            ts: endTs
+          });
+        } catch (e) {}
+      }
+
+      showLiveToast("🛑 Quiz Ended By Host", "Championship ended. All scores frozen!", "down");
+      renderHostDashboard();
+
+      handleIncomingGameEnded();
+    }
+
+    function handleIncomingGameEnded() {
+      const quizScreen = document.getElementById('quizScreen');
+      const lobbyScreen = document.getElementById('waitingLobbyScreen');
+
+      if (quizScreen && !quizScreen.classList.contains('hidden')) {
+        clearInterval(questionTimerInterval);
+        totalElapsedDurationMs = Math.round(performance.now() - quizStartPerfTime);
+        
+        broadcastLiveProgress(currentQuestionIndex + 1, true);
+        finishQuiz();
+
+        const greeting = document.getElementById('resultPlayerGreeting');
+        if (greeting) {
+          greeting.innerHTML = `${escapeHtml(currentPlayerName)}! <span class="block text-sm text-amber-300/80 font-normal mt-1">(Quiz Concluded by Host)</span>`;
+        }
+
+        showLiveToast("Quiz Stopped by Host", "The host has concluded the game! Here is your final scorecard.", "down");
+      } else if (lobbyScreen && !lobbyScreen.classList.contains('hidden')) {
+        showLiveToast("Notice", "The quiz session was stopped by the host.", "launch");
       }
     }
 
@@ -2294,7 +2200,7 @@
         ticker.innerHTML = `
           <div class="text-amber-300/50 text-[11px] py-1 flex items-center gap-1.5">
             <i data-lucide="info" class="w-3.5 h-3.5"></i>
-            <span>No participants have enrolled yet. Share the quiz link to have contestants join the waiting lobby!</span>
+            <span>No participants currently in waiting lobby. Share the quiz to have contestants enroll!</span>
           </div>
         `;
         return;
@@ -2695,7 +2601,7 @@
       sound.playTap();
       const entries = getHostLeaderboard();
       if (entries.length === 0) {
-        alert("No participant records available to export.");
+        showLiveToast("Export Failed", "No participant records available to export.", "down");
         return;
       }
 
