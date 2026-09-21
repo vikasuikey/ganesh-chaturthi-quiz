@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ganesh Chaturthi Utsav Quiz | Test Your Devotion & Knowledge</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts for Festive Indian Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            festive: ['"Rozha One"', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            saffron: {
+              400: '#fb923c',
+              500: '#f97316',
+              600: '#ea580c',
+            },
+            marigold: {
+              400: '#fbbf24',
+              500: '#f59e0b',
+              600: '#d97706',
+            },
+            kumkum: {
+              500: '#b91c1c',
+              600: '#991b1b',
+              700: '#7f1d1d',
+              800: '#450a0a',
+            },
+            gold: {
+              300: '#fde047',
+              400: '#facc15',
+              500: '#eab308',
+            }
+          },
+          animation: {
+            'float-slow': 'float 6s ease-in-out infinite',
+            'float-reverse': 'floatRev 7s ease-in-out infinite',
+            'pulse-glow': 'pulseGlow 2s infinite',
+            'shine': 'shine 3s linear infinite',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+              '50%': { transform: 'translateY(-12px) rotate(4deg)' },
+            },
+            floatRev: {
+              '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+              '50%': { transform: 'translateY(10px) rotate(-4deg)' },
+            },
+            pulseGlow: {
+              '0%, 100%': { filter: 'drop-shadow(0 0 15px rgba(245, 158, 11, 0.45))' },
+              '50%': { filter: 'drop-shadow(0 0 28px rgba(249, 115, 22, 0.85))' },
+            },
+            shine: {
+              '0%': { backgroundPosition: '-200% 0' },
+              '100%': { backgroundPosition: '200% 0' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background: radial-gradient(circle at 50% 15%, #450a0a 0%, #1f0202 85%, #0d0101 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+      color: #fffbeb;
+    }
+
+    /* Traditional Indian Rangoli Pattern Overlay */
+    .bg-pattern {
+      background-image: radial-gradient(#f59e0b 0.75px, transparent 0.75px), radial-gradient(#ea580c 0.75px, #1f0202 0.75px);
+      background-size: 30px 30px;
+      background-position: 0 0, 15px 15px;
+      opacity: 0.12;
+    }
+
+    /* Gold Gradient Text */
+    .text-gold-gradient {
+      background: linear-gradient(135deg, #fffbeb 0%, #fef08a 30%, #f59e0b 70%, #d97706 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Golden border shine */
+    .gold-border {
+      border: 1.5px solid rgba(245, 158, 11, 0.45);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4), inset 0 0 12px rgba(245, 158, 11, 0.15);
+    }
+
+    /* Option button styling */
+    .option-card {
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .option-card:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px -4px rgba(245, 158, 11, 0.35);
+      border-color: #f59e0b;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.2);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #b45309;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #d97706;
+    }
+  </style>
+</head>
+<body class="font-sans antialiased relative selection:bg-marigold-500 selection:text-kumkum-800">
+
+  <!-- Background Pattern -->
+  <div class="fixed inset-0 bg-pattern pointer-events-none z-0"></div>
+
+  <!-- Ambient Light Orbs -->
+  <div class="fixed top-12 left-1/2 -translate-x-1/2 w-96 h-96 bg-amber-500/15 rounded-full blur-3xl pointer-events-none z-0"></div>
+  <div class="fixed bottom-10 -right-20 w-80 h-80 bg-red-600/15 rounded-full blur-3xl pointer-events-none z-0"></div>
+
+  <!-- Top Global Header -->
+  <header class="relative z-10 w-full max-w-4xl mx-auto px-4 pt-4 sm:pt-6 flex items-center justify-between">
+    <!-- Brand / Logo -->
+    <div class="flex items-center gap-2.5">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-marigold-600 to-amber-300 flex items-center justify-center shadow-lg shadow-amber-500/20 text-kumkum-800 font-festive text-xl">
+        卐
+      </div>
+      <div>
+        <h1 class="font-festive text-lg sm:text-xl text-amber-200 tracking-wider">गणेश उत्सव</h1>
+        <p class="text-[11px] text-amber-400/80 font-medium uppercase tracking-widest">Chaturthi Trivia</p>
+      </div>
+    </div>
+
+    <!-- Right Controls: Audio Toggle, Fast Leaderboard Link -->
+    <div class="flex items-center gap-2">
+      <!-- Sound FX Toggle Button -->
+      <button id="soundToggleBtn" onclick="toggleSound()" class="px-3 py-1.5 rounded-full bg-black/40 border border-amber-500/30 hover:border-amber-400 text-amber-300 text-xs sm:text-sm font-medium flex items-center gap-1.5 backdrop-blur-md transition-all shadow-inner" title="Toggle Sound Effects">
+        <i id="soundIcon" data-lucide="volume-2" class="w-4 h-4"></i>
+        <span id="soundText" class="hidden sm:inline">Audio: On</span>
+      </button>
+
+      <!-- Open Leaderboard Modal -->
+      <button onclick="openLeaderboardModal()" class="px-3 py-1.5 rounded-full bg-gradient-to-r from-amber-600/30 to-amber-500/20 border border-amber-500/40 hover:border-amber-400 text-amber-200 text-xs sm:text-sm font-medium flex items-center gap-1.5 backdrop-blur-md transition-all shadow-sm">
+        <i data-lucide="trophy" class="w-4 h-4 text-amber-400"></i>
+        <span>Leaderboard</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="relative z-10 w-full max-w-3xl mx-auto px-4 py-4 sm:py-6 flex flex-col justify-center min-h-[calc(100vh-100px)]">
+
+    <!-- ==================== SCREEN 1: WELCOME SCREEN ==================== -->
+    <section id="welcomeScreen" class="bg-gradient-to-b from-kumkum-700/60 to-kumkum-800/90 border border-amber-500/30 rounded-3xl p-6 sm:p-10 backdrop-blur-xl shadow-2xl relative overflow-hidden transition-all duration-500">
+      <!-- Decorative Ganesha Silhouette & Diya Elements -->
+      <div class="flex justify-center mb-4">
+        <div class="relative w-28 h-28 sm:w-32 sm:h-32 flex items-center justify-center rounded-full bg-gradient-to-tr from-amber-500/20 via-marigold-500/30 to-amber-300/10 border-2 border-amber-400/50 p-3 shadow-xl shadow-amber-500/25 animate-pulse-glow">
+          <!-- Stylized Ganesha Line SVG -->
+          <svg class="w-20 h-20 sm:w-24 sm:h-24 text-amber-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <!-- Crown / Mukut -->
+            <path d="M12 2l2.5 3.5h-5z"/>
+            <circle cx="12" cy="7.5" r="1.2" fill="currentColor"/>
+            <!-- Large Ears -->
+            <path d="M7 8c-2.5 0-4 2-4 5 0 2.5 2 4.5 4 4.5"/>
+            <path d="M17 8c2.5 0 4 2 4 5 0 2.5-2 4.5-4 4.5"/>
+            <!-- Head & Trunk Contour -->
+            <path d="M9 8.5h6"/>
+            <path d="M10 11c0 2 1 3.5 2 4.5s1 2.5 0 4c-.7 1-2.2 1-2.5 0"/>
+            <!-- Tusk Mark & Tilak -->
+            <path d="M12 9.5v2"/>
+            <path d="M14.5 13.5l1.5 1"/>
+          </svg>
+          <span class="absolute -bottom-2 bg-amber-500 text-kumkum-800 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider shadow">
+            ॐ गं गणपतये नमः
+          </span>
+        </div>
+      </div>
+
+      <div class="text-center space-y-3">
+        <h2 class="font-festive text-3xl sm:text-4xl lg:text-5xl text-gold-gradient tracking-wide">
+          Ganesh Chaturthi Utsav Quiz
+        </h2>
+        <p class="text-amber-200/90 text-sm sm:text-base max-w-xl mx-auto leading-relaxed">
+          Celebrate the wisdom of Lord Vighnaharta! Test your knowledge across 15 fascinating questions on legends, Ashtavinayak temples, rituals, modaks, Tilak's public utsav, and Visarjan.
+        </p>
+      </div>
+
+      <!-- Feature Badges -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 my-6 text-xs text-amber-100/90">
+        <div class="bg-black/30 border border-amber-500/20 rounded-xl p-3 text-center flex flex-col items-center">
+          <i data-lucide="help-circle" class="w-5 h-5 text-amber-400 mb-1"></i>
+          <span class="font-bold">15 Questions</span>
+          <span class="text-[10px] text-amber-300/70">Randomized order</span>
+        </div>
+        <div class="bg-black/30 border border-amber-500/20 rounded-xl p-3 text-center flex flex-col items-center">
+          <i data-lucide="timer" class="w-5 h-5 text-amber-400 mb-1"></i>
+          <span class="font-bold">20s per Question</span>
+          <span class="text-[10px] text-amber-300/70">Speed bonus points</span>
+        </div>
+        <div class="bg-black/30 border border-amber-500/20 rounded-xl p-3 text-center flex flex-col items-center">
+          <i data-lucide="sparkles" class="w-5 h-5 text-amber-400 mb-1"></i>
+          <span class="font-bold">Instant Lore</span>
+          <span class="text-[10px] text-amber-300/70">Cultural trivia</span>
+        </div>
+        <div class="bg-black/30 border border-amber-500/20 rounded-xl p-3 text-center flex flex-col items-center">
+          <i data-lucide="award" class="w-5 h-5 text-amber-400 mb-1"></i>
+          <span class="font-bold">Live Board</span>
+          <span class="text-[10px] text-amber-300/70">Climb to #1</span>
+        </div>
+      </div>
+
+      <!-- Player Name Input & Start Button -->
+      <div class="max-w-md mx-auto space-y-4 pt-2">
+        <div>
+          <label for="playerNameInput" class="block text-xs font-semibold uppercase tracking-wider text-amber-300/90 mb-1.5 text-center">
+            Enter Your Devotee Name:
+          </label>
+          <input type="text" id="playerNameInput" maxlength="20" placeholder="e.g. Atharva, Meera, Arjun" class="w-full bg-black/40 border border-amber-500/40 rounded-xl px-4 py-3 text-center text-amber-100 placeholder-amber-400/40 focus:outline-none focus:ring-2 focus:ring-amber-400 font-medium transition-all shadow-inner">
+        </div>
+
+        <button onclick="startQuiz()" class="w-full py-4 px-6 bg-gradient-to-r from-amber-500 via-marigold-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-kumkum-900 font-bold rounded-2xl shadow-lg shadow-amber-500/30 flex items-center justify-center gap-2 transform active:scale-[0.98] transition-all text-base sm:text-lg">
+          <i data-lucide="play" class="w-5 h-5 fill-current"></i>
+          <span>Begin Chaturthi Quiz</span>
+        </button>
+      </div>
+
+      <!-- Small auspicious quote -->
+      <p class="text-center text-[11px] text-amber-300/60 mt-6 tracking-widest font-mono">
+        वक्रतुण्ड महाकाय सूर्यकोटि समप्रभ • निर्विघ्नं कुरु मे देव सर्वकार्येषु सर्वदा
+      </p>
+    </section>
+
+    <!-- ==================== SCREEN 2: ACTIVE QUIZ ==================== -->
+    <section id="quizScreen" class="hidden flex-col gap-4">
+      
+      <!-- Top Progress & Timer Bar -->
+      <div class="bg-black/40 backdrop-blur-md border border-amber-500/30 rounded-2xl p-4 flex flex-col gap-3 shadow-lg">
+        
+        <div class="flex items-center justify-between">
+          <!-- Question Counter -->
+          <div class="flex items-center gap-2">
+            <span class="text-xs uppercase tracking-wider font-bold text-amber-400/80">Question</span>
+            <span id="questionProgressText" class="font-festive text-xl text-amber-200">1 / 15</span>
+          </div>
+
+          <!-- Dynamic Streak Tracker -->
+          <div id="streakBadge" class="hidden items-center gap-1.5 bg-gradient-to-r from-orange-500/20 to-amber-500/20 border border-orange-500/40 px-2.5 py-1 rounded-full text-xs font-bold text-orange-300 animate-pulse">
+            <i data-lucide="flame" class="w-4 h-4 text-orange-400 fill-orange-400"></i>
+            <span id="streakCountText">2 Streak!</span>
+          </div>
+
+          <!-- Live Score -->
+          <div class="flex items-center gap-1.5 bg-amber-500/10 border border-amber-500/30 px-3 py-1 rounded-full text-amber-300 font-bold text-sm">
+            <i data-lucide="zap" class="w-4 h-4 text-amber-400"></i>
+            <span id="liveScoreText">0 pts</span>
+          </div>
+        </div>
+
+        <!-- Progress Track -->
+        <div class="w-full bg-stone-900/80 rounded-full h-2.5 overflow-hidden border border-amber-500/20">
+          <div id="overallProgressBar" class="h-full bg-gradient-to-r from-amber-500 to-orange-500 rounded-full transition-all duration-300" style="width: 7%;"></div>
+        </div>
+
+        <!-- Timer Circle / Linear Progress Indicator -->
+        <div class="flex items-center justify-between pt-1">
+          <div class="flex items-center gap-2 text-xs font-semibold text-amber-200/90">
+            <i data-lucide="clock" class="w-4 h-4 text-amber-400"></i>
+            <span>Time Left</span>
+          </div>
+          <span id="timerSecondsText" class="font-mono font-bold text-amber-300 text-sm">20s</span>
+        </div>
+        <div class="w-full bg-stone-900 rounded-full h-2 overflow-hidden border border-amber-500/20">
+          <div id="timerBar" class="h-full bg-gradient-to-r from-emerald-500 via-amber-400 to-red-500 rounded-full transition-all duration-100 ease-linear" style="width: 100%;"></div>
+        </div>
+      </div>
+
+      <!-- Question Card -->
+      <div class="bg-gradient-to-b from-kumkum-700/60 to-kumkum-800/90 border border-amber-500/30 rounded-3xl p-5 sm:p-7 backdrop-blur-xl shadow-xl flex flex-col gap-4">
+        
+        <!-- Category & Difficulty Pill -->
+        <div class="flex items-center justify-between text-xs">
+          <span id="questionCategory" class="px-2.5 py-1 rounded-md bg-amber-500/15 border border-amber-500/30 text-amber-300 font-semibold tracking-wide uppercase">
+            Mythology & Lore
+          </span>
+          <span class="text-amber-300/70 text-[11px] flex items-center gap-1">
+            <i data-lucide="sparkle" class="w-3.5 h-3.5"></i>
+            Speed Bonus Enabled
+          </span>
+        </div>
+
+        <!-- Question Prompt -->
+        <h3 id="questionTitle" class="text-lg sm:text-xl md:text-2xl font-bold text-amber-100 leading-snug">
+          Loading Question...
+        </h3>
+
+        <!-- Options Container -->
+        <div id="optionsContainer" class="grid grid-cols-1 gap-2.5 pt-2">
+          <!-- Dynamically populated options -->
+        </div>
+
+        <!-- Immediate Trivia Explanation Card (Hidden by default, reveals after answer) -->
+        <div id="explanationCard" class="hidden mt-3 p-4 rounded-2xl bg-black/40 border border-amber-500/30 transition-all duration-300 text-sm">
+          <div class="flex items-start gap-2.5">
+            <div id="explanationIcon" class="mt-0.5 p-1 rounded-full bg-amber-500/20 text-amber-300">
+              <i data-lucide="info" class="w-4 h-4"></i>
+            </div>
+            <div class="flex-1 space-y-1">
+              <p id="explanationTitle" class="font-bold text-amber-300 text-xs sm:text-sm">Did You Know?</p>
+              <p id="explanationBody" class="text-amber-100/90 text-xs sm:text-sm leading-relaxed"></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Next / Continue Action Button (Reveals after answering) -->
+        <button id="nextBtn" onclick="nextQuestion()" class="hidden mt-2 w-full py-3.5 px-6 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-kumkum-900 font-bold rounded-xl shadow-md shadow-amber-500/20 items-center justify-center gap-2 transform active:scale-[0.99] transition-all">
+          <span id="nextBtnText">Next Question</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+
+      </div>
+    </section>
+
+    <!-- ==================== SCREEN 3: RESULTS / SCORECARD ==================== -->
+    <section id="resultsScreen" class="hidden bg-gradient-to-b from-kumkum-700/70 to-kumkum-800/90 border border-amber-500/30 rounded-3xl p-6 sm:p-8 backdrop-blur-xl shadow-2xl relative overflow-hidden">
+      
+      <!-- Top Trophy & Rank Badge Header -->
+      <div class="text-center space-y-2">
+        <div class="inline-flex items-center justify-center p-3 rounded-2xl bg-amber-500/20 border border-amber-400/40 text-amber-300 mb-1">
+          <i data-lucide="crown" class="w-8 h-8 text-amber-300"></i>
+        </div>
+        <p class="text-xs uppercase tracking-widest text-amber-400/80 font-bold">Quiz Completed!</p>
+        <h2 id="resultPlayerGreeting" class="font-festive text-3xl sm:text-4xl text-gold-gradient">
+          Dhanya Ho, Devotee!
+        </h2>
+        <!-- Rank Title Badge -->
+        <div class="pt-1">
+          <span id="rankBadgeText" class="inline-block px-4 py-1.5 rounded-full bg-gradient-to-r from-amber-500/30 to-orange-500/30 border border-amber-400 text-amber-200 font-bold text-sm tracking-wide shadow">
+            Modak Master
+          </span>
+        </div>
+      </div>
+
+      <!-- Core Score Metrics Grid -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 my-6">
+        <!-- Final Score -->
+        <div class="bg-black/35 border border-amber-500/25 rounded-2xl p-3.5 text-center">
+          <span class="text-[11px] text-amber-400/80 font-medium uppercase block">Final Score</span>
+          <span id="resultFinalScore" class="font-festive text-2xl sm:text-3xl text-amber-300">0</span>
+          <span class="text-[10px] text-amber-300/60 block mt-0.5">points</span>
+        </div>
+
+        <!-- Accuracy -->
+        <div class="bg-black/35 border border-amber-500/25 rounded-2xl p-3.5 text-center">
+          <span class="text-[11px] text-amber-400/80 font-medium uppercase block">Accuracy</span>
+          <span id="resultAccuracy" class="font-festive text-2xl sm:text-3xl text-emerald-400">0%</span>
+          <span id="resultCorrectCount" class="text-[10px] text-amber-300/60 block mt-0.5">0 of 15 Correct</span>
+        </div>
+
+        <!-- Highest Streak -->
+        <div class="bg-black/35 border border-amber-500/25 rounded-2xl p-3.5 text-center">
+          <span class="text-[11px] text-amber-400/80 font-medium uppercase block">Best Streak</span>
+          <div class="flex items-center justify-center gap-1">
+            <i data-lucide="flame" class="w-4 h-4 text-orange-400 fill-orange-400"></i>
+            <span id="resultMaxStreak" class="font-festive text-2xl sm:text-3xl text-orange-400">0</span>
+          </div>
+          <span class="text-[10px] text-amber-300/60 block mt-0.5">in a row</span>
+        </div>
+
+        <!-- Time Taken -->
+        <div class="bg-black/35 border border-amber-500/25 rounded-2xl p-3.5 text-center">
+          <span class="text-[11px] text-amber-400/80 font-medium uppercase block">Time Spent</span>
+          <span id="resultTotalTime" class="font-festive text-2xl sm:text-3xl text-amber-300">0s</span>
+          <span class="text-[10px] text-amber-300/60 block mt-0.5">total duration</span>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex flex-col sm:flex-row gap-3">
+        <button onclick="restartQuiz()" class="flex-1 py-3.5 px-4 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-kumkum-900 font-bold rounded-xl shadow-lg flex items-center justify-center gap-2 transition-all">
+          <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+          <span>Play Again</span>
+        </button>
+
+        <button onclick="openLeaderboardModal()" class="flex-1 py-3.5 px-4 bg-black/40 border border-amber-500/40 hover:border-amber-400 text-amber-200 font-bold rounded-xl flex items-center justify-center gap-2 transition-all">
+          <i data-lucide="trophy" class="w-4 h-4 text-amber-400"></i>
+          <span>View Leaderboard</span>
+        </button>
+
+        <button onclick="shareScore()" class="px-4 py-3.5 bg-black/40 border border-amber-500/40 hover:border-amber-400 text-amber-300 rounded-xl flex items-center justify-center gap-2 transition-all" title="Share result">
+          <i data-lucide="share-2" class="w-4 h-4"></i>
+          <span class="hidden sm:inline">Share</span>
+        </button>
+      </div>
+
+      <div id="shareNotice" class="hidden text-center text-xs text-emerald-400 mt-3 font-medium">
+        ✓ Result summary copied to clipboard!
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==================== LEADERBOARD MODAL ==================== -->
+  <div id="leaderboardModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300">
+    <div class="bg-gradient-to-b from-kumkum-700 to-kumkum-900 border border-amber-500/40 rounded-3xl w-full max-w-lg overflow-hidden shadow-2xl flex flex-col max-h-[85vh]">
+      
+      <!-- Modal Header -->
+      <div class="p-5 border-b border-amber-500/20 flex items-center justify-between bg-black/20">
+        <div class="flex items-center gap-2.5">
+          <div class="p-2 rounded-xl bg-amber-500/20 text-amber-400">
+            <i data-lucide="medal" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 class="font-festive text-xl text-amber-200">Ganesh Utsav Leaderboard</h3>
+            <p class="text-xs text-amber-400/80">Top Bhakts & Quiz Champions</p>
+          </div>
+        </div>
+        <button onclick="closeLeaderboardModal()" class="p-2 rounded-full hover:bg-black/30 text-amber-300 transition-colors">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Leaderboard Table Container -->
+      <div class="p-4 overflow-y-auto flex-1 space-y-2" id="leaderboardList">
+        <!-- Rendered via JavaScript -->
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="p-4 border-t border-amber-500/20 bg-black/30 flex items-center justify-between text-xs text-amber-300/70">
+        <span>Persistent across games</span>
+        <button onclick="resetLeaderboardConfirm()" class="text-amber-400/60 hover:text-amber-300 underline text-[11px]">
+          Reset Board
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ==========================================================================
+       1. COMPREHENSIVE QUESTION DATA (15 Authentic Ganesh Chaturthi Questions)
+       ========================================================================== */
+    const ALL_QUESTIONS = [
+      {
+        question: "According to Hindu tradition, how was Lord Ganesha created by Goddess Parvati?",
+        options: [
+          "From turmeric & sandalwood paste (ubtan) of her body",
+          "From a sacred yajna fire lit on Mount Kailash",
+          "From a divine lotus flower blooming in Mansarovar",
+          "He descended directly from the celestial heavens"
+        ],
+        correctIndex: 0,
+        category: "Mythology & Birth",
+        explanation: "Goddess Parvati crafted Ganesha using turmeric and sandalwood paste from her body, infusing him with life (Prana Pratishtha) before asking him to guard her chamber."
+      },
+      {
+        question: "What is the name of Lord Ganesha's celestial vehicle (Vahana)?",
+        options: [
+          "Mushak (The divine Mouse)",
+          "Garuda (The divine Eagle)",
+          "Nandi (The sacred Bull)",
+          "Mayura (The royal Peacock)"
+        ],
+        correctIndex: 0,
+        category: "Iconography",
+        explanation: "Mushakraj represents humility, sharpness, and the human intellect's ability to conquer desires and slip through any tight obstacle."
+      },
+      {
+        question: "Why is Lord Ganesha popularly revered by the epithet 'Ekadanta' (The One-Tusked)?",
+        options: [
+          "He broke one tusk to transcribe the epic Mahabharata without pause",
+          "He gifted it to Indra as a sacred boon during churning of the ocean",
+          "It was dissolved while creating the sacred river Kaveri",
+          "He traded it with Ravana for a cosmic jewel"
+        ],
+        correctIndex: 0,
+        category: "Legends",
+        explanation: "Sage Vyasa required the Mahabharata to be written without pause. When Lord Ganesha's feather pen broke, he broke his own tusk to continue transcribing without interruption."
+      },
+      {
+        question: "Which Indian freedom fighter transformed Ganesh Chaturthi into a grand public festival (Sarvajanik Utsav)?",
+        options: [
+          "Lokmanya Bal Gangadhar Tilak",
+          "Gopal Krishna Gokhale",
+          "Mahatma Jyotirao Phule",
+          "Veer Savarkar"
+        ],
+        correctIndex: 0,
+        category: "History & Society",
+        explanation: "In 1893, Lokmanya Bal Gangadhar Tilak organized public celebrations (Sarvajanik Ganeshotsav) in Pune to unite Indians and foster national pride against colonial British rule."
+      },
+      {
+        question: "Which delicious sweet dumpling is traditionally offered as Lord Ganesha's favorite prasad?",
+        options: [
+          "Steamed Modak (Ukadiche Modak)",
+          "Puran Poli",
+          "Jalebi with Rabri",
+          "Mysore Pak"
+        ],
+        correctIndex: 0,
+        category: "Prasad & Rituals",
+        explanation: "Lord Ganesha is famously called 'Modakpriya'. Ukadiche Modak, filled with freshly grated coconut, jaggery, and cardamom encased in steamed rice flour, is offered with deep reverence."
+      },
+      {
+        question: "On which sacred day does the 10-day Ganesh festival culminate with the immersion (Visarjan) ceremony?",
+        options: [
+          "Anant Chaturdashi",
+          "Tulsi Vivah",
+          "Sharad Purnima",
+          "Devutthana Ekadashi"
+        ],
+        correctIndex: 0,
+        category: "Festivals & Calendar",
+        explanation: "The festival begins on Bhadrapada Shukla Chaturthi and ends on Anant Chaturdashi, when statues of Bappa are immersed in water amidst joyous chants of 'Pudhchya Varshi Laukariya'."
+      },
+      {
+        question: "The famed 'Ashtavinayak' pilgrimage circuit of eight self-manifested Ganesha temples is located in which state?",
+        options: [
+          "Maharashtra",
+          "Gujarat",
+          "Madhya Pradesh",
+          "Karnataka"
+        ],
+        correctIndex: 0,
+        category: "Sacred Pilgrimages",
+        explanation: "The Ashtavinayak temples (including Mayureshwar, Siddhivinayak, Ballaleshwar, Varadavinayak, Chintamani, Girijatmaj, Vighnahar, and Mahaganapati) are venerated across Maharashtra."
+      },
+      {
+        question: "According to legend, why did Lord Ganesha circle his parents Shiva & Parvati three times?",
+        options: [
+          "To prove that his parents represented the entire universe in a cosmic race",
+          "To seek their permission before slaying demon Tripurasura",
+          "To complete his initiation ceremony (Upanayana)",
+          "To receive the golden nectar bowl from Brahma"
+        ],
+        correctIndex: 0,
+        category: "Wisdom & Wit",
+        explanation: "While his brother Kartikeya flew around the world on his peacock, Ganesha circumambulated his parents, showing that loving parents encompass the supreme universe."
+      },
+      {
+        question: "Which sacred grass blade is considered especially auspicious and dearest when offering puja to Lord Ganesha?",
+        options: [
+          "Durva (Bermuda / Cynodon grass)",
+          "Kusha grass",
+          "Darbha grass",
+          "Tulsi leaves"
+        ],
+        correctIndex: 0,
+        category: "Puja Rituals",
+        explanation: "A bundle of 21 tender Durva grass shoots is offered to Ganesha. According to the Puranas, it cooled the burning digestive fire within him after he swallowed demon Analasura."
+      },
+      {
+        question: "What auspicious flower color is most beloved by Lord Ganesha and widely offered during puja?",
+        options: [
+          "Red Hibiscus (Jaswand)",
+          "White Jasmine",
+          "Blue Nilotpala",
+          "Yellow Marigold only"
+        ],
+        correctIndex: 0,
+        category: "Rituals & Symbols",
+        explanation: "The bright red Hibiscus (Jaswand) flower is synonymous with Ganesha worship, representing vitality, shakti, and divine consciousness."
+      },
+      {
+        question: "Which renowned Mumbai public Ganesh pandal is historically known as 'Navasacha Ganpati' (Fulfiller of Vows)?",
+        options: [
+          "Lalbaugcha Raja",
+          "GSB Seva Mandal",
+          "Andhericha Raja",
+          "Khetwadicha Ganraj"
+        ],
+        correctIndex: 0,
+        category: "Cultural Traditions",
+        explanation: "Founded in 1934 by local fishermen in Lalbaug, Mumbai, Lalbaugcha Raja attracts millions of pilgrims annually seeking fulfillment of their prayers."
+      },
+      {
+        question: "What is the spiritual symbolism of Lord Ganesha's prominent trunk turned toward his left (Vamamukhi)?",
+        options: [
+          "Ida Nadi (Chandra/cooling calming lunar energy, suited for household worship)",
+          "Pingala Nadi (Sun energy requiring stringent ascetic rituals)",
+          "Total renunciation of household responsibilities",
+          "Destruction of cosmic enemies"
+        ],
+        correctIndex: 0,
+        category: "Iconography & Yoga",
+        explanation: "A left-turned trunk symbolizes Ida Nadi (Chandra energy), blessing peace, prosperity, and domestic joy, making it ideal for household worship."
+      },
+      {
+        question: "Which Vedic prayer/hymn dedicated to Lord Ganesha is most famously recited for removing obstacles?",
+        options: [
+          "Ganapati Atharvashirsha",
+          "Purusha Suktam",
+          "Sri Suktam",
+          "Rudra Prashna"
+        ],
+        correctIndex: 0,
+        category: "Scriptures & Chants",
+        explanation: "The Ganapati Atharvashirsha, from the Atharva Veda, praises Ganesha as the supreme reality (Brahman), supreme intellect, and remover of all hindrances."
+      },
+      {
+        question: "What is the reason devotees traditionally avoid looking at the Moon on the night of Ganesh Chaturthi?",
+        options: [
+          "Legend says the Moon mocked Ganesha's form, incurring a curse of false accusations (Mithya Dosha)",
+          "The Moon undergoes a rare celestial eclipse on this night",
+          "Looking at the moon causes loss of eyesight according to astrology",
+          "Lord Shiva prohibited it in Kailash"
+        ],
+        correctIndex: 0,
+        category: "Folklore & Calendar",
+        explanation: "According to myth, Chandra deva laughed when Ganesha slipped. Ganesha cursed that anyone sighting the moon on Chaturthi might suffer false accusations (as even Lord Krishna endured with the Syamantaka jewel)."
+      },
+      {
+        question: "How many canonical divine incarnations (avataras) of Ganesha are detailed in the sacred Ganesha Purana?",
+        options: [
+          "8 Incarnations (Ashta Avataras)",
+          "10 Incarnations (Dashavatara)",
+          "12 Incarnations (Dwadashavatara)",
+          "4 Incarnations (Chaturvyuha)"
+        ],
+        correctIndex: 0,
+        category: "Puranic Texts",
+        explanation: "The Ganesha Purana describes 8 Avatars (Vakratunda, Ekadanta, Mahodara, Gajanana, Lambodara, Vikata, Vighnaraja, and Dhumravarna), each incarnating to conquer internal human flaws like ego, greed, and anger."
+      }
+    ];
+
+    /* ==========================================================================
+       2. WEB AUDIO API SYNTHESIZER (No external audio files needed)
+       ========================================================================== */
+    class FestiveSoundEngine {
+      constructor() {
+        this.ctx = null;
+        this.muted = false;
+      }
+
+      init() {
+        if (!this.ctx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          if (AudioContext) {
+            this.ctx = new AudioContext();
+          }
+        }
+        if (this.ctx && this.ctx.state === 'suspended') {
+          this.ctx.resume();
+        }
+      }
+
+      // Short auspicious bell chime (Temple Bell frequency)
+      playBell() {
+        if (this.muted) return;
+        this.init();
+        if (!this.ctx) return;
+
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+
+        // Bell harmonics
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(880, now); // A5
+        osc.frequency.exponentialRampToValueAtTime(1760, now + 0.08);
+        osc.frequency.exponentialRampToValueAtTime(1320, now + 0.35);
+
+        gain.gain.setValueAtTime(0.3, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 1.2);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+
+        osc.start(now);
+        osc.stop(now + 1.2);
+      }
+
+      // Correct Answer celebratory arpeggio
+      playCorrect() {
+        if (this.muted) return;
+        this.init();
+        if (!this.ctx) return;
+
+        const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+        notes.forEach((freq, idx) => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          const startTime = this.ctx.currentTime + (idx * 0.08);
+
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(freq, startTime);
+
+          gain.gain.setValueAtTime(0.2, startTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.4);
+
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+
+          osc.start(startTime);
+          osc.stop(startTime + 0.4);
+        });
+      }
+
+      // Incorrect Answer low gentle chime
+      playWrong() {
+        if (this.muted) return;
+        this.init();
+        if (!this.ctx) return;
+
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(260, now);
+        osc.frequency.linearRampToValueAtTime(140, now + 0.28);
+
+        gain.gain.setValueAtTime(0.18, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+
+        osc.start(now);
+        osc.stop(now + 0.35);
+      }
+
+      // Ticking sound for urgent timer warning
+      playTick() {
+        if (this.muted) return;
+        this.init();
+        if (!this.ctx) return;
+
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(700, now);
+
+        gain.gain.setValueAtTime(0.08, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+
+        osc.start(now);
+        osc.stop(now + 0.05);
+      }
+
+      // Grand celebration fanfare
+      playVictory() {
+        if (this.muted) return;
+        this.init();
+        if (!this.ctx) return;
+
+        const chords = [
+          { freq: 440, delay: 0 },
+          { freq: 554.37, delay: 0.12 },
+          { freq: 659.25, delay: 0.24 },
+          { freq: 880, delay: 0.38 }
+        ];
+
+        chords.forEach(item => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          const st = this.ctx.currentTime + item.delay;
+
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(item.freq, st);
+
+          gain.gain.setValueAtTime(0.25, st);
+          gain.gain.exponentialRampToValueAtTime(0.001, st + 1.2);
+
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+
+          osc.start(st);
+          osc.stop(st + 1.2);
+        });
+      }
+
+      // Button tap
+      playTap() {
+        if (this.muted) return;
+        this.init();
+        if (!this.ctx) return;
+
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(450, now);
+        gain.gain.setValueAtTime(0.06, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.03);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+
+        osc.start(now);
+        osc.stop(now + 0.04);
+      }
+    }
+
+    const sound = new FestiveSoundEngine();
+
+    function toggleSound() {
+      sound.muted = !sound.muted;
+      const soundIcon = document.getElementById('soundIcon');
+      const soundText = document.getElementById('soundText');
+
+      if (sound.muted) {
+        soundIcon.setAttribute('data-lucide', 'volume-x');
+        soundText.textContent = 'Audio: Off';
+      } else {
+        soundIcon.setAttribute('data-lucide', 'volume-2');
+        soundText.textContent = 'Audio: On';
+        sound.playBell();
+      }
+      lucide.createIcons();
+    }
+
+    /* ==========================================================================
+       3. QUIZ STATE & SCORING LOGIC
+       ========================================================================== */
+    const QUESTION_TIME_LIMIT = 20; // 20 seconds per question
+    let questions = [];
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let correctCount = 0;
+    let currentStreak = 0;
+    let highestStreak = 0;
+    let questionTimer = null;
+    let secondsLeft = QUESTION_TIME_LIMIT;
+    let hasAnswered = false;
+    let quizStartTime = null;
+    let totalQuizSeconds = 0;
+    let currentPlayerName = "Bappa Bhakt";
+
+    // Fisher-Yates array shuffling
+    function shuffleArray(arr) {
+      const copy = [...arr];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    // Prepare quiz by shuffling questions and their options
+    function prepareQuiz() {
+      const shuffledQuestions = shuffleArray(ALL_QUESTIONS);
+      
+      // Shuffle choices per question while keeping track of the correct answer
+      questions = shuffledQuestions.map(q => {
+        const originalCorrectText = q.options[q.correctIndex];
+        const shuffledOpts = shuffleArray(q.options);
+        const newCorrectIndex = shuffledOpts.indexOf(originalCorrectText);
+        return {
+          ...q,
+          options: shuffledOpts,
+          correctIndex: newCorrectIndex
+        };
+      });
+    }
+
+    function startQuiz() {
+      sound.init();
+      sound.playBell();
+
+      const nameInput = document.getElementById('playerNameInput');
+      currentPlayerName = (nameInput.value || '').trim() || "Devotee " + Math.floor(100 + Math.random() * 900);
+
+      // Reset state
+      score = 0;
+      correctCount = 0;
+      currentStreak = 0;
+      highestStreak = 0;
+      currentQuestionIndex = 0;
+      quizStartTime = Date.now();
+
+      prepareQuiz();
+
+      // UI switches
+      document.getElementById('welcomeScreen').classList.add('hidden');
+      document.getElementById('resultsScreen').classList.add('hidden');
+      document.getElementById('quizScreen').classList.remove('hidden');
+
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      hasAnswered = false;
+      clearInterval(questionTimer);
+      secondsLeft = QUESTION_TIME_LIMIT;
+
+      const q = questions[currentQuestionIndex];
+
+      // Update counters & headers
+      document.getElementById('questionProgressText').textContent = `${currentQuestionIndex + 1} / ${questions.length}`;
+      document.getElementById('liveScoreText').textContent = `${score} pts`;
+      document.getElementById('questionCategory').textContent = q.category;
+      document.getElementById('questionTitle').textContent = q.question;
+
+      // Update streak badge
+      const streakBadge = document.getElementById('streakBadge');
+      if (currentStreak >= 2) {
+        streakBadge.classList.remove('hidden');
+        streakBadge.classList.add('flex');
+        document.getElementById('streakCountText').textContent = `${currentStreak}x Streak!`;
+      } else {
+        streakBadge.classList.add('hidden');
+        streakBadge.classList.remove('flex');
+      }
+
+      // Overall Progress bar %
+      const progressPercent = ((currentQuestionIndex) / questions.length) * 100;
+      document.getElementById('overallProgressBar').style.width = `${progressPercent}%`;
+
+      // Reset options container
+      const container = document.getElementById('optionsContainer');
+      container.innerHTML = '';
+
+      q.options.forEach((optText, index) => {
+        const btn = document.createElement('button');
+        btn.className = `option-card w-full text-left p-3.5 sm:p-4 rounded-2xl bg-black/30 border border-amber-500/25 hover:bg-amber-500/10 text-amber-100 font-medium flex items-center justify-between text-sm sm:text-base group`;
+        btn.id = `optBtn_${index}`;
+        btn.onclick = () => selectAnswer(index);
+
+        const labelSpan = document.createElement('span');
+        labelSpan.className = 'flex items-center gap-3';
+        
+        // Option index circle (A, B, C, D)
+        const letters = ['A', 'B', 'C', 'D'];
+        labelSpan.innerHTML = `
+          <span class="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-300 border border-amber-500/30 flex items-center justify-center text-xs font-bold font-mono group-hover:border-amber-400">
+            ${letters[index]}
+          </span>
+          <span class="text-amber-100 leading-snug">${escapeHtml(optText)}</span>
+        `;
+
+        const iconHolder = document.createElement('span');
+        iconHolder.id = `optIcon_${index}`;
+        iconHolder.className = 'w-6 h-6 flex items-center justify-center';
+
+        btn.appendChild(labelSpan);
+        btn.appendChild(iconHolder);
+        container.appendChild(btn);
+      });
+
+      // Hide explanation & next button
+      document.getElementById('explanationCard').classList.add('hidden');
+      document.getElementById('nextBtn').classList.add('hidden');
+      document.getElementById('nextBtn').classList.remove('flex');
+
+      // Setup and start question countdown
+      updateTimerDisplay();
+      questionTimer = setInterval(() => {
+        secondsLeft--;
+        updateTimerDisplay();
+
+        if (secondsLeft <= 5 && secondsLeft > 0) {
+          sound.playTick();
+        }
+
+        if (secondsLeft <= 0) {
+          clearInterval(questionTimer);
+          handleTimeout();
+        }
+      }, 1000);
+
+      lucide.createIcons();
+    }
+
+    function updateTimerDisplay() {
+      const timerText = document.getElementById('timerSecondsText');
+      const timerBar = document.getElementById('timerBar');
+
+      timerText.textContent = `${secondsLeft}s`;
+      const ratio = (secondsLeft / QUESTION_TIME_LIMIT) * 100;
+      timerBar.style.width = `${ratio}%`;
+
+      if (secondsLeft <= 5) {
+        timerText.className = "font-mono font-bold text-red-400 text-sm animate-pulse";
+        timerBar.className = "h-full bg-gradient-to-r from-red-600 to-red-400 rounded-full transition-all duration-100";
+      } else {
+        timerText.className = "font-mono font-bold text-amber-300 text-sm";
+        timerBar.className = "h-full bg-gradient-to-r from-emerald-500 via-amber-400 to-red-500 rounded-full transition-all duration-100";
+      }
+    }
+
+    function selectAnswer(selectedIndex) {
+      if (hasAnswered) return;
+      hasAnswered = true;
+      clearInterval(questionTimer);
+
+      const q = questions[currentQuestionIndex];
+      const isCorrect = (selectedIndex === q.correctIndex);
+      const allButtons = document.querySelectorAll('.option-card');
+      allButtons.forEach(b => b.disabled = true);
+
+      // Scoring formula: Base points (100) + speed bonus (secondsLeft * 10) + streak multiplier
+      if (isCorrect) {
+        correctCount++;
+        currentStreak++;
+        if (currentStreak > highestStreak) highestStreak = currentStreak;
+
+        const basePoints = 100;
+        const speedBonus = secondsLeft * 10;
+        const streakMultiplier = currentStreak > 1 ? 1 + (currentStreak * 0.1) : 1;
+        const pointsAwarded = Math.round((basePoints + speedBonus) * streakMultiplier);
+        score += pointsAwarded;
+
+        sound.playCorrect();
+
+        // Style selected correct button
+        const correctBtn = document.getElementById(`optBtn_${selectedIndex}`);
+        correctBtn.classList.remove('bg-black/30', 'border-amber-500/25');
+        correctBtn.classList.add('bg-emerald-950/60', 'border-emerald-400', 'shadow-lg', 'shadow-emerald-500/20');
+        document.getElementById(`optIcon_${selectedIndex}`).innerHTML = `<i data-lucide="check-circle" class="w-5 h-5 text-emerald-400"></i>`;
+      } else {
+        currentStreak = 0;
+        sound.playWrong();
+
+        // Style selected wrong button
+        if (selectedIndex !== null) {
+          const wrongBtn = document.getElementById(`optBtn_${selectedIndex}`);
+          wrongBtn.classList.remove('bg-black/30', 'border-amber-500/25');
+          wrongBtn.classList.add('bg-red-950/60', 'border-red-400');
+          document.getElementById(`optIcon_${selectedIndex}`).innerHTML = `<i data-lucide="x-circle" class="w-5 h-5 text-red-400"></i>`;
+        }
+
+        // Highlight the true correct answer
+        const trueCorrectBtn = document.getElementById(`optBtn_${q.correctIndex}`);
+        trueCorrectBtn.classList.remove('bg-black/30', 'border-amber-500/25');
+        trueCorrectBtn.classList.add('bg-emerald-950/40', 'border-emerald-500/70');
+        document.getElementById(`optIcon_${q.correctIndex}`).innerHTML = `<i data-lucide="check" class="w-5 h-5 text-emerald-400"></i>`;
+      }
+
+      // Update live score display
+      document.getElementById('liveScoreText').textContent = `${score} pts`;
+
+      // Show Trivia Card
+      const explanationCard = document.getElementById('explanationCard');
+      const explanationTitle = document.getElementById('explanationTitle');
+      const explanationBody = document.getElementById('explanationBody');
+      const explanationIcon = document.getElementById('explanationIcon');
+
+      explanationTitle.textContent = isCorrect ? "Shubh! Well Done!" : (selectedIndex === null ? "Time's Up!" : "Incorrect — Learn The Lore:");
+      explanationTitle.className = isCorrect ? "font-bold text-emerald-300 text-sm" : "font-bold text-amber-300 text-sm";
+      explanationBody.textContent = q.explanation;
+      explanationCard.classList.remove('hidden');
+
+      // Update Next button
+      const nextBtn = document.getElementById('nextBtn');
+      const nextBtnText = document.getElementById('nextBtnText');
+      if (currentQuestionIndex === questions.length - 1) {
+        nextBtnText.textContent = "View Final Aarti & Results";
+      } else {
+        nextBtnText.textContent = "Next Question";
+      }
+      nextBtn.classList.remove('hidden');
+      nextBtn.classList.add('flex');
+
+      lucide.createIcons();
+    }
+
+    function handleTimeout() {
+      selectAnswer(null);
+    }
+
+    function nextQuestion() {
+      sound.playTap();
+      if (currentQuestionIndex < questions.length - 1) {
+        currentQuestionIndex++;
+        renderQuestion();
+      } else {
+        finishQuiz();
+      }
+    }
+
+    /* ==========================================================================
+       4. RESULTS & LEADERBOARD SYSTEM
+       ========================================================================== */
+    function finishQuiz() {
+      clearInterval(questionTimer);
+      totalQuizSeconds = Math.round((Date.now() - quizStartTime) / 1000);
+
+      // Hide quiz, show results
+      document.getElementById('quizScreen').classList.add('hidden');
+      document.getElementById('resultsScreen').classList.remove('hidden');
+
+      // Calculate accuracy
+      const accuracy = Math.round((correctCount / questions.length) * 100);
+
+      // Determine rank title
+      let rankTitle = "Ganesh Bhakt (Devotee)";
+      if (score >= 2000 && accuracy >= 85) {
+        rankTitle = "Param Super-Devotee 🌟";
+      } else if (score >= 1500) {
+        rankTitle = "Modak Master 🥟";
+      } else if (score >= 1000) {
+        rankTitle = "Mythology Scholar 📜";
+      } else {
+        rankTitle = "Seeker of Wisdom 🌱";
+      }
+
+      // Update Result elements
+      document.getElementById('resultPlayerGreeting').textContent = `${currentPlayerName}!`;
+      document.getElementById('rankBadgeText').textContent = rankTitle;
+      document.getElementById('resultFinalScore').textContent = score.toLocaleString();
+      document.getElementById('resultAccuracy').textContent = `${accuracy}%`;
+      document.getElementById('resultCorrectCount').textContent = `${correctCount} of ${questions.length} Correct`;
+      document.getElementById('resultMaxStreak').textContent = highestStreak;
+      document.getElementById('resultTotalTime').textContent = `${totalQuizSeconds}s`;
+
+      // Save to Leaderboard
+      saveLeaderboardEntry({
+        name: currentPlayerName,
+        score: score,
+        accuracy: accuracy,
+        date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+      });
+
+      // Victory sounds & Confetti
+      sound.playVictory();
+      triggerConfetti();
+      lucide.createIcons();
+    }
+
+    function triggerConfetti() {
+      if (typeof confetti !== 'undefined') {
+        // Multi-stage festive blast with saffron, gold, and marigold colors
+        const colors = ['#f59e0b', '#ea580c', '#fbbf24', '#b91c1c', '#ffffff'];
+        
+        confetti({
+          particleCount: 80,
+          spread: 70,
+          origin: { y: 0.6 },
+          colors: colors
+        });
+
+        setTimeout(() => {
+          confetti({
+            particleCount: 50,
+            angle: 60,
+            spread: 55,
+            origin: { x: 0 },
+            colors: colors
+          });
+          confetti({
+            particleCount: 50,
+            angle: 120,
+            spread: 55,
+            origin: { x: 1 },
+            colors: colors
+          });
+        }, 300);
+      }
+    }
+
+    function restartQuiz() {
+      sound.playTap();
+      document.getElementById('resultsScreen').classList.add('hidden');
+      document.getElementById('welcomeScreen').classList.remove('hidden');
+    }
+
+    const DEFAULT_LEADERBOARD = [
+      { name: "Aarav Sharma", score: 2340, accuracy: 100, date: "Sep 18" },
+      { name: "Riya Kulkarni", score: 2120, accuracy: 93, date: "Sep 19" },
+      { name: "Advait Joshi", score: 1890, accuracy: 86, date: "Sep 19" },
+      { name: "Ananya Deshmukh", score: 1650, accuracy: 80, date: "Sep 20" },
+      { name: "Kabir Iyer", score: 1420, accuracy: 73, date: "Sep 20" }
+    ];
+
+    function getLeaderboard() {
+      try {
+        const stored = localStorage.getItem('ganesh_quiz_leaderboard');
+        if (stored) {
+          return JSON.parse(stored);
+        }
+      } catch (e) {
+        console.warn("Storage access limited:", e);
+      }
+      return DEFAULT_LEADERBOARD;
+    }
+
+    function saveLeaderboardEntry(entry) {
+      let list = getLeaderboard();
+      list.push(entry);
+      // Sort highest score first, then accuracy
+      list.sort((a, b) => b.score - a.score || b.accuracy - a.accuracy);
+      // Keep top 12
+      list = list.slice(0, 12);
+      try {
+        localStorage.setItem('ganesh_quiz_leaderboard', JSON.stringify(list));
+      } catch (e) {}
+    }
+
+    function resetLeaderboardConfirm() {
+      try {
+        localStorage.removeItem('ganesh_quiz_leaderboard');
+      } catch (e) {}
+      renderLeaderboardModal();
+    }
+
+    function renderLeaderboardModal() {
+      const list = getLeaderboard();
+      const container = document.getElementById('leaderboardList');
+      container.innerHTML = '';
+
+      list.forEach((item, index) => {
+        const row = document.createElement('div');
+        const isTopThree = index < 3;
+        
+        let medalBadge = '';
+        if (index === 0) medalBadge = `<span class="text-amber-400 font-bold flex items-center gap-1"><i data-lucide="crown" class="w-4 h-4 fill-amber-400"></i> #1</span>`;
+        else if (index === 1) medalBadge = `<span class="text-slate-300 font-bold flex items-center gap-1"><i data-lucide="medal" class="w-4 h-4"></i> #2</span>`;
+        else if (index === 2) medalBadge = `<span class="text-amber-600 font-bold flex items-center gap-1"><i data-lucide="award" class="w-4 h-4"></i> #3</span>`;
+        else medalBadge = `<span class="text-amber-300/60 font-medium">#${index + 1}</span>`;
+
+        row.className = `p-3 rounded-2xl flex items-center justify-between transition-all ${
+          isTopThree ? 'bg-amber-500/15 border border-amber-500/30' : 'bg-black/25 border border-amber-500/10'
+        }`;
+
+        row.innerHTML = `
+          <div class="flex items-center gap-3">
+            <div class="w-8 flex items-center justify-center font-mono text-sm">
+              ${medalBadge}
+            </div>
+            <div>
+              <p class="font-bold text-amber-100 text-sm">${escapeHtml(item.name)}</p>
+              <p class="text-[11px] text-amber-400/60">${item.date || 'Recent'} • ${item.accuracy || 0}% Accuracy</p>
+            </div>
+          </div>
+          <div class="text-right">
+            <span class="font-festive text-lg text-amber-300">${item.score.toLocaleString()}</span>
+            <span class="text-[10px] text-amber-400/60 block -mt-1">pts</span>
+          </div>
+        `;
+        container.appendChild(row);
+      });
+
+      lucide.createIcons();
+    }
+
+    function openLeaderboardModal() {
+      sound.playTap();
+      renderLeaderboardModal();
+      const modal = document.getElementById('leaderboardModal');
+      modal.classList.remove('hidden');
+      setTimeout(() => modal.classList.remove('opacity-0'), 10);
+    }
+
+    function closeLeaderboardModal() {
+      sound.playTap();
+      const modal = document.getElementById('leaderboardModal');
+      modal.classList.add('opacity-0');
+      setTimeout(() => modal.classList.add('hidden'), 250);
+    }
+
+    function shareScore() {
+      sound.playTap();
+      const shareText = `🪔 I scored ${score.toLocaleString()} points (${correctCount}/15 correct) in the Ganesh Chaturthi Utsav Quiz! Can you beat my score? Ganpati Bappa Morya! 🙏`;
+      
+      const tempTextArea = document.createElement('textarea');
+      tempTextArea.value = shareText;
+      document.body.appendChild(tempTextArea);
+      tempTextArea.select();
+      try {
+        document.execCommand('copy');
+        const notice = document.getElementById('shareNotice');
+        notice.classList.remove('hidden');
+        setTimeout(() => notice.classList.add('hidden'), 4000);
+      } catch (err) {
+        console.error("Unable to copy", err);
+      }
+      document.body.removeChild(tempTextArea);
+    }
+
+    // Helper: HTML sanitization
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    // Initialize Lucide icons on load
+    window.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+    });
+  </script>
+</body>
+</html>
