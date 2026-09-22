@@ -196,7 +196,7 @@
           Ganesh Chaturthi Utsav Quiz
         </h2>
         <p class="text-amber-200/90 text-xs sm:text-sm max-w-xl mx-auto leading-relaxed">
-          Test your sacred knowledge of Lord Ganesha in this live solo championship! 30 questions, 20 seconds each.
+          Test your sacred knowledge of Lord Ganesha in this live individual championship! 30 questions, 20 seconds each.
         </p>
       </div>
 
@@ -460,7 +460,7 @@
   </div>
 
   <!-- HOST CHAMPIONSHIP LEADERBOARD MODAL -->
-  <div id="hostLeaderboardModal" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-black/90 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
+  <div id="hostLeaderboardModal" class="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-5 bg-black/90 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
     <div class="bg-gradient-to-b from-kumkum-800 to-kumkum-950 border border-amber-500/50 rounded-3xl w-full max-w-5xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh]">
       
       <!-- Modal Top Header -->
@@ -504,21 +504,58 @@
         <!-- Rendered dynamically -->
       </div>
 
-      <!-- Filters & Actions -->
-      <div class="p-3 bg-black/25 border-b border-amber-500/20 flex flex-col sm:flex-row items-center gap-2.5 justify-between">
-        <div class="flex items-center gap-2 w-full sm:w-auto flex-1">
-          <div class="relative flex-1">
-            <i data-lucide="search" class="w-4 h-4 text-amber-400/60 absolute left-3 top-1/2 -translate-y-1/2"></i>
-            <input type="text" id="leaderboardSearchInput" placeholder="Search participant by name..." oninput="filterLeaderboardView()" class="w-full bg-black/50 border border-amber-500/30 rounded-xl pl-9 pr-3 py-1.5 text-xs text-amber-100 placeholder-amber-400/40 focus:outline-none focus:border-amber-400">
+      <!-- ACTIVE PARTICIPANTS LIVE TICKER STRIP -->
+      <div class="bg-black/50 border-b border-amber-500/20 px-4 py-2.5">
+        <div class="flex items-center justify-between gap-2 mb-1.5">
+          <div class="flex items-center gap-2">
+            <span class="relative flex h-2.5 w-2.5">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+            </span>
+            <span class="text-xs font-bold uppercase tracking-wider text-emerald-300">Live Active Devotees Playing Now</span>
+            <span id="hostActivePlayingCountBadge" class="px-2 py-0.2 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-mono font-bold border border-emerald-500/30">0 Playing</span>
           </div>
         </div>
-        <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
-          <button onclick="toggleChangePinView()" class="px-3 py-1.5 rounded-lg bg-black/40 border border-amber-500/30 hover:border-amber-400 text-amber-300 text-xs font-medium flex items-center gap-1.5 transition-colors">
-            <i data-lucide="key" class="w-3.5 h-3.5 text-amber-400"></i>
+        <div id="hostActiveContestantsTicker" class="flex gap-2 overflow-x-auto pb-1 text-xs">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+
+      <!-- Status Filter Tabs -->
+      <div class="p-3 bg-black/25 border-b border-amber-500/20 flex flex-col sm:flex-row items-center gap-2.5 justify-between">
+        <div class="flex items-center gap-2">
+          <button id="tabFilterAll" onclick="setHostFilterTab('all')" class="px-2.5 py-1 rounded-lg font-bold bg-amber-500 text-kumkum-950 shadow transition-all text-xs">
+            All (<span id="filterCountAll">0</span>)
+          </button>
+          <button id="tabFilterActive" onclick="setHostFilterTab('active')" class="px-2.5 py-1 rounded-lg font-bold text-amber-200/80 hover:text-amber-100 transition-all text-xs">
+            🟢 Live Playing (<span id="filterCountActive">0</span>)
+          </button>
+          <button id="tabFilterCompleted" onclick="setHostFilterTab('completed')" class="px-2.5 py-1 rounded-lg font-bold text-amber-200/80 hover:text-amber-100 transition-all text-xs">
+            🏁 Finished (<span id="filterCountCompleted">0</span>)
+          </button>
+        </div>
+
+        <div class="flex items-center gap-2 w-full sm:w-auto">
+          <div class="relative flex-1 sm:w-64">
+            <i data-lucide="search" class="w-4 h-4 text-amber-400/60 absolute left-3 top-1/2 -translate-y-1/2"></i>
+            <input type="text" id="leaderboardSearchInput" placeholder="Search participant..." oninput="filterLeaderboardView()" class="w-full bg-black/50 border border-amber-500/30 rounded-xl pl-9 pr-3 py-1.5 text-xs text-amber-100 placeholder-amber-400/40 focus:outline-none focus:border-amber-400">
+          </div>
+        </div>
+      </div>
+
+      <!-- Filters & Actions Bar -->
+      <div class="p-2.5 bg-black/20 border-b border-amber-500/20 flex items-center justify-between">
+        <span class="text-[11px] text-amber-300/70 flex items-center gap-1.5">
+          <i data-lucide="activity" class="w-3.5 h-3.5 text-emerald-400"></i>
+          Participants shift dynamically UP (▲) or DOWN (▼) in real-time.
+        </span>
+        <div class="flex items-center gap-2">
+          <button onclick="toggleChangePinView()" class="px-3 py-1 rounded-lg bg-black/40 border border-amber-500/30 hover:border-amber-400 text-amber-300 text-xs font-medium flex items-center gap-1 transition-colors">
+            <i data-lucide="key" class="w-3 h-3 text-amber-400"></i>
             <span>Change PIN</span>
           </button>
-          <button onclick="exportLeaderboardCSV()" class="px-3 py-1.5 rounded-lg bg-amber-500/20 border border-amber-500/40 hover:bg-amber-500/30 text-amber-200 text-xs font-medium flex items-center gap-1.5 transition-colors">
-            <i data-lucide="download" class="w-3.5 h-3.5 text-amber-300"></i>
+          <button onclick="exportLeaderboardCSV()" class="px-3 py-1 rounded-lg bg-amber-500/20 border border-amber-500/40 hover:bg-amber-500/30 text-amber-200 text-xs font-medium flex items-center gap-1 transition-colors">
+            <i data-lucide="download" class="w-3 h-3 text-amber-300"></i>
             <span>Export CSV</span>
           </button>
         </div>
@@ -536,15 +573,6 @@
           </button>
         </div>
         <p id="changePinMsg" class="text-[11px] mt-1.5 hidden"></p>
-      </div>
-
-      <!-- Live Movement Explanation Banner -->
-      <div class="px-4 py-2 bg-amber-500/10 border-b border-amber-500/20 flex items-center justify-between text-[11px] text-amber-300">
-        <span class="flex items-center gap-1.5">
-          <i data-lucide="activity" class="w-3.5 h-3.5 text-emerald-400"></i>
-          Participants shift dynamically UP (<span class="text-emerald-400 font-bold">▲</span>) or DOWN (<span class="text-red-400 font-bold">▼</span>) in real-time as answers are submitted.
-        </span>
-        <span class="text-amber-400/80 font-mono hidden sm:inline">Tie-breaker: Points → Correct → Time</span>
       </div>
 
       <!-- Individual Contestants List -->
@@ -567,7 +595,7 @@
   </div>
 
   <!-- RESET CONFIRMATION MODAL -->
-  <div id="resetConfirmModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md hidden opacity-0 transition-opacity duration-200">
+  <div id="resetConfirmModal" class="fixed inset-0 z-[120] flex items-center justify-center p-4 bg-black/85 backdrop-blur-md hidden opacity-0 transition-opacity duration-200">
     <div class="bg-gradient-to-b from-kumkum-800 to-kumkum-950 border border-red-500/50 rounded-2xl w-full max-w-sm p-6 shadow-2xl text-center space-y-4">
       <div class="w-12 h-12 rounded-full bg-red-500/20 border border-red-500/40 text-red-400 mx-auto flex items-center justify-center">
         <i data-lucide="alert-triangle" class="w-6 h-6"></i>
@@ -588,12 +616,12 @@
   </div>
 
   <script>
-    const STORAGE_KEY_LEADERBOARD = 'ganesh_quiz_master_leaderboard_v4';
-    const STORAGE_KEY_PIN = 'ganesh_quiz_host_pin_v4';
-    const HOST_DEFAULT_PIN = '787898';
+    const STORAGE_KEY_LEADERBOARD = 'ganesh_quiz_master_leaderboard_v5';
+    const STORAGE_KEY_PIN = 'ganesh_quiz_host_pin_v5';
+    const STORAGE_KEY_RESET_TS = 'ganesh_quiz_reset_ts_v5';
 
     // Unique cross-device cloud sync room
-    const CLOUD_ROOM_TOPIC = 'ganesh_utsav_quiz_individual_championship_prod';
+    const CLOUD_ROOM_TOPIC = 'ganesh_utsav_quiz_individual_championship_prod_v5';
     const CLOUD_PUB_URL = `https://ntfy.sh/${CLOUD_ROOM_TOPIC}`;
     const CLOUD_SUB_URL = `https://ntfy.sh/${CLOUD_ROOM_TOPIC}/sse?since=12h`;
 
@@ -978,7 +1006,7 @@
     let liveQuizChannel = null;
     try {
       if (typeof window.BroadcastChannel !== 'undefined') {
-        liveQuizChannel = new BroadcastChannel('ganesh_chaturthi_live_indiv_v4');
+        liveQuizChannel = new BroadcastChannel('ganesh_chaturthi_live_indiv_v5');
         liveQuizChannel.onmessage = (event) => {
           if (!event.data) return;
           handleIncomingSyncMessage(event.data);
@@ -987,7 +1015,6 @@
     } catch (e) {}
 
     function initCloudSync() {
-      // Connect to ntfy.sh SSE stream for real-time live events across phones and PCs
       try {
         if (typeof EventSource !== 'undefined') {
           cloudEventSource = new EventSource(CLOUD_SUB_URL);
@@ -996,12 +1023,11 @@
               const parsed = JSON.parse(event.data);
               if (parsed && parsed.message) {
                 const inner = JSON.parse(parsed.message);
-                handleIncomingSyncMessage(inner);
+                handleIncomingSyncMessage(inner, true);
               }
             } catch (err) {}
           };
           cloudEventSource.onerror = () => {
-            // Reconnect automatically if network glitches
             setTimeout(() => {
               if (cloudEventSource) {
                 cloudEventSource.close();
@@ -1013,9 +1039,8 @@
         }
       } catch (e) {}
 
-      // Heartbeat polling to ensure no score updates are missed
       syncRecentCloudMessages();
-      setInterval(syncRecentCloudMessages, 6000);
+      setInterval(syncRecentCloudMessages, 10000);
     }
 
     async function syncRecentCloudMessages() {
@@ -1024,12 +1049,19 @@
         if (!resp.ok) return;
         const text = await resp.text();
         const lines = text.trim().split('\n');
+        
+        let resetTs = 0;
+        try {
+          resetTs = Number(localStorage.getItem(STORAGE_KEY_RESET_TS) || '0');
+        } catch (e) {}
+
         lines.forEach(line => {
           try {
             if (!line.trim()) return;
             const item = JSON.parse(line);
             if (item && item.message) {
               const data = JSON.parse(item.message);
+              if (data.ts && data.ts < resetTs) return;
               handleIncomingSyncMessage(data, true);
             }
           } catch (e) {}
@@ -1041,7 +1073,6 @@
     }
 
     async function broadcastLiveProgress(entry, isFinished = false) {
-      // Save locally first
       saveOrUpdateHostRecord(entry, isFinished);
 
       const packet = {
@@ -1050,12 +1081,10 @@
         ts: Date.now()
       };
 
-      // Broadcast on device BroadcastChannel
       if (liveQuizChannel) {
         try { liveQuizChannel.postMessage(packet); } catch (e) {}
       }
 
-      // Publish to cloud room for host screen
       try {
         await fetch(CLOUD_PUB_URL, {
           method: 'POST',
@@ -1066,9 +1095,16 @@
     }
 
     function handleIncomingSyncMessage(data, isBatch = false) {
-      if (!data || !data.entry) return;
+      if (!data) return;
 
-      if (data.type === 'LIVE_PROGRESS' || data.type === 'FINAL_SUBMISSION' || data.type === 'ENROLLMENT') {
+      let resetTs = 0;
+      try {
+        resetTs = Number(localStorage.getItem(STORAGE_KEY_RESET_TS) || '0');
+      } catch (e) {}
+      if (data.ts && data.ts < resetTs) return;
+
+      if (data.type === 'LIVE_PROGRESS' || data.type === 'FINAL_SUBMISSION') {
+        if (!data.entry) return;
         saveOrUpdateHostRecord(data.entry, data.type === 'FINAL_SUBMISSION', true);
 
         if (!isBatch && isHostDashboardOpen && data.entry.rankMovement) {
@@ -1109,7 +1145,6 @@
     }
 
     function prepareQuiz() {
-      // 30 questions in identical sequence, randomized option positions per device
       questions = ALL_QUESTIONS_30.map(q => {
         const originalCorrectText = q.options[q.correctIndex];
         const shuffledOpts = shuffleArray(q.options);
@@ -1288,11 +1323,9 @@
 
       safeCreateIcons();
 
-      // Broadcast progress
       const isLastQ = (currentQuestionIndex === questions.length - 1);
       broadcastLiveProgressReport(currentQuestionIndex + 1, isLastQ);
 
-      // Show brief moving banner
       const banner = document.getElementById('lockedInBanner');
       const msg = document.getElementById('lockedInMessage');
       if (banner && msg) {
@@ -1301,7 +1334,6 @@
         banner.classList.add('flex');
       }
 
-      // Smooth instant advance
       setTimeout(() => {
         if (!isLastQ) {
           currentQuestionIndex++;
@@ -1622,9 +1654,9 @@
 
     function getHostPin() {
       try {
-        return localStorage.getItem(STORAGE_KEY_PIN) || HOST_DEFAULT_PIN;
+        return localStorage.getItem(STORAGE_KEY_PIN) || '787898';
       } catch (e) {
-        return HOST_DEFAULT_PIN;
+        return '787898';
       }
     }
 
@@ -1668,7 +1700,6 @@
 
       if (existingIdx !== -1) {
         const existing = list[existingIdx];
-        // Protect newer participant state from being overwritten by older delayed packets
         const isIncomingNewer = (entry.rawEpoch || 0) >= (existing.rawEpoch || 0);
         const isHigherProgress = (entry.answeredCount || 0) >= (existing.answeredCount || 0);
         
@@ -1707,12 +1738,12 @@
       const btnActive = document.getElementById('tabFilterActive');
       const btnCompleted = document.getElementById('tabFilterCompleted');
 
-      const activeStyle = "px-2.5 py-1 rounded-lg font-bold bg-amber-500 text-kumkum-950 shadow transition-all";
-      const inactiveStyle = "px-2.5 py-1 rounded-lg font-bold text-amber-200/80 hover:text-amber-100 transition-all";
+      const activeStyle = "px-2.5 py-1 rounded-lg font-bold bg-amber-500 text-kumkum-950 shadow transition-all text-xs";
+      const inactiveStyle = "px-2.5 py-1 rounded-lg font-bold text-amber-200/80 hover:text-amber-100 transition-all text-xs";
 
-      btnAll.className = (tab === 'all') ? activeStyle : inactiveStyle;
-      btnActive.className = (tab === 'active') ? activeStyle : inactiveStyle;
-      btnCompleted.className = (tab === 'completed') ? activeStyle : inactiveStyle;
+      if (btnAll) btnAll.className = (tab === 'all') ? activeStyle : inactiveStyle;
+      if (btnActive) btnActive.className = (tab === 'active') ? activeStyle : inactiveStyle;
+      if (btnCompleted) btnCompleted.className = (tab === 'completed') ? activeStyle : inactiveStyle;
 
       renderIndividualLeaderboard();
     }
@@ -1722,16 +1753,16 @@
       syncRecentCloudMessages();
       renderHostDashboard();
       const modal = document.getElementById('hostLeaderboardModal');
+      if (!modal) return;
       modal.classList.remove('hidden');
       setTimeout(() => modal.classList.remove('opacity-0'), 20);
 
-      // Auto-refresh every 3.5s while host panel is visible
       clearInterval(hostDashboardAutoSyncTimer);
       hostDashboardAutoSyncTimer = setInterval(() => {
         if (isHostDashboardOpen) {
           syncRecentCloudMessages();
         }
-      }, 3500);
+      }, 6000);
     }
 
     function closeHostLeaderboardModal() {
@@ -1739,6 +1770,7 @@
       clearInterval(hostDashboardAutoSyncTimer);
       sound.playTap();
       const modal = document.getElementById('hostLeaderboardModal');
+      if (!modal) return;
       modal.classList.add('opacity-0');
       setTimeout(() => modal.classList.add('hidden'), 250);
     }
@@ -1746,7 +1778,8 @@
     let currentFilterTerm = '';
 
     function filterLeaderboardView() {
-      currentFilterTerm = (document.getElementById('leaderboardSearchInput').value || '').toLowerCase().trim();
+      const searchInput = document.getElementById('leaderboardSearchInput');
+      currentFilterTerm = searchInput ? searchInput.value.toLowerCase().trim() : '';
       renderIndividualLeaderboard();
     }
 
@@ -1822,6 +1855,7 @@
       }
 
       const container = document.getElementById('hostLeaderboardList');
+      if (!container) return;
       container.innerHTML = '';
 
       const filtered = allEntries.filter(entry => {
@@ -2042,16 +2076,21 @@
       sound.playTap();
       const container = document.getElementById('changePinContainer');
       const msg = document.getElementById('changePinMsg');
+      if (!container || !msg) return;
       msg.classList.add('hidden');
       container.classList.toggle('hidden');
       if (!container.classList.contains('hidden')) {
-        document.getElementById('newPinInput').focus();
+        const input = document.getElementById('newPinInput');
+        if (input) input.focus();
       }
     }
 
     function saveNewPin() {
-      const newPin = (document.getElementById('newPinInput').value || '').trim();
+      const input = document.getElementById('newPinInput');
       const msg = document.getElementById('changePinMsg');
+      if (!input || !msg) return;
+      const newPin = input.value.trim();
+      
       if (newPin.length < 4) {
         msg.textContent = "PIN must be at least 4 digits long.";
         msg.className = "text-[11px] mt-1.5 text-red-400 font-semibold";
@@ -2062,7 +2101,7 @@
       msg.textContent = "✓ Host PIN successfully updated to " + newPin;
       msg.className = "text-[11px] mt-1.5 text-emerald-400 font-semibold";
       msg.classList.remove('hidden');
-      document.getElementById('newPinInput').value = '';
+      input.value = '';
       setTimeout(() => {
         toggleChangePinView();
       }, 1500);
@@ -2071,6 +2110,7 @@
     function promptResetLeaderboard() {
       sound.playTap();
       const confirmModal = document.getElementById('resetConfirmModal');
+      if (!confirmModal) return;
       confirmModal.classList.remove('hidden');
       setTimeout(() => confirmModal.classList.remove('opacity-0'), 10);
     }
@@ -2078,6 +2118,7 @@
     function cancelResetLeaderboard() {
       sound.playTap();
       const confirmModal = document.getElementById('resetConfirmModal');
+      if (!confirmModal) return;
       confirmModal.classList.add('opacity-0');
       setTimeout(() => confirmModal.classList.add('hidden'), 200);
     }
@@ -2086,6 +2127,7 @@
       sound.playTap();
       const resetTs = Date.now();
       try {
+        localStorage.setItem(STORAGE_KEY_RESET_TS, resetTs.toString());
         localStorage.removeItem(STORAGE_KEY_LEADERBOARD);
         localStorage.setItem(STORAGE_KEY_LEADERBOARD, JSON.stringify([]));
       } catch (e) {}
@@ -2109,7 +2151,7 @@
 
       cancelResetLeaderboard();
       renderHostDashboard();
-      showLiveToast("Board Cleared", "Leaderboard scores have been reset.", "info");
+      showLiveToast("Board Cleared", "Leaderboard scores have been reset across all devices.", "info");
     }
 
     function escapeHtml(str) {
