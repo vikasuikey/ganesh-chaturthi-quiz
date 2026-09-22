@@ -268,7 +268,7 @@
           <ul class="list-disc list-inside space-y-0.5 text-amber-200/80">
             <li><strong>20 Seconds</strong> per question with speed bonus points.</li>
             <li><strong>Locked Answers:</strong> Once chosen, answers cannot be changed.</li>
-            <li><strong>Auto-Advance:</strong> Advances automatically when the timer reaches 0s.</li>
+            <li><strong>Fast-Paced:</strong> Advances to the next question immediately upon selecting an answer.</li>
             <li><strong>Do Not Refresh:</strong> Keep this page open while playing.</li>
           </ul>
         </div>
@@ -1311,6 +1311,7 @@
     function lockInAnswer(selectedIndex) {
       if (hasAnswered) return;
       hasAnswered = true;
+      clearInterval(questionTimerInterval);
 
       const elapsedMs = performance.now() - questionStartTime;
       const remainingMs = Math.max(0, QUESTION_TIME_LIMIT_MS - elapsedMs);
@@ -1352,19 +1353,14 @@
       const banner = document.getElementById('lockedInBanner');
       const msg = document.getElementById('lockedInMessage');
       if (banner && msg) {
-        msg.textContent = `Answer locked in! Advancing when timer runs out...`;
+        msg.textContent = selectedIndex !== null ? `Answer saved! Next question loading...` : `Time expired! Moving to next question...`;
         banner.classList.remove('hidden');
         banner.classList.add('flex');
       }
 
       safeCreateIcons();
-    }
 
-    function handleQuestionTimeout() {
-      if (!hasAnswered) {
-        lockInAnswer(null);
-      }
-      
+      // Automatically advance to the next question or final results screen
       setTimeout(() => {
         if (currentQuestionIndex < questions.length - 1) {
           currentQuestionIndex++;
@@ -1372,7 +1368,13 @@
         } else {
           finishQuiz();
         }
-      }, 400);
+      }, 450);
+    }
+
+    function handleQuestionTimeout() {
+      if (!hasAnswered) {
+        lockInAnswer(null);
+      }
     }
 
     function formatTimeDuration(totalMs) {
