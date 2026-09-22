@@ -758,22 +758,13 @@
     </div>
   </div>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-    import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-    import { getFirestore, doc, getDoc, setDoc, deleteDoc, onSnapshot, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-    const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-    let db = null;
-    let auth = null;
-    let currentUser = null;
-    let isCloudConnected = false;
-    let cloudParticipantsUnsubscribe = null;
-    let cloudSessionUnsubscribe = null;
-
+  <script>
+    /* ==========================================================================
+       1. CONSTANTS, STORAGE KEYS & QUESTION REPOSITORY (30 AUTHENTIC QUESTIONS)
+       ========================================================================== */
     const STORAGE_KEY_LEADERBOARD = 'ganesh_quiz_master_leaderboard_v3';
     const STORAGE_KEY_PIN = 'ganesh_quiz_host_pin_v3';
-    const STORAGE_KEY_GAME_STATE = 'ganesh_quiz_game_state_v3';
+    const STORAGE_KEY_GAME_STATE = 'ganesh_quiz_game_state_v3'; // LOBBY, PLAYING, ENDED
     const STORAGE_KEY_GAME_LAUNCH_TS = 'ganesh_quiz_game_launch_ts_v3';
     const STORAGE_KEY_LAST_UPDATE = 'ganesh_quiz_last_update_v3';
     const HOST_DEFAULT_PIN = '787898';
@@ -1007,6 +998,9 @@
       }
     ];
 
+    /* ==========================================================================
+       2. WEB AUDIO API SYNTHESIZER (NO EXTERNAL AUDIO FILES)
+       ========================================================================== */
     class FestiveSoundEngine {
       constructor() {
         this.ctx = null;
@@ -1032,10 +1026,13 @@
           const gain = this.ctx.createGain();
           osc.type = type;
           osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+
           gain.gain.setValueAtTime(gainVal, this.ctx.currentTime);
           gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + duration);
+
           osc.connect(gain);
           gain.connect(this.ctx.destination);
+
           osc.start();
           osc.stop(this.ctx.currentTime + duration);
         } catch (e) {}
@@ -1130,16 +1127,21 @@
       lucide.createIcons();
     }
 
+    /* ==========================================================================
+       3. BROADCAST CHANNEL & CROSS-TAB REAL-TIME SYNCHRONIZATION
+       ========================================================================== */
     let liveQuizChannel = null;
     try {
       if (typeof window.BroadcastChannel !== 'undefined') {
         liveQuizChannel = new BroadcastChannel('ganesh_chaturthi_live_championship_v3');
       }
-    } catch (e) {}
+    } catch (e) {
+      console.warn("BroadcastChannel not supported", e);
+    }
 
     let previousContestantRanks = {};
     let previousDeptRanks = {};
-    let cachedCloudParticipants = [];
+    let lastKnownStorageTimestamp = 0;
 
     function showLiveToast(title, subtitle, type = 'info') {
       const container = document.getElementById('toastNotificationContainer');
@@ -1175,63 +1177,11 @@
       }, 3500);
     }
 
-    async function initOnlineSync() {
-      if (typeof __firebase_config === 'undefined') {
-        return;
-      }
-      try {
-        const firebaseConfig = typeof __firebase_config === 'string' ? JSON.parse(__firebase_config) : __firebase_config;
-        const app = initializeApp(firebaseConfig);
-        auth = getAuth(app);
-        db = getFirestore(app);
-
-        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-          await signInWithCustomToken(auth, __initial_auth_token);
-        } else {
-          await signInAnonymously(auth);
-        }
-
-        currentUser = auth.currentUser;
-        if (!currentUser) return;
-        isCloudConnected = true;
-
-        const participantsCol = collection(db, 'artifacts', appId, 'public', 'data', 'participants');
-        cloudParticipantsUnsubscribe = onSnapshot(participantsCol, (snapshot) => {
-          const list = [];
-          snapshot.forEach((docSnap) => {
-            list.push(docSnap.data());
-          });
-          cachedCloudParticipants = list;
-          renderHostDashboard();
-          updateWaitingLobbyUI();
-        }, (error) => {
-          console.warn("Real-time participants subscription notice:", error);
-        });
-
-        const sessionDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'gameState', 'session');
-        cloudSessionUnsubscribe = onSnapshot(sessionDocRef, (docSnap) => {
-          if (docSnap.exists()) {
-            const data = docSnap.data();
-            if (data.state === 'PLAYING') {
-              handleIncomingGameLaunch();
-            } else if (data.state === 'ENDED') {
-              handleIncomingGameEnded();
-            } else if (data.state === 'LOBBY') {
-              handleIncomingReset();
-            }
-          }
-        }, (error) => {
-          console.warn("Real-time session subscription notice:", error);
-        });
-      } catch (err) {
-        console.warn("Multiplayer cloud connection initializing in local fallback mode:", err);
-      }
-    }
-
     if (liveQuizChannel) {
       liveQuizChannel.onmessage = (event) => {
         if (!event.data) return;
         const data = event.data;
+
         if (data.type === 'PARTICIPANT_ENROLLED') {
           handleIncomingParticipantEnrolled(data.entry);
         } else if (data.type === 'GAME_LAUNCHED') {
@@ -1246,6 +1196,41 @@
       };
     }
 
+    window.addEventListener('storage', (e) => {
+      if (e.key === STORAGE_KEY_LEADERBOARD || e.key === STORAGE_KEY_LAST_UPDATE) {
+        renderHostDashboard();
+        updateWaitingLobbyUI();
+      } else if (e.key === STORAGE_KEY_GAME_STATE) {
+        if (e.newValue === 'PLAYING') {
+          handleIncomingGameLaunch();
+        } else if (e.newValue === 'ENDED') {
+          handleIncomingGameEnded();
+        } else if (e.newValue === 'LOBBY') {
+          handleIncomingReset();
+        }
+      }
+    });
+
+    setInterval(() => {
+      try {
+        const storedTs = Number(localStorage.getItem(STORAGE_KEY_LAST_UPDATE) || 0);
+        if (storedTs > lastKnownStorageTimestamp) {
+          lastKnownStorageTimestamp = storedTs;
+          renderHostDashboard();
+          updateWaitingLobbyUI();
+        }
+        const gameState = getGameGlobalState();
+        if (gameState === 'PLAYING' && isCurrentlyInLobby) {
+          handleIncomingGameLaunch();
+        } else if (gameState === 'ENDED') {
+          const quizScreen = document.getElementById('quizScreen');
+          if (quizScreen && !quizScreen.classList.contains('hidden')) {
+            handleIncomingGameEnded();
+          }
+        }
+      } catch (err) {}
+    }, 400);
+
     function getGameGlobalState() {
       try {
         return localStorage.getItem(STORAGE_KEY_GAME_STATE) || 'LOBBY';
@@ -1254,24 +1239,11 @@
       }
     }
 
-    async function setGameGlobalState(state) {
+    function setGameGlobalState(state) {
       try {
         localStorage.setItem(STORAGE_KEY_GAME_STATE, state);
         localStorage.setItem(STORAGE_KEY_LAST_UPDATE, Date.now().toString());
       } catch (e) {}
-
-      if (isCloudConnected && currentUser && db) {
-        try {
-          const sessionDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'gameState', 'session');
-          await setDoc(sessionDocRef, {
-            state: state,
-            updatedAt: Date.now(),
-            updatedBy: currentUser.uid
-          }, { merge: true });
-        } catch (err) {
-          console.warn("Cloud session sync notice:", err);
-        }
-      }
     }
 
     function handleIncomingParticipantEnrolled(entry) {
@@ -1311,6 +1283,9 @@
       }
     }
 
+    /* ==========================================================================
+       4. PARTICIPANT STATE & QUIZ EXECUTION ENGINE
+       ========================================================================== */
     const QUESTION_TIME_LIMIT_MS = 20000;
     let questions = [];
     let currentQuestionIndex = 0;
@@ -1342,7 +1317,6 @@
     }
 
     function prepareQuiz() {
-      // Shuffle all available questions and pick a subset or all 30 randomly
       const shuffledQuestions = shuffleArray(ALL_QUESTIONS_30);
       questions = shuffledQuestions.map(q => {
         const originalCorrectText = q.options[q.correctIndex];
@@ -1464,7 +1438,7 @@
       });
     }
 
-    async function leaveLobby() {
+    function leaveLobby() {
       sound.playTap();
       let list = getHostLeaderboard();
       list = list.filter(item => item.id !== currentParticipantId);
@@ -1473,24 +1447,17 @@
         localStorage.setItem(STORAGE_KEY_LAST_UPDATE, Date.now().toString());
       } catch (e) {}
 
-      if (isCloudConnected && currentUser && db) {
-        try {
-          const participantDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'participants', currentParticipantId);
-          await deleteDoc(participantDocRef);
-        } catch (err) {}
-      }
-
       isCurrentlyInLobby = false;
       document.getElementById('waitingLobbyScreen').classList.add('hidden');
       document.getElementById('welcomeScreen').classList.remove('hidden');
       renderHostDashboard();
     }
 
-    async function hostStartGameForAll() {
+    function hostStartGameForAll() {
       sound.init();
       sound.playLaunchFanfare();
 
-      await setGameGlobalState('PLAYING');
+      setGameGlobalState('PLAYING');
       const launchTs = Date.now();
       try {
         localStorage.setItem(STORAGE_KEY_GAME_LAUNCH_TS, launchTs.toString());
@@ -1918,6 +1885,9 @@
       document.body.removeChild(tempTextArea);
     }
 
+    /* ==========================================================================
+       5. HOST ADMINISTRATION PORTAL (PIN: 787898) & LIVE DASHBOARD
+       ========================================================================== */
     function getHostPin() {
       try {
         return localStorage.getItem(STORAGE_KEY_PIN) || HOST_DEFAULT_PIN;
@@ -1936,16 +1906,15 @@
     }
 
     function getHostLeaderboard() {
-      if (cachedCloudParticipants.length > 0) {
-        return [...cachedCloudParticipants];
-      }
       try {
         const stored = localStorage.getItem(STORAGE_KEY_LEADERBOARD);
         if (stored !== null) {
           const parsed = JSON.parse(stored);
           if (Array.isArray(parsed)) return parsed;
         }
-      } catch (e) {}
+      } catch (e) {
+        console.warn("Read error", e);
+      }
       return [];
     }
 
@@ -1958,7 +1927,7 @@
       });
     }
 
-    async function saveOrUpdateHostRecord(entry, isFinished = false, isInitialStart = false, actionType = 'PROGRESS') {
+    function saveOrUpdateHostRecord(entry, isFinished = false, isInitialStart = false, actionType = 'PROGRESS') {
       let list = getHostLeaderboard();
       const existingIdx = list.findIndex(item => item.id === entry.id);
 
@@ -1983,15 +1952,8 @@
       try {
         localStorage.setItem(STORAGE_KEY_LEADERBOARD, JSON.stringify(list));
         localStorage.setItem(STORAGE_KEY_LAST_UPDATE, updateTs.toString());
-      } catch (e) {}
-
-      if (isCloudConnected && currentUser && db) {
-        try {
-          const participantDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'participants', entry.id);
-          await setDoc(participantDocRef, entry, { merge: true });
-        } catch (err) {
-          console.warn("Cloud participant update notice:", err);
-        }
+      } catch (e) {
+        console.warn("Storage write error", e);
       }
 
       if (liveQuizChannel) {
@@ -2160,11 +2122,11 @@
       setTimeout(() => modal.classList.add('hidden'), 200);
     }
 
-    async function confirmHostEndGame() {
+    function confirmHostEndGame() {
       sound.playTap();
       cancelHostEndGame();
 
-      await setGameGlobalState('ENDED');
+      setGameGlobalState('ENDED');
       const endTs = Date.now();
 
       let list = getHostLeaderboard();
@@ -2234,7 +2196,7 @@
         ticker.innerHTML = `
           <div class="text-amber-300/50 text-[11px] py-1 flex items-center gap-1.5">
             <i data-lucide="info" class="w-3.5 h-3.5"></i>
-            <span>No participants currently in waiting lobby. Share the quiz link for devotees to enroll!</span>
+            <span>No participants currently in waiting lobby. Share the quiz to have contestants enroll!</span>
           </div>
         `;
         return;
@@ -2434,7 +2396,7 @@
           <div class="text-center py-10 text-amber-300/60 text-sm space-y-2">
             <i data-lucide="inbox" class="w-10 h-10 mx-auto text-amber-400/40"></i>
             <p class="font-medium">${allEntries.length === 0 ? 'No participants have enrolled yet.' : 'No matching participants found.'}</p>
-            <p class="text-xs text-amber-400/40">${allEntries.length === 0 ? 'When contestants enroll in the lobby from their devices, they appear here live!' : 'Try clearing filters.'}</p>
+            <p class="text-xs text-amber-400/40">${allEntries.length === 0 ? 'When contestants enroll in the lobby, they appear above. When you click Start Game, their ranks shift here live!' : 'Try clearing filters.'}</p>
           </div>
         `;
         lucide.createIcons();
@@ -2668,7 +2630,7 @@
       setTimeout(() => confirmModal.classList.add('hidden'), 200);
     }
 
-    async function confirmResetLeaderboard() {
+    function confirmResetLeaderboard() {
       sound.playTap();
       const resetTs = Date.now();
       try {
@@ -2677,27 +2639,8 @@
         localStorage.setItem(STORAGE_KEY_GAME_STATE, 'LOBBY');
         localStorage.removeItem(STORAGE_KEY_GAME_LAUNCH_TS);
         localStorage.setItem(STORAGE_KEY_LAST_UPDATE, resetTs.toString());
-      } catch (e) {}
-
-      cachedCloudParticipants = [];
-
-      if (isCloudConnected && currentUser && db) {
-        try {
-          const sessionDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'gameState', 'session');
-          await setDoc(sessionDocRef, {
-            state: 'LOBBY',
-            resetAt: resetTs,
-            resetBy: currentUser.uid
-          });
-
-          const participantsCol = collection(db, 'artifacts', appId, 'public', 'data', 'participants');
-          const snap = await getDocs(participantsCol);
-          snap.forEach(async (docSnap) => {
-            await deleteDoc(docSnap.ref);
-          });
-        } catch (err) {
-          console.warn("Cloud reset notice:", err);
-        }
+      } catch (e) {
+        console.warn("Storage reset error", e);
       }
 
       previousContestantRanks = {};
@@ -2723,35 +2666,9 @@
         .replace(/'/g, '&#039;');
     }
 
-    window.goToHome = goToHome;
-    window.toggleSound = toggleSound;
-    window.openHostAuthModal = openHostAuthModal;
-    window.closeHostAuthModal = closeHostAuthModal;
-    window.verifyHostPin = verifyHostPin;
-    window.handleEnrollmentSubmit = handleEnrollmentSubmit;
-    window.leaveLobby = leaveLobby;
-    window.hostStartGameForAll = hostStartGameForAll;
-    window.promptHostEndGame = promptHostEndGame;
-    window.cancelHostEndGame = cancelHostEndGame;
-    window.confirmHostEndGame = confirmHostEndGame;
-    window.simulateLiveParticipantMovement = simulateLiveParticipantMovement;
-    window.closeHostLeaderboardModal = closeHostLeaderboardModal;
-    window.switchHostTab = switchHostTab;
-    window.filterLeaderboardView = filterLeaderboardView;
-    window.toggleChangePinView = toggleChangePinView;
-    window.saveNewPin = saveNewPin;
-    window.exportLeaderboardCSV = exportLeaderboardCSV;
-    window.promptResetLeaderboard = promptResetLeaderboard;
-    window.cancelResetLeaderboard = cancelResetLeaderboard;
-    window.confirmResetLeaderboard = confirmResetLeaderboard;
-    window.nextQuestion = nextQuestion;
-    window.toggleAnswerReview = toggleAnswerReview;
-    window.shareScore = shareScore;
-    window.lockInAnswer = lockInAnswer;
-
     window.addEventListener('DOMContentLoaded', () => {
       lucide.createIcons();
-      initOnlineSync();
+      lastKnownStorageTimestamp = Number(localStorage.getItem(STORAGE_KEY_LAST_UPDATE) || 0);
     });
   </script>
 </body>
