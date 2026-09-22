@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.344.0/dist/umd/lucide.min.js"></script>
   <!-- Canvas Confetti -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
@@ -25,9 +25,9 @@
           },
           colors: {
             saffron: { 400: '#fb923c', 500: '#f97316', 600: '#ea580c' },
-            marigold: { 400: '#fbbf24', 500: '#f59e0b', 600: '#d97706' },
+            marigold: { 300: '#fde047', 400: '#fbbf24', 500: '#f59e0b', 600: '#d97706' },
             kumkum: { 500: '#b91c1c', 600: '#991b1b', 700: '#7f1d1d', 800: '#450a0a', 900: '#2a0505', 950: '#170202' },
-            gold: { 300: '#fde047', 400: '#facc15', 500: '#eab308' }
+            gold: { 300: '#fef08a', 400: '#facc15', 500: '#eab308' }
           },
           animation: {
             'pulse-glow': 'pulseGlow 2.5s infinite',
@@ -36,12 +36,12 @@
             'rank-up': 'rankUp 1.2s ease-out',
             'rank-down': 'rankDown 1.2s ease-out',
             'pulse-fast': 'pulse 0.9s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-            'spin-slow': 'spin 12s linear infinite',
+            'spin-slow': 'spin 14s linear infinite',
           },
           keyframes: {
             pulseGlow: {
-              '0%, 100%': { filter: 'drop-shadow(0 0 10px rgba(245, 158, 11, 0.35))' },
-              '50%': { filter: 'drop-shadow(0 0 26px rgba(249, 115, 22, 0.8))' },
+              '0%, 100%': { filter: 'drop-shadow(0 0 12px rgba(245, 158, 11, 0.4))' },
+              '50%': { filter: 'drop-shadow(0 0 30px rgba(249, 115, 22, 0.85))' },
             },
             shimmer: {
               '0%': { backgroundPosition: '-200% 0' },
@@ -67,21 +67,21 @@
 
   <style>
     body {
-      background: radial-gradient(circle at 50% 15%, #450a0a 0%, #1f0202 85%, #0d0101 100%);
+      background: radial-gradient(circle at 50% 12%, #580c0c 0%, #220303 70%, #0d0101 100%);
       min-height: 100vh;
       overflow-x: hidden;
       color: #fffbeb;
     }
 
     .bg-pattern {
-      background-image: radial-gradient(#f59e0b 0.75px, transparent 0.75px), radial-gradient(#ea580c 0.75px, #1f0202 0.75px);
+      background-image: radial-gradient(#f59e0b 0.85px, transparent 0.85px), radial-gradient(#ea580c 0.85px, #220303 0.85px);
       background-size: 32px 32px;
       background-position: 0 0, 16px 16px;
-      opacity: 0.14;
+      opacity: 0.16;
     }
 
     .text-gold-gradient {
-      background: linear-gradient(135deg, #fffbeb 0%, #fef08a 30%, #f59e0b 70%, #d97706 100%);
+      background: linear-gradient(135deg, #fffbeb 0%, #fef08a 35%, #f59e0b 70%, #d97706 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
@@ -110,14 +110,14 @@
     }
     .option-card:hover:not(:disabled) {
       transform: translateY(-2px);
-      box-shadow: 0 8px 24px -4px rgba(245, 158, 11, 0.28);
+      box-shadow: 0 8px 24px -4px rgba(245, 158, 11, 0.3);
       border-color: #f59e0b;
     }
 
     .option-card.locked-in {
-      background: linear-gradient(135deg, rgba(245, 158, 11, 0.28), rgba(234, 88, 12, 0.35)) !important;
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.3), rgba(234, 88, 12, 0.4)) !important;
       border-color: #facc15 !important;
-      box-shadow: 0 0 22px rgba(250, 204, 21, 0.4) !important;
+      box-shadow: 0 0 22px rgba(250, 204, 21, 0.45) !important;
     }
 
     .table-row-item {
@@ -140,6 +140,11 @@
   <!-- Live Toast Notification Container -->
   <div id="toastNotificationContainer" class="fixed top-5 right-5 z-[9999] flex flex-col gap-2 pointer-events-none"></div>
 
+  <!-- Sacred Ganesh Mantra Garland Ribbon across top -->
+  <div class="relative z-30 bg-gradient-to-r from-amber-600 via-orange-600 to-red-700 py-1 px-4 text-center border-b border-amber-300/30 text-[11px] sm:text-xs font-bold text-amber-100 tracking-wider shadow">
+    ॥ वक्रतुण्ड महाकाय सूर्यकोटि समप्रभ । निर्विघ्नं कुरु मे देव सर्वकार्येषु सर्वदा ॥
+  </div>
+
   <!-- COUNTDOWN OVERLAY WHEN HOST STARTS THE GAME -->
   <div id="countdownLaunchOverlay" class="fixed inset-0 z-[10000] bg-black/95 backdrop-blur-xl flex flex-col items-center justify-center hidden opacity-0 transition-opacity duration-300">
     <div class="text-center space-y-4 px-4">
@@ -158,14 +163,21 @@
     </div>
   </div>
 
-  <header class="relative z-20 w-full max-w-5xl mx-auto px-4 pt-4 sm:pt-6 flex items-center justify-between">
+  <header class="relative z-20 w-full max-w-5xl mx-auto px-4 pt-3 sm:pt-5 flex items-center justify-between">
     <button onclick="goToHome()" class="flex items-center gap-2.5 text-left group">
-      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-marigold-600 to-amber-300 flex items-center justify-center shadow-lg shadow-amber-500/20 text-kumkum-900 font-festive text-xl group-hover:scale-105 transition-transform">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-marigold-600 to-amber-300 flex items-center justify-center shadow-lg shadow-amber-500/25 text-kumkum-900 font-festive text-xl group-hover:scale-105 transition-transform">
         卐
       </div>
       <div>
-        <h1 class="font-festive text-lg sm:text-xl text-amber-200 tracking-wider">गणेश उत्सव २०२६</h1>
-        <p class="text-[10px] text-amber-400/80 font-medium uppercase tracking-widest">Host-Controlled Live Championship</p>
+        <h1 class="font-festive text-lg sm:text-xl text-amber-200 tracking-wider flex items-center gap-1.5">
+          <span>गणपति बप्पा मोरया</span>
+        </h1>
+        <p class="text-[10px] text-amber-400/80 font-medium uppercase tracking-widest flex items-center gap-1.5">
+          <span>Host-Controlled Live Championship</span>
+          <span id="headerSyncBadge" class="inline-flex items-center gap-1 px-1.5 py-0.2 rounded-full bg-emerald-950 border border-emerald-500/40 text-[9px] text-emerald-300 font-bold lowercase">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> live sync
+          </span>
+        </p>
       </div>
     </button>
 
@@ -184,10 +196,12 @@
     </div>
   </header>
 
-  <main class="relative z-10 w-full max-w-4xl mx-auto px-4 py-4 sm:py-6 flex flex-col justify-center min-h-[calc(100vh-100px)]">
+  <main class="relative z-10 w-full max-w-4xl mx-auto px-4 py-4 sm:py-6 flex flex-col justify-center min-h-[calc(100vh-120px)]">
 
     <!-- SCREEN 1: ENROLLMENT & REGISTRATION -->
     <section id="welcomeScreen" class="bg-gradient-to-b from-kumkum-700/60 to-kumkum-800/90 border border-amber-500/30 rounded-3xl p-6 sm:p-10 backdrop-blur-xl shadow-2xl relative overflow-hidden transition-all duration-500">
+      
+      <!-- Glowing Ganesha Vector Emblem -->
       <div class="flex justify-center mb-4">
         <div class="relative w-28 h-28 sm:w-32 sm:h-32 flex items-center justify-center rounded-full bg-gradient-to-tr from-amber-500/20 via-marigold-500/30 to-amber-300/10 border-2 border-amber-400/50 p-3 shadow-xl shadow-amber-500/25 animate-pulse-glow">
           <svg class="w-20 h-20 sm:w-24 sm:h-24 text-amber-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
@@ -200,7 +214,7 @@
             <path d="M12 9.5v2"/>
             <path d="M14.5 13.5l1.5 1"/>
           </svg>
-          <span class="absolute -bottom-2 bg-amber-500 text-kumkum-900 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider shadow">
+          <span class="absolute -bottom-2 bg-amber-500 text-kumkum-900 text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow">
             ॐ गं गणपतये नमः
           </span>
         </div>
@@ -239,7 +253,7 @@
         </div>
       </div>
 
-      <!-- Mandatory Registration Form -->
+      <!-- Registration Form -->
       <form id="enrollmentForm" onsubmit="handleEnrollmentSubmit(event)" class="max-w-md mx-auto space-y-4">
         <div>
           <label for="playerNameInput" class="block text-xs font-semibold uppercase tracking-wider text-amber-300/90 mb-1">
@@ -277,6 +291,42 @@
           <span>Enroll & Join Waiting Lobby</span>
         </button>
       </form>
+
+      <!-- QR Code Card -->
+      <div class="mt-8 pt-6 border-t border-amber-500/20 max-w-md mx-auto">
+        <div class="bg-black/40 border border-amber-500/30 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left shadow-lg">
+          <div class="p-2.5 bg-white rounded-xl shadow-md shrink-0 border border-amber-300">
+            <img 
+              src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https%3A%2F%2Fvikasuikey.github.io%2Fganesh-chaturthi-quiz%2F&margin=1" 
+              alt="Scan QR code to join Ganesh Chaturthi Quiz" 
+              class="w-28 h-28 sm:w-32 sm:h-32 object-contain block"
+              loading="lazy"
+            />
+          </div>
+          <div class="space-y-2 flex-1">
+            <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-400/30 text-[10px] font-bold uppercase tracking-wider">
+              <i data-lucide="qr-code" class="w-3.5 h-3.5 text-amber-400"></i>
+              <span>Scan to Join Live</span>
+            </div>
+            <h4 class="font-festive text-base sm:text-lg text-amber-100 leading-snug">
+              Play On Your Mobile Phone
+            </h4>
+            <p class="text-[11px] text-amber-200/80 leading-relaxed">
+              Scan this QR code with any smartphone camera to open the quiz link directly and enroll!
+            </p>
+            <div class="pt-1 flex items-center justify-center sm:justify-start gap-2">
+              <button type="button" onclick="copyQuizShareLink()" class="px-2.5 py-1 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-[11px] font-semibold flex items-center gap-1.5 transition-colors">
+                <i data-lucide="copy" class="w-3 h-3"></i>
+                <span id="copyLinkBtnText">Copy Link</span>
+              </button>
+              <a href="https://vikasuikey.github.io/ganesh-chaturthi-quiz/" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1 rounded-lg bg-black/50 hover:bg-black/70 text-amber-300/80 hover:text-amber-200 border border-amber-500/20 text-[11px] font-semibold flex items-center gap-1 transition-colors">
+                <i data-lucide="external-link" class="w-3 h-3"></i>
+                <span>Open</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- SCREEN 1.5: WAITING LOBBY (PARTICIPANT WAITING FOR HOST TO START) -->
@@ -301,6 +351,32 @@
         </p>
       </div>
 
+      <!-- IMPORTANT RULES & GUIDELINES PANEL -->
+      <div class="bg-black/45 border border-amber-500/30 rounded-2xl p-4 text-left max-w-lg mx-auto space-y-2 shadow-inner">
+        <div class="flex items-center gap-2 pb-1.5 border-b border-amber-500/20 text-amber-300 text-xs font-bold uppercase tracking-wider">
+          <i data-lucide="shield-alert" class="w-4 h-4 text-amber-400"></i>
+          <span>Important Quiz Rules & Guidelines</span>
+        </div>
+        <ul class="text-xs text-amber-100/90 space-y-1.5">
+          <li class="flex items-start gap-2">
+            <span class="text-rose-400 font-bold">⚠️</span>
+            <span><strong class="text-rose-300">Do NOT Refresh or Close This Page:</strong> Leaving will disconnect your active session with the host.</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-amber-300 font-bold">🔒</span>
+            <span><strong class="text-amber-300">Once Locked, Answers Cannot Be Changed:</strong> Tapping an option locks it in immediately.</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-yellow-300 font-bold">⏱️</span>
+            <span><strong class="text-yellow-300">20 Seconds Per Question:</strong> Timer auto-advances. Faster correct answers gain extra speed points!</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-emerald-400 font-bold">🏆</span>
+            <span><strong class="text-emerald-300">Department Championship:</strong> Your points add directly to your department's rank.</span>
+          </li>
+        </ul>
+      </div>
+
       <!-- Real-time joined count in lobby -->
       <div class="max-w-md mx-auto p-4 rounded-2xl bg-black/45 border border-amber-500/25 space-y-3">
         <div class="flex items-center justify-between text-xs text-amber-300">
@@ -309,7 +385,7 @@
             <span>Participants in Lobby</span>
           </span>
           <span id="lobbyTotalCountBadge" class="px-2 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/40 font-mono font-bold text-amber-200">
-            1 Ready
+            0 Ready
           </span>
         </div>
         <div id="lobbyContestantsChips" class="flex flex-wrap gap-1.5 justify-center max-h-36 overflow-y-auto pr-1">
@@ -317,7 +393,7 @@
         </div>
       </div>
 
-      <div class="pt-2 flex justify-center">
+      <div class="pt-2 flex flex-wrap gap-2 justify-center">
         <button onclick="leaveLobby()" class="px-4 py-2 rounded-xl bg-black/40 border border-amber-500/30 text-amber-300/80 hover:text-amber-200 text-xs font-semibold hover:bg-black/60 transition-colors flex items-center gap-1.5">
           <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
           <span>Change Name or Department</span>
@@ -361,7 +437,7 @@
       <div class="bg-gradient-to-b from-kumkum-700/60 to-kumkum-800/90 border border-amber-500/30 rounded-3xl p-5 sm:p-7 backdrop-blur-xl shadow-xl flex flex-col gap-4">
         <div class="flex items-center justify-between text-xs">
           <span id="questionCategory" class="px-2.5 py-0.5 rounded-md bg-amber-500/15 border border-amber-500/30 text-amber-300 font-semibold text-[11px] uppercase">
-            Mythology
+            Sacred Lore
           </span>
           <span class="text-amber-300/70 text-[11px]">Rank updates dynamically as you answer</span>
         </div>
@@ -378,14 +454,9 @@
         <div id="lockedInBanner" class="hidden mt-2 p-3.5 rounded-2xl bg-amber-500/15 border border-amber-400/40 text-amber-200 text-xs sm:text-sm items-center justify-between">
           <div class="flex items-center gap-2">
             <i data-lucide="check-circle-2" class="w-5 h-5 text-amber-400 shrink-0"></i>
-            <span id="lockedInMessage" class="font-medium">Answer locked in! Score broadcasted live to Host.</span>
+            <span id="lockedInMessage" class="font-medium">Answer locked in! Advancing automatically when timer ends...</span>
           </div>
         </div>
-
-        <button id="nextBtn" onclick="nextQuestion()" class="hidden mt-1 w-full py-3.5 px-6 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-kumkum-900 font-bold rounded-xl shadow-md shadow-amber-500/20 items-center justify-center gap-2 transform active:scale-[0.99] transition-all">
-          <span id="nextBtnText">Next Question</span>
-          <i data-lucide="arrow-right" class="w-4 h-4"></i>
-        </button>
       </div>
     </section>
 
@@ -758,31 +829,70 @@
     </div>
   </div>
 
+  <!-- JAVASCRIPT LOGIC -->
   <script>
-    /* ==========================================================================
-       1. CONSTANTS, STORAGE KEYS & QUESTION REPOSITORY (30 AUTHENTIC QUESTIONS)
-       ========================================================================== */
+    // ----------------------------------------------------
+    // STORAGE KEYS & CONSTANTS
+    // ----------------------------------------------------
     const STORAGE_KEY_LEADERBOARD = 'ganesh_quiz_master_leaderboard_v3';
     const STORAGE_KEY_PIN = 'ganesh_quiz_host_pin_v3';
-    const STORAGE_KEY_GAME_STATE = 'ganesh_quiz_game_state_v3'; // LOBBY, PLAYING, ENDED
+    const STORAGE_KEY_GAME_STATE = 'ganesh_quiz_game_state_v3';
     const STORAGE_KEY_GAME_LAUNCH_TS = 'ganesh_quiz_game_launch_ts_v3';
     const STORAGE_KEY_LAST_UPDATE = 'ganesh_quiz_last_update_v3';
     const HOST_DEFAULT_PIN = '787898';
 
+    // REAL-TIME CLOUD PUB/SUB CHANNEL (CROSS-DEVICE SYNC FOR GITHUB PAGES & MOBILE)
+    const CLOUD_ROOM_TOPIC = "ganesh_utsav_quiz_live_session_hub";
+    const CLOUD_PUB_URL = `https://ntfy.sh/${CLOUD_ROOM_TOPIC}`;
+    const CLOUD_SUB_URL = `https://ntfy.sh/${CLOUD_ROOM_TOPIC}/sse`;
+
+    let cloudEventSource = null;
+    let backupPollTimer = null;
+    let hostHeartbeatTimer = null;
+    let rosterBroadcastTimer = null;
+    let currentActiveGameState = 'LOBBY';
+
+    // Master in-memory participant map shared across the room
+    let roomParticipantsMap = new Map();
+
+    let liveQuizChannel = null;
+    try {
+      if (typeof window.BroadcastChannel !== 'undefined') {
+        liveQuizChannel = new BroadcastChannel('ganesh_chaturthi_live_championship_v3');
+      }
+    } catch (e) {}
+
+    // GLOBAL QUIZ & PARTICIPANT STATE
+    const QUESTION_TIME_LIMIT_MS = 20000;
+    let questions = [];
+    let currentQuestionIndex = 0;
+    let userAnswers = [];
+    let score = 0;
+    let correctCount = 0;
+    let currentStreak = 0;
+    let highestStreak = 0;
+
+    let questionStartTime = 0;
+    let questionTimerInterval = null;
+    let hasAnswered = false;
+
+    let quizStartPerfTime = 0;
+    let totalElapsedDurationMs = 0;
+    let currentParticipantId = "";
+    let currentPlayerName = "";
+    let currentPlayerDepartment = "";
+    let isCurrentlyInLobby = false;
+    let isHostDashboardOpen = false;
+    let isHostSession = false;
+    let quizStartedFlag = false;
+
+    let previousContestantRanks = {};
+    let previousDeptRanks = {};
+
     const ALL_DEPARTMENTS = [
-      "Planning",
-      "Marketing",
-      "Finance",
-      "Finance - GCC",
-      "L&D",
-      "Project",
-      "Operation",
-      "BI",
-      "HR",
-      "Ecom",
-      "Customer Care",
-      "Admin",
-      "VM"
+      "Planning", "Marketing", "Finance", "Finance - GCC", "L&D",
+      "Project", "Operation", "BI", "HR", "Ecom",
+      "Customer Care", "Admin", "VM"
     ];
 
     const ALL_QUESTIONS_30 = [
@@ -998,15 +1108,14 @@
       }
     ];
 
-    /* ==========================================================================
-       2. WEB AUDIO API SYNTHESIZER (NO EXTERNAL AUDIO FILES)
-       ========================================================================== */
+    // ----------------------------------------------------
+    // SOUND ENGINE
+    // ----------------------------------------------------
     class FestiveSoundEngine {
       constructor() {
         this.ctx = null;
         this.enabled = true;
       }
-
       init() {
         if (!this.ctx) {
           const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -1018,7 +1127,6 @@
           this.ctx.resume();
         }
       }
-
       playTone(freq, duration, type = 'sine', gainVal = 0.15) {
         if (!this.enabled || !this.ctx) return;
         try {
@@ -1026,18 +1134,14 @@
           const gain = this.ctx.createGain();
           osc.type = type;
           osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
-
           gain.gain.setValueAtTime(gainVal, this.ctx.currentTime);
           gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + duration);
-
           osc.connect(gain);
           gain.connect(this.ctx.destination);
-
           osc.start();
           osc.stop(this.ctx.currentTime + duration);
         } catch (e) {}
       }
-
       playBell() {
         if (!this.enabled || !this.ctx) return;
         try {
@@ -1049,11 +1153,7 @@
           });
         } catch (e) {}
       }
-
-      playTap() {
-        this.playTone(480, 0.06, 'sine', 0.08);
-      }
-
+      playTap() { this.playTone(480, 0.06, 'sine', 0.08); }
       playLockIn() {
         if (!this.enabled || !this.ctx) return;
         try {
@@ -1061,15 +1161,8 @@
           setTimeout(() => this.playTone(659.25, 0.18, 'sine', 0.14), 70);
         } catch (e) {}
       }
-
-      playTick() {
-        this.playTone(700, 0.04, 'square', 0.03);
-      }
-
-      playCountdownTick() {
-        this.playTone(440, 0.12, 'triangle', 0.2);
-      }
-
+      playTick() { this.playTone(700, 0.04, 'square', 0.03); }
+      playCountdownTick() { this.playTone(440, 0.12, 'triangle', 0.2); }
       playLaunchFanfare() {
         if (!this.enabled || !this.ctx) return;
         try {
@@ -1081,7 +1174,6 @@
           });
         } catch (e) {}
       }
-
       playVictory() {
         if (!this.enabled || !this.ctx) return;
         try {
@@ -1093,7 +1185,6 @@
           });
         } catch (e) {}
       }
-
       playRankShift(isUp) {
         if (!this.enabled || !this.ctx) return;
         try {
@@ -1115,7 +1206,6 @@
       sound.enabled = !sound.enabled;
       const icon = document.getElementById('soundIcon');
       const text = document.getElementById('soundText');
-
       if (sound.enabled) {
         icon.setAttribute('data-lucide', 'volume-2');
         text.textContent = 'Audio: On';
@@ -1124,24 +1214,37 @@
         icon.setAttribute('data-lucide', 'volume-x');
         text.textContent = 'Audio: Off';
       }
-      lucide.createIcons();
+      safeCreateIcons();
     }
 
-    /* ==========================================================================
-       3. BROADCAST CHANNEL & CROSS-TAB REAL-TIME SYNCHRONIZATION
-       ========================================================================== */
-    let liveQuizChannel = null;
-    try {
-      if (typeof window.BroadcastChannel !== 'undefined') {
-        liveQuizChannel = new BroadcastChannel('ganesh_chaturthi_live_championship_v3');
+    // ----------------------------------------------------
+    // REAL-TIME CROSS-DEVICE COMMUNICATION PIPELINE
+    // ----------------------------------------------------
+    function broadcastCrossDevice(payload) {
+      if (liveQuizChannel) {
+        try { liveQuizChannel.postMessage(payload); } catch (e) {}
       }
-    } catch (e) {
-      console.warn("BroadcastChannel not supported", e);
+      try {
+        fetch(CLOUD_PUB_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain' },
+          body: JSON.stringify(payload)
+        }).catch(() => {});
+      } catch (e) {}
     }
 
-    let previousContestantRanks = {};
-    let previousDeptRanks = {};
-    let lastKnownStorageTimestamp = 0;
+    function sendCrossDeviceMessage(payload) {
+      broadcastCrossDevice(payload);
+    }
+
+    function updateSyncBadge(connected) {
+      const badge = document.getElementById('headerSyncBadge');
+      if (badge) {
+        badge.innerHTML = connected 
+          ? `<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> live sync`
+          : `<span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span> connecting...`;
+      }
+    }
 
     function showLiveToast(title, subtitle, type = 'info') {
       const container = document.getElementById('toastNotificationContainer');
@@ -1168,7 +1271,7 @@
         </div>
       `;
       container.appendChild(toast);
-      lucide.createIcons();
+      safeCreateIcons();
 
       setTimeout(() => {
         toast.style.opacity = '0';
@@ -1177,85 +1280,143 @@
       }, 3500);
     }
 
-    if (liveQuizChannel) {
-      liveQuizChannel.onmessage = (event) => {
-        if (!event.data) return;
-        const data = event.data;
-
-        if (data.type === 'PARTICIPANT_ENROLLED') {
-          handleIncomingParticipantEnrolled(data.entry);
-        } else if (data.type === 'GAME_LAUNCHED') {
-          handleIncomingGameLaunch();
-        } else if (data.type === 'GAME_ENDED_BY_HOST') {
-          handleIncomingGameEnded();
-        } else if (data.type === 'LIVE_PROGRESS' || data.type === 'FINAL_SUBMISSION') {
-          handleIncomingLiveUpdate(data.entry);
-        } else if (data.type === 'RESET') {
-          handleIncomingReset();
-        }
-      };
-    }
-
-    window.addEventListener('storage', (e) => {
-      if (e.key === STORAGE_KEY_LEADERBOARD || e.key === STORAGE_KEY_LAST_UPDATE) {
-        renderHostDashboard();
-        updateWaitingLobbyUI();
-      } else if (e.key === STORAGE_KEY_GAME_STATE) {
-        if (e.newValue === 'PLAYING') {
-          handleIncomingGameLaunch();
-        } else if (e.newValue === 'ENDED') {
-          handleIncomingGameEnded();
-        } else if (e.newValue === 'LOBBY') {
-          handleIncomingReset();
-        }
-      }
-    });
-
-    setInterval(() => {
-      try {
-        const storedTs = Number(localStorage.getItem(STORAGE_KEY_LAST_UPDATE) || 0);
-        if (storedTs > lastKnownStorageTimestamp) {
-          lastKnownStorageTimestamp = storedTs;
-          renderHostDashboard();
-          updateWaitingLobbyUI();
-        }
-        const gameState = getGameGlobalState();
-        if (gameState === 'PLAYING' && isCurrentlyInLobby) {
-          handleIncomingGameLaunch();
-        } else if (gameState === 'ENDED') {
-          const quizScreen = document.getElementById('quizScreen');
-          if (quizScreen && !quizScreen.classList.contains('hidden')) {
-            handleIncomingGameEnded();
-          }
-        }
-      } catch (err) {}
-    }, 400);
-
     function getGameGlobalState() {
       try {
-        return localStorage.getItem(STORAGE_KEY_GAME_STATE) || 'LOBBY';
-      } catch (e) {
-        return 'LOBBY';
-      }
+        const stored = localStorage.getItem(STORAGE_KEY_GAME_STATE);
+        const lastUp = parseInt(localStorage.getItem(STORAGE_KEY_LAST_UPDATE) || '0', 10);
+        if (stored && (Date.now() - lastUp < 300000)) {
+          return stored;
+        }
+      } catch (e) {}
+      return currentActiveGameState || 'LOBBY';
     }
 
     function setGameGlobalState(state) {
+      currentActiveGameState = state;
       try {
         localStorage.setItem(STORAGE_KEY_GAME_STATE, state);
         localStorage.setItem(STORAGE_KEY_LAST_UPDATE, Date.now().toString());
       } catch (e) {}
     }
 
-    function handleIncomingParticipantEnrolled(entry) {
+    function getHostPin() {
+      try {
+        return localStorage.getItem(STORAGE_KEY_PIN) || HOST_DEFAULT_PIN;
+      } catch (e) {
+        return HOST_DEFAULT_PIN;
+      }
+    }
+
+    function setHostPin(newPin) {
+      try {
+        localStorage.setItem(STORAGE_KEY_PIN, newPin);
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }
+
+    function getHostLeaderboard() {
+      if (roomParticipantsMap.size > 0) {
+        return Array.from(roomParticipantsMap.values());
+      }
+      try {
+        const stored = localStorage.getItem(STORAGE_KEY_LEADERBOARD);
+        if (stored !== null) {
+          const parsed = JSON.parse(stored);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            parsed.forEach(p => {
+              if (p && p.id) roomParticipantsMap.set(p.id, p);
+            });
+            return parsed;
+          }
+        }
+      } catch (e) {}
+      return [];
+    }
+
+    function syncRosterToStorageAndMemory(list) {
+      if (!Array.isArray(list)) return;
+      roomParticipantsMap.clear();
+      list.forEach(p => {
+        if (p && p.id) roomParticipantsMap.set(p.id, p);
+      });
+      try {
+        localStorage.setItem(STORAGE_KEY_LEADERBOARD, JSON.stringify(list));
+        localStorage.setItem(STORAGE_KEY_LAST_UPDATE, Date.now().toString());
+      } catch (e) {}
+    }
+
+    function broadcastFullRosterSync() {
+      const roster = getHostLeaderboard();
+      sendCrossDeviceMessage({
+        type: 'FULL_ROSTER_SYNC',
+        roster: roster,
+        gameState: currentActiveGameState,
+        ts: Date.now()
+      });
+    }
+
+    function handleIncomingFullRosterSync(roster, remoteGameState) {
+      if (!Array.isArray(roster)) return;
+      
+      roster.forEach(p => {
+        if (p && p.id) {
+          roomParticipantsMap.set(p.id, p);
+        }
+      });
+
+      if (currentParticipantId && currentPlayerName) {
+        if (!roomParticipantsMap.has(currentParticipantId)) {
+          const selfEntry = {
+            id: currentParticipantId,
+            name: currentPlayerName,
+            department: currentPlayerDepartment,
+            score: score,
+            correctCount: correctCount,
+            answeredCount: 0,
+            status: "In Waiting Lobby",
+            isEnrolled: true,
+            isFinished: false,
+            rawEpoch: Date.now()
+          };
+          roomParticipantsMap.set(currentParticipantId, selfEntry);
+        }
+      }
+
+      const mergedList = Array.from(roomParticipantsMap.values());
+      try {
+        localStorage.setItem(STORAGE_KEY_LEADERBOARD, JSON.stringify(mergedList));
+      } catch (e) {}
+
+      if (remoteGameState && remoteGameState !== currentActiveGameState) {
+        setGameGlobalState(remoteGameState);
+      }
+
       renderHostDashboard();
       updateWaitingLobbyUI();
-      showLiveToast("New Devotee Enrolled", `${entry.name} (${entry.department}) joined the lobby!`, 'launch');
-      sound.playBell();
+    }
+
+    function handleIncomingParticipantEnrolled(entry) {
+      if (!entry || !entry.id) return;
+      roomParticipantsMap.set(entry.id, entry);
+      saveOrUpdateHostRecord(entry, false, false, 'ENROLL', false);
+      renderHostDashboard();
+      updateWaitingLobbyUI();
+      
+      if (isHostSession) {
+        broadcastFullRosterSync();
+        showLiveToast("New Devotee Enrolled", `${entry.name} (${entry.department}) joined the lobby!`, 'launch');
+        sound.playBell();
+      }
     }
 
     function handleIncomingLiveUpdate(entry) {
+      if (!entry || !entry.id) return;
+      roomParticipantsMap.set(entry.id, entry);
+      saveOrUpdateHostRecord(entry, entry.isFinished, false, 'PROGRESS', false);
       renderHostDashboard();
-      if (entry && entry.rankMovement && entry.rankMovement !== 0) {
+      if (entry && entry.rankMovement && entry.rankMovement !== 0 && isHostSession) {
         const isUp = entry.rankMovement > 0;
         showLiveToast(
           `${entry.name} shifted ${isUp ? 'UP ▲' : 'DOWN ▼'}!`, 
@@ -1267,46 +1428,74 @@
     }
 
     function handleIncomingReset() {
+      roomParticipantsMap.clear();
       previousContestantRanks = {};
       previousDeptRanks = {};
+      localStorage.setItem(STORAGE_KEY_LEADERBOARD, JSON.stringify([]));
       renderHostDashboard();
       updateWaitingLobbyUI();
       
-      if (!isHostDashboardOpen) {
+      if (!isHostSession) {
         clearInterval(questionTimerInterval);
         document.getElementById('quizScreen').classList.add('hidden');
         document.getElementById('resultsScreen').classList.add('hidden');
         document.getElementById('waitingLobbyScreen').classList.add('hidden');
         document.getElementById('welcomeScreen').classList.remove('hidden');
         isCurrentlyInLobby = false;
+        quizStartedFlag = false;
         showLiveToast("Championship Reset", "Host has reset the game to enrollment lobby.", "launch");
       }
     }
 
-    /* ==========================================================================
-       4. PARTICIPANT STATE & QUIZ EXECUTION ENGINE
-       ========================================================================== */
-    const QUESTION_TIME_LIMIT_MS = 20000;
-    let questions = [];
-    let currentQuestionIndex = 0;
-    let userAnswers = [];
-    let score = 0;
-    let correctCount = 0;
-    let currentStreak = 0;
-    let highestStreak = 0;
+    function processIncomingNetworkMessage(data) {
+      if (!data || !data.type) return;
 
-    let questionStartTime = 0;
-    let questionTimerInterval = null;
-    let hasAnswered = false;
+      const now = Date.now();
+      const msgAge = now - (data.ts || 0);
 
-    let quizStartPerfTime = 0;
-    let totalElapsedDurationMs = 0;
-    let currentParticipantId = "";
-    let currentPlayerName = "";
-    let currentPlayerDepartment = "";
-    let isCurrentlyInLobby = false;
-    let isHostDashboardOpen = false;
+      if (data.type === 'REQUEST_ROSTER') {
+        if (isHostSession || roomParticipantsMap.size > 0) {
+          broadcastFullRosterSync();
+        }
+      } else if (data.type === 'FULL_ROSTER_SYNC') {
+        handleIncomingFullRosterSync(data.roster, data.gameState);
+      } else if (data.type === 'PARTICIPANT_ENROLLED') {
+        handleIncomingParticipantEnrolled(data.entry);
+      } else if (data.type === 'PARTICIPANT_LEFT') {
+        if (data.participantId) {
+          roomParticipantsMap.delete(data.participantId);
+          let list = getHostLeaderboard().filter(p => p.id !== data.participantId);
+          syncRosterToStorageAndMemory(list);
+          renderHostDashboard();
+          updateWaitingLobbyUI();
+        }
+      } else if (data.type === 'SESSION_STATE') {
+        if (msgAge < 30000 && data.state && data.state !== currentActiveGameState) {
+          setGameGlobalState(data.state);
+        }
+      } else if (data.type === 'GAME_LAUNCHED') {
+        if (msgAge < 20000 && msgAge > -5000) {
+          setGameGlobalState('PLAYING');
+          handleIncomingGameLaunch(data.ts);
+        }
+      } else if (data.type === 'GAME_ENDED_BY_HOST') {
+        if (msgAge < 30000) {
+          setGameGlobalState('ENDED');
+          handleIncomingGameEnded();
+        }
+      } else if (data.type === 'LIVE_PROGRESS' || data.type === 'FINAL_SUBMISSION') {
+        handleIncomingLiveUpdate(data.entry);
+      } else if (data.type === 'RESET') {
+        if (msgAge < 30000) {
+          setGameGlobalState('LOBBY');
+          handleIncomingReset();
+        }
+      }
+    }
 
+    // ----------------------------------------------------
+    // ENROLLMENT & WAITING LOBBY
+    // ----------------------------------------------------
     function shuffleArray(arr) {
       const copy = [...arr];
       for (let i = copy.length - 1; i > 0; i--) {
@@ -1317,8 +1506,8 @@
     }
 
     function prepareQuiz() {
-      const shuffledQuestions = shuffleArray(ALL_QUESTIONS_30);
-      questions = shuffledQuestions.map(q => {
+      // Synchronized question list with randomized options per participant
+      questions = ALL_QUESTIONS_30.map(q => {
         const originalCorrectText = q.options[q.correctIndex];
         const shuffledOpts = shuffleArray(q.options);
         const newCorrectIndex = shuffledOpts.indexOf(originalCorrectText);
@@ -1360,17 +1549,12 @@
       sound.init();
       sound.playBell();
 
-      const gameState = getGameGlobalState();
-      if (gameState === 'PLAYING') {
-        launchParticipantQuizNow();
-        return;
-      }
-
       enterWaitingLobby();
     }
 
     function enterWaitingLobby() {
       isCurrentlyInLobby = true;
+      quizStartedFlag = false;
       document.getElementById('welcomeScreen').classList.add('hidden');
       document.getElementById('quizScreen').classList.add('hidden');
       document.getElementById('resultsScreen').classList.add('hidden');
@@ -1400,9 +1584,12 @@
         rawEpoch: Date.now()
       };
 
-      saveOrUpdateHostRecord(entry, false, false, 'ENROLL');
+      roomParticipantsMap.set(currentParticipantId, entry);
+      saveOrUpdateHostRecord(entry, false, false, 'ENROLL', true);
       updateWaitingLobbyUI();
-      lucide.createIcons();
+      safeCreateIcons();
+
+      sendCrossDeviceMessage({ type: 'REQUEST_ROSTER', senderId: currentParticipantId, ts: Date.now() });
     }
 
     function updateWaitingLobbyUI() {
@@ -1422,7 +1609,7 @@
 
       enrolled.forEach(p => {
         const chip = document.createElement('div');
-        const isSelf = p.id === currentParticipantId;
+        const isSelf = p.id === currentParticipantId || (p.name === currentPlayerName && p.department === currentPlayerDepartment);
         chip.className = `px-2.5 py-1 rounded-xl text-xs flex items-center gap-1.5 border ${
           isSelf 
             ? 'bg-amber-500/25 border-amber-400 text-amber-200 font-bold shadow' 
@@ -1440,12 +1627,11 @@
 
     function leaveLobby() {
       sound.playTap();
-      let list = getHostLeaderboard();
-      list = list.filter(item => item.id !== currentParticipantId);
-      try {
-        localStorage.setItem(STORAGE_KEY_LEADERBOARD, JSON.stringify(list));
-        localStorage.setItem(STORAGE_KEY_LAST_UPDATE, Date.now().toString());
-      } catch (e) {}
+      roomParticipantsMap.delete(currentParticipantId);
+      let list = getHostLeaderboard().filter(item => item.id !== currentParticipantId);
+      syncRosterToStorageAndMemory(list);
+
+      sendCrossDeviceMessage({ type: 'PARTICIPANT_LEFT', participantId: currentParticipantId, ts: Date.now() });
 
       isCurrentlyInLobby = false;
       document.getElementById('waitingLobbyScreen').classList.add('hidden');
@@ -1453,6 +1639,9 @@
       renderHostDashboard();
     }
 
+    // ----------------------------------------------------
+    // HOST ACTIONS: START & STOP GAME
+    // ----------------------------------------------------
     function hostStartGameForAll() {
       sound.init();
       sound.playLaunchFanfare();
@@ -1463,50 +1652,61 @@
         localStorage.setItem(STORAGE_KEY_GAME_LAUNCH_TS, launchTs.toString());
       } catch (e) {}
 
-      if (liveQuizChannel) {
-        liveQuizChannel.postMessage({
-          type: 'GAME_LAUNCHED',
-          ts: launchTs
-        });
-      }
+      const startPayload = { type: 'GAME_LAUNCHED', state: 'PLAYING', ts: launchTs };
+      sendCrossDeviceMessage(startPayload);
+      setTimeout(() => sendCrossDeviceMessage(startPayload), 300);
+      setTimeout(() => sendCrossDeviceMessage(startPayload), 700);
+      setTimeout(() => sendCrossDeviceMessage({ type: 'SESSION_STATE', state: 'PLAYING', ts: launchTs }), 1200);
+
+      if (hostHeartbeatTimer) clearInterval(hostHeartbeatTimer);
+      hostHeartbeatTimer = setInterval(() => {
+        if (currentActiveGameState === 'PLAYING') {
+          sendCrossDeviceMessage({ type: 'SESSION_STATE', state: 'PLAYING', ts: Date.now() });
+        }
+      }, 5000);
 
       showLiveToast("🚀 GAME LAUNCHED!", "Starting 30-question quiz countdown for all participants!", "launch");
       renderHostDashboard();
-
-      if (isCurrentlyInLobby) {
-        handleIncomingGameLaunch();
-      }
     }
 
-    function handleIncomingGameLaunch() {
+    function handleIncomingGameLaunch(launchTs) {
+      if (isHostSession) return;
       if (!isCurrentlyInLobby) return;
+      if (quizStartedFlag) return;
+      quizStartedFlag = true;
       isCurrentlyInLobby = false;
 
       const overlay = document.getElementById('countdownLaunchOverlay');
       const numEl = document.getElementById('countdownNumber');
-      overlay.classList.remove('hidden');
-      setTimeout(() => overlay.classList.remove('opacity-0'), 20);
+      if (overlay) {
+        overlay.classList.remove('hidden');
+        setTimeout(() => overlay.classList.remove('opacity-0'), 20);
+      }
 
       sound.init();
       sound.playCountdownTick();
       let count = 3;
-      numEl.textContent = count;
+      if (numEl) numEl.textContent = count;
 
       const countInterval = setInterval(() => {
         count--;
         if (count > 0) {
-          numEl.textContent = count;
+          if (numEl) numEl.textContent = count;
           sound.playCountdownTick();
         } else if (count === 0) {
-          numEl.textContent = "GO!";
+          if (numEl) numEl.textContent = "GO!";
           sound.playLaunchFanfare();
         } else {
           clearInterval(countInterval);
-          overlay.classList.add('opacity-0');
-          setTimeout(() => {
-            overlay.classList.add('hidden');
+          if (overlay) {
+            overlay.classList.add('opacity-0');
+            setTimeout(() => {
+              overlay.classList.add('hidden');
+              launchParticipantQuizNow();
+            }, 350);
+          } else {
             launchParticipantQuizNow();
-          }, 350);
+          }
         }
       }, 1000);
     }
@@ -1568,8 +1768,6 @@
 
       document.getElementById('lockedInBanner').classList.add('hidden');
       document.getElementById('lockedInBanner').classList.remove('flex');
-      document.getElementById('nextBtn').classList.add('hidden');
-      document.getElementById('nextBtn').classList.remove('flex');
 
       updateTimerUI(QUESTION_TIME_LIMIT_MS);
 
@@ -1592,7 +1790,7 @@
         }
       }, 50);
 
-      lucide.createIcons();
+      safeCreateIcons();
     }
 
     function updateTimerUI(remainingMs) {
@@ -1616,7 +1814,6 @@
     function lockInAnswer(selectedIndex) {
       if (hasAnswered) return;
       hasAnswered = true;
-      clearInterval(questionTimerInterval);
 
       const elapsedMs = performance.now() - questionStartTime;
       const remainingMs = Math.max(0, QUESTION_TIME_LIMIT_MS - elapsedMs);
@@ -1630,9 +1827,11 @@
 
       if (selectedIndex !== null) {
         const chosenBtn = document.getElementById(`optBtn_${selectedIndex}`);
-        chosenBtn.classList.add('locked-in');
-        document.getElementById(`optIcon_${selectedIndex}`).innerHTML = `<i data-lucide="check" class="w-5 h-5 text-amber-300"></i>`;
-        sound.playLockIn();
+        if (chosenBtn) {
+          chosenBtn.classList.add('locked-in');
+          document.getElementById(`optIcon_${selectedIndex}`).innerHTML = `<i data-lucide="check" class="w-5 h-5 text-amber-300"></i>`;
+          sound.playLockIn();
+        }
       }
 
       if (isCorrect) {
@@ -1653,28 +1852,23 @@
       const banner = document.getElementById('lockedInBanner');
       const msg = document.getElementById('lockedInMessage');
       if (selectedIndex !== null) {
-        msg.textContent = `Answer locked in! Score & rank broadcasted live to Host.`;
+        msg.textContent = `Answer locked in! Advancing automatically when timer ends...`;
       } else {
-        msg.textContent = `Time expired! Moving to next question.`;
+        msg.textContent = `Time expired! Moving to next question...`;
       }
       banner.classList.remove('hidden');
       banner.classList.add('flex');
 
-      const nextBtn = document.getElementById('nextBtn');
-      const nextBtnText = document.getElementById('nextBtnText');
-      if (currentQuestionIndex === questions.length - 1) {
-        nextBtnText.textContent = "Finish 30-Q Quiz & Finalize Score";
-      } else {
-        nextBtnText.textContent = "Continue to Next Question";
-      }
-      nextBtn.classList.remove('hidden');
-      nextBtn.classList.add('flex');
-
-      lucide.createIcons();
+      safeCreateIcons();
     }
 
     function handleTimeout() {
-      lockInAnswer(null);
+      if (!hasAnswered) {
+        lockInAnswer(null);
+      }
+      setTimeout(() => {
+        nextQuestion();
+      }, 500);
     }
 
     function nextQuestion() {
@@ -1717,7 +1911,7 @@
         date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
         rawEpoch: Date.now()
       };
-      saveOrUpdateHostRecord(entry, false, false, 'PROGRESS');
+      saveOrUpdateHostRecord(entry, false, false, 'PROGRESS', true);
     }
 
     function broadcastLiveProgress(answeredCount, isFinished = false) {
@@ -1746,7 +1940,7 @@
         rawEpoch: Date.now()
       };
 
-      saveOrUpdateHostRecord(entry, isFinished, false, isFinished ? 'FINAL' : 'PROGRESS');
+      saveOrUpdateHostRecord(entry, isFinished, false, isFinished ? 'FINAL' : 'PROGRESS', true);
     }
 
     function finishQuiz() {
@@ -1784,7 +1978,7 @@
       buildAnswerReviewList();
       sound.playVictory();
       triggerConfetti();
-      lucide.createIcons();
+      safeCreateIcons();
     }
 
     function toggleAnswerReview() {
@@ -1867,6 +2061,7 @@
       document.getElementById('waitingLobbyScreen').classList.add('hidden');
       document.getElementById('welcomeScreen').classList.remove('hidden');
       isCurrentlyInLobby = false;
+      quizStartedFlag = false;
     }
 
     function shareScore() {
@@ -1885,110 +2080,52 @@
       document.body.removeChild(tempTextArea);
     }
 
-    /* ==========================================================================
-       5. HOST ADMINISTRATION PORTAL (PIN: 787898) & LIVE DASHBOARD
-       ========================================================================== */
-    function getHostPin() {
+    function copyQuizShareLink() {
+      sound.playTap();
+      const quizUrl = "https://vikasuikey.github.io/ganesh-chaturthi-quiz/";
+      const tempTextArea = document.createElement('textarea');
+      tempTextArea.value = quizUrl;
+      document.body.appendChild(tempTextArea);
+      tempTextArea.select();
       try {
-        return localStorage.getItem(STORAGE_KEY_PIN) || HOST_DEFAULT_PIN;
-      } catch (e) {
-        return HOST_DEFAULT_PIN;
-      }
-    }
-
-    function setHostPin(newPin) {
-      try {
-        localStorage.setItem(STORAGE_KEY_PIN, newPin);
-        return true;
-      } catch (e) {
-        return false;
-      }
-    }
-
-    function getHostLeaderboard() {
-      try {
-        const stored = localStorage.getItem(STORAGE_KEY_LEADERBOARD);
-        if (stored !== null) {
-          const parsed = JSON.parse(stored);
-          if (Array.isArray(parsed)) return parsed;
+        document.execCommand('copy');
+        const btnText = document.getElementById('copyLinkBtnText');
+        if (btnText) {
+          btnText.textContent = "Copied! ✓";
+          setTimeout(() => { btnText.textContent = "Copy Link"; }, 2500);
         }
-      } catch (e) {
-        console.warn("Read error", e);
-      }
-      return [];
+        showLiveToast("Link Copied", "Quiz link copied to clipboard!", "launch");
+      } catch (e) {}
+      document.body.removeChild(tempTextArea);
     }
 
-    function sortLeaderboardList(list) {
-      return list.sort((a, b) => {
-        if (b.score !== a.score) return b.score - a.score;
-        if (b.correctCount !== a.correctCount) return b.correctCount - a.correctCount;
-        if (a.durationMs !== b.durationMs) return a.durationMs - b.durationMs;
-        return a.rawEpoch - b.rawEpoch;
-      });
-    }
-
-    function saveOrUpdateHostRecord(entry, isFinished = false, isInitialStart = false, actionType = 'PROGRESS') {
-      let list = getHostLeaderboard();
-      const existingIdx = list.findIndex(item => item.id === entry.id);
-
-      const oldRank = previousContestantRanks[entry.id] || (existingIdx !== -1 ? existingIdx + 1 : null);
-
-      if (existingIdx !== -1) {
-        list[existingIdx] = { ...list[existingIdx], ...entry };
-      } else {
-        list.push(entry);
-      }
-
-      list = sortLeaderboardList(list);
-
-      const newRank = list.findIndex(item => item.id === entry.id) + 1;
-      let rankMovement = 0;
-      if (oldRank !== null && oldRank !== newRank) {
-        rankMovement = oldRank - newRank;
-      }
-      entry.rankMovement = rankMovement;
-
-      const updateTs = Date.now();
-      try {
-        localStorage.setItem(STORAGE_KEY_LEADERBOARD, JSON.stringify(list));
-        localStorage.setItem(STORAGE_KEY_LAST_UPDATE, updateTs.toString());
-      } catch (e) {
-        console.warn("Storage write error", e);
-      }
-
-      if (liveQuizChannel) {
-        try {
-          liveQuizChannel.postMessage({
-            type: actionType === 'ENROLL' ? 'PARTICIPANT_ENROLLED' : isFinished ? 'FINAL_SUBMISSION' : 'LIVE_PROGRESS',
-            entry: entry,
-            ts: updateTs
-          });
-        } catch (err) {}
-      }
-
-      renderHostDashboard();
-    }
-
+    // ----------------------------------------------------
+    // HOST PORTAL & LEADERBOARD RENDERING
+    // ----------------------------------------------------
     function openHostAuthModal() {
       sound.playTap();
       const modal = document.getElementById('hostAuthModal');
       const pinInput = document.getElementById('hostPinInput');
       const err = document.getElementById('pinErrorMessage');
-      pinInput.value = '';
-      err.classList.add('hidden');
+      if (pinInput) pinInput.value = '';
+      if (err) err.classList.add('hidden');
 
-      modal.classList.remove('hidden');
-      setTimeout(() => {
-        modal.classList.remove('opacity-0');
-        pinInput.focus();
-      }, 20);
+      if (modal) {
+        modal.classList.remove('hidden');
+        setTimeout(() => {
+          modal.classList.remove('opacity-0');
+          if (pinInput) pinInput.focus();
+        }, 20);
+      }
     }
 
     function closeHostAuthModal() {
       sound.playTap();
       const modal = document.getElementById('hostAuthModal');
-      modal.classList.add('opacity-0');
-      setTimeout(() => modal.classList.add('hidden'), 250);
+      if (modal) {
+        modal.classList.add('opacity-0');
+        setTimeout(() => modal.classList.add('hidden'), 250);
+      }
     }
 
     function verifyHostPin() {
@@ -1998,6 +2135,23 @@
 
       if (entered === currentPin) {
         sound.playBell();
+        isHostSession = true;
+
+        if (currentParticipantId) {
+          removeHostFromParticipants(currentParticipantId);
+          currentParticipantId = "";
+          currentPlayerName = "";
+          currentPlayerDepartment = "";
+          isCurrentlyInLobby = false;
+        }
+
+        if (rosterBroadcastTimer) clearInterval(rosterBroadcastTimer);
+        rosterBroadcastTimer = setInterval(() => {
+          if (isHostSession) {
+            broadcastFullRosterSync();
+          }
+        }, 3000);
+
         closeHostAuthModal();
         setTimeout(openHostLeaderboardModal, 260);
       } else {
@@ -2006,6 +2160,14 @@
         document.getElementById('hostPinInput').classList.add('border-red-500');
         setTimeout(() => document.getElementById('hostPinInput').classList.remove('border-red-500'), 1500);
       }
+    }
+
+    function removeHostFromParticipants(hostPartId) {
+      roomParticipantsMap.delete(hostPartId);
+      let list = getHostLeaderboard().filter(p => p.id !== hostPartId);
+      syncRosterToStorageAndMemory(list);
+      renderHostDashboard();
+      updateWaitingLobbyUI();
     }
 
     let activeHostTab = 'dept';
@@ -2040,16 +2202,20 @@
       isHostDashboardOpen = true;
       renderHostDashboard();
       const modal = document.getElementById('hostLeaderboardModal');
-      modal.classList.remove('hidden');
-      setTimeout(() => modal.classList.remove('opacity-0'), 20);
+      if (modal) {
+        modal.classList.remove('hidden');
+        setTimeout(() => modal.classList.remove('opacity-0'), 20);
+      }
     }
 
     function closeHostLeaderboardModal() {
       isHostDashboardOpen = false;
       sound.playTap();
       const modal = document.getElementById('hostLeaderboardModal');
-      modal.classList.add('opacity-0');
-      setTimeout(() => modal.classList.add('hidden'), 250);
+      if (modal) {
+        modal.classList.add('opacity-0');
+        setTimeout(() => modal.classList.add('hidden'), 250);
+      }
     }
 
     function filterLeaderboardView() {
@@ -2063,7 +2229,7 @@
       renderActiveContestantsTicker();
       renderDepartmentScorecard();
       renderIndividualLeaderboard();
-      lucide.createIcons();
+      safeCreateIcons();
     }
 
     function updateHostGameStatusBadge() {
@@ -2072,6 +2238,8 @@
       const startBtn = document.getElementById('hostStartGameBtn');
       const endBtn = document.getElementById('hostEndGameBtn');
       const activeTitle = document.getElementById('activeSectionTitle');
+
+      if (!badge || !startBtn || !endBtn || !activeTitle) return;
 
       if (gameState === 'PLAYING') {
         badge.className = "inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-[10px] font-bold uppercase tracking-wider";
@@ -2087,7 +2255,6 @@
         badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span> Championship Concluded`;
         
         startBtn.classList.remove('hidden');
-        startBtn.classList.remove('flex');
         startBtn.innerHTML = `<i data-lucide="rotate-ccw" class="w-4 h-4"></i><span>RESTART NEW GAME</span>`;
         startBtn.className = "px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-kumkum-950 font-bold text-xs sm:text-sm flex items-center gap-2 shadow-md transition-all";
         startBtn.disabled = false;
@@ -2108,86 +2275,11 @@
       }
     }
 
-    function promptHostEndGame() {
-      sound.playTap();
-      const modal = document.getElementById('hostEndGameConfirmModal');
-      modal.classList.remove('hidden');
-      setTimeout(() => modal.classList.remove('opacity-0'), 20);
-    }
-
-    function cancelHostEndGame() {
-      sound.playTap();
-      const modal = document.getElementById('hostEndGameConfirmModal');
-      modal.classList.add('opacity-0');
-      setTimeout(() => modal.classList.add('hidden'), 200);
-    }
-
-    function confirmHostEndGame() {
-      sound.playTap();
-      cancelHostEndGame();
-
-      setGameGlobalState('ENDED');
-      const endTs = Date.now();
-
-      let list = getHostLeaderboard();
-      list = list.map(item => {
-        if (!item.isFinished) {
-          return {
-            ...item,
-            isFinished: true,
-            status: `Concluded (Q${item.currentQuestionNumber || item.answeredCount || 0}/30)`
-          };
-        }
-        return item;
-      });
-
-      try {
-        localStorage.setItem(STORAGE_KEY_LEADERBOARD, JSON.stringify(list));
-        localStorage.setItem(STORAGE_KEY_LAST_UPDATE, endTs.toString());
-      } catch (e) {}
-
-      if (liveQuizChannel) {
-        try {
-          liveQuizChannel.postMessage({
-            type: 'GAME_ENDED_BY_HOST',
-            ts: endTs
-          });
-        } catch (e) {}
-      }
-
-      showLiveToast("🛑 Quiz Ended By Host", "Championship ended. All scores frozen!", "down");
-      renderHostDashboard();
-
-      handleIncomingGameEnded();
-    }
-
-    function handleIncomingGameEnded() {
-      const quizScreen = document.getElementById('quizScreen');
-      const lobbyScreen = document.getElementById('waitingLobbyScreen');
-
-      if (quizScreen && !quizScreen.classList.contains('hidden')) {
-        clearInterval(questionTimerInterval);
-        totalElapsedDurationMs = Math.round(performance.now() - quizStartPerfTime);
-        
-        broadcastLiveProgress(currentQuestionIndex + 1, true);
-        finishQuiz();
-
-        const greeting = document.getElementById('resultPlayerGreeting');
-        if (greeting) {
-          greeting.innerHTML = `${escapeHtml(currentPlayerName)}! <span class="block text-sm text-amber-300/80 font-normal mt-1">(Quiz Concluded by Host)</span>`;
-        }
-
-        showLiveToast("Quiz Stopped by Host", "The host has concluded the game! Here is your final scorecard.", "down");
-      } else if (lobbyScreen && !lobbyScreen.classList.contains('hidden')) {
-        showLiveToast("Notice", "The quiz session was stopped by the host.", "launch");
-      }
-    }
-
     function renderActiveContestantsTicker() {
       const allEntries = getHostLeaderboard();
       const ticker = document.getElementById('activePlayersTicker');
       const countBadge = document.getElementById('activeCountBadge');
-      if (!ticker) return;
+      if (!ticker || !countBadge) return;
 
       const activeList = allEntries.filter(e => !e.isFinished);
       countBadge.textContent = `${activeList.length} Devotees`;
@@ -2196,7 +2288,7 @@
         ticker.innerHTML = `
           <div class="text-amber-300/50 text-[11px] py-1 flex items-center gap-1.5">
             <i data-lucide="info" class="w-3.5 h-3.5"></i>
-            <span>No participants currently in waiting lobby. Share the quiz to have contestants enroll!</span>
+            <span>No participants currently in waiting lobby. Share the quiz link for devotees to enroll!</span>
           </div>
         `;
         return;
@@ -2214,7 +2306,7 @@
               <span class="px-1.5 py-0.2 rounded bg-amber-500/20 text-[9px] text-amber-300 font-semibold uppercase">${escapeHtml(p.department)}</span>
             </div>
             <div class="text-[10px] text-emerald-300/80 font-mono flex items-center gap-1.5">
-              <span>${p.status || 'Active'}</span>
+              <span>${escapeHtml(p.status || 'Active')}</span>
               <span>• Score: ${p.score || 0}</span>
               <span>• Acc: ${p.accuracy || 0}%</span>
             </div>
@@ -2227,7 +2319,9 @@
     function renderDepartmentScorecard() {
       const allEntries = getHostLeaderboard();
       const totalCountText = document.getElementById('participantTotalCountText');
-      totalCountText.innerHTML = `<i data-lucide="users" class="w-4 h-4 text-amber-400"></i><span>${allEntries.length} Participant${allEntries.length === 1 ? '' : 's'} Recorded</span>`;
+      if (totalCountText) {
+        totalCountText.innerHTML = `<i data-lucide="users" class="w-4 h-4 text-amber-400"></i><span>${allEntries.length} Participant${allEntries.length === 1 ? '' : 's'} Recorded</span>`;
+      }
 
       const deptStats = {};
       ALL_DEPARTMENTS.forEach(dept => {
@@ -2280,101 +2374,112 @@
       });
 
       const podium = document.getElementById('deptPodiumContainer');
-      podium.innerHTML = '';
+      if (podium) {
+        podium.innerHTML = '';
+        const topThree = deptList.slice(0, 3);
+        const podiumOrder = [topThree[1], topThree[0], topThree[2]];
+        const podiumConfigs = [
+          { rank: '#2', title: 'Runner-Up', color: 'border-slate-400 bg-slate-500/10 text-slate-200', icon: 'medal', scale: 'sm:translate-y-2' },
+          { rank: '#1', title: '👑 CHAMPION WINNER', color: 'winner-gold-card text-amber-200', icon: 'trophy', scale: 'sm:-translate-y-2 sm:scale-105 z-10' },
+          { rank: '#3', title: '3rd Place', color: 'border-amber-700 bg-amber-800/10 text-amber-500', icon: 'award', scale: 'sm:translate-y-3' },
+        ];
 
-      const topThree = deptList.slice(0, 3);
-      const podiumOrder = [topThree[1], topThree[0], topThree[2]];
-      const podiumConfigs = [
-        { rank: '#2', title: 'Runner-Up', color: 'border-slate-400 bg-slate-500/10 text-slate-200', icon: 'medal', scale: 'sm:translate-y-2' },
-        { rank: '#1', title: '👑 CHAMPION WINNER', color: 'winner-gold-card text-amber-200', icon: 'trophy', scale: 'sm:-translate-y-2 sm:scale-105 z-10' },
-        { rank: '#3', title: '3rd Place', color: 'border-amber-700 bg-amber-800/10 text-amber-500', icon: 'award', scale: 'sm:translate-y-3' },
-      ];
-
-      podiumOrder.forEach((d, idx) => {
-        const conf = podiumConfigs[idx];
-        const card = document.createElement('div');
-        const isWinner = (idx === 1 && d && d.participants > 0);
-        card.className = `p-4 sm:p-5 rounded-2xl border text-center transition-all ${conf.color} ${conf.scale}`;
-        
-        if (!d || d.participants === 0) {
-          card.innerHTML = `
-            <div class="flex items-center justify-center gap-1.5 text-xs font-bold uppercase mb-1 opacity-70">
-              <i data-lucide="${conf.icon}" class="w-4 h-4"></i> ${conf.title}
-            </div>
-            <p class="font-festive text-xl text-amber-200/50">Awaiting Devotees</p>
-            <p class="text-[11px] text-amber-300/40">No live answers yet</p>
-          `;
-        } else {
-          card.innerHTML = `
-            <div class="flex items-center justify-center gap-1.5 text-xs font-black uppercase mb-1 ${isWinner ? 'text-amber-300 drop-shadow' : ''}">
-              <i data-lucide="${conf.icon}" class="w-4 h-4 ${isWinner ? 'text-amber-300 animate-bounce' : ''}"></i> ${conf.title} (${conf.rank})
-            </div>
-            <h5 class="font-festive text-lg sm:text-2xl text-amber-100 font-extrabold tracking-wide">${escapeHtml(d.name)}</h5>
-            <div class="mt-2 text-2xl sm:text-3xl font-festive text-amber-300 drop-shadow-md">
-              ${d.avgScore.toLocaleString()} <span class="text-[10px] uppercase font-mono font-bold">avg pts</span>
-            </div>
-            <div class="text-[11px] text-amber-200/90 mt-1 flex justify-center gap-3">
-              <span><strong>${d.participants}</strong> player${d.participants === 1 ? '' : 's'}</span>
-              <span>• <strong>${d.avgAccuracy}%</strong> acc</span>
-            </div>
-            <div class="text-[11px] text-amber-300 mt-2 truncate bg-black/40 py-1 px-2 rounded-lg border border-amber-500/20">
-              Star Devotee: <strong class="text-amber-200">${escapeHtml(d.topDevotee || 'N/A')}</strong>
-            </div>
-          `;
-        }
-        podium.appendChild(card);
-      });
+        podiumOrder.forEach((d, idx) => {
+          const conf = podiumConfigs[idx];
+          const card = document.createElement('div');
+          const isWinner = (idx === 1 && d && d.participants > 0);
+          card.className = `p-4 sm:p-5 rounded-2xl border text-center transition-all ${conf.color} ${conf.scale}`;
+          
+          if (!d || d.participants === 0) {
+            card.innerHTML = `
+              <div class="flex items-center justify-center gap-1.5 text-xs font-bold uppercase mb-1 opacity-70">
+                <i data-lucide="${conf.icon}" class="w-4 h-4"></i> ${conf.title}
+              </div>
+              <p class="font-festive text-xl text-amber-200/50">Awaiting Devotees</p>
+              <p class="text-[11px] text-amber-300/40">No live answers yet</p>
+            `;
+          } else {
+            card.innerHTML = `
+              <div class="flex items-center justify-center gap-1.5 text-xs font-black uppercase mb-1 ${isWinner ? 'text-amber-300 drop-shadow' : ''}">
+                <i data-lucide="${conf.icon}" class="w-4 h-4 ${isWinner ? 'text-amber-300 animate-bounce' : ''}"></i> ${conf.title} (${conf.rank})
+              </div>
+              <h5 class="font-festive text-lg sm:text-2xl text-amber-100 font-extrabold tracking-wide">${escapeHtml(d.name)}</h5>
+              <div class="mt-2 text-2xl sm:text-3xl font-festive text-amber-300 drop-shadow-md">
+                ${d.avgScore.toLocaleString()} <span class="text-[10px] uppercase font-mono font-bold">avg pts</span>
+              </div>
+              <div class="text-[11px] text-amber-200/90 mt-1 flex justify-center gap-3">
+                <span><strong>${d.participants}</strong> player${d.participants === 1 ? '' : 's'}</span>
+                <span>• <strong>${d.avgAccuracy}%</strong> acc</span>
+              </div>
+              <div class="text-[11px] text-amber-300 mt-2 truncate bg-black/40 py-1 px-2 rounded-lg border border-amber-500/20">
+                Star Devotee: <strong class="text-amber-200">${escapeHtml(d.topDevotee || 'N/A')}</strong>
+              </div>
+            `;
+          }
+          podium.appendChild(card);
+        });
+      }
 
       const tableBody = document.getElementById('deptTableBody');
-      tableBody.innerHTML = '';
+      if (tableBody) {
+        tableBody.innerHTML = '';
+        const currentNewDeptRanks = {};
 
-      const currentNewDeptRanks = {};
+        deptList.forEach((d, index) => {
+          const currentRank = index + 1;
+          currentNewDeptRanks[d.name] = currentRank;
+          const oldRank = previousDeptRanks[d.name] || currentRank;
+          const rankDiff = oldRank - currentRank;
 
-      deptList.forEach((d, index) => {
-        const currentRank = index + 1;
-        currentNewDeptRanks[d.name] = currentRank;
-        const oldRank = previousDeptRanks[d.name] || currentRank;
-        const rankDiff = oldRank - currentRank;
+          let rankMovementBadge = '';
+          let rowAnimationClass = '';
+          if (rankDiff > 0 && d.participants > 0) {
+            rankMovementBadge = `<span class="inline-flex items-center text-[10px] font-bold text-emerald-400 bg-emerald-500/20 px-1 rounded ml-1 animate-pulse">▲ +${rankDiff}</span>`;
+            rowAnimationClass = 'animate-rank-up';
+          } else if (rankDiff < 0 && d.participants > 0) {
+            rankMovementBadge = `<span class="inline-flex items-center text-[10px] font-bold text-red-400 bg-red-500/20 px-1 rounded ml-1 animate-pulse">▼ ${rankDiff}</span>`;
+            rowAnimationClass = 'animate-rank-down';
+          }
 
-        let rankMovementBadge = '';
-        let rowAnimationClass = '';
-        if (rankDiff > 0 && d.participants > 0) {
-          rankMovementBadge = `<span class="inline-flex items-center text-[10px] font-bold text-emerald-400 bg-emerald-500/20 px-1 rounded ml-1 animate-pulse">▲ +${rankDiff}</span>`;
-          rowAnimationClass = 'animate-rank-up';
-        } else if (rankDiff < 0 && d.participants > 0) {
-          rankMovementBadge = `<span class="inline-flex items-center text-[10px] font-bold text-red-400 bg-red-500/20 px-1 rounded ml-1 animate-pulse">▼ ${rankDiff}</span>`;
-          rowAnimationClass = 'animate-rank-down';
-        }
+          const tr = document.createElement('tr');
+          const isWinnerDept = (index === 0 && d.participants > 0);
+          tr.className = `table-row-item transition-all ${rowAnimationClass} ${
+            isWinnerDept ? 'bg-amber-500/25 border-l-4 border-l-amber-400 font-bold' : 'hover:bg-amber-500/10'
+          } ${d.participants > 0 ? '' : 'opacity-50'}`;
 
-        const tr = document.createElement('tr');
-        const isWinnerDept = (index === 0 && d.participants > 0);
-        tr.className = `table-row-item transition-all ${rowAnimationClass} ${
-          isWinnerDept ? 'bg-amber-500/25 border-l-4 border-l-amber-400 font-bold' : 'hover:bg-amber-500/10'
-        } ${d.participants > 0 ? '' : 'opacity-50'}`;
+          let rankBadge = `<span class="font-mono text-amber-400/80">#${currentRank}</span>`;
+          if (index === 0 && d.participants > 0) rankBadge = `<span class="text-amber-300 font-extrabold flex items-center gap-1"><i data-lucide="crown" class="w-4 h-4 text-amber-300 fill-amber-300"></i> #1 WINNER</span>`;
+          else if (index === 1 && d.participants > 0) rankBadge = `<span class="text-slate-300 font-bold flex items-center gap-1"><i data-lucide="medal" class="w-3.5 h-3.5 text-slate-300"></i> #2</span>`;
+          else if (index === 2 && d.participants > 0) rankBadge = `<span class="text-amber-600 font-bold flex items-center gap-1"><i data-lucide="award" class="w-3.5 h-3.5 text-amber-600"></i> #3</span>`;
 
-        let rankBadge = `<span class="font-mono text-amber-400/80">#${currentRank}</span>`;
-        if (index === 0 && d.participants > 0) rankBadge = `<span class="text-amber-300 font-extrabold flex items-center gap-1"><i data-lucide="crown" class="w-4 h-4 text-amber-300 fill-amber-300"></i> #1 WINNER</span>`;
-        else if (index === 1 && d.participants > 0) rankBadge = `<span class="text-slate-300 font-bold flex items-center gap-1"><i data-lucide="medal" class="w-3.5 h-3.5 text-slate-300"></i> #2</span>`;
-        else if (index === 2 && d.participants > 0) rankBadge = `<span class="text-amber-600 font-bold flex items-center gap-1"><i data-lucide="award" class="w-3.5 h-3.5 text-amber-600"></i> #3</span>`;
+          tr.innerHTML = `
+            <td class="py-2.5 px-2 flex items-center gap-1">
+              ${rankBadge} ${rankMovementBadge}
+            </td>
+            <td class="py-2.5 px-3 font-semibold text-amber-100 flex items-center gap-1.5">
+              <span>${escapeHtml(d.name)}</span>
+              ${d.name === 'Finance - GCC' ? '<span class="px-1.5 py-0.2 rounded bg-amber-400/20 text-[9px] text-amber-300 border border-amber-400/30">GCC</span>' : ''}
+              ${isWinnerDept ? '<span class="px-2 py-0.5 rounded-full bg-amber-400 text-kumkum-950 font-black text-[9px] uppercase tracking-wider ml-1 shadow">Leading</span>' : ''}
+            </td>
+            <td class="py-2.5 px-2 text-right font-festive text-sm text-amber-300">${d.avgScore.toLocaleString()}</td>
+            <td class="py-2.5 px-2 text-right font-mono">${d.participants}</td>
+            <td class="py-2.5 px-2 text-right font-mono text-emerald-400">${d.avgAccuracy}%</td>
+            <td class="py-2.5 px-3 text-right text-amber-200/90 truncate max-w-[120px]">${escapeHtml(d.topDevotee || '—')}</td>
+          `;
+          tableBody.appendChild(tr);
+        });
 
-        tr.innerHTML = `
-          <td class="py-2.5 px-2 flex items-center gap-1">
-            ${rankBadge} ${rankMovementBadge}
-          </td>
-          <td class="py-2.5 px-3 font-semibold text-amber-100 flex items-center gap-1.5">
-            <span>${escapeHtml(d.name)}</span>
-            ${d.name === 'Finance - GCC' ? '<span class="px-1.5 py-0.2 rounded bg-amber-400/20 text-[9px] text-amber-300 border border-amber-400/30">GCC</span>' : ''}
-            ${isWinnerDept ? '<span class="px-2 py-0.5 rounded-full bg-amber-400 text-kumkum-950 font-black text-[9px] uppercase tracking-wider ml-1 shadow">Leading</span>' : ''}
-          </td>
-          <td class="py-2.5 px-2 text-right font-festive text-sm text-amber-300">${d.avgScore.toLocaleString()}</td>
-          <td class="py-2.5 px-2 text-right font-mono">${d.participants}</td>
-          <td class="py-2.5 px-2 text-right font-mono text-emerald-400">${d.avgAccuracy}%</td>
-          <td class="py-2.5 px-3 text-right text-amber-200/90 truncate max-w-[120px]">${escapeHtml(d.topDevotee || '—')}</td>
-        `;
-        tableBody.appendChild(tr);
+        previousDeptRanks = currentNewDeptRanks;
+      }
+    }
+
+    function sortLeaderboardList(list) {
+      return [...list].sort((a, b) => {
+        if (b.score !== a.score) return b.score - a.score;
+        if (b.correctCount !== a.correctCount) return b.correctCount - a.correctCount;
+        if (a.durationMs !== b.durationMs) return a.durationMs - b.durationMs;
+        return (a.rawEpoch || 0) - (b.rawEpoch || 0);
       });
-
-      previousDeptRanks = currentNewDeptRanks;
     }
 
     function renderIndividualLeaderboard() {
@@ -2382,6 +2487,7 @@
       allEntries = sortLeaderboardList(allEntries);
 
       const container = document.getElementById('hostLeaderboardList');
+      if (!container) return;
       container.innerHTML = '';
 
       const filtered = allEntries.filter(entry => {
@@ -2396,10 +2502,10 @@
           <div class="text-center py-10 text-amber-300/60 text-sm space-y-2">
             <i data-lucide="inbox" class="w-10 h-10 mx-auto text-amber-400/40"></i>
             <p class="font-medium">${allEntries.length === 0 ? 'No participants have enrolled yet.' : 'No matching participants found.'}</p>
-            <p class="text-xs text-amber-400/40">${allEntries.length === 0 ? 'When contestants enroll in the lobby, they appear above. When you click Start Game, their ranks shift here live!' : 'Try clearing filters.'}</p>
+            <p class="text-xs text-amber-400/40">${allEntries.length === 0 ? 'When devotees enroll in the lobby from their devices, they appear here live!' : 'Try clearing filters.'}</p>
           </div>
         `;
-        lucide.createIcons();
+        safeCreateIcons();
         return;
       }
 
@@ -2516,42 +2622,67 @@
       });
 
       previousContestantRanks = currentNewContestantRanks;
-      lucide.createIcons();
+      safeCreateIcons();
+    }
+
+    function saveOrUpdateHostRecord(entry, isFinished = false, isInitialStart = false, actionType = 'PROGRESS', broadcast = true) {
+      if (!entry || !entry.id) return;
+      roomParticipantsMap.set(entry.id, entry);
+      const list = Array.from(roomParticipantsMap.values());
+      syncRosterToStorageAndMemory(list);
+
+      if (broadcast) {
+        sendCrossDeviceMessage({
+          type: actionType === 'ENROLL' ? 'PARTICIPANT_ENROLLED' : (isFinished ? 'FINAL_SUBMISSION' : 'LIVE_PROGRESS'),
+          entry: entry,
+          ts: Date.now()
+        });
+      }
+      renderHostDashboard();
     }
 
     function simulateLiveParticipantMovement() {
       sound.playTap();
-      const mockContestants = [
-        { name: "Aarav Sharma", dept: "Marketing" },
-        { name: "Pooja Deshmukh", dept: "Finance - GCC" },
-        { name: "Rohan Kulkarni", dept: "Project" },
-        { name: "Sneha Nair", dept: "Planning" },
-        { name: "Vikram Mehta", dept: "Operation" }
-      ];
-      const randomPerson = mockContestants[Math.floor(Math.random() * mockContestants.length)];
-      const simId = 'sim_' + randomPerson.name.replace(/\s+/g, '_').toLowerCase();
-
       let list = getHostLeaderboard();
+      
+      let targetPerson;
+      if (list.length > 0) {
+        const eligible = list.filter(p => !p.isFinished);
+        targetPerson = eligible.length > 0 ? eligible[Math.floor(Math.random() * eligible.length)] : list[Math.floor(Math.random() * list.length)];
+      } else {
+        const mockContestants = [
+          { name: "Aarav Sharma", dept: "Marketing" },
+          { name: "Pooja Deshmukh", dept: "Finance - GCC" },
+          { name: "Rohan Kulkarni", dept: "Project" },
+          { name: "Sneha Nair", dept: "Planning" },
+          { name: "Vikram Mehta", dept: "Operation" }
+        ];
+        const randomPerson = mockContestants[Math.floor(Math.random() * mockContestants.length)];
+        targetPerson = { id: 'sim_' + randomPerson.name.replace(/\s+/g, '_').toLowerCase(), name: randomPerson.name, department: randomPerson.dept };
+      }
+
+      const simId = targetPerson.id;
       let existing = list.find(item => item.id === simId);
 
       let currentAns = existing ? (existing.answeredCount || 0) + 1 : 1;
       let currentCor = existing ? (existing.correctCount || 0) + 1 : 1;
       let addedScore = Math.floor(Math.random() * 450) + 850;
       let currentSc = existing ? existing.score + addedScore : addedScore;
+      let newDuration = (existing?.durationMs || 0) + Math.floor(Math.random() * 5000) + 4000;
 
       const simEntry = {
         id: simId,
-        name: randomPerson.name,
-        department: randomPerson.dept,
+        name: targetPerson.name,
+        department: targetPerson.department,
         score: currentSc,
         correctCount: currentCor,
         answeredCount: currentAns,
         currentQuestionNumber: currentAns,
         totalQuestions: 30,
         accuracy: Math.round((currentCor / currentAns) * 100),
-        streak: (existing ? existing.streak || 0 : 0) + 1,
-        durationMs: (existing ? existing.durationMs : 10000) + Math.floor(Math.random() * 5000),
-        durationFormatted: formatTimeDuration((existing ? existing.durationMs : 10000) + 4500),
+        streak: (existing?.streak || 0) + 1,
+        durationMs: newDuration,
+        durationFormatted: formatTimeDuration(newDuration),
         status: currentAns >= 30 ? 'Completed' : `Q${currentAns}/30 Live`,
         isEnrolled: true,
         isFinished: currentAns >= 30,
@@ -2560,23 +2691,27 @@
         rawEpoch: Date.now()
       };
 
-      saveOrUpdateHostRecord(simEntry, currentAns >= 30, false, 'PROGRESS');
+      saveOrUpdateHostRecord(simEntry, simEntry.isFinished, false, 'PROGRESS', true);
     }
 
     function toggleChangePinView() {
       sound.playTap();
       const container = document.getElementById('changePinContainer');
       const msg = document.getElementById('changePinMsg');
-      msg.classList.add('hidden');
-      container.classList.toggle('hidden');
-      if (!container.classList.contains('hidden')) {
-        document.getElementById('newPinInput').focus();
+      if (msg) msg.classList.add('hidden');
+      if (container) {
+        container.classList.toggle('hidden');
+        if (!container.classList.contains('hidden')) {
+          const pinInput = document.getElementById('newPinInput');
+          if (pinInput) pinInput.focus();
+        }
       }
     }
 
     function saveNewPin() {
       const newPin = (document.getElementById('newPinInput').value || '').trim();
       const msg = document.getElementById('changePinMsg');
+      if (!msg) return;
       if (newPin.length < 4) {
         msg.textContent = "PIN must be at least 4 digits long.";
         msg.className = "text-[11px] mt-1.5 text-red-400 font-semibold";
@@ -2587,7 +2722,8 @@
       msg.textContent = "✓ Host PIN successfully updated to " + newPin;
       msg.className = "text-[11px] mt-1.5 text-emerald-400 font-semibold";
       msg.classList.remove('hidden');
-      document.getElementById('newPinInput').value = '';
+      const inputEl = document.getElementById('newPinInput');
+      if (inputEl) inputEl.value = '';
       setTimeout(() => {
         toggleChangePinView();
       }, 1500);
@@ -2619,41 +2755,175 @@
     function promptResetLeaderboard() {
       sound.playTap();
       const confirmModal = document.getElementById('resetConfirmModal');
-      confirmModal.classList.remove('hidden');
-      setTimeout(() => confirmModal.classList.remove('opacity-0'), 10);
+      if (confirmModal) {
+        confirmModal.classList.remove('hidden');
+        setTimeout(() => confirmModal.classList.remove('opacity-0'), 10);
+      }
     }
 
     function cancelResetLeaderboard() {
       sound.playTap();
       const confirmModal = document.getElementById('resetConfirmModal');
-      confirmModal.classList.add('opacity-0');
-      setTimeout(() => confirmModal.classList.add('hidden'), 200);
+      if (confirmModal) {
+        confirmModal.classList.add('opacity-0');
+        setTimeout(() => confirmModal.classList.add('hidden'), 200);
+      }
     }
 
     function confirmResetLeaderboard() {
       sound.playTap();
       const resetTs = Date.now();
+      roomParticipantsMap.clear();
       try {
         localStorage.removeItem(STORAGE_KEY_LEADERBOARD);
         localStorage.setItem(STORAGE_KEY_LEADERBOARD, JSON.stringify([]));
         localStorage.setItem(STORAGE_KEY_GAME_STATE, 'LOBBY');
         localStorage.removeItem(STORAGE_KEY_GAME_LAUNCH_TS);
         localStorage.setItem(STORAGE_KEY_LAST_UPDATE, resetTs.toString());
-      } catch (e) {
-        console.warn("Storage reset error", e);
-      }
+      } catch (e) {}
 
       previousContestantRanks = {};
       previousDeptRanks = {};
+      setGameGlobalState('LOBBY');
 
-      if (liveQuizChannel) {
-        try {
-          liveQuizChannel.postMessage({ type: 'RESET', ts: resetTs });
-        } catch (err) {}
-      }
+      sendCrossDeviceMessage({ type: 'RESET', ts: resetTs });
 
       cancelResetLeaderboard();
       renderHostDashboard();
+      updateWaitingLobbyUI();
+      showLiveToast("Board Cleared", "The entire room has been reset to lobby status.", "launch");
+    }
+
+    function promptHostEndGame() {
+      sound.playTap();
+      const modal = document.getElementById('hostEndGameConfirmModal');
+      if (modal) {
+        modal.classList.remove('hidden');
+        setTimeout(() => modal.classList.remove('opacity-0'), 20);
+      }
+    }
+
+    function cancelHostEndGame() {
+      sound.playTap();
+      const modal = document.getElementById('hostEndGameConfirmModal');
+      if (modal) {
+        modal.classList.add('opacity-0');
+        setTimeout(() => modal.classList.add('hidden'), 200);
+      }
+    }
+
+    function confirmHostEndGame() {
+      sound.playTap();
+      cancelHostEndGame();
+
+      setGameGlobalState('ENDED');
+      const endTs = Date.now();
+
+      let list = getHostLeaderboard().map(item => {
+        if (!item.isFinished) {
+          return {
+            ...item,
+            isFinished: true,
+            status: `Concluded (Q${item.currentQuestionNumber || item.answeredCount || 0}/30)`
+          };
+        }
+        return item;
+      });
+
+      syncRosterToStorageAndMemory(list);
+
+      sendCrossDeviceMessage({
+        type: 'GAME_ENDED_BY_HOST',
+        ts: endTs
+      });
+
+      showLiveToast("🛑 Quiz Ended By Host", "Championship ended. All scores frozen!", "down");
+      renderHostDashboard();
+      handleIncomingGameEnded();
+    }
+
+    function handleIncomingGameEnded() {
+      const quizScreen = document.getElementById('quizScreen');
+      const lobbyScreen = document.getElementById('waitingLobbyScreen');
+
+      if (quizScreen && !quizScreen.classList.contains('hidden')) {
+        clearInterval(questionTimerInterval);
+        totalElapsedDurationMs = Math.round(performance.now() - quizStartPerfTime);
+        
+        broadcastLiveProgress(currentQuestionIndex + 1, true);
+        finishQuiz();
+
+        const greeting = document.getElementById('resultPlayerGreeting');
+        if (greeting) {
+          greeting.innerHTML = `${escapeHtml(currentPlayerName)}! <span class="block text-sm text-amber-300/80 font-normal mt-1">(Quiz Concluded by Host)</span>`;
+        }
+
+        showLiveToast("Quiz Stopped by Host", "The host has concluded the game! Here is your final scorecard.", "down");
+      } else if (lobbyScreen && !lobbyScreen.classList.contains('hidden')) {
+        showLiveToast("Notice", "The quiz session was stopped by the host.", "launch");
+      }
+    }
+
+    function safeCreateIcons() {
+      if (typeof lucide !== 'undefined' && lucide && typeof lucide.createIcons === 'function') {
+        try {
+          lucide.createIcons();
+        } catch (e) {}
+      }
+    }
+
+    function initOnlineSync() {
+      if (typeof window.EventSource !== 'undefined') {
+        try {
+          if (cloudEventSource) {
+            cloudEventSource.close();
+          }
+          cloudEventSource = new EventSource(CLOUD_SUB_URL);
+          cloudEventSource.onopen = () => updateSyncBadge(true);
+          cloudEventSource.onerror = () => updateSyncBadge(false);
+          cloudEventSource.onmessage = (event) => {
+            try {
+              const raw = JSON.parse(event.data);
+              const data = typeof raw.message === 'string' ? JSON.parse(raw.message) : raw;
+              processIncomingNetworkMessage(data);
+            } catch (err) {}
+          };
+        } catch (err) {
+          updateSyncBadge(false);
+        }
+      }
+
+      if (liveQuizChannel) {
+        liveQuizChannel.onmessage = (event) => {
+          if (event.data) {
+            processIncomingNetworkMessage(event.data);
+          }
+        };
+      }
+
+      if (backupPollTimer) clearInterval(backupPollTimer);
+      backupPollTimer = setInterval(pollLatestCloudState, 8000);
+    }
+
+    function pollLatestCloudState() {
+      try {
+        fetch(`${CLOUD_PUB_URL}/json?since=15s`)
+          .then(res => res.text())
+          .then(text => {
+            if (!text) return;
+            const lines = text.trim().split('\n');
+            for (const line of lines) {
+              try {
+                const parsed = JSON.parse(line);
+                if (parsed.message) {
+                  const data = JSON.parse(parsed.message);
+                  processIncomingNetworkMessage(data);
+                }
+              } catch (e) {}
+            }
+          })
+          .catch(() => {});
+      } catch (e) {}
     }
 
     function escapeHtml(str) {
@@ -2666,9 +2936,50 @@
         .replace(/'/g, '&#039;');
     }
 
-    window.addEventListener('DOMContentLoaded', () => {
-      lucide.createIcons();
-      lastKnownStorageTimestamp = Number(localStorage.getItem(STORAGE_KEY_LAST_UPDATE) || 0);
+    // Explicitly attach all interactive functions to window scope to prevent ReferenceErrors
+    window.goToHome = goToHome;
+    window.toggleSound = toggleSound;
+    window.openHostAuthModal = openHostAuthModal;
+    window.closeHostAuthModal = closeHostAuthModal;
+    window.verifyHostPin = verifyHostPin;
+    window.handleEnrollmentSubmit = handleEnrollmentSubmit;
+    window.leaveLobby = leaveLobby;
+    window.hostStartGameForAll = hostStartGameForAll;
+    window.promptHostEndGame = promptHostEndGame;
+    window.cancelHostEndGame = cancelHostEndGame;
+    window.confirmHostEndGame = confirmHostEndGame;
+    window.simulateLiveParticipantMovement = simulateLiveParticipantMovement;
+    window.closeHostLeaderboardModal = closeHostLeaderboardModal;
+    window.switchHostTab = switchHostTab;
+    window.filterLeaderboardView = filterLeaderboardView;
+    window.toggleChangePinView = toggleChangePinView;
+    window.saveNewPin = saveNewPin;
+    window.exportLeaderboardCSV = exportLeaderboardCSV;
+    window.promptResetLeaderboard = promptResetLeaderboard;
+    window.cancelResetLeaderboard = cancelResetLeaderboard;
+    window.confirmResetLeaderboard = confirmResetLeaderboard;
+    window.nextQuestion = nextQuestion;
+    window.toggleAnswerReview = toggleAnswerReview;
+    window.shareScore = shareScore;
+    window.copyQuizShareLink = copyQuizShareLink;
+    window.lockInAnswer = lockInAnswer;
+
+    // WINDOW INITIALIZATION
+    window.addEventListener('load', () => {
+      const lastUp = parseInt(localStorage.getItem(STORAGE_KEY_LAST_UPDATE) || '0', 10);
+      if (Date.now() - lastUp > 300000) {
+        localStorage.removeItem(STORAGE_KEY_LEADERBOARD);
+        localStorage.setItem(STORAGE_KEY_GAME_STATE, 'LOBBY');
+        currentActiveGameState = 'LOBBY';
+        roomParticipantsMap.clear();
+      }
+
+      safeCreateIcons();
+      initOnlineSync();
+
+      setTimeout(() => {
+        sendCrossDeviceMessage({ type: 'REQUEST_ROSTER', ts: Date.now() });
+      }, 500);
     });
   </script>
 </body>
