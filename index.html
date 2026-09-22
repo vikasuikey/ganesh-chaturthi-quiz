@@ -38,6 +38,7 @@
             'shimmer': 'shimmer 2.2s linear infinite',
             'rank-up': 'rankUp 1.2s ease-out',
             'rank-down': 'rankDown 1.2s ease-out',
+            'spin-slow': 'spin 12s linear infinite',
           },
           keyframes: {
             pulseGlow: {
@@ -147,7 +148,7 @@
         <h1 class="font-festive text-lg sm:text-xl text-amber-200 tracking-wider">गणपति बप्पा मोरया</h1>
         <p class="text-[10px] text-amber-400/80 font-medium uppercase tracking-widest flex items-center gap-1.5">
           <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
-          <span>Live Individual Championship</span>
+          <span id="headerSyncStatusText">Live Cloud Connected</span>
         </p>
       </div>
     </button>
@@ -159,7 +160,7 @@
         <span id="soundText" class="hidden sm:inline">Audio: On</span>
       </button>
 
-      <!-- Host / Admin Login Button (PIN 787898) -->
+      <!-- Host Portal Button (PIN 787898) -->
       <button onclick="openHostAuthModal()" class="px-3.5 py-1.5 rounded-full bg-stone-900/85 hover:bg-stone-800 border border-amber-500/50 hover:border-amber-300 text-amber-300 text-xs sm:text-sm font-bold flex items-center gap-1.5 backdrop-blur-md transition-all shadow-md group">
         <i data-lucide="shield" class="w-3.5 h-3.5 text-amber-400 group-hover:text-amber-200"></i>
         <span>Host Portal</span>
