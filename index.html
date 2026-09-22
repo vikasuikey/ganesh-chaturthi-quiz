@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ganesh Chaturthi Utsav Quiz | Live Department Championship</title>
+  <title>Ganesh Chaturthi Utsav Quiz | Live Individual Championship</title>
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -13,10 +13,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   
-  <!-- Lucide Icons CDN -->
+  <!-- Lucide Icons -->
   <script src="https://cdn.jsdelivr.net/npm/lucide@0.344.0/dist/umd/lucide.min.js"></script>
   
-  <!-- Canvas Confetti CDN -->
+  <!-- Canvas Confetti -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
   <script>
@@ -36,23 +36,17 @@
           animation: {
             'pulse-glow': 'pulseGlow 2.5s infinite',
             'shimmer': 'shimmer 2.2s linear infinite',
-            'bounce-subtle': 'bounceSubtle 1.8s ease-in-out infinite',
             'rank-up': 'rankUp 1.2s ease-out',
             'rank-down': 'rankDown 1.2s ease-out',
-            'spin-slow': 'spin 14s linear infinite',
           },
           keyframes: {
             pulseGlow: {
               '0%, 100%': { filter: 'drop-shadow(0 0 10px rgba(245, 158, 11, 0.35))' },
-              '50%': { filter: 'drop-shadow(0 0 24px rgba(249, 115, 22, 0.75))' },
+              '50%': { filter: 'drop-shadow(0 0 26px rgba(249, 115, 22, 0.8))' },
             },
             shimmer: {
               '0%': { backgroundPosition: '-200% 0' },
               '100%': { backgroundPosition: '200% 0' },
-            },
-            bounceSubtle: {
-              '0%, 100%': { transform: 'translateY(0)' },
-              '50%': { transform: 'translateY(-4px)' }
             },
             rankUp: {
               '0%': { backgroundColor: 'rgba(16, 185, 129, 0.45)', transform: 'translateY(6px)' },
@@ -67,6 +61,7 @@
       }
     };
   </script>
+
   <style>
     body {
       background: radial-gradient(circle at 50% 15%, #450a0a 0%, #1f0202 85%, #0d0101 100%);
@@ -79,7 +74,7 @@
       background-image: radial-gradient(#f59e0b 0.75px, transparent 0.75px), radial-gradient(#ea580c 0.75px, #1f0202 0.75px);
       background-size: 32px 32px;
       background-position: 0 0, 16px 16px;
-      opacity: 0.12;
+      opacity: 0.14;
     }
 
     .text-gold-gradient {
@@ -110,7 +105,6 @@
     .option-card {
       transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    
     .option-card:hover:not(:disabled) {
       transform: translateY(-2px);
       box-shadow: 0 8px 24px -4px rgba(245, 158, 11, 0.28);
@@ -118,9 +112,9 @@
     }
 
     .option-card.locked-in {
-      background: linear-gradient(135deg, rgba(245, 158, 11, 0.32), rgba(234, 88, 12, 0.4)) !important;
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.35), rgba(234, 88, 12, 0.45)) !important;
       border-color: #facc15 !important;
-      box-shadow: 0 0 22px rgba(250, 204, 21, 0.45) !important;
+      box-shadow: 0 0 24px rgba(250, 204, 21, 0.45) !important;
     }
 
     .table-row-item {
@@ -150,10 +144,10 @@
         卐
       </div>
       <div>
-        <h1 class="font-festive text-lg sm:text-xl text-amber-200 tracking-wider">गणेश उत्सव</h1>
+        <h1 class="font-festive text-lg sm:text-xl text-amber-200 tracking-wider">गणपति बप्पा मोरया</h1>
         <p class="text-[10px] text-amber-400/80 font-medium uppercase tracking-widest flex items-center gap-1.5">
-          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-          Live Department Championship
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+          <span>Live Individual Championship</span>
         </p>
       </div>
     </button>
@@ -165,22 +159,23 @@
         <span id="soundText" class="hidden sm:inline">Audio: On</span>
       </button>
 
-      <!-- Host / Admin Login Button -->
+      <!-- Host / Admin Login Button (PIN 787898) -->
       <button onclick="openHostAuthModal()" class="px-3.5 py-1.5 rounded-full bg-stone-900/85 hover:bg-stone-800 border border-amber-500/50 hover:border-amber-300 text-amber-300 text-xs sm:text-sm font-bold flex items-center gap-1.5 backdrop-blur-md transition-all shadow-md group">
         <i data-lucide="shield" class="w-3.5 h-3.5 text-amber-400 group-hover:text-amber-200"></i>
         <span>Host Portal</span>
       </button>
     </div>
   </header>
+
   <main class="relative z-10 w-full max-w-4xl mx-auto px-4 py-4 sm:py-6 flex flex-col justify-center min-h-[calc(100vh-100px)]">
 
-    <!-- SCREEN 1: ENROLLMENT & INSTANT START -->
+    <!-- SCREEN 1: ENROLLMENT & REGISTRATION -->
     <section id="welcomeScreen" class="bg-gradient-to-b from-kumkum-700/60 to-kumkum-800/90 border border-amber-500/30 rounded-3xl p-6 sm:p-10 backdrop-blur-xl shadow-2xl relative overflow-hidden transition-all duration-500">
       
       <!-- Sacred Ganesha Emblem -->
       <div class="flex justify-center mb-4">
-        <div class="relative w-28 h-28 sm:w-32 sm:h-32 flex items-center justify-center rounded-full bg-gradient-to-tr from-amber-500/20 via-marigold-500/30 to-amber-300/10 border-2 border-amber-400/50 p-3 shadow-xl shadow-amber-500/25 animate-pulse-glow">
-          <svg class="w-20 h-20 sm:w-24 sm:h-24 text-amber-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <div class="relative w-24 h-24 sm:w-28 sm:h-28 flex items-center justify-center rounded-full bg-gradient-to-tr from-amber-500/20 via-marigold-500/30 to-amber-300/10 border-2 border-amber-400/50 p-3 shadow-xl shadow-amber-500/25 animate-pulse-glow">
+          <svg class="w-16 h-16 sm:w-20 sm:h-20 text-amber-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
             <path d="M12 2l2.5 3.5h-5z"/>
             <circle cx="12" cy="7.5" r="1.2" fill="currentColor"/>
             <path d="M7 8c-2.5 0-4 2-4 5 0 2.5 2 4.5 4 4.5"/>
@@ -190,7 +185,7 @@
             <path d="M12 9.5v2"/>
             <path d="M14.5 13.5l1.5 1"/>
           </svg>
-          <span class="absolute -bottom-2 bg-amber-500 text-kumkum-900 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider shadow">
+          <span class="absolute -bottom-2 bg-amber-500 text-kumkum-900 text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider shadow">
             ॐ गं गणपतये नमः
           </span>
         </div>
@@ -201,7 +196,7 @@
           Ganesh Chaturthi Utsav Quiz
         </h2>
         <p class="text-amber-200/90 text-xs sm:text-sm max-w-xl mx-auto leading-relaxed">
-          Enroll with your Name and Department to begin the quiz. Represent your department and compete for the <strong>Live Department Championship</strong>!
+          Test your sacred knowledge of Lord Ganesha in this live solo championship! 30 questions, 20 seconds each.
         </p>
       </div>
 
@@ -209,68 +204,33 @@
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-6 text-xs text-amber-100/90">
         <div class="bg-black/35 border border-amber-500/20 rounded-xl p-3 text-center flex flex-col items-center">
           <i data-lucide="trophy" class="w-5 h-5 text-amber-400 mb-1"></i>
-          <span class="font-bold">13 Departments</span>
-          <span class="text-[10px] text-amber-300/70">Live Championship</span>
+          <span class="font-bold">Individual</span>
+          <span class="text-[10px] text-amber-300/70">Solo Championship</span>
         </div>
         <div class="bg-black/35 border border-amber-500/20 rounded-xl p-3 text-center flex flex-col items-center">
-          <i data-lucide="radio" class="w-5 h-5 text-emerald-400 mb-1 animate-pulse"></i>
-          <span class="font-bold">Live Scoring</span>
-          <span class="text-[10px] text-emerald-300/80">Real-Time Board Sync</span>
+          <i data-lucide="zap" class="w-5 h-5 text-emerald-400 mb-1"></i>
+          <span class="font-bold">Instant Move</span>
+          <span class="text-[10px] text-emerald-300/80">Tap to Next Q</span>
         </div>
         <div class="bg-black/35 border border-amber-500/20 rounded-xl p-3 text-center flex flex-col items-center">
-          <i data-lucide="zap" class="w-5 h-5 text-amber-400 mb-1"></i>
-          <span class="font-bold">Tie-Breaker</span>
-          <span class="text-[10px] text-amber-300/70">Millisecond Precision</span>
+          <i data-lucide="clock" class="w-5 h-5 text-amber-400 mb-1"></i>
+          <span class="font-bold">20s Per Q</span>
+          <span class="text-[10px] text-amber-300/70">Speed Bonus Points</span>
         </div>
         <div class="bg-black/35 border border-amber-500/20 rounded-xl p-3 text-center flex flex-col items-center">
-          <i data-lucide="shield-check" class="w-5 h-5 text-amber-400 mb-1"></i>
-          <span class="font-bold">Hidden Answers</span>
-          <span class="text-[10px] text-amber-300/70">No Spoiler During Play</span>
+          <i data-lucide="activity" class="w-5 h-5 text-amber-400 mb-1 animate-pulse"></i>
+          <span class="font-bold">Live Standings</span>
+          <span class="text-[10px] text-amber-300/70">Real-Time Host Sync</span>
         </div>
       </div>
 
-      <!-- Registration Form -->
+      <!-- Mandatory Registration Form -->
       <form id="enrollmentForm" onsubmit="handleEnrollmentSubmit(event)" class="max-w-md mx-auto space-y-4">
         <div>
           <label for="playerNameInput" class="block text-xs font-semibold uppercase tracking-wider text-amber-300/90 mb-1">
             Participant Name <span class="text-red-400">*</span>
           </label>
-          <input type="text" id="playerNameInput" required maxlength="32" placeholder="Enter your full name" class="w-full bg-black/50 border border-amber-500/40 rounded-xl px-4 py-2.5 text-amber-100 placeholder-amber-400/40 focus:outline-none focus:ring-2 focus:ring-amber-400 font-medium transition-all shadow-inner text-sm">
-        </div>
-
-        <div>
-          <label for="playerDeptSelect" class="block text-xs font-semibold uppercase tracking-wider text-amber-300/90 mb-1">
-            Department / Team <span class="text-red-400">*</span>
-          </label>
-          <select id="playerDeptSelect" required class="w-full bg-black/70 border border-amber-500/40 rounded-xl px-4 py-2.5 text-amber-100 focus:outline-none focus:ring-2 focus:ring-amber-400 font-medium transition-all shadow-inner text-sm">
-            <option value="" disabled selected>-- Select your Department --</option>
-            <option value="Planning">Planning</option>
-            <option value="Marketing">Marketing</option>
-            <option value="Finance">Finance</option>
-            <option value="Finance - GCC">Finance - GCC</option>
-            <option value="L&D">L&D</option>
-            <option value="Project">Project</option>
-            <option value="Operation">Operation</option>
-            <option value="BI">BI</option>
-            <option value="HR">HR</option>
-            <option value="Ecom">Ecom</option>
-            <option value="Customer Care">Customer Care</option>
-            <option value="Admin">Admin</option>
-            <option value="VM">VM</option>
-          </select>
-        </div>
-
-        <!-- Quiz Guidelines Info Card -->
-        <div class="p-3 bg-amber-500/10 border border-amber-500/20 rounded-xl text-[11px] text-amber-200/90 space-y-1">
-          <p class="font-semibold text-amber-300 flex items-center gap-1">
-            <i data-lucide="info" class="w-3.5 h-3.5 text-amber-400"></i> Rules & Guidelines:
-          </p>
-          <ul class="list-disc list-inside space-y-0.5 text-amber-200/80">
-            <li><strong>20 Seconds</strong> per question with speed bonus points.</li>
-            <li><strong>Locked Answers:</strong> Once chosen, answers cannot be changed.</li>
-            <li><strong>Fast-Paced:</strong> Advances to the next question immediately upon selecting an answer.</li>
-            <li><strong>Do Not Refresh:</strong> Keep this page open while playing.</li>
-          </ul>
+          <input type="text" id="playerNameInput" required maxlength="32" placeholder="Enter your full name" class="w-full bg-black/50 border border-amber-500/40 rounded-xl px-4 py-3 text-amber-100 placeholder-amber-400/40 focus:outline-none focus:ring-2 focus:ring-amber-400 font-medium transition-all shadow-inner text-sm">
         </div>
 
         <p id="validationErrorMessage" class="hidden text-xs text-red-400 font-semibold text-center"></p>
@@ -281,42 +241,39 @@
         </button>
       </form>
 
-      <!-- QR Code Card -->
+      <!-- QR Code Section: Scan to Join on Mobile -->
       <div class="mt-8 pt-6 border-t border-amber-500/20 max-w-md mx-auto">
         <div class="bg-black/40 border border-amber-500/30 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left shadow-lg">
           <div class="p-2.5 bg-white rounded-xl shadow-md shrink-0 border border-amber-300">
             <img 
-              src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https%3A%2F%2Fvikasuikey.github.io%2Fganesh-chaturthi-quiz%2F&margin=1" 
+              src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=https%3A%2F%2Fvikasuikey.github.io%2Fganesh-chaturthi-quiz%2F&margin=1" 
               alt="Scan QR code to join Ganesh Chaturthi Quiz"
-              class="w-28 h-28 sm:w-32 sm:h-32 object-contain block"
+              class="w-24 h-24 sm:w-28 sm:h-28 object-contain block"
               loading="lazy"
             />
           </div>
-          <div class="space-y-2 flex-1">
+          <div class="space-y-1.5 flex-1">
             <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-400/30 text-[10px] font-bold uppercase tracking-wider">
               <i data-lucide="qr-code" class="w-3.5 h-3.5 text-amber-400"></i>
               <span>Play on Mobile</span>
             </div>
             <h4 class="font-festive text-base sm:text-lg text-amber-100 leading-snug">
-              Scan to Play on Phone
+              Scan QR Code to Join
             </h4>
             <p class="text-[11px] text-amber-200/80 leading-relaxed">
-              Scan this QR code with any smartphone camera to open the quiz link directly!
+              Open your smartphone camera to participate directly from your phone.
             </p>
             <div class="pt-1 flex items-center justify-center sm:justify-start gap-2">
               <button type="button" onclick="copyQuizShareLink()" class="px-2.5 py-1 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-[11px] font-semibold flex items-center gap-1.5 transition-colors">
                 <i data-lucide="copy" class="w-3 h-3"></i>
                 <span id="copyLinkBtnText">Copy Link</span>
               </button>
-              <a href="https://vikasuikey.github.io/ganesh-chaturthi-quiz/" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1 rounded-lg bg-black/50 hover:bg-black/70 text-amber-300/80 hover:text-amber-200 border border-amber-500/20 text-[11px] font-semibold flex items-center gap-1 transition-colors">
-                <i data-lucide="external-link" class="w-3 h-3"></i>
-                <span>Open</span>
-              </a>
             </div>
           </div>
         </div>
       </div>
     </section>
+
     <!-- SCREEN 2: ACTIVE QUIZ -->
     <section id="quizScreen" class="hidden flex-col gap-4">
       <div class="bg-black/40 backdrop-blur-md border border-amber-500/30 rounded-2xl p-4 flex flex-col gap-3 shadow-lg">
@@ -366,15 +323,14 @@
           <!-- Populated by JS -->
         </div>
 
-        <!-- Anti-Spoiler Locked-in indicator -->
-        <div id="lockedInBanner" class="hidden mt-2 p-3.5 rounded-2xl bg-amber-500/15 border border-amber-400/40 text-amber-200 text-xs sm:text-sm items-center justify-between">
-          <div class="flex items-center gap-2">
-            <i data-lucide="check-circle-2" class="w-5 h-5 text-amber-400 shrink-0"></i>
-            <span id="lockedInMessage" class="font-medium">Answer locked in! Will advance to next question when timer runs out.</span>
-          </div>
+        <!-- Immediate Move Notice -->
+        <div id="lockedInBanner" class="hidden mt-2 p-3 rounded-2xl bg-amber-500/15 border border-amber-400/40 text-amber-200 text-xs sm:text-sm items-center gap-2">
+          <i data-lucide="check-circle-2" class="w-5 h-5 text-amber-400 shrink-0"></i>
+          <span id="lockedInMessage" class="font-medium">Answer locked! Moving to next question...</span>
         </div>
       </div>
     </section>
+
     <!-- SCREEN 3: RESULTS -->
     <section id="resultsScreen" class="hidden bg-gradient-to-b from-kumkum-700/70 to-kumkum-800/90 border border-amber-500/30 rounded-3xl p-6 sm:p-8 backdrop-blur-xl shadow-2xl relative overflow-hidden">
       <div class="text-center space-y-2">
@@ -385,10 +341,6 @@
         <h2 id="resultPlayerGreeting" class="font-festive text-3xl sm:text-4xl text-gold-gradient">
           Dhanya Ho, Devotee!
         </h2>
-        <div class="flex items-center justify-center gap-2">
-          <span class="text-xs text-amber-300/80 font-semibold uppercase tracking-wider">Department:</span>
-          <span id="resultPlayerDepartment" class="px-2.5 py-0.5 rounded-full bg-amber-500/20 border border-amber-400/30 text-amber-300 text-xs font-bold uppercase"></span>
-        </div>
         <div class="pt-1">
           <span id="rankBadgeText" class="inline-block px-4 py-1.5 rounded-full bg-gradient-to-r from-amber-500/30 to-orange-500/30 border border-amber-400 text-amber-200 font-bold text-sm tracking-wide shadow">
             Modak Master
@@ -400,7 +352,7 @@
       <div class="my-4 p-3.5 rounded-2xl bg-black/40 border border-amber-500/30 flex items-center justify-between gap-3 text-xs sm:text-sm">
         <div class="flex items-center gap-2.5 text-amber-200">
           <i data-lucide="shield-check" class="w-5 h-5 text-emerald-400 shrink-0"></i>
-          <span>Your final scorecard is locked into the <strong>Host Live Department Championship</strong>!</span>
+          <span>Your final scorecard is locked into the <strong>Host Live Championship</strong>!</span>
         </div>
         <span class="px-2 py-0.5 rounded bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 font-bold text-[11px] shrink-0 uppercase tracking-wide">
           Finalized
@@ -472,6 +424,7 @@
     </section>
 
   </main>
+
   <!-- HOST AUTH MODAL (PIN: 787898) -->
   <div id="hostAuthModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
     <div class="bg-gradient-to-b from-kumkum-800 to-kumkum-950 border border-amber-500/40 rounded-3xl w-full max-w-sm p-6 shadow-2xl space-y-5 text-center relative">
@@ -486,7 +439,7 @@
       <div>
         <h3 class="font-festive text-2xl text-amber-200">Host Administration</h3>
         <p class="text-xs text-amber-300/80 mt-1">
-          Enter Host PIN to monitor live department championship standings and scores.
+          Enter Host PIN to monitor live rankings and export final scores.
         </p>
       </div>
 
@@ -506,7 +459,7 @@
     </div>
   </div>
 
-  <!-- HOST CHAMPIONSHIP DASHBOARD MODAL -->
+  <!-- HOST CHAMPIONSHIP LEADERBOARD MODAL -->
   <div id="hostLeaderboardModal" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-black/90 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
     <div class="bg-gradient-to-b from-kumkum-800 to-kumkum-950 border border-amber-500/50 rounded-3xl w-full max-w-5xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh]">
       
@@ -518,16 +471,22 @@
           </div>
           <div>
             <div class="flex items-center gap-2 flex-wrap">
-              <h3 class="font-festive text-xl text-amber-200">Host Championship Leaderboard</h3>
+              <h3 class="font-festive text-xl text-amber-200">Host Live Championship Board</h3>
               <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-[10px] font-bold uppercase tracking-wider">
                 <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span> Live Standings
               </span>
             </div>
-            <p class="text-xs text-amber-400/80">Live 13-Department & Devotee Rankings. Watch scores shift in real time!</p>
+            <p class="text-xs text-amber-400/80">Scores update automatically in real-time as participants submit answers.</p>
           </div>
         </div>
 
         <div class="flex items-center gap-2 flex-wrap justify-end">
+          <!-- Manual Cloud Sync Button -->
+          <button onclick="manualSyncFromCloud()" id="manualSyncBtn" class="px-3 py-1.5 rounded-xl bg-emerald-600/30 hover:bg-emerald-600/50 border border-emerald-400/40 text-emerald-200 text-xs font-semibold flex items-center gap-1.5 transition-all" title="Refresh & sync latest scores from all participant phones">
+            <i data-lucide="refresh-cw" class="w-3.5 h-3.5 text-emerald-300"></i>
+            <span id="manualSyncBtnText">Sync Now</span>
+          </button>
+
           <!-- Simulation button for host to test rank movements -->
           <button onclick="simulateLiveParticipantMovement()" class="px-3 py-1.5 rounded-xl bg-purple-600/30 hover:bg-purple-600/50 border border-purple-400/40 text-purple-200 text-xs font-semibold flex items-center gap-1.5 transition-all" title="Simulate a participant answering to test real-time rank moves">
             <i data-lucide="bot" class="w-3.5 h-3.5 text-purple-300"></i>
@@ -540,119 +499,57 @@
         </div>
       </div>
 
-      <!-- Navigation Tabs -->
-      <div class="flex border-b border-amber-500/20 bg-black/30 px-4 gap-2 pt-2">
-        <button id="tabBtnDept" onclick="switchHostTab('dept')" class="py-2.5 px-4 font-bold text-xs sm:text-sm rounded-t-xl border-t border-x border-amber-400 bg-amber-500/20 text-amber-200 flex items-center gap-1.5 transition-all">
-          <i data-lucide="trophy" class="w-4 h-4 text-amber-400"></i>
-          <span>Department Championship (13 Teams)</span>
-        </button>
-        <button id="tabBtnIndiv" onclick="switchHostTab('indiv')" class="py-2.5 px-4 font-bold text-xs sm:text-sm rounded-t-xl border-t border-x border-transparent text-amber-300/70 hover:text-amber-200 flex items-center gap-1.5 transition-all">
-          <i data-lucide="users" class="w-4 h-4 text-amber-400"></i>
-          <span>Individual Contestants (Live Up/Down)</span>
-        </button>
+      <!-- Live Top 3 Individual Podium -->
+      <div id="individualPodiumContainer" class="p-4 bg-black/20 border-b border-amber-500/20 grid grid-cols-1 sm:grid-cols-3 gap-3 items-end">
+        <!-- Rendered dynamically -->
       </div>
 
-      <!-- TAB 1: DEPARTMENT CHAMPIONSHIP VIEW -->
-      <div id="hostTabDeptView" class="p-4 overflow-y-auto flex-1 space-y-4">
-        <!-- Live Podium -->
-        <div id="deptPodiumContainer" class="grid grid-cols-1 sm:grid-cols-3 gap-3 items-end">
-          <!-- Populated by JS -->
+      <!-- Filters & Actions -->
+      <div class="p-3 bg-black/25 border-b border-amber-500/20 flex flex-col sm:flex-row items-center gap-2.5 justify-between">
+        <div class="flex items-center gap-2 w-full sm:w-auto flex-1">
+          <div class="relative flex-1">
+            <i data-lucide="search" class="w-4 h-4 text-amber-400/60 absolute left-3 top-1/2 -translate-y-1/2"></i>
+            <input type="text" id="leaderboardSearchInput" placeholder="Search participant by name..." oninput="filterLeaderboardView()" class="w-full bg-black/50 border border-amber-500/30 rounded-xl pl-9 pr-3 py-1.5 text-xs text-amber-100 placeholder-amber-400/40 focus:outline-none focus:border-amber-400">
+          </div>
         </div>
-
-        <div class="bg-black/30 border border-amber-500/20 rounded-2xl p-4">
-          <div class="flex items-center justify-between mb-3">
-            <h4 class="font-festive text-base text-amber-200 flex items-center gap-2">
-              <i data-lucide="bar-chart-3" class="w-4 h-4 text-amber-400"></i>
-              <span>Live Department Standings (13 Departments)</span>
-            </h4>
-            <span class="text-[11px] text-amber-300/70">Dynamically Shifts With Each Answer</span>
-          </div>
-
-          <div class="overflow-x-auto">
-            <table class="w-full text-left text-xs">
-              <thead>
-                <tr class="border-b border-amber-500/20 text-amber-300/70">
-                  <th class="py-2 px-2">Rank</th>
-                  <th class="py-2 px-3">Department</th>
-                  <th class="py-2 px-2 text-right">Avg Score</th>
-                  <th class="py-2 px-2 text-right">Participants</th>
-                  <th class="py-2 px-2 text-right">Avg Accuracy</th>
-                  <th class="py-2 px-3 text-right">Top Devotee</th>
-                </tr>
-              </thead>
-              <tbody id="deptTableBody" class="divide-y divide-amber-500/10 text-amber-100">
-                <!-- Populated by JS -->
-              </tbody>
-            </table>
-          </div>
+        <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
+          <button onclick="toggleChangePinView()" class="px-3 py-1.5 rounded-lg bg-black/40 border border-amber-500/30 hover:border-amber-400 text-amber-300 text-xs font-medium flex items-center gap-1.5 transition-colors">
+            <i data-lucide="key" class="w-3.5 h-3.5 text-amber-400"></i>
+            <span>Change PIN</span>
+          </button>
+          <button onclick="exportLeaderboardCSV()" class="px-3 py-1.5 rounded-lg bg-amber-500/20 border border-amber-500/40 hover:bg-amber-500/30 text-amber-200 text-xs font-medium flex items-center gap-1.5 transition-colors">
+            <i data-lucide="download" class="w-3.5 h-3.5 text-amber-300"></i>
+            <span>Export CSV</span>
+          </button>
         </div>
       </div>
 
-      <!-- TAB 2: INDIVIDUAL DEVOTEES LEADERBOARD -->
-      <div id="hostTabIndivView" class="hidden flex-col flex-1 overflow-hidden">
-        <!-- Filters & Actions -->
-        <div class="p-3 bg-black/25 border-b border-amber-500/20 flex flex-col sm:flex-row items-center gap-2.5 justify-between">
-          <div class="flex items-center gap-2 w-full sm:w-auto flex-1">
-            <div class="relative flex-1">
-              <i data-lucide="search" class="w-4 h-4 text-amber-400/60 absolute left-3 top-1/2 -translate-y-1/2"></i>
-              <input type="text" id="leaderboardSearchInput" placeholder="Filter by Name or Department..." oninput="filterLeaderboardView()" class="w-full bg-black/50 border border-amber-500/30 rounded-xl pl-9 pr-3 py-1.5 text-xs text-amber-100 placeholder-amber-400/40 focus:outline-none focus:border-amber-400">
-            </div>
-            <select id="leaderboardDeptFilter" onchange="filterLeaderboardView()" class="bg-black/60 border border-amber-500/30 rounded-xl px-2.5 py-1.5 text-xs text-amber-200 focus:outline-none">
-              <option value="">All Departments</option>
-              <option value="Planning">Planning</option>
-              <option value="Marketing">Marketing</option>
-              <option value="Finance">Finance</option>
-              <option value="Finance - GCC">Finance - GCC</option>
-              <option value="L&D">L&D</option>
-              <option value="Project">Project</option>
-              <option value="Operation">Operation</option>
-              <option value="BI">BI</option>
-              <option value="HR">HR</option>
-              <option value="Ecom">Ecom</option>
-              <option value="Customer Care">Customer Care</option>
-              <option value="Admin">Admin</option>
-              <option value="VM">VM</option>
-            </select>
-          </div>
-          <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
-            <button onclick="toggleChangePinView()" class="px-3 py-1.5 rounded-lg bg-black/40 border border-amber-500/30 hover:border-amber-400 text-amber-300 text-xs font-medium flex items-center gap-1.5 transition-colors">
-              <i data-lucide="key" class="w-3.5 h-3.5 text-amber-400"></i>
-              <span>Change PIN</span>
-            </button>
-            <button onclick="exportLeaderboardCSV()" class="px-3 py-1.5 rounded-lg bg-amber-500/20 border border-amber-500/40 hover:bg-amber-500/30 text-amber-200 text-xs font-medium flex items-center gap-1.5 transition-colors">
-              <i data-lucide="download" class="w-3.5 h-3.5 text-amber-300"></i>
-              <span>Export CSV</span>
-            </button>
-          </div>
+      <!-- Change PIN Section -->
+      <div id="changePinContainer" class="hidden p-3 bg-black/60 border-b border-amber-500/30">
+        <div class="flex flex-col sm:flex-row items-center gap-2">
+          <input type="password" id="newPinInput" placeholder="Enter new PIN (min 4 digits)" maxlength="12" class="bg-black/50 border border-amber-500/40 rounded-xl px-3 py-1.5 text-xs text-amber-100 font-mono focus:outline-none flex-1 w-full sm:w-auto">
+          <button onclick="saveNewPin()" class="px-4 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-kumkum-900 font-bold text-xs transition-colors w-full sm:w-auto">
+            Save New PIN
+          </button>
+          <button onclick="toggleChangePinView()" class="px-3 py-1.5 rounded-xl bg-stone-800 text-amber-200 text-xs hover:bg-stone-700 transition-colors">
+            Cancel
+          </button>
         </div>
+        <p id="changePinMsg" class="text-[11px] mt-1.5 hidden"></p>
+      </div>
 
-        <!-- Change PIN Section -->
-        <div id="changePinContainer" class="hidden p-3 bg-black/60 border-b border-amber-500/30">
-          <div class="flex flex-col sm:flex-row items-center gap-2">
-            <input type="password" id="newPinInput" placeholder="Enter new PIN (min 4 digits)" maxlength="12" class="bg-black/50 border border-amber-500/40 rounded-xl px-3 py-1.5 text-xs text-amber-100 font-mono focus:outline-none flex-1 w-full sm:w-auto">
-            <button onclick="saveNewPin()" class="px-4 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-kumkum-900 font-bold text-xs transition-colors w-full sm:w-auto">
-              Save New PIN
-            </button>
-            <button onclick="toggleChangePinView()" class="px-3 py-1.5 rounded-xl bg-stone-800 text-amber-200 text-xs hover:bg-stone-700 transition-colors">
-              Cancel
-            </button>
-          </div>
-          <p id="changePinMsg" class="text-[11px] mt-1.5 hidden"></p>
-        </div>
+      <!-- Live Movement Explanation Banner -->
+      <div class="px-4 py-2 bg-amber-500/10 border-b border-amber-500/20 flex items-center justify-between text-[11px] text-amber-300">
+        <span class="flex items-center gap-1.5">
+          <i data-lucide="activity" class="w-3.5 h-3.5 text-emerald-400"></i>
+          Participants shift dynamically UP (<span class="text-emerald-400 font-bold">▲</span>) or DOWN (<span class="text-red-400 font-bold">▼</span>) in real-time as answers are submitted.
+        </span>
+        <span class="text-amber-400/80 font-mono hidden sm:inline">Tie-breaker: Points → Correct → Time</span>
+      </div>
 
-        <!-- Live Movement Explanation Banner -->
-        <div class="px-4 py-2 bg-amber-500/10 border-b border-amber-500/20 flex items-center justify-between text-[11px] text-amber-300">
-          <span class="flex items-center gap-1.5">
-            <i data-lucide="activity" class="w-3.5 h-3.5 text-emerald-400"></i>
-            Contestants shift dynamically UP (<span class="text-emerald-400 font-bold">▲</span>) or DOWN (<span class="text-red-400 font-bold">▼</span>) in real-time as answers are submitted.
-          </span>
-          <span class="text-amber-400/80 font-mono hidden sm:inline">Tie-breaker: Points → Correct → Time</span>
-        </div>
-
-        <!-- Individual Contestants List -->
-        <div class="p-4 overflow-y-auto flex-1 space-y-2.5" id="hostLeaderboardList">
-          <!-- Rendered via JavaScript -->
-        </div>
+      <!-- Individual Contestants List -->
+      <div class="p-4 overflow-y-auto flex-1 space-y-2.5" id="hostLeaderboardList">
+        <!-- Rendered via JavaScript -->
       </div>
 
       <!-- Modal Footer -->
@@ -676,8 +573,8 @@
         <i data-lucide="alert-triangle" class="w-6 h-6"></i>
       </div>
       <div>
-        <h4 class="font-festive text-xl text-amber-200">Clear All Scores?</h4>
-        <p class="text-xs text-amber-200/80 mt-1">This will permanently clear all recorded scores from the live championship leaderboard.</p>
+        <h4 class="font-festive text-xl text-amber-200">Reset Game & Clear Leaderboard?</h4>
+        <p class="text-xs text-amber-200/80 mt-1">This will permanently delete all contestant scores and reset the leaderboard.</p>
       </div>
       <div class="flex gap-2 pt-2">
         <button onclick="cancelResetLeaderboard()" class="flex-1 py-2.5 px-4 rounded-xl bg-black/40 border border-amber-500/30 text-amber-200 text-xs font-semibold hover:bg-black/60 transition-colors">
@@ -689,19 +586,259 @@
       </div>
     </div>
   </div>
-  <script>
-    // Safe Lucide Icon Creation Helper
-    function safeCreateIcons() {
-      try {
-        if (typeof lucide !== 'undefined' && lucide.createIcons) {
-          lucide.createIcons();
-        }
-      } catch (e) {
-        console.warn("Lucide icons init notice:", e);
-      }
-    }
 
-    // Sound Synthesizer Engine
+  <script>
+    const STORAGE_KEY_LEADERBOARD = 'ganesh_quiz_master_leaderboard_v4';
+    const STORAGE_KEY_PIN = 'ganesh_quiz_host_pin_v4';
+    const HOST_DEFAULT_PIN = '787898';
+
+    // Unique cross-device cloud sync room
+    const CLOUD_ROOM_TOPIC = 'ganesh_utsav_quiz_individual_championship_prod';
+    const CLOUD_PUB_URL = `https://ntfy.sh/${CLOUD_ROOM_TOPIC}`;
+    const CLOUD_SUB_URL = `https://ntfy.sh/${CLOUD_ROOM_TOPIC}/sse?since=12h`;
+
+    const QUESTION_TIME_LIMIT_MS = 20000;
+    const TRANSITION_DELAY_MS = 450;
+
+    let cloudEventSource = null;
+    let cachedCloudParticipants = [];
+    let previousContestantRanks = {};
+
+    let currentParticipantId = "";
+    let currentPlayerName = "";
+    let isHostDashboardOpen = false;
+    let hostDashboardAutoSyncTimer = null;
+    let currentHostFilterTab = 'all'; // 'all', 'active', 'completed'
+
+    let questions = [];
+    let currentQuestionIndex = 0;
+    let userAnswers = [];
+    let score = 0;
+    let correctCount = 0;
+    let currentStreak = 0;
+    let highestStreak = 0;
+
+    let questionStartTime = 0;
+    let questionTimerInterval = null;
+    let hasAnswered = false;
+
+    let quizStartPerfTime = 0;
+    let totalElapsedDurationMs = 0;
+
+    // Authentic Sacred Question Bank (30 questions)
+    const ALL_QUESTIONS_30 = [
+      {
+        question: "According to sacred tradition, what paste did Goddess Parvati use to create Lord Ganesha?",
+        options: ["Sandalwood and turmeric ubtan", "Holy river clay from Ganga", "Sacred Bhasma ash", "Powdered saffron petals"],
+        correctIndex: 0,
+        category: "Sacred Lore",
+        explanation: "Maa Parvati formed young Ganesha from the herbal cleansing paste (ubtan) before bathing on Mount Kailash."
+      },
+      {
+        question: "Why did Lord Ganesha break off his own right tusk, earning the title 'Ekadanta'?",
+        options: ["To use as a stylus to write the Mahabharata", "During a fierce duel with demon Gajasura", "He gave it as a gift to Sage Agastya", "To defeat the demon Sindhu"],
+        correctIndex: 0,
+        category: "Mahabharata Lore",
+        explanation: "When Sage Vyasa dictated the Mahabharata without pause, Ganesha's feather pen broke. Not wanting to pause, he broke his tusk to continue."
+      },
+      {
+        question: "Which sacred grass offering with 21 blades is quintessential in Ganesha Puja to cool his body?",
+        options: ["Durva (Cynodon dactylon)", "Kusha grass", "Tulsi leaves", "Barley sprouts"],
+        correctIndex: 0,
+        category: "Rituals",
+        explanation: "After Ganesha swallowed the fire-demon Analasura, sages offered 21 blades of Durva grass, which soothed the burning heat."
+      },
+      {
+        question: "Which prominent freedom fighter transformed Ganesh Chaturthi into a massive public festival in 1893?",
+        options: ["Lokmanya Bal Gangadhar Tilak", "Gopal Krishna Gokhale", "Mahatma Jyotirao Phule", "Veer Savarkar"],
+        correctIndex: 0,
+        category: "History",
+        explanation: "Lokmanya Tilak established Sarvajanik Ganeshotsav in 1893 to bring all communities together."
+      },
+      {
+        question: "Which steamed sweet dumpling, made with rice flour, jaggery, and grated coconut, is Ganesha's supreme favorite?",
+        options: ["Modak", "Puran Poli", "Karanji", "Laddoo"],
+        correctIndex: 0,
+        category: "Traditions",
+        explanation: "Ukadiche Modak (steamed modak) is considered dearest to Ganesha, earning him the epithet 'Modakpriya'."
+      },
+      {
+        question: "In the famous cosmic race against Kartikeya, what did Lord Ganesha circumambulate?",
+        options: ["His parents, Lord Shiva and Goddess Parvati", "Mount Kailash sacred peak", "The wish-granting Kalpavriksha tree", "The sacred sacrificial fire of Brahma"],
+        correctIndex: 0,
+        category: "Wisdom Lore",
+        explanation: "Ganesha proved that parents embody the entire cosmos. By circling Shiva and Parvati, he attained the fruit of divine wisdom."
+      },
+      {
+        question: "Who is the humble vahana (mount/vehicle) of Lord Ganesha?",
+        options: ["Krauncha the divine mouse (Mooshak)", "Garuda the eagle", "Nandi the sacred bull", "Mayura the peacock"],
+        correctIndex: 0,
+        category: "Iconography",
+        explanation: "Mooshakraj represents restless worldly desires and ego; Ganesha riding upon him signifies mastery over the senses."
+      },
+      {
+        question: "On which sacred Tithi of the Hindu calendar does Ganesh Chaturthi commence?",
+        options: ["Bhadrapada Shukla Chaturthi", "Kartik Shukla Pratipada", "Chaitra Shukla Navami", "Magha Krishna Chaturthi"],
+        correctIndex: 0,
+        category: "Calendar",
+        explanation: "Ganesh Chaturthi is celebrated on the Shukla Paksha Chaturthi of the lunar month of Bhadrapada."
+      },
+      {
+        question: "Which fiery red flower is especially dear and traditionally offered to Lord Ganesha?",
+        options: ["Jaswand (Red Hibiscus)", "Blue Lotus (Neelkamal)", "White Champa", "Kewda bloom"],
+        correctIndex: 0,
+        category: "Rituals",
+        explanation: "The vibrant red Hibiscus (Jaswand) resonates with the root Muladhara chakra, governed by Lord Ganesha."
+      },
+      {
+        question: "Why is sighting the moon traditionally forbidden on Bhadrapada Ganesh Chaturthi?",
+        options: ["Due to the curse given after Chandra mocked Ganesha", "It brings eclipse energies", "Moon god was defeated by Ravana", "To maintain strict focus during puja"],
+        correctIndex: 0,
+        category: "Mythology",
+        explanation: "When Chandra vanity mocked Ganesha, Ganesha declared that anyone gazing at the moon on Chaturthi would face false allegations."
+      },
+      {
+        question: "How many sacred shrines comprise the renowned 'Ashtavinayak' pilgrimage in Maharashtra?",
+        options: ["8 Swayambhu temples", "12 Jyotirlinga shrines", "108 Mahapithas", "21 Shakti temples"],
+        correctIndex: 0,
+        category: "Pilgrimage",
+        explanation: "The Ashtavinayak pilgrimage covers eight self-manifested (Swayambhu) shrines of Ganesha across Maharashtra."
+      },
+      {
+        question: "On which auspicious 14th day of Bhadrapada does the grand Visarjan (immersion) climax take place?",
+        options: ["Anant Chaturdashi", "Vaikuntha Ekadashi", "Sharad Purnima", "Narak Chaturdashi"],
+        correctIndex: 0,
+        category: "Festivals",
+        explanation: "Anant Chaturdashi marks the conclusion of the 10-day celebration, where murtis are immersed with joyous chants."
+      },
+      {
+        question: "What sacred seed mantra (Bija Akshara) is primarily invoked for Lord Ganesha?",
+        options: ["Gam (गं)", "Hreem (ह्रीं)", "Shreem (श्रीं)", "Kleem (क्लीं)"],
+        correctIndex: 0,
+        category: "Mantras",
+        explanation: "'Om Gam Ganapataye Namaha' begins with the fundamental root vibration 'Gam'."
+      },
+      {
+        question: "Which famous Mumbai Sarvajanik Ganpati mandal is revered as 'Navsacha Ganpati' (fulfiller of wishes)?",
+        options: ["Lalbaugcha Raja", "Ganeshgalli Mumbaicha Raja", "Andhericha Raja", "Khetwadicha Ganraj"],
+        correctIndex: 0,
+        category: "Culture",
+        explanation: "Founded in 1934 in Lalbaug, Lalbaugcha Raja attracts millions of devotees seeking blessings."
+      },
+      {
+        question: "Which sacred chakra at the base of the spine is presided over by Lord Ganesha?",
+        options: ["Muladhara Chakra", "Anahata Chakra", "Manipura Chakra", "Ajna Chakra"],
+        correctIndex: 0,
+        category: "Yoga & Philosophy",
+        explanation: "Ganesha embodies the grounding earth element and presides over the four-petaled Muladhara (root) chakra."
+      },
+      {
+        question: "What is the name of Lord Ganesha's elder brother, the commander of celestial forces?",
+        options: ["Kartikeya (Murugan / Skanda)", "Ayyappa", "Bhairava", "Hanuman"],
+        correctIndex: 0,
+        category: "Family",
+        explanation: "Lord Kartikeya, worshipped as Murugan and Subrahmanya, is the elder son of Shiva and Parvati."
+      },
+      {
+        question: "Which leaf is traditionally forbidden in the worship of Lord Ganesha?",
+        options: ["Tulsi (Holy Basil) leaf", "Bel patra (Bael leaf)", "Shami leaf", "Mango leaf"],
+        correctIndex: 0,
+        category: "Traditions",
+        explanation: "According to the Ganesha Purana, after Ganesha turned down Tulsi's marriage proposal, Tulsi is avoided in regular Ganesha puja."
+      },
+      {
+        question: "What does the large belly of Lord Ganesha symbolically represent?",
+        options: ["Peaceful assimilation of all joys, sorrows, and the cosmos", "A fondness for rich festive foods", "The bounty of winter crops", "The depth of sacred oceans"],
+        correctIndex: 0,
+        category: "Symbolism",
+        explanation: "His large belly signifies that a wise seeker calmly digests all experiences—both sweet and bitter."
+      },
+      {
+        question: "What are the names of Lord Ganesha's two consorts, symbolizing intellect and spiritual accomplishment?",
+        options: ["Riddhi (Prosperity) and Siddhi (Spiritual Attainment)", "Sharda and Lakshmi", "Ganga and Yamuna", "Usha and Pratyusha"],
+        correctIndex: 0,
+        category: "Mythology",
+        explanation: "Ganesha is flanked by Riddhi and Siddhi, signifying that wisdom leads naturally to prosperity and attainment."
+      },
+      {
+        question: "Which elephant head was placed upon young Ganesha by Lord Shiva?",
+        options: ["Airavata’s descendant facing north (Gajasura's redeemed spirit)", "An Asian tusker from Vindhyas", "A mythical celestial white horse", "Nandi's twin bull"],
+        correctIndex: 0,
+        category: "Puranic Lore",
+        explanation: "Shiva directed the ganas to search northwards; the first noble creature found facing north was sanctified and placed upon Ganesha."
+      },
+      {
+        question: "Which sacred Vedic text is dedicated entirely to the glories, nature, and mantras of Ganesha?",
+        options: ["Ganapati Atharvashirsha", "Isha Upanishad", "Mandukya Upanishad", "Katha Upanishad"],
+        correctIndex: 0,
+        category: "Scriptures",
+        explanation: "The Ganapati Atharvashirsha, from the Atharva Veda, is recited during abhisheka."
+      },
+      {
+        question: "What is the philosophical meaning of Ganesha having one whole and one broken tusk?",
+        options: ["Transcendence of worldly dualities (good/bad, pleasure/pain)", "Combat power in celestial war", "Ornamental design", "Phases of the moon"],
+        correctIndex: 0,
+        category: "Philosophy",
+        explanation: "Having one tusk symbolizes singular, undivided focus, rising above dualities into unity consciousness."
+      },
+      {
+        question: "Which sacred tree leaf, known as 'Shami Patra', is especially offered to Ganesha?",
+        options: ["Prosopis cineraria (Shami)", "Peepal leaf", "Neem leaf", "Banyan leaf"],
+        correctIndex: 0,
+        category: "Rituals",
+        explanation: "Shami leaves carry purifying spiritual energy and are offered especially during auspicious festivals."
+      },
+      {
+        question: "What special title is given to a Sankashti Chaturthi when it falls on a Tuesday?",
+        options: ["Angaraki Sankashti Chaturthi", "Vinayaki Chaturthi", "Maha Chaturthi", "Bhauma Ekadashi"],
+        correctIndex: 0,
+        category: "Auspicious Days",
+        explanation: "A Tuesday (Mangalwar) coinciding with Sankashti is hailed as Angaraki Chaturthi, considered especially auspicious."
+      },
+      {
+        question: "What divine weapon is typically held in Ganesha's upper right hand to cut worldly attachments?",
+        options: ["Ankusha (Goad) or Parashu (Axe)", "Sudarshana Chakra", "Trishula", "Bow and Arrow"],
+        correctIndex: 0,
+        category: "Iconography",
+        explanation: "The axe or elephant goad severs worldly illusions, greed, and bonds, guiding the seeker toward truth."
+      },
+      {
+        question: "In classical iconography, what does the noose (Pasha) in Ganesha's hand signify?",
+        options: ["Tethering the wandering mind and pulling seekers to righteousness", "Capturing wild beasts", "Binding celestial demons", "Measuring deeds"],
+        correctIndex: 0,
+        category: "Iconography",
+        explanation: "The Pasha (lasso) gently tames an unruly mind, guiding the devotee toward righteous dharma."
+      },
+      {
+        question: "Which traditional percussion instrument is enthusiastically played during Ganeshotsav street processions?",
+        options: ["Dhol-Tasha", "Sarangi", "Santoor", "Ghatam"],
+        correctIndex: 0,
+        category: "Traditions",
+        explanation: "Energetic Dhol-Tasha troupes lead festive immersions across Maharashtra with thunderous synchronized beats."
+      },
+      {
+        question: "In the Ashtavinayak circuit, which temple is celebrated for having its idol's trunk curved to the right?",
+        options: ["Siddhivinayak of Siddhatek", "Mayureshwar of Morgaon", "Ballaleshwar of Pali", "Varadavinayak of Mahad"],
+        correctIndex: 0,
+        category: "Ashtavinayak",
+        explanation: "Siddhatek's Siddhivinayak features a trunk curved to the right (Dakshinabhimukhi), requiring devoted ritual purity."
+      },
+      {
+        question: "What is the traditional greeting chanted by devotees during Ganeshotsav processions?",
+        options: ["Ganpati Bappa Morya, Pudhchya Varshi Lavkar Ya!", "Har Har Mahadev!", "Jai Shri Krishna!", "Om Namah Shivaya!"],
+        correctIndex: 0,
+        category: "Traditions",
+        explanation: "This celebrated chant honors both Lord Ganesha and his revered 14th-century mystic devotee Morya Gosavi."
+      },
+      {
+        question: "Why do devotees whisper their secret wishes into the ears of Mooshakraj at the temple?",
+        options: ["Mooshak is Ganesha’s closest messenger who conveys sincere prayers directly", "Ganesha is said to be resting", "To prevent others from overhearing", "It is considered a secret mantra"],
+        correctIndex: 0,
+        category: "Rituals",
+        explanation: "Being constantly at Lord Ganesha's lotus feet, Mooshakraj is entrusted with delivering earnest prayers directly to the Lord."
+      }
+    ];
+
     class FestiveSoundEngine {
       constructor() {
         this.ctx = null;
@@ -755,8 +892,8 @@
       playLockIn() {
         if (!this.enabled || !this.ctx) return;
         try {
-          this.playTone(523.25, 0.1, 'sine', 0.12);
-          setTimeout(() => this.playTone(659.25, 0.18, 'sine', 0.14), 70);
+          this.playTone(523.25, 0.09, 'sine', 0.12);
+          setTimeout(() => this.playTone(659.25, 0.14, 'sine', 0.14), 60);
         } catch (e) {}
       }
 
@@ -770,22 +907,9 @@
           const melody = [523.25, 659.25, 783.99, 1046.5];
           melody.forEach((freq, idx) => {
             setTimeout(() => {
-              this.playTone(freq, 0.45, 'triangle', 0.22);
-            }, idx * 120);
+              this.playTone(freq, 0.45, 'triangle', 0.2);
+            }, idx * 110);
           });
-        } catch (e) {}
-      }
-
-      playRankShift(isUp) {
-        if (!this.enabled || !this.ctx) return;
-        try {
-          if (isUp) {
-            this.playTone(600, 0.08, 'sine', 0.1);
-            setTimeout(() => this.playTone(900, 0.15, 'sine', 0.12), 60);
-          } else {
-            this.playTone(450, 0.09, 'sawtooth', 0.07);
-            setTimeout(() => this.playTone(320, 0.15, 'sawtooth', 0.07), 60);
-          }
         } catch (e) {}
       }
     }
@@ -808,347 +932,172 @@
       }
       safeCreateIcons();
     }
-    const STORAGE_KEY_LEADERBOARD = 'ganesh_quiz_master_leaderboard_v4';
-    const STORAGE_KEY_PIN = 'ganesh_quiz_host_pin_v4';
-    const HOST_DEFAULT_PIN = '787898';
 
-    const ALL_DEPARTMENTS = [
-      "Planning",
-      "Marketing",
-      "Finance",
-      "Finance - GCC",
-      "L&D",
-      "Project",
-      "Operation",
-      "BI",
-      "HR",
-      "Ecom",
-      "Customer Care",
-      "Admin",
-      "VM"
-    ];
-
-    const ALL_QUESTIONS_30 = [
-      {
-        question: "According to sacred tradition, what paste did Goddess Parvati use to form young Lord Ganesha?",
-        options: ["Sandalwood and turmeric herbal ubtan", "Holy river clay from Ganga", "Sacred Bhasma ash", "Powdered saffron petals"],
-        correctIndex: 0,
-        category: "Sacred Lore",
-        explanation: "Maa Parvati fashioned young Ganesha from her own purifying chandan-haldi cleansing paste before bathing on Mount Kailash."
-      },
-      {
-        question: "Why did Lord Ganesha break off his own right tusk, earning the title 'Ekadanta'?",
-        options: ["To use as a sacred stylus to continuously write the Mahabharata", "During a fierce duel with demon Gajasura", "He gifted it to Sage Agastya", "To defeat the fire demon Sindhu"],
-        correctIndex: 0,
-        category: "Mahabharata Lore",
-        explanation: "When Sage Vyasa dictated the Mahabharata without pause, Ganesha's reed stylus broke. To honor his vow never to pause, he broke his tusk to continue writing."
-      },
-      {
-        question: "Which sacred grass offering with 21 blades is quintessential in Ganesha Puja to cool his divine body?",
-        options: ["Durva (Cynodon dactylon)", "Kusha grass", "Tulsi leaves", "Barley sprouts"],
-        correctIndex: 0,
-        category: "Rituals",
-        explanation: "After Ganesha swallowed the demon Analasura, sages offered 21 blades of Durva grass, which soothed the burning heat within."
-      },
-      {
-        question: "Which revered freedom fighter transformed Ganesh Chaturthi into a grand public festival in 1893?",
-        options: ["Lokmanya Bal Gangadhar Tilak", "Gopal Krishna Gokhale", "Mahatma Jyotirao Phule", "Veer Savarkar"],
-        correctIndex: 0,
-        category: "History",
-        explanation: "Lokmanya Tilak established Sarvajanik Ganeshotsav in Pune in 1893 to unite people across societal divides in the freedom movement."
-      },
-      {
-        question: "Which steamed delicacy of rice flour, coconut, and jaggery is revered as Lord Ganesha's supreme favorite?",
-        options: ["Ukadiche Modak", "Puran Poli", "Karanji", "Motichoor Laddoo"],
-        correctIndex: 0,
-        category: "Traditions",
-        explanation: "Ukadiche Modak is celebrated as Lord Ganesha's dearest sweet, earning him the tender name 'Modakpriya'."
-      },
-      {
-        question: "In the famous cosmic race against brother Kartikeya, what did Lord Ganesha circumambulate?",
-        options: ["His divine parents, Lord Shiva and Goddess Parvati", "Mount Kailash peak", "The Kalpavriksha wish-granting tree", "The sacred solar system"],
-        correctIndex: 0,
-        category: "Wisdom Lore",
-        explanation: "Ganesha showed that parents embody the entire universe. By circling Shiva and Parvati three times, he won the fruit of supreme wisdom."
-      },
-      {
-        question: "Who is the humble vahana (mount/vehicle) of Lord Ganesha?",
-        options: ["Krauncha the divine mouse (Mooshak)", "Garuda the eagle", "Nandi the bull", "Mayura the peacock"],
-        correctIndex: 0,
-        category: "Iconography",
-        explanation: "Mooshakraj represents restless human ego and desire; Ganesha riding upon him symbolizes mastery over the senses."
-      },
-      {
-        question: "On which sacred lunar Tithi does Ganesh Chaturthi commence every year?",
-        options: ["Bhadrapada Shukla Chaturthi", "Kartik Shukla Pratipada", "Chaitra Shukla Navami", "Magha Krishna Chaturthi"],
-        correctIndex: 0,
-        category: "Calendar",
-        explanation: "Ganesh Chaturthi begins on the 4th day of the waxing moon (Shukla Chaturthi) in the lunar month of Bhadrapada."
-      },
-      {
-        question: "Which flower with radiant red petals is traditionally most dear and offered to Lord Ganesha?",
-        options: ["Jaswand (Red Hibiscus)", "Blue Lotus (Neelkamal)", "White Champa", "Fragrant Mogra"],
-        correctIndex: 0,
-        category: "Rituals",
-        explanation: "The red Hibiscus represents the fiery energy of the Muladhara chakra governed by Lord Ganesha."
-      },
-      {
-        question: "Why is gazing upon the moon forbidden on the night of Bhadrapada Ganesh Chaturthi?",
-        options: ["Due to the curse given after Chandra mocked Ganesha's form", "It brings sudden solar eclipse effects", "Chandra was conquered by Ravana", "To maintain unbroken meditation"],
-        correctIndex: 0,
-        category: "Sacred Lore",
-        explanation: "When Chandra vanity mocked Ganesha, Ganesha declared that gazing upon the moon on Chaturthi brings false accusations (Mithya Dosha)."
-      },
-      {
-        question: "How many sacred Swayambhu shrines comprise the renowned 'Ashtavinayak' pilgrimage in Maharashtra?",
-        options: ["8 Swayambhu temples", "12 Jyotirlinga shrines", "108 Mahapithas", "21 Shakti temples"],
-        correctIndex: 0,
-        category: "Pilgrimage",
-        explanation: "The Ashtavinayak circuit comprises eight self-manifested (Swayambhu) shrines situated across Maharashtra."
-      },
-      {
-        question: "On which auspicious 14th day of Bhadrapada does the grand Visarjan climax take place?",
-        options: ["Anant Chaturdashi", "Vaikuntha Ekadashi", "Sharad Purnima", "Narak Chaturdashi"],
-        correctIndex: 0,
-        category: "Festivals",
-        explanation: "Anant Chaturdashi marks the completion of Ganeshotsav when idols are immersed with joyous chants of 'Pudhchya varshi laukar ya'."
-      },
-      {
-        question: "What sacred Bija Akshara (seed syllable) is invoked for Lord Ganesha?",
-        options: ["Gam (गं)", "Hreem (ह्रीं)", "Shreem (श्रीं)", "Kleem (क्लीं)"],
-        correctIndex: 0,
-        category: "Mantras",
-        explanation: "The fundamental vibration 'Gam' begins the universal root mantra: 'Om Gam Ganapataye Namaha'."
-      },
-      {
-        question: "Which iconic Mumbai Sarvajanik Ganpati mandal is affectionately known as 'Navsacha Ganpati'?",
-        options: ["Lalbaugcha Raja", "Ganeshgalli Mumbaicha Raja", "Andhericha Raja", "Khetwadicha Ganraj"],
-        correctIndex: 0,
-        category: "Culture",
-        explanation: "Founded in 1934 in the heart of Lalbaug, Lalbaugcha Raja is revered by millions as the fulfiller of earnest prayers."
-      },
-      {
-        question: "Which primal spiritual chakra at the base of the spine is presided over by Lord Ganesha?",
-        options: ["Muladhara Chakra", "Anahata Chakra", "Manipura Chakra", "Ajna Chakra"],
-        correctIndex: 0,
-        category: "Yoga & Philosophy",
-        explanation: "Lord Ganesha resides in the four-petaled root Muladhara chakra, anchoring the earth element and cosmic stability."
-      },
-      {
-        question: "What is the name of Lord Ganesha's brother, the divine celestial commander?",
-        options: ["Lord Kartikeya (Murugan / Skanda)", "Lord Ayyappa", "Bhairava", "Veerabhadra"],
-        correctIndex: 0,
-        category: "Family",
-        explanation: "Lord Kartikeya (Murugan / Skanda) is the elder son of Shiva and Parvati, commander of the celestial forces."
-      },
-      {
-        question: "Which sacred leaf is traditionally strictly avoided in the ritual worship of Lord Ganesha?",
-        options: ["Tulsi (Holy Basil) leaf", "Bel patra (Bael leaf)", "Shami leaf", "Mango leaf"],
-        correctIndex: 0,
-        category: "Traditions",
-        explanation: "Puranic lore notes an exchange of mutual curses between Ganesha and Tulsi Devi, making Tulsi leaf taboo in his general puja."
-      },
-      {
-        question: "What does the large, majestic belly of Lord Ganesha symbolically signify?",
-        options: ["Peaceful assimilation and digestion of all cosmic joy, grief, and experience", "A love for lavish festive feasts", "The harvest bounty of crops", "The unfathomed depth of oceans"],
-        correctIndex: 0,
-        category: "Symbolism",
-        explanation: "His large belly teaches seekers to gracefully absorb both praise and blame, happiness and sorrow with equanimity."
-      },
-      {
-        question: "What are the names of Lord Ganesha's two consorts, symbolizing intellect and prosperity?",
-        options: ["Riddhi (Prosperity) and Siddhi (Spiritual Attainment)", "Sharda and Lakshmi", "Ganga and Yamuna", "Usha and Pratyusha"],
-        correctIndex: 0,
-        category: "Mythology",
-        explanation: "Riddhi and Siddhi signify that prosperity and accomplishment accompany wisdom wherever Ganesha's grace flows."
-      },
-      {
-        question: "Which noble elephant head was placed upon young Ganesha by Lord Shiva?",
-        options: ["Gajasura's redeemed spirit head facing north", "An Asian tusker from Vindhyas", "A celestial white stallion", "Nandi's twin guardian"],
-        correctIndex: 0,
-        category: "Puranic Lore",
-        explanation: "Shiva dispatched the Ganas northward; the first noble creature found facing north was sanctified and bestowed upon Ganesha."
-      },
-      {
-        question: "Which sacred Vedic Upanishad is dedicated entirely to the glories and mantras of Lord Ganesha?",
-        options: ["Ganapati Atharvashirsha", "Isha Upanishad", "Mandukya Upanishad", "Katha Upanishad"],
-        correctIndex: 0,
-        category: "Scriptures",
-        explanation: "The Ganapati Atharvashirsha from the Atharva Veda is the supreme Vedic text chanted in his daily worship and abhishekam."
-      },
-      {
-        question: "What is the philosophical meaning of Ganesha possessing a single intact tusk?",
-        options: ["Transcending duality (rising above joy and sorrow into oneness)", "Fierce strength in combat", "Attachment to gold ornaments", "The changing phases of the moon"],
-        correctIndex: 0,
-        category: "Philosophy",
-        explanation: "Ekadanta symbolizes singular divine focus and rising beyond the dualities of worldly existence."
-      },
-      {
-        question: "Which sacred tree leaf, known as 'Shami Patra', is uniquely offered to Lord Ganesha?",
-        options: ["Prosopis cineraria (Shami)", "Peepal leaf", "Neem leaf", "Banyan leaf"],
-        correctIndex: 0,
-        category: "Botany & Lore",
-        explanation: "Shami leaves possess intense purifying spiritual energy and are traditionally offered to Ganesha on auspicious days."
-      },
-      {
-        question: "What auspicious title is given when Sankashti Chaturthi falls on a Tuesday?",
-        options: ["Angaraki Sankashti Chaturthi", "Vinayaki Chaturthi", "Maha Chaturthi", "Bhauma Ekadashi"],
-        correctIndex: 0,
-        category: "Auspicious Days",
-        explanation: "A Tuesday (Angarak / Mangalwar) coinciding with Sankashti is celebrated as Angaraki Chaturthi, carrying great merit."
-      },
-      {
-        question: "What divine weapon is typically held in Ganesha's upper right hand to sever attachments?",
-        options: ["Parashu (Axe) or Ankusha (Goad)", "Sudarshana Chakra", "Trishula", "Bow and Arrow"],
-        correctIndex: 0,
-        category: "Iconography",
-        explanation: "The sharp axe or goad severs worldly bonds, illusions, and obstacles, guiding the soul to freedom."
-      },
-      {
-        question: "What does the sacred noose (Pasha) in Ganesha's upper left hand represent?",
-        options: ["Gently binding the wandering mind and drawing seekers toward truth", "Capturing wild creatures", "Binding subterranean demons", "Measuring righteous actions"],
-        correctIndex: 0,
-        category: "Iconography",
-        explanation: "The Pasha lassoes the erratic mind, anchoring the devotee firmly to righteousness and divine awareness."
-      },
-      {
-        question: "Which traditional percussion instrument is thunderously played during Ganeshotsav processions?",
-        options: ["Dhol-Tasha", "Sarangi", "Santoor", "Ghatam"],
-        correctIndex: 0,
-        category: "Traditions",
-        explanation: "Energetic Dhol-Tasha troupes create the signature thunderous rhythm of Maharashtra's Ganeshotsav street processions."
-      },
-      {
-        question: "In the Ashtavinayak pilgrimage, which idol is celebrated for its trunk turning to the right?",
-        options: ["Siddhivinayak of Siddhatek", "Mayureshwar of Morgaon", "Ballaleshwar of Pali", "Varadavinayak of Mahad"],
-        correctIndex: 0,
-        category: "Ashtavinayak",
-        explanation: "Siddhatek features the rare Dakshinabhimukhi murti with the trunk curved to the right, signifying sun-like radiance."
-      },
-      {
-        question: "What is the traditional joyous chant echoing throughout Ganeshotsav festivities?",
-        options: ["Ganpati Bappa Morya, Pudhchya Varshi Lavkar Ya!", "Har Har Mahadev!", "Jai Shri Krishna!", "Om Namah Shivaya!"],
-        correctIndex: 0,
-        category: "Traditions",
-        explanation: "This chant honors both Lord Ganesha and his 14th-century mystic devotee Morya Gosavi of Chinchwad."
-      },
-      {
-        question: "Why do devotees whisper their secret heartfelt wishes into the ears of Mooshakraj?",
-        options: ["Mooshak is Ganesha’s constant attendant who conveys prayers directly to the Lord", "Ganesha is said to be meditating", "To maintain private secrecy from others", "It acts as an ancient secret password"],
-        correctIndex: 0,
-        category: "Rituals",
-        explanation: "Being perpetually at Lord Ganesha's lotus feet, Mooshakraj is believed to convey devotees' humble prayers directly to Ganesha."
+    function safeCreateIcons() {
+      if (typeof lucide !== 'undefined' && lucide.createIcons) {
+        try {
+          lucide.createIcons();
+        } catch (e) {}
       }
-    ];
-    // Cross-Device Real-Time Sync Channel
+    }
+
+    function showLiveToast(title, subtitle, type = 'info') {
+      const container = document.getElementById('toastNotificationContainer');
+      if (!container) return;
+
+      const toast = document.createElement('div');
+      toast.className = `pointer-events-auto flex items-center gap-2.5 p-3 rounded-2xl border shadow-xl backdrop-blur-md transition-all duration-300 transform translate-x-0 ${
+        type === 'up' ? 'bg-emerald-950/90 border-emerald-500/50 text-emerald-200' :
+        type === 'down' ? 'bg-red-950/90 border-red-500/50 text-red-200' :
+        type === 'launch' ? 'bg-amber-950/90 border-amber-400 text-amber-200' :
+        'bg-stone-900/90 border-amber-500/40 text-amber-200'
+      }`;
+
+      let iconHtml = '<i data-lucide="bell" class="w-4 h-4 text-amber-300"></i>';
+      if (type === 'up') iconHtml = '<i data-lucide="arrow-up-right" class="w-4 h-4 text-emerald-300"></i>';
+      else if (type === 'down') iconHtml = '<i data-lucide="arrow-down-right" class="w-4 h-4 text-red-300"></i>';
+      else if (type === 'launch') iconHtml = '<i data-lucide="rocket" class="w-4 h-4 text-amber-300"></i>';
+
+      toast.innerHTML = `
+        <div class="p-1 rounded-lg bg-black/40">${iconHtml}</div>
+        <div class="text-xs">
+          <p class="font-bold text-amber-100">${escapeHtml(title)}</p>
+          <p class="text-amber-200/90 text-[11px]">${escapeHtml(subtitle)}</p>
+        </div>
+      `;
+      container.appendChild(toast);
+      safeCreateIcons();
+
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(20px)';
+        setTimeout(() => toast.remove(), 350);
+      }, 3500);
+    }
+
     let liveQuizChannel = null;
     try {
       if (typeof window.BroadcastChannel !== 'undefined') {
-        liveQuizChannel = new BroadcastChannel('ganesh_chaturthi_live_championship_v4');
+        liveQuizChannel = new BroadcastChannel('ganesh_chaturthi_live_indiv_v4');
+        liveQuizChannel.onmessage = (event) => {
+          if (!event.data) return;
+          handleIncomingSyncMessage(event.data);
+        };
       }
     } catch (e) {}
 
-    // Cloud Pub/Sub Topic for Cross-Device Sync on GitHub Pages
-    const CLOUD_SYNC_TOPIC = "ganesh_utsav_live_room_championship";
-    const CLOUD_PUB_URL = `https://ntfy.sh/${CLOUD_SYNC_TOPIC}`;
-    const CLOUD_SUB_URL = `https://ntfy.sh/${CLOUD_SYNC_TOPIC}/sse`;
+    function initCloudSync() {
+      // Connect to ntfy.sh SSE stream for real-time live events across phones and PCs
+      try {
+        if (typeof EventSource !== 'undefined') {
+          cloudEventSource = new EventSource(CLOUD_SUB_URL);
+          cloudEventSource.onmessage = (event) => {
+            try {
+              const parsed = JSON.parse(event.data);
+              if (parsed && parsed.message) {
+                const inner = JSON.parse(parsed.message);
+                handleIncomingSyncMessage(inner);
+              }
+            } catch (err) {}
+          };
+          cloudEventSource.onerror = () => {
+            // Reconnect automatically if network glitches
+            setTimeout(() => {
+              if (cloudEventSource) {
+                cloudEventSource.close();
+                cloudEventSource = null;
+                initCloudSync();
+              }
+            }, 5000);
+          };
+        }
+      } catch (e) {}
+
+      // Heartbeat polling to ensure no score updates are missed
+      syncRecentCloudMessages();
+      setInterval(syncRecentCloudMessages, 6000);
+    }
+
+    async function syncRecentCloudMessages() {
+      try {
+        const resp = await fetch(`https://ntfy.sh/${CLOUD_ROOM_TOPIC}/json?poll=1&since=12h`);
+        if (!resp.ok) return;
+        const text = await resp.text();
+        const lines = text.trim().split('\n');
+        lines.forEach(line => {
+          try {
+            if (!line.trim()) return;
+            const item = JSON.parse(line);
+            if (item && item.message) {
+              const data = JSON.parse(item.message);
+              handleIncomingSyncMessage(data, true);
+            }
+          } catch (e) {}
+        });
+        if (isHostDashboardOpen) {
+          renderHostDashboard();
+        }
+      } catch (err) {}
+    }
 
     async function broadcastLiveProgress(entry, isFinished = false) {
-      // 1. Update in-memory and local storage immediately
+      // Save locally first
       saveOrUpdateHostRecord(entry, isFinished);
 
-      // 2. Broadcast across browser tabs
-      if (liveQuizChannel) {
-        try {
-          liveQuizChannel.postMessage({
-            type: isFinished ? 'FINAL_SUBMISSION' : 'LIVE_PROGRESS',
-            entry: entry,
-            ts: Date.now()
-          });
-        } catch (e) {}
-      }
-
-      // 3. Broadcast to cloud for other physical devices (Host on laptop, player on phone)
-      try {
-        fetch(CLOUD_PUB_URL, {
-          method: 'POST',
-          body: JSON.stringify({
-            type: isFinished ? 'FINAL_SUBMISSION' : 'LIVE_PROGRESS',
-            entry: entry,
-            ts: Date.now()
-          }),
-          headers: { 'Title': 'Quiz Score Update' }
-        }).catch(() => {});
-      } catch (e) {}
-    }
-
-    // Connect to Cloud Sync Stream
-    function initCloudSyncStream() {
-      try {
-        const eventSource = new EventSource(CLOUD_SUB_URL);
-        eventSource.onmessage = (event) => {
-          try {
-            const data = JSON.parse(event.data);
-            if (data && data.message) {
-              const payload = JSON.parse(data.message);
-              if (payload.type === 'LIVE_PROGRESS' || payload.type === 'FINAL_SUBMISSION') {
-                handleIncomingCloudUpdate(payload.entry);
-              } else if (payload.type === 'RESET') {
-                handleIncomingReset();
-              }
-            }
-          } catch (err) {}
-        };
-      } catch (e) {
-        console.warn("Cloud EventSource notice:", e);
-      }
-    }
-
-    if (liveQuizChannel) {
-      liveQuizChannel.onmessage = (event) => {
-        if (!event.data) return;
-        const data = event.data;
-        if (data.type === 'LIVE_PROGRESS' || data.type === 'FINAL_SUBMISSION') {
-          handleIncomingCloudUpdate(data.entry);
-        } else if (data.type === 'RESET') {
-          handleIncomingReset();
-        }
+      const packet = {
+        type: isFinished ? 'FINAL_SUBMISSION' : 'LIVE_PROGRESS',
+        entry: entry,
+        ts: Date.now()
       };
-    }
 
-    function handleIncomingCloudUpdate(entry) {
-      if (!entry || !entry.id) return;
-      saveOrUpdateHostRecord(entry, entry.isFinished, true);
-    }
+      // Broadcast on device BroadcastChannel
+      if (liveQuizChannel) {
+        try { liveQuizChannel.postMessage(packet); } catch (e) {}
+      }
 
-    function handleIncomingReset() {
+      // Publish to cloud room for host screen
       try {
-        localStorage.removeItem(STORAGE_KEY_LEADERBOARD);
-      } catch (e) {}
-      renderHostDashboard();
+        await fetch(CLOUD_PUB_URL, {
+          method: 'POST',
+          body: JSON.stringify(packet),
+          headers: { 'Content-Type': 'text/plain' }
+        });
+      } catch (err) {}
     }
-    const QUESTION_TIME_LIMIT_MS = 20000;
-    let questions = [];
-    let currentQuestionIndex = 0;
-    let userAnswers = [];
-    let score = 0;
-    let correctCount = 0;
-    let currentStreak = 0;
-    let highestStreak = 0;
 
-    let questionStartTime = 0;
-    let questionTimerInterval = null;
-    let hasAnswered = false;
+    function handleIncomingSyncMessage(data, isBatch = false) {
+      if (!data || !data.entry) return;
 
-    let quizStartPerfTime = 0;
-    let totalElapsedDurationMs = 0;
-    let currentParticipantId = "";
-    let currentPlayerName = "";
-    let currentPlayerDepartment = "";
-    let isHostDashboardOpen = false;
+      if (data.type === 'LIVE_PROGRESS' || data.type === 'FINAL_SUBMISSION' || data.type === 'ENROLLMENT') {
+        saveOrUpdateHostRecord(data.entry, data.type === 'FINAL_SUBMISSION', true);
 
-    let previousContestantRanks = {};
-    let previousDeptRanks = {};
+        if (!isBatch && isHostDashboardOpen && data.entry.rankMovement) {
+          const isUp = data.entry.rankMovement > 0;
+          showLiveToast(
+            `${data.entry.name} shifted ${isUp ? 'UP ▲' : 'DOWN ▼'}!`, 
+            `Correct: ${data.entry.correctCount}/30 • Score: ${data.entry.score.toLocaleString()}`,
+            isUp ? 'up' : 'down'
+          );
+        }
+      } else if (data.type === 'RESET') {
+        cachedCloudParticipants = [];
+        try { localStorage.setItem(STORAGE_KEY_LEADERBOARD, JSON.stringify([])); } catch (e) {}
+        if (isHostDashboardOpen) renderHostDashboard();
+      }
+    }
+
+    async function manualSyncFromCloud() {
+      sound.playTap();
+      const btnText = document.getElementById('manualSyncBtnText');
+      if (btnText) btnText.textContent = "Syncing...";
+      await syncRecentCloudMessages();
+      renderHostDashboard();
+      if (btnText) {
+        btnText.textContent = "Synced ✓";
+        setTimeout(() => { btnText.textContent = "Sync Now"; }, 2000);
+      }
+      showLiveToast("Synced", "Latest participant scores updated from all devices.", "info");
+    }
 
     function shuffleArray(arr) {
       const copy = [...arr];
@@ -1160,9 +1109,8 @@
     }
 
     function prepareQuiz() {
-      // Randomized question sequence for every participant
-      const shuffledQuestions = shuffleArray(ALL_QUESTIONS_30);
-      questions = shuffledQuestions.map(q => {
+      // 30 questions in identical sequence, randomized option positions per device
+      questions = ALL_QUESTIONS_30.map(q => {
         const originalCorrectText = q.options[q.correctIndex];
         const shuffledOpts = shuffleArray(q.options);
         const newCorrectIndex = shuffledOpts.indexOf(originalCorrectText);
@@ -1178,11 +1126,9 @@
     function handleEnrollmentSubmit(e) {
       e.preventDefault();
       const nameInput = document.getElementById('playerNameInput');
-      const deptSelect = document.getElementById('playerDeptSelect');
       const errEl = document.getElementById('validationErrorMessage');
 
       const nameVal = (nameInput.value || '').trim();
-      const deptVal = (deptSelect.value || '').trim();
 
       if (!nameVal) {
         errEl.textContent = "Please enter your full name.";
@@ -1190,21 +1136,13 @@
         return;
       }
 
-      if (!deptVal) {
-        errEl.textContent = "Please select your department from the list.";
-        errEl.classList.remove('hidden');
-        return;
-      }
-
       errEl.classList.add('hidden');
       currentParticipantId = 'p_' + Date.now() + '_' + Math.floor(Math.random() * 10000);
       currentPlayerName = nameVal;
-      currentPlayerDepartment = deptVal;
 
       sound.init();
       sound.playBell();
 
-      // Launch participant directly into the quiz
       launchParticipantQuizNow();
     }
 
@@ -1221,9 +1159,8 @@
       document.getElementById('welcomeScreen').classList.add('hidden');
       document.getElementById('resultsScreen').classList.add('hidden');
       document.getElementById('quizScreen').classList.remove('hidden');
-      document.getElementById('quizScreen').classList.add('flex');
 
-      sendProgressUpdate(1, false);
+      broadcastLiveQuestionAdvance(1);
       renderQuestion();
     }
 
@@ -1263,8 +1200,9 @@
         container.appendChild(btn);
       });
 
-      document.getElementById('lockedInBanner').classList.add('hidden');
-      document.getElementById('lockedInBanner').classList.remove('flex');
+      const banner = document.getElementById('lockedInBanner');
+      banner.classList.add('hidden');
+      banner.classList.remove('flex');
 
       updateTimerUI(QUESTION_TIME_LIMIT_MS);
 
@@ -1327,9 +1265,9 @@
         const chosenBtn = document.getElementById(`optBtn_${selectedIndex}`);
         if (chosenBtn) {
           chosenBtn.classList.add('locked-in');
-          const iconContainer = document.getElementById(`optIcon_${selectedIndex}`);
-          if (iconContainer) {
-            iconContainer.innerHTML = `<i data-lucide="check" class="w-5 h-5 text-amber-300"></i>`;
+          const iconSpan = document.getElementById(`optIcon_${selectedIndex}`);
+          if (iconSpan) {
+            iconSpan.innerHTML = `<i data-lucide="check" class="w-5 h-5 text-amber-300"></i>`;
           }
         }
         sound.playLockIn();
@@ -1348,33 +1286,35 @@
         currentStreak = 0;
       }
 
-      sendProgressUpdate(currentQuestionIndex + 1, false);
+      safeCreateIcons();
 
+      // Broadcast progress
+      const isLastQ = (currentQuestionIndex === questions.length - 1);
+      broadcastLiveProgressReport(currentQuestionIndex + 1, isLastQ);
+
+      // Show brief moving banner
       const banner = document.getElementById('lockedInBanner');
       const msg = document.getElementById('lockedInMessage');
       if (banner && msg) {
-        msg.textContent = selectedIndex !== null ? `Answer saved! Next question loading...` : `Time expired! Moving to next question...`;
+        msg.textContent = isLastQ ? "Final answer locked! Calculating results..." : "Answer recorded! Moving to next question...";
         banner.classList.remove('hidden');
         banner.classList.add('flex');
       }
 
-      safeCreateIcons();
-
-      // Automatically advance to the next question or final results screen
+      // Smooth instant advance
       setTimeout(() => {
-        if (currentQuestionIndex < questions.length - 1) {
+        if (!isLastQ) {
           currentQuestionIndex++;
+          broadcastLiveQuestionAdvance(currentQuestionIndex + 1);
           renderQuestion();
         } else {
           finishQuiz();
         }
-      }, 450);
+      }, TRANSITION_DELAY_MS);
     }
 
     function handleQuestionTimeout() {
-      if (!hasAnswered) {
-        lockInAnswer(null);
-      }
+      lockInAnswer(null);
     }
 
     function formatTimeDuration(totalMs) {
@@ -1384,7 +1324,30 @@
       return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}.${String(ms).padStart(3, '0')}`;
     }
 
-    function sendProgressUpdate(answeredCount, isFinished = false) {
+    function broadcastLiveQuestionAdvance(newQuestionNum) {
+      totalElapsedDurationMs = Math.round(performance.now() - quizStartPerfTime);
+      const entry = {
+        id: currentParticipantId,
+        name: currentPlayerName,
+        score: score,
+        correctCount: correctCount,
+        answeredCount: currentQuestionIndex,
+        currentQuestionNumber: newQuestionNum,
+        totalQuestions: questions.length,
+        accuracy: currentQuestionIndex > 0 ? Math.round((correctCount / currentQuestionIndex) * 100) : 0,
+        streak: highestStreak,
+        durationMs: totalElapsedDurationMs,
+        durationFormatted: formatTimeDuration(totalElapsedDurationMs),
+        status: `Playing Q${newQuestionNum}/${questions.length}`,
+        isFinished: false,
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+        date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+        rawEpoch: Date.now()
+      };
+      broadcastLiveProgress(entry, false);
+    }
+
+    function broadcastLiveProgressReport(answeredCount, isFinished = false) {
       totalElapsedDurationMs = Math.round(performance.now() - quizStartPerfTime);
       const formattedDuration = formatTimeDuration(totalElapsedDurationMs);
       const calculatedAccuracy = answeredCount > 0 ? Math.round((correctCount / answeredCount) * 100) : 0;
@@ -1392,17 +1355,16 @@
       const entry = {
         id: currentParticipantId,
         name: currentPlayerName,
-        department: currentPlayerDepartment,
         score: score,
         correctCount: correctCount,
         answeredCount: answeredCount,
         currentQuestionNumber: answeredCount,
-        totalQuestions: 30,
+        totalQuestions: questions.length,
         accuracy: calculatedAccuracy,
         streak: highestStreak,
         durationMs: totalElapsedDurationMs,
         durationFormatted: formattedDuration,
-        status: isFinished ? 'Completed' : `Q${answeredCount}/30 Live`,
+        status: isFinished ? 'Completed' : `Q${answeredCount}/${questions.length}`,
         isFinished: isFinished,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
         date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
@@ -1434,7 +1396,6 @@
       }
 
       document.getElementById('resultPlayerGreeting').textContent = `${currentPlayerName}!`;
-      document.getElementById('resultPlayerDepartment').textContent = currentPlayerDepartment;
       document.getElementById('rankBadgeText').textContent = rankTitle;
       document.getElementById('resultFinalScore').textContent = score.toLocaleString();
       document.getElementById('resultAccuracy').textContent = `${accuracy}%`;
@@ -1442,13 +1403,14 @@
       document.getElementById('resultMaxStreak').textContent = highestStreak;
       document.getElementById('resultTotalTime').textContent = formattedDuration;
 
-      sendProgressUpdate(30, true);
+      broadcastLiveProgressReport(questions.length, true);
 
       buildAnswerReviewList();
       sound.playVictory();
       triggerConfetti();
       safeCreateIcons();
     }
+
     function toggleAnswerReview() {
       sound.playTap();
       const reviewSection = document.getElementById('answersReviewSection');
@@ -1513,8 +1475,8 @@
       if (typeof confetti !== 'undefined') {
         const colors = ['#f59e0b', '#ea580c', '#fbbf24', '#b91c1c', '#ffffff'];
         confetti({
-          particleCount: 110,
-          spread: 85,
+          particleCount: 100,
+          spread: 80,
           origin: { y: 0.6 },
           colors: colors
         });
@@ -1531,7 +1493,7 @@
 
     function shareScore() {
       sound.playTap();
-      const shareText = `🪔 I scored ${score.toLocaleString()} points (${correctCount}/30 correct in ${formatTimeDuration(totalElapsedDurationMs)}) in the Ganesh Chaturthi Utsav Quiz representing Department: ${currentPlayerDepartment}! Ganpati Bappa Morya! 🙏`;
+      const shareText = `🪔 I scored ${score.toLocaleString()} points (${correctCount}/${questions.length} correct in ${formatTimeDuration(totalElapsedDurationMs)}) in the Ganesh Chaturthi Utsav Quiz! Ganpati Bappa Morya! 🙏`;
       const tempTextArea = document.createElement('textarea');
       tempTextArea.value = shareText;
       document.body.appendChild(tempTextArea);
@@ -1559,9 +1521,105 @@
           btnText.textContent = "Copied! ✓";
           setTimeout(() => { btnText.textContent = "Copy Link"; }, 2500);
         }
+        showLiveToast("Link Copied", "Quiz link copied to clipboard!", "launch");
       } catch (e) {}
       document.body.removeChild(tempTextArea);
     }
+
+    function openHostAuthModal() {
+      sound.playTap();
+      const modal = document.getElementById('hostAuthModal');
+      const pinInput = document.getElementById('hostPinInput');
+      const err = document.getElementById('pinErrorMessage');
+      if (pinInput) pinInput.value = '';
+      if (err) err.classList.add('hidden');
+      if (!modal) return;
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        modal.classList.remove('opacity-0');
+        if (pinInput) pinInput.focus();
+      }, 20);
+      safeCreateIcons();
+    }
+
+    function closeHostAuthModal() {
+      sound.playTap();
+      const modal = document.getElementById('hostAuthModal');
+      if (!modal) return;
+      modal.classList.add('opacity-0');
+      setTimeout(() => modal.classList.add('hidden'), 250);
+    }
+
+    function verifyHostPin() {
+      const pinInput = document.getElementById('hostPinInput');
+      const err = document.getElementById('pinErrorMessage');
+      const entered = (pinInput ? pinInput.value : '').trim();
+      const currentPin = getHostPin();
+
+      if (entered === currentPin) {
+        sound.playBell();
+        closeHostAuthModal();
+        setTimeout(openHostLeaderboardModal, 260);
+      } else {
+        if (err) {
+          err.textContent = "Incorrect Host PIN! Please enter the correct PIN.";
+          err.classList.remove('hidden');
+        }
+        if (pinInput) {
+          pinInput.classList.add('border-red-500');
+          setTimeout(() => pinInput.classList.remove('border-red-500'), 1500);
+        }
+      }
+    }
+
+    function renderIndividualPodium() {
+      const container = document.getElementById('individualPodiumContainer');
+      if (!container) return;
+      const list = sortLeaderboardList(getHostLeaderboard());
+      const topThree = list.slice(0, 3);
+      const podiumOrder = [topThree[1], topThree[0], topThree[2]];
+      const configs = [
+        { rank: '#2', title: 'Runner-Up', color: 'border-slate-400 bg-slate-500/10 text-slate-200', icon: 'medal', scale: 'sm:translate-y-2' },
+        { rank: '#1', title: '👑 CHAMPION WINNER', color: 'winner-gold-card text-amber-200', icon: 'trophy', scale: 'sm:-translate-y-2 sm:scale-105 z-10' },
+        { rank: '#3', title: '3rd Place', color: 'border-amber-700 bg-amber-800/10 text-amber-500', icon: 'award', scale: 'sm:translate-y-3' },
+      ];
+
+      container.innerHTML = '';
+      podiumOrder.forEach((p, idx) => {
+        const conf = configs[idx];
+        const card = document.createElement('div');
+        const isWinner = (idx === 1 && p && p.score > 0);
+        card.className = `p-3.5 sm:p-4 rounded-2xl border text-center transition-all ${conf.color} ${conf.scale}`;
+        if (!p || !p.score) {
+          card.innerHTML = `
+            <div class="flex items-center justify-center gap-1.5 text-xs font-bold uppercase mb-1 opacity-70">
+              <i data-lucide="${conf.icon}" class="w-4 h-4"></i> ${conf.title}
+            </div>
+            <p class="font-festive text-lg text-amber-200/50">Awaiting Score</p>
+            <p class="text-[10px] text-amber-300/40">No submission yet</p>
+          `;
+        } else {
+          card.innerHTML = `
+            <div class="flex items-center justify-center gap-1.5 text-xs font-black uppercase mb-1 ${isWinner ? 'text-amber-300 drop-shadow' : ''}">
+              <i data-lucide="${conf.icon}" class="w-4 h-4 ${isWinner ? 'text-amber-300 animate-bounce' : ''}"></i> ${conf.title} (${conf.rank})
+            </div>
+            <h5 class="font-festive text-base sm:text-xl text-amber-100 font-extrabold tracking-wide truncate">${escapeHtml(p.name)}</h5>
+            <div class="mt-1 text-xl sm:text-2xl font-festive text-amber-300 drop-shadow">
+              ${Number(p.score).toLocaleString()} <span class="text-[10px] uppercase font-mono font-bold">pts</span>
+            </div>
+            <div class="text-[11px] text-amber-200/90 mt-1 flex justify-center gap-2">
+              <span><strong>${p.correctCount || 0}/30</strong> correct</span>
+              <span>• <strong>${p.accuracy || 0}%</strong> acc</span>
+            </div>
+            <div class="text-[10px] text-amber-300 mt-1.5 truncate bg-black/40 py-0.5 px-2 rounded-lg border border-amber-500/20 font-mono">
+              ⏱️ ${p.durationFormatted || '00:00.000'}
+            </div>
+          `;
+        }
+        container.appendChild(card);
+      });
+    }
+
     function getHostPin() {
       try {
         return localStorage.getItem(STORAGE_KEY_PIN) || HOST_DEFAULT_PIN;
@@ -1580,6 +1638,9 @@
     }
 
     function getHostLeaderboard() {
+      if (cachedCloudParticipants.length > 0) {
+        return [...cachedCloudParticipants];
+      }
       try {
         const stored = localStorage.getItem(STORAGE_KEY_LEADERBOARD);
         if (stored !== null) {
@@ -1601,12 +1662,19 @@
 
     function saveOrUpdateHostRecord(entry, isFinished = false, fromRemote = false) {
       let list = getHostLeaderboard();
-      const existingIdx = list.findIndex(item => item.id === entry.id);
+      const existingIdx = list.findIndex(item => item.id === entry.id || item.name.trim().toLowerCase() === entry.name.trim().toLowerCase());
 
       const oldRank = previousContestantRanks[entry.id] || (existingIdx !== -1 ? existingIdx + 1 : null);
 
       if (existingIdx !== -1) {
-        list[existingIdx] = { ...list[existingIdx], ...entry };
+        const existing = list[existingIdx];
+        // Protect newer participant state from being overwritten by older delayed packets
+        const isIncomingNewer = (entry.rawEpoch || 0) >= (existing.rawEpoch || 0);
+        const isHigherProgress = (entry.answeredCount || 0) >= (existing.answeredCount || 0);
+        
+        if (isIncomingNewer || isHigherProgress || entry.isFinished) {
+          list[existingIdx] = { ...existing, ...entry };
+        }
       } else {
         list.push(entry);
       }
@@ -1620,6 +1688,8 @@
       }
       entry.rankMovement = rankMovement;
 
+      cachedCloudParticipants = [...list];
+
       try {
         localStorage.setItem(STORAGE_KEY_LEADERBOARD, JSON.stringify(list));
       } catch (e) {}
@@ -1629,284 +1699,146 @@
       }
     }
 
-    function openHostAuthModal() {
+    function setHostFilterTab(tab) {
       sound.playTap();
-      const modal = document.getElementById('hostAuthModal');
-      const pinInput = document.getElementById('hostPinInput');
-      const err = document.getElementById('pinErrorMessage');
-      pinInput.value = '';
-      err.classList.add('hidden');
+      currentHostFilterTab = tab;
 
-      modal.classList.remove('hidden');
-      setTimeout(() => {
-        modal.classList.remove('opacity-0');
-        pinInput.focus();
-      }, 20);
-    }
+      const btnAll = document.getElementById('tabFilterAll');
+      const btnActive = document.getElementById('tabFilterActive');
+      const btnCompleted = document.getElementById('tabFilterCompleted');
 
-    function closeHostAuthModal() {
-      sound.playTap();
-      const modal = document.getElementById('hostAuthModal');
-      modal.classList.add('opacity-0');
-      setTimeout(() => modal.classList.add('hidden'), 250);
-    }
+      const activeStyle = "px-2.5 py-1 rounded-lg font-bold bg-amber-500 text-kumkum-950 shadow transition-all";
+      const inactiveStyle = "px-2.5 py-1 rounded-lg font-bold text-amber-200/80 hover:text-amber-100 transition-all";
 
-    function verifyHostPin() {
-      const entered = (document.getElementById('hostPinInput').value || '').trim();
-      const currentPin = getHostPin();
-      const err = document.getElementById('pinErrorMessage');
+      btnAll.className = (tab === 'all') ? activeStyle : inactiveStyle;
+      btnActive.className = (tab === 'active') ? activeStyle : inactiveStyle;
+      btnCompleted.className = (tab === 'completed') ? activeStyle : inactiveStyle;
 
-      if (entered === currentPin) {
-        sound.playBell();
-
-        // Ensure host is not listed as a participant
-        if (currentParticipantId) {
-          let list = getHostLeaderboard();
-          list = list.filter(item => item.id !== currentParticipantId);
-          try {
-            localStorage.setItem(STORAGE_KEY_LEADERBOARD, JSON.stringify(list));
-          } catch (e) {}
-        }
-
-        closeHostAuthModal();
-        setTimeout(openHostLeaderboardModal, 260);
-      } else {
-        err.textContent = "Incorrect Host PIN! Devotees cannot access this dashboard.";
-        err.classList.remove('hidden');
-        document.getElementById('hostPinInput').classList.add('border-red-500');
-        setTimeout(() => document.getElementById('hostPinInput').classList.remove('border-red-500'), 1500);
-      }
-    }
-
-    let activeHostTab = 'dept';
-    let currentFilterTerm = '';
-    let currentDeptFilter = '';
-
-    function switchHostTab(tab) {
-      sound.playTap();
-      activeHostTab = tab;
-      const deptView = document.getElementById('hostTabDeptView');
-      const indivView = document.getElementById('hostTabIndivView');
-      const tabBtnDept = document.getElementById('tabBtnDept');
-      const tabBtnIndiv = document.getElementById('tabBtnIndiv');
-
-      if (tab === 'dept') {
-        deptView.classList.remove('hidden');
-        indivView.classList.add('hidden');
-        indivView.classList.remove('flex');
-        tabBtnDept.className = "py-2.5 px-4 font-bold text-xs sm:text-sm rounded-t-xl border-t border-x border-amber-400 bg-amber-500/20 text-amber-200 flex items-center gap-1.5 transition-all";
-        tabBtnIndiv.className = "py-2.5 px-4 font-bold text-xs sm:text-sm rounded-t-xl border-t border-x border-transparent text-amber-300/70 hover:text-amber-200 flex items-center gap-1.5 transition-all";
-      } else {
-        deptView.classList.add('hidden');
-        indivView.classList.remove('hidden');
-        indivView.classList.add('flex');
-        tabBtnIndiv.className = "py-2.5 px-4 font-bold text-xs sm:text-sm rounded-t-xl border-t border-x border-amber-400 bg-amber-500/20 text-amber-200 flex items-center gap-1.5 transition-all";
-        tabBtnDept.className = "py-2.5 px-4 font-bold text-xs sm:text-sm rounded-t-xl border-t border-x border-transparent text-amber-300/70 hover:text-amber-200 flex items-center gap-1.5 transition-all";
-      }
-      renderHostDashboard();
+      renderIndividualLeaderboard();
     }
 
     function openHostLeaderboardModal() {
       isHostDashboardOpen = true;
+      syncRecentCloudMessages();
       renderHostDashboard();
       const modal = document.getElementById('hostLeaderboardModal');
       modal.classList.remove('hidden');
       setTimeout(() => modal.classList.remove('opacity-0'), 20);
+
+      // Auto-refresh every 3.5s while host panel is visible
+      clearInterval(hostDashboardAutoSyncTimer);
+      hostDashboardAutoSyncTimer = setInterval(() => {
+        if (isHostDashboardOpen) {
+          syncRecentCloudMessages();
+        }
+      }, 3500);
     }
 
     function closeHostLeaderboardModal() {
       isHostDashboardOpen = false;
+      clearInterval(hostDashboardAutoSyncTimer);
       sound.playTap();
       const modal = document.getElementById('hostLeaderboardModal');
       modal.classList.add('opacity-0');
       setTimeout(() => modal.classList.add('hidden'), 250);
     }
 
+    let currentFilterTerm = '';
+
     function filterLeaderboardView() {
       currentFilterTerm = (document.getElementById('leaderboardSearchInput').value || '').toLowerCase().trim();
-      currentDeptFilter = (document.getElementById('leaderboardDeptFilter').value || '').trim();
       renderIndividualLeaderboard();
     }
 
     function renderHostDashboard() {
-      renderDepartmentScorecard();
+      renderIndividualPodium();
+      renderActiveParticipantsTicker();
       renderIndividualLeaderboard();
       safeCreateIcons();
     }
-    function renderDepartmentScorecard() {
+
+    function renderActiveParticipantsTicker() {
+      const ticker = document.getElementById('hostActiveContestantsTicker');
+      const badge = document.getElementById('hostActivePlayingCountBadge');
+      if (!ticker) return;
+
       const allEntries = getHostLeaderboard();
+      const activeDevotees = allEntries.filter(p => !p.isFinished);
+      const completedDevotees = allEntries.filter(p => p.isFinished);
+
+      if (badge) badge.textContent = `${activeDevotees.length} Playing`;
+
+      const filterAllCount = document.getElementById('filterCountAll');
+      const filterActiveCount = document.getElementById('filterCountActive');
+      const filterCompletedCount = document.getElementById('filterCountCompleted');
+
+      if (filterAllCount) filterAllCount.textContent = allEntries.length;
+      if (filterActiveCount) filterActiveCount.textContent = activeDevotees.length;
+      if (filterCompletedCount) filterCompletedCount.textContent = completedDevotees.length;
+
+      ticker.innerHTML = '';
+
+      if (activeDevotees.length === 0) {
+        ticker.innerHTML = `
+          <div class="text-amber-300/60 text-xs py-1.5 flex items-center gap-2">
+            <i data-lucide="info" class="w-3.5 h-3.5 text-amber-400"></i>
+            <span>No devotees actively answering right now. Newly enrolled participants appear here live as they play!</span>
+          </div>
+        `;
+        return;
+      }
+
+      activeDevotees.forEach(p => {
+        const chip = document.createElement('div');
+        const progressPct = Math.min(100, Math.round(((p.answeredCount || 0) / (p.totalQuestions || 30)) * 100));
+
+        chip.className = "shrink-0 bg-emerald-950/40 border border-emerald-500/40 rounded-xl p-2 min-w-[170px] flex flex-col gap-1 shadow-sm";
+        chip.innerHTML = `
+          <div class="flex items-center justify-between gap-2">
+            <span class="font-bold text-amber-100 text-xs truncate max-w-[110px]">${escapeHtml(p.name)}</span>
+            <span class="px-1.5 py-0.2 rounded bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 font-mono text-[9px] font-bold">
+              Q${p.currentQuestionNumber || p.answeredCount || 1}/30
+            </span>
+          </div>
+          <div class="w-full bg-black/60 rounded-full h-1.5 overflow-hidden border border-emerald-500/20">
+            <div class="bg-gradient-to-r from-emerald-400 to-amber-400 h-full rounded-full transition-all duration-300" style="width: ${progressPct}%"></div>
+          </div>
+          <div class="flex items-center justify-between text-[10px] text-amber-200/80">
+            <span class="font-festive text-amber-300 font-bold">${Number(p.score || 0).toLocaleString()} pts</span>
+            <span>${p.correctCount || 0} Correct</span>
+          </div>
+        `;
+        ticker.appendChild(chip);
+      });
+    }
+
+    function renderIndividualLeaderboard() {
+      let allEntries = getHostLeaderboard();
+      allEntries = sortLeaderboardList(allEntries);
+
       const totalCountText = document.getElementById('participantTotalCountText');
       if (totalCountText) {
         totalCountText.innerHTML = `<i data-lucide="users" class="w-4 h-4 text-amber-400"></i><span>${allEntries.length} Participant${allEntries.length === 1 ? '' : 's'} Recorded</span>`;
       }
 
-      const deptStats = {};
-      ALL_DEPARTMENTS.forEach(dept => {
-        deptStats[dept] = {
-          name: dept,
-          participants: 0,
-          totalScore: 0,
-          totalCorrect: 0,
-          totalAccuracy: 0,
-          topDevotee: null,
-          topScore: 0
-        };
-      });
-
-      allEntries.forEach(entry => {
-        const d = entry.department || 'Other';
-        if (!deptStats[d]) {
-          deptStats[d] = {
-            name: d,
-            participants: 0,
-            totalScore: 0,
-            totalCorrect: 0,
-            totalAccuracy: 0,
-            topDevotee: null,
-            topScore: 0
-          };
-        }
-        deptStats[d].participants += 1;
-        deptStats[d].totalScore += Number(entry.score) || 0;
-        deptStats[d].totalCorrect += Number(entry.correctCount) || 0;
-        deptStats[d].totalAccuracy += Number(entry.accuracy) || 0;
-
-        if (!deptStats[d].topDevotee || (Number(entry.score) > deptStats[d].topScore)) {
-          deptStats[d].topDevotee = entry.name;
-          deptStats[d].topScore = Number(entry.score);
-        }
-      });
-
-      const deptList = Object.values(deptStats).map(d => ({
-        ...d,
-        avgScore: d.participants > 0 ? Math.round(d.totalScore / d.participants) : 0,
-        avgAccuracy: d.participants > 0 ? Math.round(d.totalAccuracy / d.participants) : 0,
-      }));
-
-      deptList.sort((a, b) => {
-        if (b.avgScore !== a.avgScore) return b.avgScore - a.avgScore;
-        if (b.totalCorrect !== a.totalCorrect) return b.totalCorrect - a.totalCorrect;
-        if (b.participants !== a.participants) return b.participants - a.participants;
-        return b.totalScore - a.totalScore;
-      });
-
-      const podium = document.getElementById('deptPodiumContainer');
-      podium.innerHTML = '';
-
-      const topThree = deptList.slice(0, 3);
-      const podiumOrder = [topThree[1], topThree[0], topThree[2]];
-      const podiumConfigs = [
-        { rank: '#2', title: 'Runner-Up', color: 'border-slate-400 bg-slate-500/10 text-slate-200', icon: 'medal', scale: 'sm:translate-y-2' },
-        { rank: '#1', title: '👑 CHAMPION WINNER', color: 'winner-gold-card text-amber-200', icon: 'trophy', scale: 'sm:-translate-y-2 sm:scale-105 z-10' },
-        { rank: '#3', title: '3rd Place', color: 'border-amber-700 bg-amber-800/10 text-amber-500', icon: 'award', scale: 'sm:translate-y-3' },
-      ];
-
-      podiumOrder.forEach((d, idx) => {
-        const conf = podiumConfigs[idx];
-        const card = document.createElement('div');
-        const isWinner = (idx === 1 && d && d.participants > 0);
-        card.className = `p-4 sm:p-5 rounded-2xl border text-center transition-all ${conf.color} ${conf.scale}`;
-        
-        if (!d || d.participants === 0) {
-          card.innerHTML = `
-            <div class="flex items-center justify-center gap-1.5 text-xs font-bold uppercase mb-1 opacity-70">
-              <i data-lucide="${conf.icon}" class="w-4 h-4"></i> ${conf.title}
-            </div>
-            <p class="font-festive text-xl text-amber-200/50">Awaiting Devotees</p>
-            <p class="text-[11px] text-amber-300/40">No live answers yet</p>
-          `;
-        } else {
-          card.innerHTML = `
-            <div class="flex items-center justify-center gap-1.5 text-xs font-black uppercase mb-1 ${isWinner ? 'text-amber-300 drop-shadow' : ''}">
-              <i data-lucide="${conf.icon}" class="w-4 h-4 ${isWinner ? 'text-amber-300 animate-bounce' : ''}"></i> ${conf.title} (${conf.rank})
-            </div>
-            <h5 class="font-festive text-lg sm:text-2xl text-amber-100 font-extrabold tracking-wide">${escapeHtml(d.name)}</h5>
-            <div class="mt-2 text-2xl sm:text-3xl font-festive text-amber-300 drop-shadow-md">
-              ${d.avgScore.toLocaleString()} <span class="text-[10px] uppercase font-mono font-bold">avg pts</span>
-            </div>
-            <div class="text-[11px] text-amber-200/90 mt-1 flex justify-center gap-3">
-              <span><strong>${d.participants}</strong> player${d.participants === 1 ? '' : 's'}</span>
-              <span>• <strong>${d.avgAccuracy}%</strong> acc</span>
-            </div>
-            <div class="text-[11px] text-amber-300 mt-2 truncate bg-black/40 py-1 px-2 rounded-lg border border-amber-500/20">
-              Star Devotee: <strong class="text-amber-200">${escapeHtml(d.topDevotee || 'N/A')}</strong>
-            </div>
-          `;
-        }
-        podium.appendChild(card);
-      });
-
-      const tableBody = document.getElementById('deptTableBody');
-      tableBody.innerHTML = '';
-
-      const currentNewDeptRanks = {};
-
-      deptList.forEach((d, index) => {
-        const currentRank = index + 1;
-        currentNewDeptRanks[d.name] = currentRank;
-        const oldRank = previousDeptRanks[d.name] || currentRank;
-        const rankDiff = oldRank - currentRank;
-
-        let rankMovementBadge = '';
-        let rowAnimationClass = '';
-        if (rankDiff > 0 && d.participants > 0) {
-          rankMovementBadge = `<span class="inline-flex items-center text-[10px] font-bold text-emerald-400 bg-emerald-500/20 px-1 rounded ml-1 animate-pulse">▲ +${rankDiff}</span>`;
-          rowAnimationClass = 'animate-rank-up';
-        } else if (rankDiff < 0 && d.participants > 0) {
-          rankMovementBadge = `<span class="inline-flex items-center text-[10px] font-bold text-red-400 bg-red-500/20 px-1 rounded ml-1 animate-pulse">▼ ${rankDiff}</span>`;
-          rowAnimationClass = 'animate-rank-down';
-        }
-
-        const tr = document.createElement('tr');
-        const isWinnerDept = (index === 0 && d.participants > 0);
-        tr.className = `table-row-item transition-all ${rowAnimationClass} ${
-          isWinnerDept ? 'bg-amber-500/25 border-l-4 border-l-amber-400 font-bold' : 'hover:bg-amber-500/10'
-        } ${d.participants > 0 ? '' : 'opacity-50'}`;
-
-        let rankBadge = `<span class="font-mono text-amber-400/80">#${currentRank}</span>`;
-        if (index === 0 && d.participants > 0) rankBadge = `<span class="text-amber-300 font-extrabold flex items-center gap-1"><i data-lucide="crown" class="w-4 h-4 text-amber-300 fill-amber-300"></i> #1 WINNER</span>`;
-        else if (index === 1 && d.participants > 0) rankBadge = `<span class="text-slate-300 font-bold flex items-center gap-1"><i data-lucide="medal" class="w-3.5 h-3.5 text-slate-300"></i> #2</span>`;
-        else if (index === 2 && d.participants > 0) rankBadge = `<span class="text-amber-600 font-bold flex items-center gap-1"><i data-lucide="award" class="w-3.5 h-3.5 text-amber-600"></i> #3</span>`;
-
-        tr.innerHTML = `
-          <td class="py-2.5 px-2 flex items-center gap-1">
-            ${rankBadge} ${rankMovementBadge}
-          </td>
-          <td class="py-2.5 px-3 font-semibold text-amber-100 flex items-center gap-1.5">
-            <span>${escapeHtml(d.name)}</span>
-            ${d.name === 'Finance - GCC' ? '<span class="px-1.5 py-0.2 rounded bg-amber-400/20 text-[9px] text-amber-300 border border-amber-400/30">GCC</span>' : ''}
-            ${isWinnerDept ? '<span class="px-2 py-0.5 rounded-full bg-amber-400 text-kumkum-950 font-black text-[9px] uppercase tracking-wider ml-1 shadow">Leading</span>' : ''}
-          </td>
-          <td class="py-2.5 px-2 text-right font-festive text-sm text-amber-300">${d.avgScore.toLocaleString()}</td>
-          <td class="py-2.5 px-2 text-right font-mono">${d.participants}</td>
-          <td class="py-2.5 px-2 text-right font-mono text-emerald-400">${d.avgAccuracy}%</td>
-          <td class="py-2.5 px-3 text-right text-amber-200/90 truncate max-w-[120px]">${escapeHtml(d.topDevotee || '—')}</td>
-        `;
-        tableBody.appendChild(tr);
-      });
-
-      previousDeptRanks = currentNewDeptRanks;
-    }
-    function renderIndividualLeaderboard() {
-      let allEntries = getHostLeaderboard();
-      allEntries = sortLeaderboardList(allEntries);
-
       const container = document.getElementById('hostLeaderboardList');
       container.innerHTML = '';
 
       const filtered = allEntries.filter(entry => {
-        const matchesTerm = (entry.name || '').toLowerCase().includes(currentFilterTerm) ||
-                            (entry.department || '').toLowerCase().includes(currentFilterTerm);
-        const matchesDept = !currentDeptFilter || entry.department === currentDeptFilter;
-        return matchesTerm && matchesDept;
+        const matchesTerm = (entry.name || '').toLowerCase().includes(currentFilterTerm);
+        if (!matchesTerm) return false;
+
+        if (currentHostFilterTab === 'active') return !entry.isFinished;
+        if (currentHostFilterTab === 'completed') return entry.isFinished;
+        return true;
       });
 
       if (filtered.length === 0) {
         container.innerHTML = `
           <div class="text-center py-10 text-amber-300/60 text-sm space-y-2">
             <i data-lucide="inbox" class="w-10 h-10 mx-auto text-amber-400/40"></i>
-            <p class="font-medium">${allEntries.length === 0 ? 'No participants have enrolled yet.' : 'No matching participants found.'}</p>
-            <p class="text-xs text-amber-400/40">${allEntries.length === 0 ? 'When contestants take the quiz from their devices, their live scores appear here!' : 'Try clearing filters.'}</p>
+            <p class="font-medium">${allEntries.length === 0 ? 'No participants have submitted yet.' : 'No participants matching the selected filter.'}</p>
+            <p class="text-xs text-amber-400/40">${allEntries.length === 0 ? 'When contestants answer questions, their ranks and points appear here live!' : 'Try switching filter tabs or clearing your search.'}</p>
           </div>
         `;
         safeCreateIcons();
@@ -1934,8 +1866,10 @@
           rankMovementTag = `<span class="inline-flex items-center text-[10px] text-amber-400/60 font-mono">━</span>`;
         }
 
-        const isOverallWinner = (index === 0 && !currentFilterTerm && !currentDeptFilter && item.score > 0);
-        const isTopThree = index < 3 && !currentFilterTerm && !currentDeptFilter && item.score > 0;
+        const isOverallWinner = (index === 0 && !currentFilterTerm && currentHostFilterTab === 'all' && item.score > 0);
+        const isTopThree = index < 3 && !currentFilterTerm && currentHostFilterTab === 'all' && item.score > 0;
+        const isPlayingNow = !item.isFinished;
+        const progressPct = Math.min(100, Math.round(((item.answeredCount || 0) / (item.totalQuestions || 30)) * 100));
 
         let rankNumberBadge = '';
         if (isOverallWinner) {
@@ -1956,26 +1890,34 @@
         const row = document.createElement('div');
         row.className = `table-row-item ${animationClass}`;
 
+        const statusPill = isPlayingNow ? `
+          <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-bold uppercase">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span> Playing Q${item.currentQuestionNumber || item.answeredCount || 1}/30
+          </span>
+        ` : `
+          <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 text-[10px] font-bold uppercase">
+            <i data-lucide="check" class="w-3 h-3 text-amber-400"></i> Finished
+          </span>
+        `;
+
         if (isOverallWinner) {
           row.className += ` p-4 sm:p-5 rounded-3xl winner-gold-card flex flex-col sm:flex-row sm:items-center justify-between gap-3`;
           row.innerHTML = `
-            <div class="flex items-center gap-3.5">
+            <div class="flex items-center gap-3.5 flex-1">
               <div class="flex flex-col items-center gap-1 shrink-0">
                 ${rankNumberBadge}
                 ${rankMovementTag}
               </div>
-              <div>
+              <div class="flex-1">
                 <div class="flex items-center gap-2 flex-wrap">
                   <p class="font-festive text-xl sm:text-2xl text-amber-100 font-black tracking-wide">${escapeHtml(item.name)}</p>
-                  <span class="px-2.5 py-0.5 rounded-full bg-kumkum-900 text-amber-300 border border-amber-400/50 font-bold text-xs uppercase shadow">
-                    ${escapeHtml(item.department || 'N/A')}
-                  </span>
-                  <span class="px-2 py-0.5 rounded-full ${item.isFinished ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' : 'bg-amber-500/20 text-amber-300 border border-amber-500/30'} text-[10px] font-bold uppercase">
-                    ${escapeHtml(item.status || 'Active')}
-                  </span>
+                  ${statusPill}
+                </div>
+                <div class="w-full max-w-md bg-black/50 rounded-full h-1.5 my-1.5 overflow-hidden border border-amber-400/30">
+                  <div class="bg-gradient-to-r from-amber-400 to-orange-400 h-full rounded-full" style="width: ${progressPct}%"></div>
                 </div>
                 <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-amber-100/90 mt-1">
-                  <span>Correct: <strong class="text-emerald-300 font-bold text-sm">${item.correctCount || 0} / 30</strong></span>
+                  <span>Correct: <strong class="text-emerald-300 font-bold text-sm">${item.correctCount || 0} / ${item.totalQuestions || 30}</strong></span>
                   <span>• Accuracy: <strong class="text-emerald-300">${item.accuracy || 0}%</strong></span>
                   <span>• Streak: <strong class="text-orange-300">${item.streak || 0}</strong></span>
                   <span>• Time: <strong class="font-mono text-amber-200">${item.durationFormatted || '00:00.000'}</strong></span>
@@ -1988,35 +1930,34 @@
             </div>
           `;
         } else {
-          row.className += ` p-3 sm:p-3.5 rounded-2xl flex items-center justify-between transition-all ${
+          row.className += ` p-3 sm:p-3.5 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 transition-all ${
+            isPlayingNow ? 'bg-emerald-950/20 border border-emerald-500/30 shadow-sm' :
             isTopThree ? 'bg-amber-500/15 border border-amber-500/35' : 'bg-black/30 border border-amber-500/15'
           }`;
 
           row.innerHTML = `
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-3 flex-1">
               <div class="w-12 flex flex-col items-center justify-center shrink-0">
                 ${rankNumberBadge}
                 ${rankMovementTag}
               </div>
-              <div>
-                <div class="flex items-center gap-2">
+              <div class="flex-1">
+                <div class="flex items-center gap-2 flex-wrap">
                   <p class="font-bold text-amber-100 text-sm sm:text-base">${escapeHtml(item.name)}</p>
-                  <span class="px-2 py-0.5 rounded-full bg-amber-500/20 border border-amber-400/30 text-amber-300 font-semibold text-[10px] uppercase">
-                    ${escapeHtml(item.department || 'N/A')}
-                  </span>
-                  <span class="px-1.5 py-0.2 rounded text-[9px] font-mono font-semibold ${item.isFinished ? 'text-emerald-400 bg-emerald-500/10' : 'text-amber-400 bg-amber-500/10'}">
-                    ${escapeHtml(item.status || 'Active')}
-                  </span>
+                  ${statusPill}
+                </div>
+                <div class="w-full max-w-xs bg-black/40 rounded-full h-1.5 my-1 overflow-hidden border border-amber-500/20">
+                  <div class="bg-gradient-to-r ${isPlayingNow ? 'from-emerald-400 to-amber-400' : 'from-amber-400 to-orange-400'} h-full rounded-full" style="width: ${progressPct}%"></div>
                 </div>
                 <div class="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[11px] text-amber-300/70 mt-0.5">
-                  <span>Correct: <strong class="text-emerald-300 font-bold">${item.correctCount || 0}/30</strong></span>
+                  <span>Correct: <strong class="text-emerald-300 font-bold">${item.correctCount || 0}/${item.totalQuestions || 30}</strong></span>
                   <span>• Acc: <strong class="text-amber-200">${item.accuracy || 0}%</strong></span>
                   <span>• Streak: <strong class="text-orange-400">${item.streak || 0}</strong></span>
                   <span>• Time: <strong class="font-mono text-amber-200">${item.durationFormatted || '00:00.000'}</strong></span>
                 </div>
               </div>
             </div>
-            <div class="text-right">
+            <div class="text-left sm:text-right shrink-0">
               <span class="font-festive text-lg sm:text-2xl text-amber-300">${Number(item.score).toLocaleString()}</span>
               <span class="text-[10px] text-amber-400/60 block -mt-1 font-mono">pts</span>
             </div>
@@ -2028,29 +1969,25 @@
       previousContestantRanks = currentNewContestantRanks;
       safeCreateIcons();
     }
+
     function simulateLiveParticipantMovement() {
       sound.playTap();
       let list = getHostLeaderboard();
-      
+
       let targetPerson;
       if (list.length > 0) {
-        targetPerson = list[Math.floor(Math.random() * list.length)];
+        const eligible = list.filter(p => !p.isFinished);
+        targetPerson = eligible.length > 0 ? eligible[Math.floor(Math.random() * eligible.length)] : list[Math.floor(Math.random() * list.length)];
       } else {
-        const mockContestants = [
-          { name: "Aarav Sharma", dept: "Marketing" },
-          { name: "Pooja Deshmukh", dept: "Finance - GCC" },
-          { name: "Rohan Kulkarni", dept: "Project" },
-          { name: "Sneha Nair", dept: "Planning" },
-          { name: "Vikram Mehta", dept: "Operation" }
-        ];
-        const randomPerson = mockContestants[Math.floor(Math.random() * mockContestants.length)];
-        targetPerson = { id: 'sim_' + randomPerson.name.replace(/\s+/g, '_').toLowerCase(), name: randomPerson.name, department: randomPerson.dept };
+        const mockContestants = ["Aarav Sharma", "Pooja Deshmukh", "Rohan Kulkarni", "Sneha Nair", "Vikram Mehta"];
+        const randomName = mockContestants[Math.floor(Math.random() * mockContestants.length)];
+        targetPerson = { id: 'sim_' + randomName.replace(/\s+/g, '_').toLowerCase(), name: randomName };
       }
 
       const simId = targetPerson.id;
       let existing = list.find(item => item.id === simId);
 
-      let currentAns = existing ? Math.min(30, (existing.answeredCount || 0) + 1) : 1;
+      let currentAns = existing ? (existing.answeredCount || 0) + 1 : 1;
       let currentCor = existing ? (existing.correctCount || 0) + 1 : 1;
       let addedScore = Math.floor(Math.random() * 450) + 850;
       let currentSc = existing ? existing.score + addedScore : addedScore;
@@ -2059,7 +1996,6 @@
       const simEntry = {
         id: simId,
         name: targetPerson.name,
-        department: targetPerson.department,
         score: currentSc,
         correctCount: currentCor,
         answeredCount: currentAns,
@@ -2076,7 +2012,30 @@
         rawEpoch: Date.now()
       };
 
-      saveOrUpdateHostRecord(simEntry, simEntry.isFinished, false);
+      broadcastLiveProgress(simEntry, simEntry.isFinished);
+    }
+
+    function exportLeaderboardCSV() {
+      sound.playTap();
+      const entries = getHostLeaderboard();
+      if (entries.length === 0) {
+        showLiveToast("Export Failed", "No participant records available to export.", "down");
+        return;
+      }
+
+      let csv = "Rank,Participant Name,Total Score,Correct Count,Total Answered,Accuracy (%),Highest Streak,Exact Duration (MM:SS.ms),Status,Submission Date,Submission Time\n";
+      entries.forEach((e, idx) => {
+        csv += `"${idx + 1}","${(e.name || '').replace(/"/g, '""')}","${e.score}","${e.correctCount || 0}","${e.answeredCount || 0}","${e.accuracy}","${e.streak || 0}","${e.durationFormatted || ''}","${e.status || ''}","${e.date || ''}","${e.timestamp || ''}"\n`;
+      });
+
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.setAttribute("href", url);
+      link.setAttribute("download", `ganesh_quiz_individual_leaderboard_${Date.now()}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     }
 
     function toggleChangePinView() {
@@ -2109,28 +2068,6 @@
       }, 1500);
     }
 
-    function exportLeaderboardCSV() {
-      sound.playTap();
-      const entries = getHostLeaderboard();
-      if (entries.length === 0) {
-        return;
-      }
-
-      let csv = "Rank,Participant Name,Department,Total Score,Correct Count,Total Answered,Accuracy (%),Highest Streak,Exact Duration (MM:SS.ms),Status,Submission Date,Submission Time\n";
-      entries.forEach((e, idx) => {
-        csv += `"${idx + 1}","${(e.name || '').replace(/"/g, '""')}","${(e.department || '').replace(/"/g, '""')}","${e.score}","${e.correctCount || 0}","${e.answeredCount || 0}","${e.accuracy}","${e.streak || 0}","${e.durationFormatted || ''}","${e.status || ''}","${e.date || ''}","${e.timestamp || ''}"\n`;
-      });
-
-      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.setAttribute("href", url);
-      link.setAttribute("download", `ganesh_live_quiz_leaderboard_${Date.now()}.csv`);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-
     function promptResetLeaderboard() {
       sound.playTap();
       const confirmModal = document.getElementById('resetConfirmModal');
@@ -2145,30 +2082,34 @@
       setTimeout(() => confirmModal.classList.add('hidden'), 200);
     }
 
-    function confirmResetLeaderboard() {
+    async function confirmResetLeaderboard() {
       sound.playTap();
+      const resetTs = Date.now();
       try {
         localStorage.removeItem(STORAGE_KEY_LEADERBOARD);
+        localStorage.setItem(STORAGE_KEY_LEADERBOARD, JSON.stringify([]));
       } catch (e) {}
 
+      cachedCloudParticipants = [];
+      previousContestantRanks = {};
+
+      const resetPacket = { type: 'RESET', ts: resetTs };
+
       if (liveQuizChannel) {
-        try {
-          liveQuizChannel.postMessage({ type: 'RESET', ts: Date.now() });
-        } catch (err) {}
+        try { liveQuizChannel.postMessage(resetPacket); } catch (err) {}
       }
 
       try {
-        fetch(CLOUD_PUB_URL, {
+        await fetch(CLOUD_PUB_URL, {
           method: 'POST',
-          body: JSON.stringify({ type: 'RESET', ts: Date.now() })
-        }).catch(() => {});
+          body: JSON.stringify(resetPacket),
+          headers: { 'Content-Type': 'text/plain' }
+        });
       } catch (e) {}
-
-      previousContestantRanks = {};
-      previousDeptRanks = {};
 
       cancelResetLeaderboard();
       renderHostDashboard();
+      showLiveToast("Board Cleared", "Leaderboard scores have been reset.", "info");
     }
 
     function escapeHtml(str) {
@@ -2181,18 +2122,14 @@
         .replace(/'/g, '&#039;');
     }
 
-    // Attach all handlers to window
     window.goToHome = goToHome;
     window.toggleSound = toggleSound;
     window.openHostAuthModal = openHostAuthModal;
     window.closeHostAuthModal = closeHostAuthModal;
     window.verifyHostPin = verifyHostPin;
     window.handleEnrollmentSubmit = handleEnrollmentSubmit;
-    window.openHostLeaderboardModal = openHostLeaderboardModal;
     window.closeHostLeaderboardModal = closeHostLeaderboardModal;
-    window.switchHostTab = switchHostTab;
     window.filterLeaderboardView = filterLeaderboardView;
-    window.simulateLiveParticipantMovement = simulateLiveParticipantMovement;
     window.toggleChangePinView = toggleChangePinView;
     window.saveNewPin = saveNewPin;
     window.exportLeaderboardCSV = exportLeaderboardCSV;
@@ -2203,11 +2140,13 @@
     window.shareScore = shareScore;
     window.copyQuizShareLink = copyQuizShareLink;
     window.lockInAnswer = lockInAnswer;
+    window.manualSyncFromCloud = manualSyncFromCloud;
+    window.simulateLiveParticipantMovement = simulateLiveParticipantMovement;
+    window.setHostFilterTab = setHostFilterTab;
 
-    // Window load initialization
     window.addEventListener('load', () => {
       safeCreateIcons();
-      initCloudSyncStream();
+      initCloudSync();
     });
   </script>
 </body>
