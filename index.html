@@ -317,7 +317,7 @@
         </div>
       </div>
 
-      <div class="pt-2 flex justify-center">
+      <div class="pt-2 flex flex-wrap gap-2 justify-center">
         <button onclick="leaveLobby()" class="px-4 py-2 rounded-xl bg-black/40 border border-amber-500/30 text-amber-300/80 hover:text-amber-200 text-xs font-semibold hover:bg-black/60 transition-colors flex items-center gap-1.5">
           <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
           <span>Change Name or Department</span>
@@ -1234,6 +1234,11 @@
         const data = event.data;
         if (data.type === 'PARTICIPANT_ENROLLED') {
           handleIncomingParticipantEnrolled(data.entry);
+        } else if (data.type === 'PARTICIPANTS_BULK_ENROLLED') {
+          renderHostDashboard();
+          updateWaitingLobbyUI();
+          showLiveToast("100 Devotees Enrolled", "100 participants joined the live lobby!", 'launch');
+          sound.playBell();
         } else if (data.type === 'GAME_LAUNCHED') {
           handleIncomingGameLaunch();
         } else if (data.type === 'GAME_ENDED_BY_HOST') {
@@ -1331,6 +1336,7 @@
     let currentPlayerDepartment = "";
     let isCurrentlyInLobby = false;
     let isHostDashboardOpen = false;
+    let isHostSession = false;
 
     function shuffleArray(arr) {
       const copy = [...arr];
@@ -1505,14 +1511,12 @@
 
       showLiveToast("🚀 GAME LAUNCHED!", "Starting 30-question quiz countdown for all participants!", "launch");
       renderHostDashboard();
-
-      if (isCurrentlyInLobby) {
-        handleIncomingGameLaunch();
-      }
+      // Notice: As the host, this device remains in the live dashboard to monitor rankings and does not enter the player quiz.
     }
 
     function handleIncomingGameLaunch() {
-      if (!isCurrentlyInLobby) return;
+      // The host never launches the player quiz on their observing device
+      if (isHostSession || !isCurrentlyInLobby) return;
       isCurrentlyInLobby = false;
 
       const overlay = document.getElementById('countdownLaunchOverlay');
@@ -2036,6 +2040,17 @@
 
       if (entered === currentPin) {
         sound.playBell();
+        isHostSession = true;
+
+        // If this device was previously registered as a participant, remove it so the host is not counted as a devotee
+        if (currentParticipantId) {
+          removeHostFromParticipants(currentParticipantId);
+          currentParticipantId = "";
+          currentPlayerName = "";
+          currentPlayerDepartment = "";
+          isCurrentlyInLobby = false;
+        }
+
         closeHostAuthModal();
         setTimeout(openHostLeaderboardModal, 260);
       } else {
@@ -2044,6 +2059,27 @@
         document.getElementById('hostPinInput').classList.add('border-red-500');
         setTimeout(() => document.getElementById('hostPinInput').classList.remove('border-red-500'), 1500);
       }
+    }
+
+    async function removeHostFromParticipants(hostPartId) {
+      let list = getHostLeaderboard();
+      list = list.filter(item => item.id !== hostPartId);
+      cachedCloudParticipants = [...list];
+
+      try {
+        localStorage.setItem(STORAGE_KEY_LEADERBOARD, JSON.stringify(list));
+        localStorage.setItem(STORAGE_KEY_LAST_UPDATE, Date.now().toString());
+      } catch (e) {}
+
+      if (isCloudConnected && currentUser && db) {
+        try {
+          const participantDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'participants', hostPartId);
+          await deleteDoc(participantDocRef);
+        } catch (err) {}
+      }
+
+      renderHostDashboard();
+      updateWaitingLobbyUI();
     }
 
     let activeHostTab = 'dept';
@@ -2559,37 +2595,47 @@
 
     function simulateLiveParticipantMovement() {
       sound.playTap();
-      const mockContestants = [
-        { name: "Aarav Sharma", dept: "Marketing" },
-        { name: "Pooja Deshmukh", dept: "Finance - GCC" },
-        { name: "Rohan Kulkarni", dept: "Project" },
-        { name: "Sneha Nair", dept: "Planning" },
-        { name: "Vikram Mehta", dept: "Operation" }
-      ];
-      const randomPerson = mockContestants[Math.floor(Math.random() * mockContestants.length)];
-      const simId = 'sim_' + randomPerson.name.replace(/\s+/g, '_').toLowerCase();
-
       let list = getHostLeaderboard();
+      
+      // If there are enrolled participants, pick any of them to simulate progress
+      let targetPerson;
+      if (list.length > 0) {
+        const eligible = list.filter(p => !p.isFinished);
+        targetPerson = eligible.length > 0 ? eligible[Math.floor(Math.random() * eligible.length)] : list[Math.floor(Math.random() * list.length)];
+      } else {
+        const mockContestants = [
+          { name: "Aarav Sharma", dept: "Marketing" },
+          { name: "Pooja Deshmukh", dept: "Finance - GCC" },
+          { name: "Rohan Kulkarni", dept: "Project" },
+          { name: "Sneha Nair", dept: "Planning" },
+          { name: "Vikram Mehta", dept: "Operation" }
+        ];
+        const randomPerson = mockContestants[Math.floor(Math.random() * mockContestants.length)];
+        targetPerson = { id: 'sim_' + randomPerson.name.replace(/\s+/g, '_').toLowerCase(), name: randomPerson.name, department: randomPerson.dept };
+      }
+
+      const simId = targetPerson.id;
       let existing = list.find(item => item.id === simId);
 
       let currentAns = existing ? (existing.answeredCount || 0) + 1 : 1;
       let currentCor = existing ? (existing.correctCount || 0) + 1 : 1;
       let addedScore = Math.floor(Math.random() * 450) + 850;
       let currentSc = existing ? existing.score + addedScore : addedScore;
+      let newDuration = (existing?.durationMs || 0) + Math.floor(Math.random() * 5000) + 4000;
 
       const simEntry = {
         id: simId,
-        name: randomPerson.name,
-        department: randomPerson.dept,
+        name: targetPerson.name,
+        department: targetPerson.department,
         score: currentSc,
         correctCount: currentCor,
         answeredCount: currentAns,
         currentQuestionNumber: currentAns,
         totalQuestions: 30,
         accuracy: Math.round((currentCor / currentAns) * 100),
-        streak: (existing ? existing.streak || 0 : 0) + 1,
-        durationMs: (existing ? existing.durationMs : 10000) + Math.floor(Math.random() * 5000),
-        durationFormatted: formatTimeDuration((existing ? existing.durationMs : 10000) + 4500),
+        streak: (existing?.streak || 0) + 1,
+        durationMs: newDuration,
+        durationFormatted: formatTimeDuration(newDuration),
         status: currentAns >= 30 ? 'Completed' : `Q${currentAns}/30 Live`,
         isEnrolled: true,
         isFinished: currentAns >= 30,
@@ -2598,7 +2644,102 @@
         rawEpoch: Date.now()
       };
 
-      saveOrUpdateHostRecord(simEntry, currentAns >= 30, false, 'PROGRESS');
+      saveOrUpdateHostRecord(simEntry, simEntry.isFinished, false, 'PROGRESS');
+    }
+
+    async function enroll100Participants(silent = false) {
+      sound.init();
+      sound.playBell();
+
+      const firstNames = [
+        "Aarav", "Ananya", "Aditya", "Pooja", "Rohan", "Sneha", "Vikram", "Priya", "Rahul", "Neha",
+        "Amit", "Shreya", "Rajesh", "Tanvi", "Kunal", "Ritu", "Abhishek", "Meera", "Nikhil", "Swati",
+        "Sachin", "Kavita", "Pranav", "Divya", "Manoj", "Pallavi", "Mayur", "Ishita", "Sandeep", "Shruti",
+        "Omkar", "Aarti", "Harsh", "Sonali", "Gaurav", "Tejaswini", "Chetan", "Ketaki", "Akshay", "Madhuri",
+        "Vishal", "Komal", "Vaibhav", "Manasi", "Sanket", "Rupali", "Saurabh", "Priyanka", "Swapnil", "Sayali",
+        "Yogesh", "Ashwini", "Sagar", "Deepali", "Mahesh", "Shilpa", "Vinayak", "Radhika", "Ganesh", "Varsha",
+        "Suraj", "Jyoti", "Aniket", "Archana", "Prasad", "Poonam", "Tushar", "Reshma", "Amol", "Pratiksha",
+        "Nitin", "Snehal", "Prashant", "Vidya", "Nilesh", "Namrata", "Ajinkya", "Chetana", "Bhushan", "Pranali",
+        "Sujay", "Shweta", "Shailesh", "Rohini", "Mangesh", "Mrunali", "Chinmay", "Kalyani", "Parag", "Rutuja",
+        "Suyog", "Sharvari", "Mandar", "Gauri", "Hrishikesh", "Purva", "Kaustubh", "Rucha", "Digambar", "Mrunal"
+      ];
+
+      const lastNames = [
+        "Joshi", "Kulkarni", "Deshmukh", "Patil", "Pawar", "Shinde", "Jadhav", "Bhosale",
+        "Gaikwad", "More", "Chavan", "Sawant", "Kale", "Kelkar", "Gokhale", "Godbole",
+        "Phadke", "Chitnis", "Vaidya", "Bapat"
+      ];
+
+      let list = getHostLeaderboard();
+      // Remove any previously auto-generated bulk records to avoid duplication
+      list = list.filter(item => !item.id.startsWith('p_bulk_'));
+
+      const newBulkEntries = [];
+      for (let i = 0; i < 100; i++) {
+        const id = `p_bulk_${i + 1}`;
+        const name = `${firstNames[i % firstNames.length]} ${lastNames[i % lastNames.length]}`;
+        const dept = ALL_DEPARTMENTS[i % ALL_DEPARTMENTS.length];
+
+        const entry = {
+          id: id,
+          name: name,
+          department: dept,
+          score: 0,
+          correctCount: 0,
+          answeredCount: 0,
+          currentQuestionNumber: 0,
+          totalQuestions: 30,
+          accuracy: 0,
+          streak: 0,
+          durationMs: 0,
+          durationFormatted: "00:00.000",
+          status: "In Waiting Lobby",
+          isEnrolled: true,
+          isFinished: false,
+          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+          date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+          rawEpoch: Date.now() - (100 - i) * 600
+        };
+
+        list.push(entry);
+        newBulkEntries.push(entry);
+      }
+
+      list = sortLeaderboardList(list);
+      cachedCloudParticipants = [...list];
+
+      try {
+        localStorage.setItem(STORAGE_KEY_LEADERBOARD, JSON.stringify(list));
+        localStorage.setItem(STORAGE_KEY_LAST_UPDATE, Date.now().toString());
+      } catch (e) {}
+
+      if (isCloudConnected && currentUser && db) {
+        try {
+          for (const entry of newBulkEntries) {
+            const participantDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'participants', entry.id);
+            setDoc(participantDocRef, entry, { merge: true }).catch(() => {});
+          }
+        } catch (err) {
+          console.warn("Cloud bulk sync notice:", err);
+        }
+      }
+
+      if (liveQuizChannel) {
+        try {
+          liveQuizChannel.postMessage({
+            type: 'PARTICIPANTS_BULK_ENROLLED',
+            count: 100,
+            ts: Date.now()
+          });
+        } catch (e) {}
+      }
+
+      renderHostDashboard();
+      updateWaitingLobbyUI();
+
+      if (!silent) {
+        showLiveToast("🎉 100 Devotees Enrolled!", "Successfully enrolled 100 participants across all 13 departments into the lobby.", "launch");
+      }
     }
 
     function toggleChangePinView() {
@@ -2748,10 +2889,22 @@
     window.toggleAnswerReview = toggleAnswerReview;
     window.shareScore = shareScore;
     window.lockInAnswer = lockInAnswer;
+    window.enroll100Participants = enroll100Participants;
 
     window.addEventListener('DOMContentLoaded', () => {
       lucide.createIcons();
       initOnlineSync();
+
+      // Clean up any remaining test bulk entries from storage so leaderboard is clean
+      try {
+        let list = getHostLeaderboard();
+        const cleaned = list.filter(item => !item.id.startsWith('p_bulk_'));
+        if (cleaned.length !== list.length) {
+          localStorage.setItem(STORAGE_KEY_LEADERBOARD, JSON.stringify(cleaned));
+          cachedCloudParticipants = [...cleaned];
+          renderHostDashboard();
+        }
+      } catch (e) {}
     });
   </script>
 </body>
