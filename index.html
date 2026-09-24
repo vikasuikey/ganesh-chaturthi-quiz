@@ -300,7 +300,6 @@
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
-        // Expanded dynamic master question bank for unique generation per user
         const MASTER_QUESTION_POOL = [
             { q: "Which sacred deity is revered as 'Vighnaharta', the remover of all obstacles?", options: ["Lord Shiva", "Lord Ganesha", "Lord Vishnu", "Lord Hanuman"], correct: 1 },
             { q: "What is the primary vehicle (Vahana) associated with Lord Ganesha?", options: ["A Majestic Lion", "A Swift Mouse (Mooshika)", "A Royal Peacock", "A Divine Swan"], correct: 1 },
@@ -349,11 +348,12 @@
         let timeLeft = 20;
         let shuffledQuestions = [];
         let hostFilter = 'all';
+        let hostRefreshInterval = null;
 
-        const BC_CHANNEL_NAME = 'ganesh_quiz_channel_v4';
+        const BC_CHANNEL_NAME = 'ganesh_quiz_channel_v5';
         const bc = window.BroadcastChannel ? new BroadcastChannel(BC_CHANNEL_NAME) : null;
-        const STORAGE_KEY_PARTICIPANTS = 'ganesh_quiz_participants_v4';
-        const STORAGE_KEY_RESET_TS = 'ganesh_quiz_reset_timestamp_v4';
+        const STORAGE_KEY_PARTICIPANTS = 'ganesh_quiz_participants_v5';
+        const STORAGE_KEY_RESET_TS = 'ganesh_quiz_reset_timestamp_v5';
 
         if (bc) {
             bc.onmessage = (event) => {
@@ -434,18 +434,13 @@
             }
         }
 
-        // Dynamically generate a unique set of 30 questions per participant session
         function generateUniqueParticipantQuestions() {
             let pool = JSON.parse(JSON.stringify(MASTER_QUESTION_POOL));
-            // Shuffle pool using Fisher-Yates
             for (let i = pool.length - 1; i > 0; i--) {
                 let j = Math.floor(Math.random() * (i + 1));
                 [pool[i], pool[j]] = [pool[j], pool[i]];
             }
-            // Take exactly 30 unique questions
             let selected = pool.slice(0, 30);
-
-            // Shuffle options for each selected question uniquely
             return selected.map(q => {
                 let opts = q.options.map((text, idx) => ({ text, originalIdx: idx }));
                 for (let i = opts.length - 1; i > 0; i--) {
@@ -476,10 +471,7 @@
             submitBtn.innerHTML = `<span>Invoking Unique Questions...</span>`;
             submitBtn.disabled = true;
 
-            // Simulate real-time dynamic fetch delay for authentic feel
             await new Promise(r => setTimeout(r, 400));
-
-            // Generate unique randomized question set for this participant
             shuffledQuestions = generateUniqueParticipantQuestions();
 
             document.getElementById('welcomeScreen').classList.add('hidden');
@@ -630,12 +622,23 @@
                 closeHostAuthModal();
                 document.getElementById('hostLeaderboardModal').classList.remove('hidden');
                 renderHostLeaderboard();
+                
+                // Start auto-polling refresh loop every 2 seconds while host portal is open
+                clearInterval(hostRefreshInterval);
+                hostRefreshInterval = setInterval(() => {
+                    if (!document.getElementById('hostLeaderboardModal').classList.contains('hidden')) {
+                        renderHostLeaderboard();
+                    } else {
+                        clearInterval(hostRefreshInterval);
+                    }
+                }, 2000);
             } else {
                 alert('Incorrect Security PIN. Default is 787898');
             }
         }
 
         function closeHostLeaderboardModal() {
+            clearInterval(hostRefreshInterval);
             document.getElementById('hostLeaderboardModal').classList.add('hidden');
         }
 
@@ -703,14 +706,14 @@
                     <div class="bg-temple-deep border border-temple-border rounded-xl p-3 min-w-[200px] shrink-0 space-y-1.5">
                         <div class="flex justify-between items-center">
                             <span class="font-bold text-xs text-saffron-50 truncate max-w-[120px]">${escapeHtml(p.name)}</span>
-                            <span class="text-[10px] bg-emerald-950 text-emerald-300 px-2 py-0.5 rounded-full border border-emerald-800">Q ${p.answeredCount}/30</span>
+                            <span class="text-[10px] bg-emerald-950 text-emerald-300 px-2 py-0.5 rounded-full border border-emerald-800">Q ${p.answeredCount + 1}/30</span>
                         </div>
                         <div class="flex justify-between items-center text-[11px] text-saffron-200/70">
                             <span>Score: <strong class="text-marigold">${p.score}</strong></span>
                             <span>${p.accuracy}% Acc</span>
                         </div>
                         <div class="w-full bg-temple-card rounded-full h-1 overflow-hidden">
-                            <div class="bg-marigold h-full" style="width: ${(p.answeredCount / 30) * 100}%"></div>
+                            <div class="bg-marigold h-full" style="width: ${((p.answeredCount + 1) / 30) * 100}%"></div>
                         </div>
                     </div>
                 `).join('');
@@ -770,7 +773,7 @@
             tbody.innerHTML = filtered.map((p) => {
                 const rank = participants.findIndex(x => x.id === p.id) + 1;
                 const statusBadge = p.status === 'playing' 
-                    ? `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-emerald-950 text-emerald-300 border border-emerald-800"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5 animate-pulse"></span>Playing Q${p.answeredCount}</span>`
+                    ? `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-emerald-950 text-emerald-300 border border-emerald-800"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5 animate-pulse"></span>Playing Q${p.answeredCount + 1}</span>`
                     : `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-temple-deep text-marigold border border-temple-border">✓ Completed</span>`;
                 
                 return `
@@ -780,9 +783,9 @@
                         <td class="py-3 px-3">${statusBadge}</td>
                         <td class="py-3 px-3">
                             <div class="flex items-center space-x-2">
-                                <span class="text-xs text-saffron-200/70">${p.answeredCount}/30</span>
+                                <span class="text-xs text-saffron-200/70">${p.answeredCount + 1}/30</span>
                                 <div class="w-16 bg-temple-deep rounded-full h-1.5 overflow-hidden">
-                                    <div class="bg-marigold h-full" style="width: ${(p.answeredCount / 30) * 100}%"></div>
+                                    <div class="bg-marigold h-full" style="width: ${((p.answeredCount + 1) / 30) * 100}%"></div>
                                 </div>
                             </div>
                         </td>
