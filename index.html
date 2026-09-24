@@ -263,7 +263,7 @@
                                 <th class="py-3 px-3">Progress</th>
                                 <th class="py-3 px-3 text-right">Score</th>
                                 <th class="py-3 px-3 text-right">Accuracy</th>
-                                <th class="py-3 px-3 text-right">Time</th>
+                                <th class="py-3 px-3 text-right">Actions</th>
                             </tr>
                         </thead>
                         <tbody id="hostLeaderboardTableBody" class="divide-y divide-temple-border/50 text-sm">
@@ -345,15 +345,17 @@
         let correctCount = 0;
         let startTime = 0;
         let questionTimer = null;
+        let heartbeatInterval = null;
+        let hostRefreshInterval = null;
         let timeLeft = 20;
         let shuffledQuestions = [];
         let hostFilter = 'all';
-        let hostRefreshInterval = null;
 
-        const BC_CHANNEL_NAME = 'ganesh_quiz_channel_v5';
+        const BC_CHANNEL_NAME = 'ganesh_quiz_channel_v6';
         const bc = window.BroadcastChannel ? new BroadcastChannel(BC_CHANNEL_NAME) : null;
-        const STORAGE_KEY_PARTICIPANTS = 'ganesh_quiz_participants_v5';
-        const STORAGE_KEY_RESET_TS = 'ganesh_quiz_reset_timestamp_v5';
+        const STORAGE_KEY_PARTICIPANTS = 'ganesh_quiz_participants_v6';
+        const STORAGE_KEY_RESET_TS = 'ganesh_quiz_reset_timestamp_v6';
+        const STORAGE_KEY_KICKED = 'ganesh_quiz_kicked_v6';
 
         if (bc) {
             bc.onmessage = (event) => {
@@ -368,12 +370,26 @@
                     if (!document.getElementById('hostLeaderboardModal').classList.contains('hidden')) {
                         renderHostLeaderboard();
                     }
+                } else if (event.data && event.data.type === 'KICK_PARTICIPANT') {
+                    if (currentParticipantId === event.data.id) {
+                        alert("Your session has been ended by the host.");
+                        location.reload();
+                    }
                 }
             };
         }
 
         window.addEventListener('storage', (e) => {
-            if (e.key === STORAGE_KEY_PARTICIPANTS || e.key === STORAGE_KEY_RESET_TS) {
+            if (e.key === STORAGE_KEY_PARTICIPANTS || e.key === STORAGE_KEY_RESET_TS || e.key === STORAGE_KEY_KICKED) {
+                if (e.key === STORAGE_KEY_KICKED) {
+                    try {
+                        let data = JSON.parse(e.newValue);
+                        if (data && data.id === currentParticipantId) {
+                            alert("Your session has been ended by the host.");
+                            location.reload();
+                        }
+                    } catch(err) {}
+                }
                 if (!document.getElementById('hostLeaderboardModal').classList.contains('hidden')) {
                     renderHostLeaderboard();
                 }
@@ -478,7 +494,17 @@
             document.getElementById('quizScreen').classList.remove('hidden');
 
             saveAndBroadcastProgress('playing');
+            startHeartbeat();
             loadQuestion();
+        }
+
+        function startHeartbeat() {
+            clearInterval(heartbeatInterval);
+            heartbeatInterval = setInterval(() => {
+                if (currentParticipantId) {
+                    saveAndBroadcastProgress('playing');
+                }
+            }, 3000); // Ping every 3 seconds
         }
 
         function saveAndBroadcastProgress(status) {
@@ -593,6 +619,7 @@
 
         function finishQuiz() {
             clearInterval(questionTimer);
+            clearInterval(heartbeatInterval);
             saveAndBroadcastProgress('completed');
 
             document.getElementById('quizScreen').classList.add('hidden');
@@ -623,7 +650,6 @@
                 document.getElementById('hostLeaderboardModal').classList.remove('hidden');
                 renderHostLeaderboard();
                 
-                // Start auto-polling refresh loop every 2 seconds while host portal is open
                 clearInterval(hostRefreshInterval);
                 hostRefreshInterval = setInterval(() => {
                     if (!document.getElementById('hostLeaderboardModal').classList.contains('hidden')) {
@@ -680,9 +706,34 @@
             renderHostLeaderboard();
         }
 
+        function hostEndSession(participantId, participantName) {
+            if (!confirm(`Are you sure you want to end the session for "${participantName}"?`)) return;
+
+            let map = getParticipantMap();
+            if (map[participantId]) {
+                map[participantId].status = 'completed';
+                map[participantId].lastUpdated = Date.now();
+                localStorage.setItem(STORAGE_KEY_PARTICIPANTS, JSON.stringify(map));
+            }
+
+            localStorage.setItem(STORAGE_KEY_KICKED, JSON.stringify({ id: participantId, ts: Date.now() }));
+            if (bc) {
+                bc.postMessage({ type: 'KICK_PARTICIPANT', id: participantId });
+            }
+
+            renderHostLeaderboard();
+        }
+
         function renderHostLeaderboard() {
             const map = getParticipantMap();
+            let now = Date.now();
             let participants = Object.values(map);
+
+            participants.forEach(p => {
+                if (p.status === 'playing' && (now - p.lastUpdated > 10000)) {
+                    p.status = 'inactive';
+                }
+            });
 
             participants.sort((a, b) => {
                 if (b.score !== a.score) return b.score - a.score;
@@ -703,7 +754,7 @@
                 tickerEl.innerHTML = `<span class="text-xs text-saffron-200/50 italic py-2">No devotees currently answering questions...</span>`;
             } else {
                 tickerEl.innerHTML = activeList.map(p => `
-                    <div class="bg-temple-deep border border-temple-border rounded-xl p-3 min-w-[200px] shrink-0 space-y-1.5">
+                    <div class="bg-temple-deep border border-temple-border rounded-xl p-3 min-w-[200px] shrink-0 space-y-1.5 relative">
                         <div class="flex justify-between items-center">
                             <span class="font-bold text-xs text-saffron-50 truncate max-w-[120px]">${escapeHtml(p.name)}</span>
                             <span class="text-[10px] bg-emerald-950 text-emerald-300 px-2 py-0.5 rounded-full border border-emerald-800">Q ${p.answeredCount + 1}/30</span>
@@ -772,10 +823,19 @@
 
             tbody.innerHTML = filtered.map((p) => {
                 const rank = participants.findIndex(x => x.id === p.id) + 1;
-                const statusBadge = p.status === 'playing' 
-                    ? `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-emerald-950 text-emerald-300 border border-emerald-800"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5 animate-pulse"></span>Playing Q${p.answeredCount + 1}</span>`
-                    : `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-temple-deep text-marigold border border-temple-border">✓ Completed</span>`;
+                let statusBadge = '';
+                if (p.status === 'playing') {
+                    statusBadge = `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-emerald-950 text-emerald-300 border border-emerald-800"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5 animate-pulse"></span>Playing Q${p.answeredCount + 1}</span>`;
+                } else if (p.status === 'inactive') {
+                    statusBadge = `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-amber-950 text-amber-300 border border-amber-800">⚠️ Inactive</span>`;
+                } else {
+                    statusBadge = `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-temple-deep text-marigold border border-temple-border">✓ Completed</span>`;
+                }
                 
+                const actionBtn = p.status === 'playing' || p.status === 'inactive'
+                    ? `<button onclick="hostEndSession('${p.id}', '${escapeHtml(p.name)}')" class="px-2.5 py-1 bg-red-950/60 hover:bg-red-900 border border-red-800 text-red-300 rounded-lg text-xs font-semibold transition">End Session</button>`
+                    : `<span class="text-xs text-saffron-200/40 italic">Finished</span>`;
+
                 return `
                     <tr class="hover:bg-temple-card/50 transition">
                         <td class="py-3 px-3 font-cinzel font-bold text-marigold">#${rank}</td>
@@ -791,7 +851,7 @@
                         </td>
                         <td class="py-3 px-3 text-right font-bold text-marigold">${p.score}</td>
                         <td class="py-3 px-3 text-right text-saffron-100">${p.accuracy}%</td>
-                        <td class="py-3 px-3 text-right text-saffron-200/70">${p.timeTaken}s</td>
+                        <td class="py-3 px-3 text-right">${actionBtn}</td>
                     </tr>
                 `;
             }).join('');
