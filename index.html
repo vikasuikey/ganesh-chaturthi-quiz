@@ -1,2196 +1,802 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-full">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ganesh Chaturthi Utsav Quiz | Live Individual Championship</title>
-  
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  
-  <!-- Google Fonts: Rozha One & Plus Jakarta Sans -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  
-  <!-- Lucide Icons -->
-  <script src="https://cdn.jsdelivr.net/npm/lucide@0.344.0/dist/umd/lucide.min.js"></script>
-  
-  <!-- Canvas Confetti -->
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
-
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            festive: ['"Rozha One"', 'serif'],
-            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-          },
-          colors: {
-            saffron: { 400: '#fb923c', 500: '#f97316', 600: '#ea580c' },
-            marigold: { 400: '#fbbf24', 500: '#f59e0b', 600: '#d97706' },
-            kumkum: { 500: '#b91c1c', 600: '#991b1b', 700: '#7f1d1d', 800: '#450a0a', 900: '#2a0505', 950: '#170202' },
-            gold: { 300: '#fde047', 400: '#facc15', 500: '#eab308' }
-          },
-          animation: {
-            'pulse-glow': 'pulseGlow 2.5s infinite',
-            'shimmer': 'shimmer 2.2s linear infinite',
-            'rank-up': 'rankUp 1.2s ease-out',
-            'rank-down': 'rankDown 1.2s ease-out',
-            'spin-slow': 'spin 12s linear infinite',
-          },
-          keyframes: {
-            pulseGlow: {
-              '0%, 100%': { filter: 'drop-shadow(0 0 10px rgba(245, 158, 11, 0.35))' },
-              '50%': { filter: 'drop-shadow(0 0 26px rgba(249, 115, 22, 0.8))' },
-            },
-            shimmer: {
-              '0%': { backgroundPosition: '-200% 0' },
-              '100%': { backgroundPosition: '200% 0' },
-            },
-            rankUp: {
-              '0%': { backgroundColor: 'rgba(16, 185, 129, 0.45)', transform: 'translateY(6px)' },
-              '100%': { backgroundColor: 'transparent', transform: 'translateY(0)' }
-            },
-            rankDown: {
-              '0%': { backgroundColor: 'rgba(239, 68, 68, 0.45)', transform: 'translateY(-6px)' },
-              '100%': { backgroundColor: 'transparent', transform: 'translateY(0)' }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ganesh Chaturthi Utsav - Live Quiz Championship</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        saffron: { 50: '#fff7ed', 100: '#ffedd5', 500: '#f97316', 600: '#ea580c', 700: '#c2410c', 800: '#9a3412', 900: '#7c2d12' },
+                        marigold: { DEFAULT: '#FF9933', dark: '#E68A00', light: '#FFB84D' },
+                        temple: { dark: '#3b0f0e', deep: '#250807', card: '#4a1514', border: '#782824' }
+                    },
+                    fontFamily: {
+                        cinzel: ['Cinzel', 'serif'],
+                        poppins: ['Poppins', 'sans-serif'],
+                    }
+                }
             }
-          }
         }
-      }
-    };
-  </script>
-
-  <style>
-    body {
-      background: radial-gradient(circle at 50% 15%, #450a0a 0%, #1f0202 85%, #0d0101 100%);
-      min-height: 100vh;
-      overflow-x: hidden;
-      color: #fffbeb;
-    }
-
-    .bg-pattern {
-      background-image: radial-gradient(#f59e0b 0.75px, transparent 0.75px), radial-gradient(#ea580c 0.75px, #1f0202 0.75px);
-      background-size: 32px 32px;
-      background-position: 0 0, 16px 16px;
-      opacity: 0.14;
-    }
-
-    .text-gold-gradient {
-      background: linear-gradient(135deg, #fffbeb 0%, #fef08a 30%, #f59e0b 70%, #d97706 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .winner-gold-card {
-      background: linear-gradient(135deg, rgba(245, 158, 11, 0.35) 0%, rgba(217, 119, 6, 0.45) 50%, rgba(180, 83, 9, 0.5) 100%);
-      border: 2px solid #facc15 !important;
-      box-shadow: 0 0 35px rgba(250, 204, 21, 0.45), inset 0 0 20px rgba(250, 204, 21, 0.25);
-      position: relative;
-    }
-
-    .winner-gold-card::before {
-      content: '';
-      position: absolute;
-      inset: -2px;
-      border-radius: inherit;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
-      background-size: 200% 100%;
-      animation: shimmer 2.5s infinite;
-      pointer-events: none;
-      opacity: 0.6;
-    }
-
-    .option-card {
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .option-card:hover:not(:disabled) {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px -4px rgba(245, 158, 11, 0.28);
-      border-color: #f59e0b;
-    }
-
-    .option-card.locked-in {
-      background: linear-gradient(135deg, rgba(245, 158, 11, 0.35), rgba(234, 88, 12, 0.45)) !important;
-      border-color: #facc15 !important;
-      box-shadow: 0 0 24px rgba(250, 204, 21, 0.45) !important;
-    }
-
-    .table-row-item {
-      transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.6s ease;
-    }
-
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.25); }
-    ::-webkit-scrollbar-thumb { background: #b45309; border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: #d97706; }
-  </style>
+    </script>
+    <style>
+        body { font-family: 'Poppins', sans-serif; background-color: #250807; color: #fff7ed; }
+        .font-cinzel { font-family: 'Cinzel', serif; }
+        .bg-temple-pattern {
+            background-color: #250807;
+            background-image: radial-gradient(circle at 50% 30%, #4a1514 0%, #250807 70%);
+        }
+        .glow-gold { box-shadow: 0 0 25px rgba(255, 153, 51, 0.35); }
+        .glow-card { box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4); }
+    </style>
 </head>
-<body class="font-sans antialiased relative selection:bg-marigold-500 selection:text-kumkum-900">
+<body class="bg-temple-pattern min-h-full flex flex-col justify-between selection:bg-marigold selection:text-temple-deep">
 
-  <!-- Background decorative glows -->
-  <div class="fixed inset-0 bg-pattern pointer-events-none z-0"></div>
-  <div class="fixed top-8 left-1/2 -translate-x-1/2 w-96 h-96 bg-amber-500/15 rounded-full blur-3xl pointer-events-none z-0"></div>
-  <div class="fixed bottom-10 -right-20 w-80 h-80 bg-red-600/15 rounded-full blur-3xl pointer-events-none z-0"></div>
-
-  <!-- Live Toast Notification Container -->
-  <div id="toastNotificationContainer" class="fixed top-5 right-5 z-[9999] flex flex-col gap-2 pointer-events-none"></div>
-
-  <!-- TOP HEADER -->
-  <header class="relative z-20 w-full max-w-5xl mx-auto px-4 pt-4 sm:pt-6 flex items-center justify-between">
-    <button onclick="goToHome()" class="flex items-center gap-2.5 text-left group">
-      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-marigold-600 to-amber-300 flex items-center justify-center shadow-lg shadow-amber-500/20 text-kumkum-900 font-festive text-xl group-hover:scale-105 transition-transform">
-        卐
-      </div>
-      <div>
-        <h1 class="font-festive text-lg sm:text-xl text-amber-200 tracking-wider">गणपति बप्पा मोरया</h1>
-        <p class="text-[10px] text-amber-400/80 font-medium uppercase tracking-widest flex items-center gap-1.5">
-          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
-          <span id="headerSyncStatusText">Live Cloud Connected</span>
-        </p>
-      </div>
-    </button>
-
-    <div class="flex items-center gap-2">
-      <!-- Audio Toggle -->
-      <button id="soundToggleBtn" onclick="toggleSound()" class="px-3 py-1.5 rounded-full bg-black/45 border border-amber-500/30 hover:border-amber-400 text-amber-300 text-xs sm:text-sm font-medium flex items-center gap-1.5 backdrop-blur-md transition-all shadow-inner" title="Toggle Sound Effects">
-        <i id="soundIcon" data-lucide="volume-2" class="w-4 h-4"></i>
-        <span id="soundText" class="hidden sm:inline">Audio: On</span>
-      </button>
-
-      <!-- Host Portal Button (PIN 787898) -->
-      <button onclick="openHostAuthModal()" class="px-3.5 py-1.5 rounded-full bg-stone-900/85 hover:bg-stone-800 border border-amber-500/50 hover:border-amber-300 text-amber-300 text-xs sm:text-sm font-bold flex items-center gap-1.5 backdrop-blur-md transition-all shadow-md group">
-        <i data-lucide="shield" class="w-3.5 h-3.5 text-amber-400 group-hover:text-amber-200"></i>
-        <span>Host Portal</span>
-      </button>
-    </div>
-  </header>
-
-  <main class="relative z-10 w-full max-w-4xl mx-auto px-4 py-4 sm:py-6 flex flex-col justify-center min-h-[calc(100vh-100px)]">
-
-    <!-- SCREEN 1: ENROLLMENT & REGISTRATION -->
-    <section id="welcomeScreen" class="bg-gradient-to-b from-kumkum-700/60 to-kumkum-800/90 border border-amber-500/30 rounded-3xl p-6 sm:p-10 backdrop-blur-xl shadow-2xl relative overflow-hidden transition-all duration-500">
-      
-      <!-- Sacred Ganesha Emblem -->
-      <div class="flex justify-center mb-4">
-        <div class="relative w-24 h-24 sm:w-28 sm:h-28 flex items-center justify-center rounded-full bg-gradient-to-tr from-amber-500/20 via-marigold-500/30 to-amber-300/10 border-2 border-amber-400/50 p-3 shadow-xl shadow-amber-500/25 animate-pulse-glow">
-          <svg class="w-16 h-16 sm:w-20 sm:h-20 text-amber-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 2l2.5 3.5h-5z"/>
-            <circle cx="12" cy="7.5" r="1.2" fill="currentColor"/>
-            <path d="M7 8c-2.5 0-4 2-4 5 0 2.5 2 4.5 4 4.5"/>
-            <path d="M17 8c2.5 0 4 2 4 5 0 2.5-2 4.5-4 4.5"/>
-            <path d="M9 8.5h6"/>
-            <path d="M10 11c0 2 1 3.5 2 4.5s1 2.5 0 4c-.7 1-2.2 1-2.5 0"/>
-            <path d="M12 9.5v2"/>
-            <path d="M14.5 13.5l1.5 1"/>
-          </svg>
-          <span class="absolute -bottom-2 bg-amber-500 text-kumkum-900 text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider shadow">
-            ॐ गं गणपतये नमः
-          </span>
-        </div>
-      </div>
-
-      <div class="text-center space-y-2 mb-6">
-        <h2 class="font-festive text-3xl sm:text-4xl lg:text-5xl text-gold-gradient tracking-wide">
-          Ganesh Chaturthi Utsav Quiz
-        </h2>
-        <p class="text-amber-200/90 text-xs sm:text-sm max-w-xl mx-auto leading-relaxed">
-          Test your sacred knowledge of Lord Ganesha in this live individual championship! 30 questions, 20 seconds each.
-        </p>
-      </div>
-
-      <!-- Feature Highlights -->
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-6 text-xs text-amber-100/90">
-        <div class="bg-black/35 border border-amber-500/20 rounded-xl p-3 text-center flex flex-col items-center">
-          <i data-lucide="trophy" class="w-5 h-5 text-amber-400 mb-1"></i>
-          <span class="font-bold">Individual</span>
-          <span class="text-[10px] text-amber-300/70">Solo Championship</span>
-        </div>
-        <div class="bg-black/35 border border-amber-500/20 rounded-xl p-3 text-center flex flex-col items-center">
-          <i data-lucide="zap" class="w-5 h-5 text-emerald-400 mb-1"></i>
-          <span class="font-bold">Instant Move</span>
-          <span class="text-[10px] text-emerald-300/80">Tap to Next Q</span>
-        </div>
-        <div class="bg-black/35 border border-amber-500/20 rounded-xl p-3 text-center flex flex-col items-center">
-          <i data-lucide="clock" class="w-5 h-5 text-amber-400 mb-1"></i>
-          <span class="font-bold">20s Per Q</span>
-          <span class="text-[10px] text-amber-300/70">Speed Bonus Points</span>
-        </div>
-        <div class="bg-black/35 border border-amber-500/20 rounded-xl p-3 text-center flex flex-col items-center">
-          <i data-lucide="activity" class="w-5 h-5 text-amber-400 mb-1 animate-pulse"></i>
-          <span class="font-bold">Live Standings</span>
-          <span class="text-[10px] text-amber-300/70">Real-Time Host Sync</span>
-        </div>
-      </div>
-
-      <!-- Mandatory Registration Form -->
-      <form id="enrollmentForm" onsubmit="handleEnrollmentSubmit(event)" class="max-w-md mx-auto space-y-4">
-        <div>
-          <label for="playerNameInput" class="block text-xs font-semibold uppercase tracking-wider text-amber-300/90 mb-1">
-            Participant Name <span class="text-red-400">*</span>
-          </label>
-          <input type="text" id="playerNameInput" required maxlength="32" placeholder="Enter your full name" class="w-full bg-black/50 border border-amber-500/40 rounded-xl px-4 py-3 text-amber-100 placeholder-amber-400/40 focus:outline-none focus:ring-2 focus:ring-amber-400 font-medium transition-all shadow-inner text-sm">
-        </div>
-
-        <p id="validationErrorMessage" class="hidden text-xs text-red-400 font-semibold text-center"></p>
-
-        <button type="submit" class="w-full py-3.5 px-6 bg-gradient-to-r from-amber-500 via-marigold-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-kumkum-900 font-bold rounded-2xl shadow-lg shadow-amber-500/30 flex items-center justify-center gap-2 transform active:scale-[0.98] transition-all text-base mt-2">
-          <i data-lucide="play" class="w-5 h-5 fill-current"></i>
-          <span>Enroll & Start Quiz</span>
-        </button>
-      </form>
-
-      <!-- QR Code Section: Scan to Join on Mobile -->
-      <div class="mt-8 pt-6 border-t border-amber-500/20 max-w-md mx-auto">
-        <div class="bg-black/40 border border-amber-500/30 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left shadow-lg">
-          <div class="p-2.5 bg-white rounded-xl shadow-md shrink-0 border border-amber-300">
-            <img 
-              src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=https%3A%2F%2Fvikasuikey.github.io%2Fganesh-chaturthi-quiz%2F&margin=1" 
-              alt="Scan QR code to join Ganesh Chaturthi Quiz"
-              class="w-24 h-24 sm:w-28 sm:h-28 object-contain block"
-              loading="lazy"
-            />
-          </div>
-          <div class="space-y-1.5 flex-1">
-            <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-400/30 text-[10px] font-bold uppercase tracking-wider">
-              <i data-lucide="qr-code" class="w-3.5 h-3.5 text-amber-400"></i>
-              <span>Play on Mobile</span>
+    <!-- HEADER / NAVBAR -->
+    <header class="w-full bg-temple-deep/90 border-b border-temple-border/60 backdrop-blur-md sticky top-0 z-50 px-4 py-3 shadow-lg">
+        <div class="max-w-4xl mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-marigold to-saffron-500 flex items-center justify-center shadow-md">
+                    <i data-lucide="flame" class="w-6 h-6 text-temple-deep"></i>
+                </div>
+                <div>
+                    <h1 class="font-cinzel font-bold text-lg md:text-xl text-marigold tracking-wide">Ganesh Utsav Quiz</h1>
+                    <p class="text-xs text-saffron-200/70">Championship Portal</p>
+                </div>
             </div>
-            <h4 class="font-festive text-base sm:text-lg text-amber-100 leading-snug">
-              Scan QR Code to Join
-            </h4>
-            <p class="text-[11px] text-amber-200/80 leading-relaxed">
-              Open your smartphone camera to participate directly from your phone.
-            </p>
-            <div class="pt-1 flex items-center justify-center sm:justify-start gap-2">
-              <button type="button" onclick="copyQuizShareLink()" class="px-2.5 py-1 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-[11px] font-semibold flex items-center gap-1.5 transition-colors">
-                <i data-lucide="copy" class="w-3 h-3"></i>
-                <span id="copyLinkBtnText">Copy Link</span>
-              </button>
+            <div class="flex items-center space-x-2">
+                <button onclick="openHostAuthModal()" class="flex items-center space-x-1.5 bg-temple-card hover:bg-temple-border border border-temple-border text-marigold px-3.5 py-1.5 rounded-full text-xs md:text-sm font-medium transition shadow-sm">
+                    <i data-lucide="shield-check" class="w-4 h-4"></i>
+                    <span>Host Portal</span>
+                </button>
             </div>
-          </div>
         </div>
-      </div>
-    </section>
+    </header>
 
-    <!-- SCREEN 2: ACTIVE QUIZ -->
-    <section id="quizScreen" class="hidden flex-col gap-4">
-      <div class="bg-black/40 backdrop-blur-md border border-amber-500/30 rounded-2xl p-4 flex flex-col gap-3 shadow-lg">
-        <div class="flex items-center justify-between">
-          <div class="flex items-center gap-2">
-            <span class="text-xs uppercase tracking-wider font-bold text-amber-400/80">Question</span>
-            <span id="questionProgressText" class="font-festive text-xl text-amber-200">1 / 30</span>
-          </div>
-
-          <div class="flex items-center gap-2">
-            <span class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs font-bold uppercase tracking-wider">
-              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> Live to Host Board
-            </span>
-          </div>
-
-          <div class="flex items-center gap-1.5 bg-black/45 border border-amber-500/30 px-3 py-1 rounded-full text-amber-300 font-bold text-xs sm:text-sm">
-            <i data-lucide="clock" class="w-4 h-4 text-amber-400"></i>
-            <span id="timerSecondsText" class="font-mono">20s</span>
-          </div>
-        </div>
-
-        <!-- Overall Progress Bar -->
-        <div class="w-full bg-stone-900/80 rounded-full h-2.5 overflow-hidden border border-amber-500/20">
-          <div id="overallProgressBar" class="h-full bg-gradient-to-r from-amber-500 to-orange-500 rounded-full transition-all duration-300" style="width: 3.33%;"></div>
-        </div>
-
-        <!-- Per-question Timer Bar -->
-        <div class="w-full bg-stone-900 rounded-full h-1.5 overflow-hidden border border-amber-500/20">
-          <div id="timerBar" class="h-full bg-gradient-to-r from-emerald-500 via-amber-400 to-red-500 rounded-full transition-all duration-100 ease-linear" style="width: 100%;"></div>
-        </div>
-      </div>
-
-      <!-- Question Card -->
-      <div class="bg-gradient-to-b from-kumkum-700/60 to-kumkum-800/90 border border-amber-500/30 rounded-3xl p-5 sm:p-7 backdrop-blur-xl shadow-xl flex flex-col gap-4">
-        <div class="flex items-center justify-between text-xs">
-          <span id="questionCategory" class="px-2.5 py-0.5 rounded-md bg-amber-500/15 border border-amber-500/30 text-amber-300 font-semibold text-[11px] uppercase">
-            Sacred Lore
-          </span>
-          <span class="text-amber-300/70 text-[11px]">Rank updates dynamically as you answer</span>
-        </div>
-
-        <h3 id="questionTitle" class="text-lg sm:text-xl md:text-2xl font-bold text-amber-100 leading-snug">
-          Loading Question...
-        </h3>
-
-        <div id="optionsContainer" class="grid grid-cols-1 gap-2.5 pt-2">
-          <!-- Populated by JS -->
-        </div>
-
-        <!-- Immediate Move Notice -->
-        <div id="lockedInBanner" class="hidden mt-2 p-3 rounded-2xl bg-amber-500/15 border border-amber-400/40 text-amber-200 text-xs sm:text-sm items-center gap-2">
-          <i data-lucide="check-circle-2" class="w-5 h-5 text-amber-400 shrink-0"></i>
-          <span id="lockedInMessage" class="font-medium">Answer locked! Moving to next question...</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- SCREEN 3: RESULTS -->
-    <section id="resultsScreen" class="hidden bg-gradient-to-b from-kumkum-700/70 to-kumkum-800/90 border border-amber-500/30 rounded-3xl p-6 sm:p-8 backdrop-blur-xl shadow-2xl relative overflow-hidden">
-      <div class="text-center space-y-2">
-        <div class="inline-flex items-center justify-center p-3 rounded-2xl bg-amber-500/20 border border-amber-400/40 text-amber-300 mb-1">
-          <i data-lucide="crown" class="w-8 h-8 text-amber-300"></i>
-        </div>
-        <p class="text-xs uppercase tracking-widest text-amber-400/80 font-bold">Quiz Completed!</p>
-        <h2 id="resultPlayerGreeting" class="font-festive text-3xl sm:text-4xl text-gold-gradient">
-          Dhanya Ho, Devotee!
-        </h2>
-        <div class="pt-1">
-          <span id="rankBadgeText" class="inline-block px-4 py-1.5 rounded-full bg-gradient-to-r from-amber-500/30 to-orange-500/30 border border-amber-400 text-amber-200 font-bold text-sm tracking-wide shadow">
-            Modak Master
-          </span>
-        </div>
-      </div>
-
-      <!-- Submission confirmation notification -->
-      <div class="my-4 p-3.5 rounded-2xl bg-black/40 border border-amber-500/30 flex items-center justify-between gap-3 text-xs sm:text-sm">
-        <div class="flex items-center gap-2.5 text-amber-200">
-          <i data-lucide="shield-check" class="w-5 h-5 text-emerald-400 shrink-0"></i>
-          <span>Your final scorecard is locked into the <strong>Host Live Championship</strong>!</span>
-        </div>
-        <span class="px-2 py-0.5 rounded bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 font-bold text-[11px] shrink-0 uppercase tracking-wide">
-          Finalized
-        </span>
-      </div>
-
-      <!-- Metrics Breakdown -->
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 my-5">
-        <div class="bg-black/35 border border-amber-500/25 rounded-2xl p-3.5 text-center">
-          <span class="text-[11px] text-amber-400/80 font-medium uppercase block">Total Points</span>
-          <span id="resultFinalScore" class="font-festive text-2xl sm:text-3xl text-amber-300">0</span>
-          <span class="text-[10px] text-amber-300/60 block mt-0.5">Tie-Breaker Score</span>
-        </div>
-
-        <div class="bg-black/35 border border-amber-500/25 rounded-2xl p-3.5 text-center">
-          <span class="text-[11px] text-amber-400/80 font-medium uppercase block">Accuracy</span>
-          <span id="resultAccuracy" class="font-festive text-2xl sm:text-3xl text-emerald-400">0%</span>
-          <span id="resultCorrectCount" class="text-[10px] text-amber-300/60 block mt-0.5">0 of 30 Correct</span>
-        </div>
-
-        <div class="bg-black/35 border border-amber-500/25 rounded-2xl p-3.5 text-center">
-          <span class="text-[11px] text-amber-400/80 font-medium uppercase block">Best Streak</span>
-          <div class="flex items-center justify-center gap-1">
-            <i data-lucide="flame" class="w-4 h-4 text-orange-400 fill-orange-400"></i>
-            <span id="resultMaxStreak" class="font-festive text-2xl sm:text-3xl text-orange-400">0</span>
-          </div>
-          <span class="text-[10px] text-amber-300/60 block mt-0.5">consecutive</span>
-        </div>
-
-        <div class="bg-black/35 border border-amber-500/25 rounded-2xl p-3.5 text-center">
-          <span class="text-[11px] text-amber-400/80 font-medium uppercase block">Completion Time</span>
-          <span id="resultTotalTime" class="font-mono font-bold text-xl sm:text-2xl text-amber-300">00:00.000</span>
-          <span class="text-[10px] text-amber-300/60 block mt-0.5">MM:SS.ms (Exact)</span>
-        </div>
-      </div>
-
-      <!-- Action Buttons -->
-      <div class="flex flex-col sm:flex-row gap-3">
-        <button onclick="goToHome()" class="flex-1 py-3.5 px-4 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-kumkum-900 font-bold rounded-xl shadow-lg flex items-center justify-center gap-2 transition-all">
-          <i data-lucide="home" class="w-4 h-4"></i>
-          <span>Return to Home</span>
-        </button>
-
-        <button onclick="toggleAnswerReview()" id="toggleReviewBtn" class="flex-1 py-3.5 px-4 bg-black/45 border border-amber-500/40 hover:border-amber-400 text-amber-200 rounded-xl flex items-center justify-center gap-2 transition-all font-semibold">
-          <i data-lucide="file-text" class="w-4 h-4 text-amber-400"></i>
-          <span id="toggleReviewText">Review Answers & Lore</span>
-        </button>
-
-        <button onclick="shareScore()" class="py-3.5 px-4 bg-black/45 border border-amber-500/40 hover:border-amber-400 text-amber-300 rounded-xl flex items-center justify-center gap-2 transition-all" title="Share result">
-          <i data-lucide="share-2" class="w-4 h-4"></i>
-          <span>Share</span>
-        </button>
-      </div>
-
-      <div id="shareNotice" class="hidden text-center text-xs text-emerald-400 mt-3 font-medium">
-        ✓ Personal score summary copied to clipboard!
-      </div>
-
-      <!-- Answer Review Section -->
-      <div id="answersReviewSection" class="hidden mt-6 pt-6 border-t border-amber-500/20 space-y-4">
-        <h4 class="font-festive text-xl text-amber-200 flex items-center gap-2">
-          <i data-lucide="book-open" class="w-5 h-5 text-amber-400"></i>
-          <span>Review Answers & Sacred Lore</span>
-        </h4>
-        <div id="reviewItemsContainer" class="space-y-3 max-h-96 overflow-y-auto pr-1">
-          <!-- Populated by JS -->
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- HOST AUTH MODAL (PIN: 787898) -->
-  <div id="hostAuthModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
-    <div class="bg-gradient-to-b from-kumkum-800 to-kumkum-950 border border-amber-500/40 rounded-3xl w-full max-w-sm p-6 shadow-2xl space-y-5 text-center relative">
-      <button onclick="closeHostAuthModal()" class="absolute top-4 right-4 p-1.5 rounded-full hover:bg-black/30 text-amber-300/70 hover:text-amber-200 transition-colors">
-        <i data-lucide="x" class="w-5 h-5"></i>
-      </button>
-
-      <div class="w-14 h-14 rounded-2xl bg-amber-500/20 border border-amber-400/40 text-amber-300 mx-auto flex items-center justify-center shadow-lg">
-        <i data-lucide="shield" class="w-7 h-7"></i>
-      </div>
-
-      <div>
-        <h3 class="font-festive text-2xl text-amber-200">Host Administration</h3>
-        <p class="text-xs text-amber-300/80 mt-1">
-          Enter Host PIN to monitor live rankings and export final scores.
-        </p>
-      </div>
-
-      <div class="space-y-2">
-        <input type="password" id="hostPinInput" maxlength="12" placeholder="Enter Host PIN" class="w-full bg-black/60 border border-amber-500/50 rounded-xl px-4 py-3 text-center text-xl text-amber-100 placeholder-amber-400/30 tracking-widest font-mono focus:outline-none focus:ring-2 focus:ring-amber-400" onkeydown="if(event.key==='Enter') verifyHostPin()">
-        <p id="pinErrorMessage" class="hidden text-xs text-red-400 font-semibold"></p>
-      </div>
-
-      <div class="flex gap-2">
-        <button onclick="closeHostAuthModal()" class="flex-1 py-2.5 px-4 rounded-xl bg-black/40 border border-amber-500/30 text-amber-300 text-xs font-semibold hover:bg-black/60 transition-colors">
-          Cancel
-        </button>
-        <button onclick="verifyHostPin()" class="flex-1 py-2.5 px-4 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-kumkum-900 font-bold text-xs shadow-md transition-all">
-          Unlock Portal
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- HOST CHAMPIONSHIP LEADERBOARD MODAL -->
-  <div id="hostLeaderboardModal" class="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-5 bg-black/90 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
-    <div class="bg-gradient-to-b from-kumkum-800 to-kumkum-950 border border-amber-500/50 rounded-3xl w-full max-w-5xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh]">
-      
-      <!-- Modal Top Header -->
-      <div class="p-4 sm:p-5 border-b border-amber-500/25 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-black/40">
-        <div class="flex items-center gap-3">
-          <div class="p-2.5 rounded-xl bg-amber-500/20 border border-amber-500/40 text-amber-400 shrink-0">
-            <i data-lucide="crown" class="w-6 h-6 fill-amber-400/20"></i>
-          </div>
-          <div>
-            <div class="flex items-center gap-2 flex-wrap">
-              <h3 class="font-festive text-xl text-amber-200">Host Live Championship Board</h3>
-              <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-[10px] font-bold uppercase tracking-wider">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span> Live Standings
-              </span>
-            </div>
-            <p class="text-xs text-amber-400/80">Scores update automatically in real-time as participants submit answers.</p>
-          </div>
-        </div>
-
-        <div class="flex items-center gap-2 flex-wrap justify-end">
-          <!-- Manual Cloud Sync Button -->
-          <button onclick="manualSyncFromCloud()" id="manualSyncBtn" class="px-3 py-1.5 rounded-xl bg-emerald-600/30 hover:bg-emerald-600/50 border border-emerald-400/40 text-emerald-200 text-xs font-semibold flex items-center gap-1.5 transition-all" title="Refresh & sync latest scores from all participant phones">
-            <i data-lucide="refresh-cw" class="w-3.5 h-3.5 text-emerald-300"></i>
-            <span id="manualSyncBtnText">Sync Now</span>
-          </button>
-
-          <!-- Simulation button for host to test rank movements -->
-          <button onclick="simulateLiveParticipantMovement()" class="px-3 py-1.5 rounded-xl bg-purple-600/30 hover:bg-purple-600/50 border border-purple-400/40 text-purple-200 text-xs font-semibold flex items-center gap-1.5 transition-all" title="Simulate a participant answering to test real-time rank moves">
-            <i data-lucide="bot" class="w-3.5 h-3.5 text-purple-300"></i>
-            <span class="hidden md:inline">Simulate Move</span>
-          </button>
-
-          <button onclick="closeHostLeaderboardModal()" class="p-2 rounded-full hover:bg-black/40 text-amber-300 transition-colors" title="Close Panel">
-            <i data-lucide="x" class="w-5 h-5"></i>
-          </button>
-        </div>
-      </div>
-
-      <!-- Live Top 3 Individual Podium -->
-      <div id="individualPodiumContainer" class="p-4 bg-black/20 border-b border-amber-500/20 grid grid-cols-1 sm:grid-cols-3 gap-3 items-end">
-        <!-- Rendered dynamically -->
-      </div>
-
-      <!-- ACTIVE PARTICIPANTS LIVE TICKER STRIP -->
-      <div class="bg-black/50 border-b border-amber-500/20 px-4 py-2.5">
-        <div class="flex items-center justify-between gap-2 mb-1.5">
-          <div class="flex items-center gap-2">
-            <span class="relative flex h-2.5 w-2.5">
-              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
-            </span>
-            <span class="text-xs font-bold uppercase tracking-wider text-emerald-300">Live Active Devotees Playing Now</span>
-            <span id="hostActivePlayingCountBadge" class="px-2 py-0.2 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-mono font-bold border border-emerald-500/30">0 Playing</span>
-          </div>
-        </div>
-        <div id="hostActiveContestantsTicker" class="flex gap-2 overflow-x-auto pb-1 text-xs">
-          <!-- Populated dynamically -->
-        </div>
-      </div>
-
-      <!-- Status Filter Tabs -->
-      <div class="p-3 bg-black/25 border-b border-amber-500/20 flex flex-col sm:flex-row items-center gap-2.5 justify-between">
-        <div class="flex items-center gap-2">
-          <button id="tabFilterAll" onclick="setHostFilterTab('all')" class="px-2.5 py-1 rounded-lg font-bold bg-amber-500 text-kumkum-950 shadow transition-all text-xs">
-            All (<span id="filterCountAll">0</span>)
-          </button>
-          <button id="tabFilterActive" onclick="setHostFilterTab('active')" class="px-2.5 py-1 rounded-lg font-bold text-amber-200/80 hover:text-amber-100 transition-all text-xs">
-            🟢 Live Playing (<span id="filterCountActive">0</span>)
-          </button>
-          <button id="tabFilterCompleted" onclick="setHostFilterTab('completed')" class="px-2.5 py-1 rounded-lg font-bold text-amber-200/80 hover:text-amber-100 transition-all text-xs">
-            🏁 Finished (<span id="filterCountCompleted">0</span>)
-          </button>
-        </div>
-
-        <div class="flex items-center gap-2 w-full sm:w-auto">
-          <div class="relative flex-1 sm:w-64">
-            <i data-lucide="search" class="w-4 h-4 text-amber-400/60 absolute left-3 top-1/2 -translate-y-1/2"></i>
-            <input type="text" id="leaderboardSearchInput" placeholder="Search participant..." oninput="filterLeaderboardView()" class="w-full bg-black/50 border border-amber-500/30 rounded-xl pl-9 pr-3 py-1.5 text-xs text-amber-100 placeholder-amber-400/40 focus:outline-none focus:border-amber-400">
-          </div>
-        </div>
-      </div>
-
-      <!-- Filters & Actions Bar -->
-      <div class="p-2.5 bg-black/20 border-b border-amber-500/20 flex items-center justify-between">
-        <span class="text-[11px] text-amber-300/70 flex items-center gap-1.5">
-          <i data-lucide="activity" class="w-3.5 h-3.5 text-emerald-400"></i>
-          Participants shift dynamically UP (▲) or DOWN (▼) in real-time.
-        </span>
-        <div class="flex items-center gap-2">
-          <button onclick="toggleChangePinView()" class="px-3 py-1 rounded-lg bg-black/40 border border-amber-500/30 hover:border-amber-400 text-amber-300 text-xs font-medium flex items-center gap-1 transition-colors">
-            <i data-lucide="key" class="w-3 h-3 text-amber-400"></i>
-            <span>Change PIN</span>
-          </button>
-          <button onclick="exportLeaderboardCSV()" class="px-3 py-1 rounded-lg bg-amber-500/20 border border-amber-500/40 hover:bg-amber-500/30 text-amber-200 text-xs font-medium flex items-center gap-1 transition-colors">
-            <i data-lucide="download" class="w-3 h-3 text-amber-300"></i>
-            <span>Export CSV</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Change PIN Section -->
-      <div id="changePinContainer" class="hidden p-3 bg-black/60 border-b border-amber-500/30">
-        <div class="flex flex-col sm:flex-row items-center gap-2">
-          <input type="password" id="newPinInput" placeholder="Enter new PIN (min 4 digits)" maxlength="12" class="bg-black/50 border border-amber-500/40 rounded-xl px-3 py-1.5 text-xs text-amber-100 font-mono focus:outline-none flex-1 w-full sm:w-auto">
-          <button onclick="saveNewPin()" class="px-4 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-kumkum-900 font-bold text-xs transition-colors w-full sm:w-auto">
-            Save New PIN
-          </button>
-          <button onclick="toggleChangePinView()" class="px-3 py-1.5 rounded-xl bg-stone-800 text-amber-200 text-xs hover:bg-stone-700 transition-colors">
-            Cancel
-          </button>
-        </div>
-        <p id="changePinMsg" class="text-[11px] mt-1.5 hidden"></p>
-      </div>
-
-      <!-- Individual Contestants List -->
-      <div class="p-4 overflow-y-auto flex-1 space-y-2.5" id="hostLeaderboardList">
-        <!-- Rendered via JavaScript -->
-      </div>
-
-      <!-- Modal Footer -->
-      <div class="p-3.5 border-t border-amber-500/20 bg-black/50 flex items-center justify-between text-xs text-amber-300/80">
-        <span id="participantTotalCountText" class="flex items-center gap-1.5">
-          <i data-lucide="users" class="w-4 h-4 text-amber-400"></i>
-          <span>0 Participants Recorded</span>
-        </span>
-        <button onclick="promptResetLeaderboard()" class="px-3.5 py-1.5 rounded-xl bg-red-950/60 hover:bg-red-900/80 border border-red-500/50 text-red-200 hover:text-white font-bold text-xs flex items-center gap-1.5 transition-colors shadow-sm">
-          <i data-lucide="trash-2" class="w-3.5 h-3.5 text-red-400"></i>
-          <span>Reset / Clear Board</span>
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- RESET CONFIRMATION MODAL -->
-  <div id="resetConfirmModal" class="fixed inset-0 z-[120] flex items-center justify-center p-4 bg-black/85 backdrop-blur-md hidden opacity-0 transition-opacity duration-200">
-    <div class="bg-gradient-to-b from-kumkum-800 to-kumkum-950 border border-red-500/50 rounded-2xl w-full max-w-sm p-6 shadow-2xl text-center space-y-4">
-      <div class="w-12 h-12 rounded-full bg-red-500/20 border border-red-500/40 text-red-400 mx-auto flex items-center justify-center">
-        <i data-lucide="alert-triangle" class="w-6 h-6"></i>
-      </div>
-      <div>
-        <h4 class="font-festive text-xl text-amber-200">Reset Game & Clear Leaderboard?</h4>
-        <p class="text-xs text-amber-200/80 mt-1">This will permanently delete all contestant scores and reset the leaderboard.</p>
-      </div>
-      <div class="flex gap-2 pt-2">
-        <button onclick="cancelResetLeaderboard()" class="flex-1 py-2.5 px-4 rounded-xl bg-black/40 border border-amber-500/30 text-amber-200 text-xs font-semibold hover:bg-black/60 transition-colors">
-          Cancel
-        </button>
-        <button onclick="confirmResetLeaderboard()" class="flex-1 py-2.5 px-4 rounded-xl bg-red-700 hover:bg-red-600 text-white text-xs font-bold transition-colors shadow-md">
-          Yes, Reset All
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    const STORAGE_KEY_LEADERBOARD = 'ganesh_quiz_master_leaderboard_v5';
-    const STORAGE_KEY_PIN = 'ganesh_quiz_host_pin_v5';
-    const STORAGE_KEY_RESET_TS = 'ganesh_quiz_reset_ts_v5';
-
-    // Unique cross-device cloud sync room
-    const CLOUD_ROOM_TOPIC = 'ganesh_utsav_quiz_individual_championship_prod_v5';
-    const CLOUD_PUB_URL = `https://ntfy.sh/${CLOUD_ROOM_TOPIC}`;
-    const CLOUD_SUB_URL = `https://ntfy.sh/${CLOUD_ROOM_TOPIC}/sse?since=12h`;
-
-    const QUESTION_TIME_LIMIT_MS = 20000;
-    const TRANSITION_DELAY_MS = 450;
-
-    let cloudEventSource = null;
-    let cachedCloudParticipants = [];
-    let previousContestantRanks = {};
-
-    let currentParticipantId = "";
-    let currentPlayerName = "";
-    let isHostDashboardOpen = false;
-    let hostDashboardAutoSyncTimer = null;
-    let currentHostFilterTab = 'all'; // 'all', 'active', 'completed'
-
-    let questions = [];
-    let currentQuestionIndex = 0;
-    let userAnswers = [];
-    let score = 0;
-    let correctCount = 0;
-    let currentStreak = 0;
-    let highestStreak = 0;
-
-    let questionStartTime = 0;
-    let questionTimerInterval = null;
-    let hasAnswered = false;
-
-    let quizStartPerfTime = 0;
-    let totalElapsedDurationMs = 0;
-
-    // Authentic Sacred Question Bank (30 questions)
-    const ALL_QUESTIONS_30 = [
-      {
-        question: "According to sacred tradition, what paste did Goddess Parvati use to create Lord Ganesha?",
-        options: ["Sandalwood and turmeric ubtan", "Holy river clay from Ganga", "Sacred Bhasma ash", "Powdered saffron petals"],
-        correctIndex: 0,
-        category: "Sacred Lore",
-        explanation: "Maa Parvati formed young Ganesha from the herbal cleansing paste (ubtan) before bathing on Mount Kailash."
-      },
-      {
-        question: "Why did Lord Ganesha break off his own right tusk, earning the title 'Ekadanta'?",
-        options: ["To use as a stylus to write the Mahabharata", "During a fierce duel with demon Gajasura", "He gave it as a gift to Sage Agastya", "To defeat the demon Sindhu"],
-        correctIndex: 0,
-        category: "Mahabharata Lore",
-        explanation: "When Sage Vyasa dictated the Mahabharata without pause, Ganesha's feather pen broke. Not wanting to pause, he broke his tusk to continue."
-      },
-      {
-        question: "Which sacred grass offering with 21 blades is quintessential in Ganesha Puja to cool his body?",
-        options: ["Durva (Cynodon dactylon)", "Kusha grass", "Tulsi leaves", "Barley sprouts"],
-        correctIndex: 0,
-        category: "Rituals",
-        explanation: "After Ganesha swallowed the fire-demon Analasura, sages offered 21 blades of Durva grass, which soothed the burning heat."
-      },
-      {
-        question: "Which prominent freedom fighter transformed Ganesh Chaturthi into a massive public festival in 1893?",
-        options: ["Lokmanya Bal Gangadhar Tilak", "Gopal Krishna Gokhale", "Mahatma Jyotirao Phule", "Veer Savarkar"],
-        correctIndex: 0,
-        category: "History",
-        explanation: "Lokmanya Tilak established Sarvajanik Ganeshotsav in 1893 to bring all communities together."
-      },
-      {
-        question: "Which steamed sweet dumpling, made with rice flour, jaggery, and grated coconut, is Ganesha's supreme favorite?",
-        options: ["Modak", "Puran Poli", "Karanji", "Laddoo"],
-        correctIndex: 0,
-        category: "Traditions",
-        explanation: "Ukadiche Modak (steamed modak) is considered dearest to Ganesha, earning him the epithet 'Modakpriya'."
-      },
-      {
-        question: "In the famous cosmic race against Kartikeya, what did Lord Ganesha circumambulate?",
-        options: ["His parents, Lord Shiva and Goddess Parvati", "Mount Kailash sacred peak", "The wish-granting Kalpavriksha tree", "The sacred sacrificial fire of Brahma"],
-        correctIndex: 0,
-        category: "Wisdom Lore",
-        explanation: "Ganesha proved that parents embody the entire cosmos. By circling Shiva and Parvati, he attained the fruit of divine wisdom."
-      },
-      {
-        question: "Who is the humble vahana (mount/vehicle) of Lord Ganesha?",
-        options: ["Krauncha the divine mouse (Mooshak)", "Garuda the eagle", "Nandi the sacred bull", "Mayura the peacock"],
-        correctIndex: 0,
-        category: "Iconography",
-        explanation: "Mooshakraj represents restless worldly desires and ego; Ganesha riding upon him signifies mastery over the senses."
-      },
-      {
-        question: "On which sacred Tithi of the Hindu calendar does Ganesh Chaturthi commence?",
-        options: ["Bhadrapada Shukla Chaturthi", "Kartik Shukla Pratipada", "Chaitra Shukla Navami", "Magha Krishna Chaturthi"],
-        correctIndex: 0,
-        category: "Calendar",
-        explanation: "Ganesh Chaturthi is celebrated on the Shukla Paksha Chaturthi of the lunar month of Bhadrapada."
-      },
-      {
-        question: "Which fiery red flower is especially dear and traditionally offered to Lord Ganesha?",
-        options: ["Jaswand (Red Hibiscus)", "Blue Lotus (Neelkamal)", "White Champa", "Kewda bloom"],
-        correctIndex: 0,
-        category: "Rituals",
-        explanation: "The vibrant red Hibiscus (Jaswand) resonates with the root Muladhara chakra, governed by Lord Ganesha."
-      },
-      {
-        question: "Why is sighting the moon traditionally forbidden on Bhadrapada Ganesh Chaturthi?",
-        options: ["Due to the curse given after Chandra mocked Ganesha", "It brings eclipse energies", "Moon god was defeated by Ravana", "To maintain strict focus during puja"],
-        correctIndex: 0,
-        category: "Mythology",
-        explanation: "When Chandra vanity mocked Ganesha, Ganesha declared that anyone gazing at the moon on Chaturthi would face false allegations."
-      },
-      {
-        question: "How many sacred shrines comprise the renowned 'Ashtavinayak' pilgrimage in Maharashtra?",
-        options: ["8 Swayambhu temples", "12 Jyotirlinga shrines", "108 Mahapithas", "21 Shakti temples"],
-        correctIndex: 0,
-        category: "Pilgrimage",
-        explanation: "The Ashtavinayak pilgrimage covers eight self-manifested (Swayambhu) shrines of Ganesha across Maharashtra."
-      },
-      {
-        question: "On which auspicious 14th day of Bhadrapada does the grand Visarjan (immersion) climax take place?",
-        options: ["Anant Chaturdashi", "Vaikuntha Ekadashi", "Sharad Purnima", "Narak Chaturdashi"],
-        correctIndex: 0,
-        category: "Festivals",
-        explanation: "Anant Chaturdashi marks the conclusion of the 10-day celebration, where murtis are immersed with joyous chants."
-      },
-      {
-        question: "What sacred seed mantra (Bija Akshara) is primarily invoked for Lord Ganesha?",
-        options: ["Gam (गं)", "Hreem (ह्रीं)", "Shreem (श्रीं)", "Kleem (क्लीं)"],
-        correctIndex: 0,
-        category: "Mantras",
-        explanation: "'Om Gam Ganapataye Namaha' begins with the fundamental root vibration 'Gam'."
-      },
-      {
-        question: "Which famous Mumbai Sarvajanik Ganpati mandal is revered as 'Navsacha Ganpati' (fulfiller of wishes)?",
-        options: ["Lalbaugcha Raja", "Ganeshgalli Mumbaicha Raja", "Andhericha Raja", "Khetwadicha Ganraj"],
-        correctIndex: 0,
-        category: "Culture",
-        explanation: "Founded in 1934 in Lalbaug, Lalbaugcha Raja attracts millions of devotees seeking blessings."
-      },
-      {
-        question: "Which sacred chakra at the base of the spine is presided over by Lord Ganesha?",
-        options: ["Muladhara Chakra", "Anahata Chakra", "Manipura Chakra", "Ajna Chakra"],
-        correctIndex: 0,
-        category: "Yoga & Philosophy",
-        explanation: "Ganesha embodies the grounding earth element and presides over the four-petaled Muladhara (root) chakra."
-      },
-      {
-        question: "What is the name of Lord Ganesha's elder brother, the commander of celestial forces?",
-        options: ["Kartikeya (Murugan / Skanda)", "Ayyappa", "Bhairava", "Hanuman"],
-        correctIndex: 0,
-        category: "Family",
-        explanation: "Lord Kartikeya, worshipped as Murugan and Subrahmanya, is the elder son of Shiva and Parvati."
-      },
-      {
-        question: "Which leaf is traditionally forbidden in the worship of Lord Ganesha?",
-        options: ["Tulsi (Holy Basil) leaf", "Bel patra (Bael leaf)", "Shami leaf", "Mango leaf"],
-        correctIndex: 0,
-        category: "Traditions",
-        explanation: "According to the Ganesha Purana, after Ganesha turned down Tulsi's marriage proposal, Tulsi is avoided in regular Ganesha puja."
-      },
-      {
-        question: "What does the large belly of Lord Ganesha symbolically represent?",
-        options: ["Peaceful assimilation of all joys, sorrows, and the cosmos", "A fondness for rich festive foods", "The bounty of winter crops", "The depth of sacred oceans"],
-        correctIndex: 0,
-        category: "Symbolism",
-        explanation: "His large belly signifies that a wise seeker calmly digests all experiences—both sweet and bitter."
-      },
-      {
-        question: "What are the names of Lord Ganesha's two consorts, symbolizing intellect and spiritual accomplishment?",
-        options: ["Riddhi (Prosperity) and Siddhi (Spiritual Attainment)", "Sharda and Lakshmi", "Ganga and Yamuna", "Usha and Pratyusha"],
-        correctIndex: 0,
-        category: "Mythology",
-        explanation: "Ganesha is flanked by Riddhi and Siddhi, signifying that wisdom leads naturally to prosperity and attainment."
-      },
-      {
-        question: "Which elephant head was placed upon young Ganesha by Lord Shiva?",
-        options: ["Airavata’s descendant facing north (Gajasura's redeemed spirit)", "An Asian tusker from Vindhyas", "A mythical celestial white horse", "Nandi's twin bull"],
-        correctIndex: 0,
-        category: "Puranic Lore",
-        explanation: "Shiva directed the ganas to search northwards; the first noble creature found facing north was sanctified and placed upon Ganesha."
-      },
-      {
-        question: "Which sacred Vedic text is dedicated entirely to the glories, nature, and mantras of Ganesha?",
-        options: ["Ganapati Atharvashirsha", "Isha Upanishad", "Mandukya Upanishad", "Katha Upanishad"],
-        correctIndex: 0,
-        category: "Scriptures",
-        explanation: "The Ganapati Atharvashirsha, from the Atharva Veda, is recited during abhisheka."
-      },
-      {
-        question: "What is the philosophical meaning of Ganesha having one whole and one broken tusk?",
-        options: ["Transcendence of worldly dualities (good/bad, pleasure/pain)", "Combat power in celestial war", "Ornamental design", "Phases of the moon"],
-        correctIndex: 0,
-        category: "Philosophy",
-        explanation: "Having one tusk symbolizes singular, undivided focus, rising above dualities into unity consciousness."
-      },
-      {
-        question: "Which sacred tree leaf, known as 'Shami Patra', is especially offered to Ganesha?",
-        options: ["Prosopis cineraria (Shami)", "Peepal leaf", "Neem leaf", "Banyan leaf"],
-        correctIndex: 0,
-        category: "Rituals",
-        explanation: "Shami leaves carry purifying spiritual energy and are offered especially during auspicious festivals."
-      },
-      {
-        question: "What special title is given to a Sankashti Chaturthi when it falls on a Tuesday?",
-        options: ["Angaraki Sankashti Chaturthi", "Vinayaki Chaturthi", "Maha Chaturthi", "Bhauma Ekadashi"],
-        correctIndex: 0,
-        category: "Auspicious Days",
-        explanation: "A Tuesday (Mangalwar) coinciding with Sankashti is hailed as Angaraki Chaturthi, considered especially auspicious."
-      },
-      {
-        question: "What divine weapon is typically held in Ganesha's upper right hand to cut worldly attachments?",
-        options: ["Ankusha (Goad) or Parashu (Axe)", "Sudarshana Chakra", "Trishula", "Bow and Arrow"],
-        correctIndex: 0,
-        category: "Iconography",
-        explanation: "The axe or elephant goad severs worldly illusions, greed, and bonds, guiding the seeker toward truth."
-      },
-      {
-        question: "In classical iconography, what does the noose (Pasha) in Ganesha's hand signify?",
-        options: ["Tethering the wandering mind and pulling seekers to righteousness", "Capturing wild beasts", "Binding celestial demons", "Measuring deeds"],
-        correctIndex: 0,
-        category: "Iconography",
-        explanation: "The Pasha (lasso) gently tames an unruly mind, guiding the devotee toward righteous dharma."
-      },
-      {
-        question: "Which traditional percussion instrument is enthusiastically played during Ganeshotsav street processions?",
-        options: ["Dhol-Tasha", "Sarangi", "Santoor", "Ghatam"],
-        correctIndex: 0,
-        category: "Traditions",
-        explanation: "Energetic Dhol-Tasha troupes lead festive immersions across Maharashtra with thunderous synchronized beats."
-      },
-      {
-        question: "In the Ashtavinayak circuit, which temple is celebrated for having its idol's trunk curved to the right?",
-        options: ["Siddhivinayak of Siddhatek", "Mayureshwar of Morgaon", "Ballaleshwar of Pali", "Varadavinayak of Mahad"],
-        correctIndex: 0,
-        category: "Ashtavinayak",
-        explanation: "Siddhatek's Siddhivinayak features a trunk curved to the right (Dakshinabhimukhi), requiring devoted ritual purity."
-      },
-      {
-        question: "What is the traditional greeting chanted by devotees during Ganeshotsav processions?",
-        options: ["Ganpati Bappa Morya, Pudhchya Varshi Lavkar Ya!", "Har Har Mahadev!", "Jai Shri Krishna!", "Om Namah Shivaya!"],
-        correctIndex: 0,
-        category: "Traditions",
-        explanation: "This celebrated chant honors both Lord Ganesha and his revered 14th-century mystic devotee Morya Gosavi."
-      },
-      {
-        question: "Why do devotees whisper their secret wishes into the ears of Mooshakraj at the temple?",
-        options: ["Mooshak is Ganesha’s closest messenger who conveys sincere prayers directly", "Ganesha is said to be resting", "To prevent others from overhearing", "It is considered a secret mantra"],
-        correctIndex: 0,
-        category: "Rituals",
-        explanation: "Being constantly at Lord Ganesha's lotus feet, Mooshakraj is entrusted with delivering earnest prayers directly to the Lord."
-      }
-    ];
-
-    class FestiveSoundEngine {
-      constructor() {
-        this.ctx = null;
-        this.enabled = true;
-      }
-
-      init() {
-        if (!this.ctx) {
-          const AudioContext = window.AudioContext || window.webkitAudioContext;
-          if (AudioContext) {
-            this.ctx = new AudioContext();
-          }
-        }
-        if (this.ctx && this.ctx.state === 'suspended') {
-          this.ctx.resume();
-        }
-      }
-
-      playTone(freq, duration, type = 'sine', gainVal = 0.15) {
-        if (!this.enabled || !this.ctx) return;
-        try {
-          const osc = this.ctx.createOscillator();
-          const gain = this.ctx.createGain();
-          osc.type = type;
-          osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
-          gain.gain.setValueAtTime(gainVal, this.ctx.currentTime);
-          gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + duration);
-          osc.connect(gain);
-          gain.connect(this.ctx.destination);
-          osc.start();
-          osc.stop(this.ctx.currentTime + duration);
-        } catch (e) {}
-      }
-
-      playBell() {
-        if (!this.enabled || !this.ctx) return;
-        try {
-          const freqs = [587.33, 880, 1174.66, 1760];
-          freqs.forEach((f, i) => {
-            setTimeout(() => {
-              this.playTone(f, 0.8 + i * 0.2, 'triangle', 0.12 - i * 0.02);
-            }, i * 35);
-          });
-        } catch (e) {}
-      }
-
-      playTap() {
-        this.playTone(480, 0.06, 'sine', 0.08);
-      }
-
-      playLockIn() {
-        if (!this.enabled || !this.ctx) return;
-        try {
-          this.playTone(523.25, 0.09, 'sine', 0.12);
-          setTimeout(() => this.playTone(659.25, 0.14, 'sine', 0.14), 60);
-        } catch (e) {}
-      }
-
-      playTick() {
-        this.playTone(700, 0.04, 'square', 0.03);
-      }
-
-      playVictory() {
-        if (!this.enabled || !this.ctx) return;
-        try {
-          const melody = [523.25, 659.25, 783.99, 1046.5];
-          melody.forEach((freq, idx) => {
-            setTimeout(() => {
-              this.playTone(freq, 0.45, 'triangle', 0.2);
-            }, idx * 110);
-          });
-        } catch (e) {}
-      }
-    }
-
-    const sound = new FestiveSoundEngine();
-
-    function toggleSound() {
-      sound.init();
-      sound.enabled = !sound.enabled;
-      const icon = document.getElementById('soundIcon');
-      const text = document.getElementById('soundText');
-
-      if (sound.enabled) {
-        icon.setAttribute('data-lucide', 'volume-2');
-        text.textContent = 'Audio: On';
-        sound.playBell();
-      } else {
-        icon.setAttribute('data-lucide', 'volume-x');
-        text.textContent = 'Audio: Off';
-      }
-      safeCreateIcons();
-    }
-
-    function safeCreateIcons() {
-      if (typeof lucide !== 'undefined' && lucide.createIcons) {
-        try {
-          lucide.createIcons();
-        } catch (e) {}
-      }
-    }
-
-    function showLiveToast(title, subtitle, type = 'info') {
-      const container = document.getElementById('toastNotificationContainer');
-      if (!container) return;
-
-      const toast = document.createElement('div');
-      toast.className = `pointer-events-auto flex items-center gap-2.5 p-3 rounded-2xl border shadow-xl backdrop-blur-md transition-all duration-300 transform translate-x-0 ${
-        type === 'up' ? 'bg-emerald-950/90 border-emerald-500/50 text-emerald-200' :
-        type === 'down' ? 'bg-red-950/90 border-red-500/50 text-red-200' :
-        type === 'launch' ? 'bg-amber-950/90 border-amber-400 text-amber-200' :
-        'bg-stone-900/90 border-amber-500/40 text-amber-200'
-      }`;
-
-      let iconHtml = '<i data-lucide="bell" class="w-4 h-4 text-amber-300"></i>';
-      if (type === 'up') iconHtml = '<i data-lucide="arrow-up-right" class="w-4 h-4 text-emerald-300"></i>';
-      else if (type === 'down') iconHtml = '<i data-lucide="arrow-down-right" class="w-4 h-4 text-red-300"></i>';
-      else if (type === 'launch') iconHtml = '<i data-lucide="rocket" class="w-4 h-4 text-amber-300"></i>';
-
-      toast.innerHTML = `
-        <div class="p-1 rounded-lg bg-black/40">${iconHtml}</div>
-        <div class="text-xs">
-          <p class="font-bold text-amber-100">${escapeHtml(title)}</p>
-          <p class="text-amber-200/90 text-[11px]">${escapeHtml(subtitle)}</p>
-        </div>
-      `;
-      container.appendChild(toast);
-      safeCreateIcons();
-
-      setTimeout(() => {
-        toast.style.opacity = '0';
-        toast.style.transform = 'translateX(20px)';
-        setTimeout(() => toast.remove(), 350);
-      }, 3500);
-    }
-
-    let liveQuizChannel = null;
-    try {
-      if (typeof window.BroadcastChannel !== 'undefined') {
-        liveQuizChannel = new BroadcastChannel('ganesh_chaturthi_live_indiv_v5');
-        liveQuizChannel.onmessage = (event) => {
-          if (!event.data) return;
-          handleIncomingSyncMessage(event.data);
-        };
-      }
-    } catch (e) {}
-
-    function initCloudSync() {
-      try {
-        if (typeof EventSource !== 'undefined') {
-          cloudEventSource = new EventSource(CLOUD_SUB_URL);
-          cloudEventSource.onmessage = (event) => {
-            try {
-              const parsed = JSON.parse(event.data);
-              if (parsed && parsed.message) {
-                const inner = JSON.parse(parsed.message);
-                handleIncomingSyncMessage(inner, true);
-              }
-            } catch (err) {}
-          };
-          cloudEventSource.onerror = () => {
-            setTimeout(() => {
-              if (cloudEventSource) {
-                cloudEventSource.close();
-                cloudEventSource = null;
-                initCloudSync();
-              }
-            }, 5000);
-          };
-        }
-      } catch (e) {}
-
-      syncRecentCloudMessages();
-      setInterval(syncRecentCloudMessages, 10000);
-    }
-
-    async function syncRecentCloudMessages() {
-      try {
-        const resp = await fetch(`https://ntfy.sh/${CLOUD_ROOM_TOPIC}/json?poll=1&since=12h`);
-        if (!resp.ok) return;
-        const text = await resp.text();
-        const lines = text.trim().split('\n');
+    <!-- MAIN APP CONTAINER -->
+    <main class="flex-grow flex items-center justify-center p-4 md:p-6">
         
-        let resetTs = 0;
-        try {
-          resetTs = Number(localStorage.getItem(STORAGE_KEY_RESET_TS) || '0');
-        } catch (e) {}
+        <!-- 1. WELCOME / ENROLLMENT SCREEN -->
+        <section id="welcomeScreen" class="w-full max-w-md bg-temple-card/95 border border-temple-border rounded-3xl p-6 md:p-8 glow-card text-center relative overflow-hidden">
+            <div class="absolute -top-12 -right-12 w-32 h-32 bg-marigold/10 rounded-full blur-2xl pointer-events-none"></div>
+            
+            <div class="w-20 h-20 mx-auto mb-5 rounded-full bg-gradient-to-br from-marigold to-saffron-600 flex items-center justify-center shadow-lg glow-gold">
+                <i data-lucide="award" class="w-10 h-10 text-temple-deep"></i>
+            </div>
+            
+            <h2 class="font-cinzel text-2xl md:text-3xl font-bold text-marigold mb-2">Shri Ganeshay Namah</h2>
+            <p class="text-saffron-100/80 text-sm mb-6 leading-relaxed">
+                Welcome to the divine Ganesh Chaturthi Knowledge Championship. Test your wisdom across 30 unique dynamic questions!
+            </p>
 
-        lines.forEach(line => {
-          try {
-            if (!line.trim()) return;
-            const item = JSON.parse(line);
-            if (item && item.message) {
-              const data = JSON.parse(item.message);
-              if (data.ts && data.ts < resetTs) return;
-              handleIncomingSyncMessage(data, true);
+            <form id="enrollmentForm" onsubmit="startParticipantQuiz(event)" class="space-y-4 text-left">
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-saffron-200/70 mb-1.5">Devotee Full Name</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-marigold">
+                            <i data-lucide="user" class="w-5 h-5"></i>
+                        </span>
+                        <input type="text" id="participantName" required placeholder="Enter your full name" 
+                            class="w-full pl-11 pr-4 py-3 bg-temple-deep/80 border border-temple-border rounded-xl text-saffron-50 placeholder-saffron-200/30 focus:outline-none focus:border-marigold transition text-sm">
+                    </div>
+                </div>
+
+                <button type="submit" id="enrollSubmitBtn" class="w-full py-3.5 px-6 bg-gradient-to-r from-marigold to-saffron-600 hover:from-marigold-light hover:to-saffron-500 text-temple-deep font-bold rounded-xl shadow-lg transition transform active:scale-95 flex items-center justify-center space-x-2 font-cinzel tracking-wide text-base">
+                    <span>Enroll & Start Quiz</span>
+                    <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                </button>
+            </form>
+            
+            <div class="mt-6 pt-4 border-t border-temple-border/40 text-xs text-saffron-200/50 flex justify-center items-center space-x-4">
+                <span class="flex items-center"><i data-lucide="help-circle" class="w-3.5 h-3.5 mr-1 text-marigold"></i> 30 Dynamic Questions</span>
+                <span class="flex items-center"><i data-lucide="zap" class="w-3.5 h-3.5 mr-1 text-marigold"></i> Speed Bonuses</span>
+            </div>
+        </section>
+
+        <!-- 2. QUIZ INTERFACE -->
+        <section id="quizScreen" class="w-full max-w-xl bg-temple-card/95 border border-temple-border rounded-3xl p-6 md:p-8 glow-card hidden">
+            <!-- HUD Top Bar -->
+            <div class="flex items-center justify-between mb-6 pb-4 border-b border-temple-border/50 text-xs md:text-sm">
+                <div class="flex items-center space-x-2 bg-temple-deep/60 px-3 py-1.5 rounded-full border border-temple-border">
+                    <i data-lucide="hash" class="w-4 h-4 text-marigold"></i>
+                    <span id="questionCounter" class="font-bold text-saffron-100">Q 1/30</span>
+                </div>
+                <div class="flex items-center space-x-2 bg-temple-deep/60 px-3.5 py-1.5 rounded-full border border-temple-border">
+                    <i data-lucide="clock" class="w-4 h-4 text-marigold animate-spin"></i>
+                    <span id="timerDisplay" class="font-bold text-marigold">20s</span>
+                </div>
+                <div class="flex items-center space-x-1.5 bg-temple-deep/60 px-3.5 py-1.5 rounded-full border border-temple-border">
+                    <i data-lucide="star" class="w-4 h-4 text-marigold fill-marigold"></i>
+                    <span id="liveScoreDisplay" class="font-bold text-saffron-100">0 Pts</span>
+                </div>
+            </div>
+
+            <!-- Question Text -->
+            <div class="mb-6">
+                <h3 id="questionTitle" class="font-cinzel text-lg md:text-xl font-bold text-saffron-50 leading-snug">
+                    Loading divine question...
+                </h3>
+            </div>
+
+            <!-- Options Grid -->
+            <div id="optionsContainer" class="space-y-3 mb-6"></div>
+
+            <!-- Progress Bar -->
+            <div class="w-full bg-temple-deep/80 rounded-full h-2 overflow-hidden border border-temple-border">
+                <div id="quizProgressBar" class="bg-gradient-to-r from-marigold to-saffron-500 h-full transition-all duration-300" style="width: 3.33%;"></div>
+            </div>
+        </section>
+
+        <!-- 3. RESULTS SCREEN -->
+        <section id="resultsScreen" class="w-full max-w-md bg-temple-card/95 border border-temple-border rounded-3xl p-6 md:p-8 glow-card text-center hidden">
+            <div class="w-20 h-20 mx-auto mb-5 rounded-full bg-gradient-to-tr from-marigold to-saffron-500 flex items-center justify-center shadow-lg glow-gold">
+                <i data-lucide="trophy" class="w-10 h-10 text-temple-deep"></i>
+            </div>
+            
+            <h2 class="font-cinzel text-2xl md:text-3xl font-bold text-marigold mb-1">Quiz Completed!</h2>
+            <p class="text-xs text-saffron-200/70 mb-6">May Lord Ganesha bestow wisdom and success upon you.</p>
+
+            <div class="bg-temple-deep/80 border border-temple-border rounded-2xl p-5 mb-6 space-y-3 text-left">
+                <div class="flex justify-between items-center text-sm">
+                    <span class="text-saffron-200/70">Final Score:</span>
+                    <span id="resFinalScore" class="font-bold text-marigold text-lg">0 Points</span>
+                </div>
+                <div class="flex justify-between items-center text-sm">
+                    <span class="text-saffron-200/70">Correct Answers:</span>
+                    <span id="resCorrectCount" class="font-bold text-saffron-50">0 / 30</span>
+                </div>
+                <div class="flex justify-between items-center text-sm">
+                    <span class="text-saffron-200/70">Accuracy:</span>
+                    <span id="resAccuracy" class="font-bold text-saffron-50">0%</span>
+                </div>
+                <div class="flex justify-between items-center text-sm">
+                    <span class="text-saffron-200/70">Total Time Taken:</span>
+                    <span id="resTimeTaken" class="font-bold text-saffron-50">0s</span>
+                </div>
+            </div>
+
+            <button onclick="location.reload()" class="w-full py-3.5 bg-gradient-to-r from-marigold to-saffron-600 hover:from-marigold-light hover:to-saffron-500 text-temple-deep font-bold rounded-xl shadow-lg transition font-cinzel tracking-wide">
+                Play Again / Return Home
+            </button>
+        </section>
+
+    </main>
+
+    <!-- HOST AUTH PIN MODAL -->
+    <div id="hostAuthModal" class="fixed inset-0 bg-temple-deep/90 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-temple-card border border-temple-border rounded-3xl p-6 md:p-8 max-w-sm w-full shadow-2xl relative text-center">
+            <button onclick="closeHostAuthModal()" class="absolute top-4 right-4 text-saffron-200/60 hover:text-marigold">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-temple-deep border border-temple-border flex items-center justify-center text-marigold">
+                <i data-lucide="lock" class="w-7 h-7"></i>
+            </div>
+            <h3 class="font-cinzel text-xl font-bold text-marigold mb-1">Host Portal Access</h3>
+            <p class="text-xs text-saffron-200/70 mb-5">Enter security PIN (Default: 787898)</p>
+            
+            <form onsubmit="verifyHostPin(event)" class="space-y-4">
+                <input type="password" id="hostPinInput" required placeholder="Enter PIN" 
+                    class="w-full text-center tracking-widest text-lg py-3 bg-temple-deep border border-temple-border rounded-xl text-saffron-50 focus:outline-none focus:border-marigold">
+                <button type="submit" class="w-full py-3 bg-marigold hover:bg-marigold-light text-temple-deep font-bold rounded-xl shadow transition font-cinzel">
+                    Unlock Leaderboard
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- HOST LEADERBOARD MODAL -->
+    <div id="hostLeaderboardModal" class="fixed inset-0 bg-temple-deep/95 backdrop-blur-md z-[60] flex flex-col hidden overflow-hidden">
+        <!-- Host Top Bar -->
+        <div class="bg-temple-deep border-b border-temple-border px-4 py-3 flex items-center justify-between shrink-0">
+            <div class="flex items-center space-x-3">
+                <div class="w-9 h-9 rounded-full bg-marigold flex items-center justify-center text-temple-deep">
+                    <i data-lucide="shield" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <h2 class="font-cinzel font-bold text-marigold text-base">Host Championship Leaderboard</h2>
+                    <p class="text-xs text-saffron-200/70">Live Individual Standings & Analytics</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-2">
+                <button onclick="syncHostDataNow()" class="flex items-center space-x-1 px-3 py-1.5 bg-temple-card hover:bg-temple-border border border-temple-border text-marigold rounded-lg text-xs font-medium transition">
+                    <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+                    <span>Sync Now</span>
+                </button>
+                <button onclick="promptHostReset()" class="flex items-center space-x-1 px-3 py-1.5 bg-red-950/40 hover:bg-red-900/60 border border-red-800 text-red-300 rounded-lg text-xs font-medium transition">
+                    <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                    <span>Clear Board</span>
+                </button>
+                <button onclick="closeHostLeaderboardModal()" class="p-2 text-saffron-200/70 hover:text-marigold">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Host Content Area -->
+        <div class="flex-grow overflow-y-auto p-4 md:p-6 max-w-5xl mx-auto w-full space-y-6">
+            <!-- Podium Top 3 -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4" id="hostPodiumContainer"></div>
+
+            <!-- Live Playing Ticker Strip -->
+            <div class="bg-temple-card/80 border border-temple-border rounded-2xl p-4">
+                <div class="flex items-center justify-between mb-3">
+                    <h4 class="font-cinzel text-sm font-bold text-marigold flex items-center">
+                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping mr-2"></span>
+                        Live Active Devotees
+                    </h4>
+                    <span id="activeCountBadge" class="text-xs bg-temple-deep px-2.5 py-0.5 rounded-full border border-temple-border text-saffron-200">0 Playing</span>
+                </div>
+                <div id="hostActiveContestantsTicker" class="flex overflow-x-auto space-x-3 pb-2 scrollbar-thin">
+                    <span class="text-xs text-saffron-200/50 italic py-2">No devotees currently answering questions...</span>
+                </div>
+            </div>
+
+            <!-- Full Leaderboard Table Section -->
+            <div class="bg-temple-card/90 border border-temple-border rounded-2xl p-4 md:p-6 shadow-xl">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-3">
+                    <div class="flex items-center space-x-2">
+                        <button onclick="setHostFilter('all')" id="tabFilterAll" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-marigold text-temple-deep transition">All (0)</button>
+                        <button onclick="setHostFilter('active')" id="tabFilterActive" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-temple-deep border border-temple-border text-saffron-200 hover:text-marigold transition">🟢 Live (0)</button>
+                        <button onclick="setHostFilter('completed')" id="tabFilterCompleted" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-temple-deep border border-temple-border text-saffron-200 hover:text-marigold transition">🏁 Finished (0)</button>
+                    </div>
+                    <div class="relative w-full sm:w-64">
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-saffron-200/40">
+                            <i data-lucide="search" class="w-4 h-4"></i>
+                        </span>
+                        <input type="text" id="hostSearchInput" oninput="renderHostLeaderboard()" placeholder="Search devotee name..." 
+                            class="w-full pl-9 pr-3 py-1.5 bg-temple-deep border border-temple-border rounded-xl text-xs text-saffron-50 placeholder-saffron-200/30 focus:outline-none focus:border-marigold">
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="border-b border-temple-border text-xs text-saffron-200/60 uppercase tracking-wider font-cinzel">
+                                <th class="py-3 px-3">Rank</th>
+                                <th class="py-3 px-3">Devotee Name</th>
+                                <th class="py-3 px-3">Status</th>
+                                <th class="py-3 px-3">Progress</th>
+                                <th class="py-3 px-3 text-right">Score</th>
+                                <th class="py-3 px-3 text-right">Accuracy</th>
+                                <th class="py-3 px-3 text-right">Time</th>
+                            </tr>
+                        </thead>
+                        <tbody id="hostLeaderboardTableBody" class="divide-y divide-temple-border/50 text-sm">
+                            <tr>
+                                <td colspan="7" class="text-center py-8 text-saffron-200/50 italic">No participant records found.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- RESET CONFIRMATION MODAL -->
+    <div id="resetConfirmModal" class="fixed inset-0 bg-temple-deep/90 backdrop-blur-md z-[100] flex items-center justify-center p-4 hidden">
+        <div class="bg-temple-card border border-temple-border rounded-3xl p-6 max-w-sm w-full shadow-2xl text-center">
+            <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-red-950/60 border border-red-800 flex items-center justify-center text-red-400">
+                <i data-lucide="alert-triangle" class="w-7 h-7"></i>
+            </div>
+            <h3 class="font-cinzel text-xl font-bold text-marigold mb-2">Clear Leaderboard?</h3>
+            <p class="text-xs text-saffron-200/70 mb-6">This will permanently delete all participant records and reset the championship board.</p>
+            
+            <div class="flex space-x-3">
+                <button onclick="closeResetModal()" class="flex-1 py-2.5 bg-temple-deep border border-temple-border text-saffron-200 font-medium rounded-xl text-sm transition">Cancel</button>
+                <button onclick="confirmResetLeaderboard()" class="flex-1 py-2.5 bg-red-600 hover:bg-red-500 text-white font-bold rounded-xl text-sm transition shadow">Yes, Clear All</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="w-full bg-temple-deep border-t border-temple-border/60 py-3 px-4 text-center text-xs text-saffron-200/50">
+        <p>Ganesh Chaturthi Utsav Championship • Celebrating Divine Wisdom & Devotion</p>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Expanded dynamic master question bank for unique generation per user
+        const MASTER_QUESTION_POOL = [
+            { q: "Which sacred deity is revered as 'Vighnaharta', the remover of all obstacles?", options: ["Lord Shiva", "Lord Ganesha", "Lord Vishnu", "Lord Hanuman"], correct: 1 },
+            { q: "What is the primary vehicle (Vahana) associated with Lord Ganesha?", options: ["A Majestic Lion", "A Swift Mouse (Mooshika)", "A Royal Peacock", "A Divine Swan"], correct: 1 },
+            { q: "During which Hindu lunar month does the grand festival of Ganesh Chaturthi begin?", options: ["Kartik", "Bhadrapada", "Shravana", "Phalguna"], correct: 1 },
+            { q: "According to Hindu mythology, whose son is Lord Ganesha considered to be?", options: ["Lord Brahma & Saraswati", "Lord Vishnu & Lakshmi", "Lord Shiva & Goddess Parvati", "Lord Indra & Shachi"], correct: 2 },
+            { q: "What is Lord Ganesha's favorite sweet delicacy, often placed in his trunk's hand?", options: ["Laddoo (Modak)", "Kaju Katli", "Jalebi", "Gulab Jamun"], correct: 0 },
+            { q: "What does the large elephant head of Lord Ganesha primarily symbolize?", options: ["Supreme Wisdom and Intellect", "Physical Strength", "Speed and Agility", "Royal Sovereignty"], correct: 0 },
+            { q: "What is the name of Lord Ganesha's brother in Puranic lore?", options: ["Lord Hanuman", "Lord Kartikeya (Murugan)", "Lord Krishna", "Lord Rama"], correct: 1 },
+            { q: "According to legend, whose curse caused Lord Ganesha's belly to grow large after eating too many sweets?", options: ["Chandra (Moon)", "Narada Muni", "Sage Agastya", "Lord Kubera"], correct: 0 },
+            { q: "What does the broken tusk (Ekadanta) of Lord Ganesha signify?", options: ["Sacrifice for writing the Mahabharata", "Defeat in a battle", "A childhood accident", "A symbol of war"], correct: 0 },
+            { q: "Which epic was scribed by Lord Ganesha as dictated by Sage Vyasa?", options: ["Ramayana", "Mahabharata", "Bhagavad Gita", "Rigveda"], correct: 1 },
+            { q: "What is the significance of Lord Ganesha's large ears?", options: ["To hear all prayers and listen more than speak", "To catch the wind", "Purely ornamental", "To hear distant music"], correct: 0 },
+            { q: "What does the goad (Ankusha) held in Ganesha's hand represent?", options: ["Driving devotees toward righteousness", "Weapon for combat", "A gardener's tool", "A royal scepter"], correct: 0 },
+            { q: "Which sacred grass is traditionally offered in bundles during Ganesh worship (Durva grass)?", options: ["Kusha grass", "Durva grass", "Bermuda grass", "Lemongrass"], correct: 1 },
+            { q: "What is the name of the ritual immersion of Ganesha idols at the end of the festival?", options: ["Visarjan", "Pranapratishtha", "Aarti", "Abhisheka"], correct: 0 },
+            { q: "Which form of Ganesha is depicted with 32 different divine attributes?", options: ["Dvashadash Ganesha", "Dhyana Ganesha", "Dvathrimsha Ganesha (32 forms)", "Ashta Vinayaka"], correct: 2 },
+            { q: "What is the meaning of the Sanskrit mantra 'Om Gam Ganapataye Namah'?", options: ["Salutations to the remover of obstacles", "Hail to the god of wealth", "Praise to the divine elephant", "Victory to wisdom"], correct: 0 },
+            { q: "How many principal sacred shrines make up the famous 'Ashta Vinayaka' pilgrimage in Maharashtra?", options: ["5", "8", "12", "108"], correct: 1 },
+            { q: "What does the noose (Pasha) in Ganesha's hand symbolize?", options: ["Capturing and pulling devotees toward spiritual truth", "Binding enemies", "Holding royal flags", "Measuring time"], correct: 0 },
+            { q: "Which sweet is specially prepared in sets of 21 during Ganesh Chaturthi?", options: ["Modak", "Barfi", "Peda", "Halwa"], correct: 0 },
+            { q: "What does Ganesha's small mouse (Mooshika) represent when conquered?", options: ["Taming of ego and wandering desires", "Speed in travel", "Overcoming fear of rodents", "Agricultural prosperity"], correct: 0 },
+            { q: "What color cloth or silk is traditionally considered most auspicious for offering to Lord Ganesha?", options: ["Bright Yellow or Red", "Plain White", "Dark Black", "Cool Blue"], correct: 0 },
+            { q: "Which ancient scripture contains the famous 'Ganesha Upanishad'?", options: ["Atharva Veda", "Rig Veda", "Yajur Veda", "Sam Veda"], correct: 0 },
+            { q: "In which posture is Lord Ganesha frequently seated in traditional iconography?", options: ["Lalitasana (Royal Ease / One leg folded)", "Padmasana (Lotus)", "Standing upright", "Reclining"], correct: 0 },
+            { q: "What does the modak held in Ganesha's hand signify?", options: ["The sweet reward of spiritual seeking and inner bliss", "A daily meal", "Offering to guests", "Agricultural harvest"], correct: 0 },
+            { q: "Which celestial body is traditionally avoided for viewing on the night of Chaturthi due to legend?", options: ["Chandra (Moon)", "Surya (Sun)", "Mangala (Mars)", "Shani (Saturn)"], correct: 0 },
+            { q: "What is the ritual of invoking life into the clay idol at the start of festival called?", options: ["Prana Pratishtha", "Visarjan", "Aarti Sangrah", "Shodashopachara"], correct: 0 },
+            { q: "Which deity is traditionally worshipped first alongside Ganesha in all Hindu rituals?", options: ["Lord Ganesha himself as Prathama Pujeya", "Lord Vishnu", "Goddess Lakshmi", "Lord Brahma"], correct: 0 },
+            { q: "What does Ganesha's raised palm (Abhaya Mudra) signify?", options: ["Blessing of fearlessness and divine protection", "A gesture of stopping", "A greeting", "Counting numbers"], correct: 0 },
+            { q: "What is the symbolic meaning of Ganesha's trunk curving to his left?", options: ["Ida Nadi / Success, happiness, and worldly prosperity", "Pingala Nadi / Ascetic detachment", "Sushumna / Ultimate liberation", "Neutral balance"], correct: 0 },
+            { q: "What is the ultimate spiritual message celebrated during Ganesh Chaturthi?", options: ["Realization of the Supreme Divine within oneself", "Gathering for community feasts", "Musical concerts", "Seasonal change"], correct: 0 },
+            { q: "Which of these names means 'Lord of the Ganas'?", options: ["Ganapati", "Gajanana", "Vinayaka", "Lambodara"], correct: 0 },
+            { q: "What does the name 'Lambodara' signify regarding Lord Ganesha?", options: ["One who has a large belly containing the entire universe", "One with an elephant face", "One who removes obstacles", "One who rides a mouse"], correct: 0 },
+            { q: "In which direction is it considered most auspicious to place a Ganesha idol facing in a home?", options: ["North or East", "South only", "West only", "Any direction is equal"], correct: 0 },
+            { q: "What is the significance of applying Sindoor and Kumkum to Lord Ganesha?", options: ["Symbol of auspiciousness, devotion, and victory", "To decorate the clay", "Only for fragrance", "Represents fire element"], correct: 0 },
+            { q: "Which festival concludes the ten-day celebrations of Ganesh Chaturthi?", options: ["Anant Chaturdashi", "Diwali", "Holi", "Makar Sankranti"], correct: 0 }
+        ];
+
+        let currentParticipantId = null;
+        let participantName = '';
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let correctCount = 0;
+        let startTime = 0;
+        let questionTimer = null;
+        let timeLeft = 20;
+        let shuffledQuestions = [];
+        let hostFilter = 'all';
+
+        const BC_CHANNEL_NAME = 'ganesh_quiz_channel_v4';
+        const bc = window.BroadcastChannel ? new BroadcastChannel(BC_CHANNEL_NAME) : null;
+        const STORAGE_KEY_PARTICIPANTS = 'ganesh_quiz_participants_v4';
+        const STORAGE_KEY_RESET_TS = 'ganesh_quiz_reset_timestamp_v4';
+
+        if (bc) {
+            bc.onmessage = (event) => {
+                if (event.data && event.data.type === 'SYNC_PARTICIPANT') {
+                    upsertParticipantInStorage(event.data.record);
+                    if (!document.getElementById('hostLeaderboardModal').classList.contains('hidden')) {
+                        renderHostLeaderboard();
+                    }
+                } else if (event.data && event.data.type === 'RESET_BOARD') {
+                    localStorage.setItem(STORAGE_KEY_RESET_TS, event.data.timestamp);
+                    localStorage.removeItem(STORAGE_KEY_PARTICIPANTS);
+                    if (!document.getElementById('hostLeaderboardModal').classList.contains('hidden')) {
+                        renderHostLeaderboard();
+                    }
+                }
+            };
+        }
+
+        window.addEventListener('storage', (e) => {
+            if (e.key === STORAGE_KEY_PARTICIPANTS || e.key === STORAGE_KEY_RESET_TS) {
+                if (!document.getElementById('hostLeaderboardModal').classList.contains('hidden')) {
+                    renderHostLeaderboard();
+                }
             }
-          } catch (e) {}
         });
-        if (isHostDashboardOpen) {
-          renderHostDashboard();
-        }
-      } catch (err) {}
-    }
 
-    async function broadcastLiveProgress(entry, isFinished = false) {
-      saveOrUpdateHostRecord(entry, isFinished);
-
-      const packet = {
-        type: isFinished ? 'FINAL_SUBMISSION' : 'LIVE_PROGRESS',
-        entry: entry,
-        ts: Date.now()
-      };
-
-      if (liveQuizChannel) {
-        try { liveQuizChannel.postMessage(packet); } catch (e) {}
-      }
-
-      try {
-        await fetch(CLOUD_PUB_URL, {
-          method: 'POST',
-          body: JSON.stringify(packet),
-          headers: { 'Content-Type': 'text/plain' }
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.lucide) lucide.createIcons();
+            cleanupStaleRecords();
         });
-      } catch (err) {}
-    }
 
-    function handleIncomingSyncMessage(data, isBatch = false) {
-      if (!data) return;
-
-      let resetTs = 0;
-      try {
-        resetTs = Number(localStorage.getItem(STORAGE_KEY_RESET_TS) || '0');
-      } catch (e) {}
-      if (data.ts && data.ts < resetTs) return;
-
-      if (data.type === 'LIVE_PROGRESS' || data.type === 'FINAL_SUBMISSION') {
-        if (!data.entry) return;
-        saveOrUpdateHostRecord(data.entry, data.type === 'FINAL_SUBMISSION', true);
-
-        if (!isBatch && isHostDashboardOpen && data.entry.rankMovement) {
-          const isUp = data.entry.rankMovement > 0;
-          showLiveToast(
-            `${data.entry.name} shifted ${isUp ? 'UP ▲' : 'DOWN ▼'}!`, 
-            `Correct: ${data.entry.correctCount}/30 • Score: ${data.entry.score.toLocaleString()}`,
-            isUp ? 'up' : 'down'
-          );
-        }
-      } else if (data.type === 'RESET') {
-        cachedCloudParticipants = [];
-        try { localStorage.setItem(STORAGE_KEY_LEADERBOARD, JSON.stringify([])); } catch (e) {}
-        if (isHostDashboardOpen) renderHostDashboard();
-      }
-    }
-
-    async function manualSyncFromCloud() {
-      sound.playTap();
-      const btnText = document.getElementById('manualSyncBtnText');
-      if (btnText) btnText.textContent = "Syncing...";
-      await syncRecentCloudMessages();
-      renderHostDashboard();
-      if (btnText) {
-        btnText.textContent = "Synced ✓";
-        setTimeout(() => { btnText.textContent = "Sync Now"; }, 2000);
-      }
-      showLiveToast("Synced", "Latest participant scores updated from all devices.", "info");
-    }
-
-    function shuffleArray(arr) {
-      const copy = [...arr];
-      for (let i = copy.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [copy[i], copy[j]] = [copy[j], copy[i]];
-      }
-      return copy;
-    }
-
-    function prepareQuiz() {
-      questions = ALL_QUESTIONS_30.map(q => {
-        const originalCorrectText = q.options[q.correctIndex];
-        const shuffledOpts = shuffleArray(q.options);
-        const newCorrectIndex = shuffledOpts.indexOf(originalCorrectText);
-        return {
-          ...q,
-          options: shuffledOpts,
-          correctIndex: newCorrectIndex
-        };
-      });
-      userAnswers = new Array(questions.length).fill(null);
-    }
-
-    function handleEnrollmentSubmit(e) {
-      e.preventDefault();
-      const nameInput = document.getElementById('playerNameInput');
-      const errEl = document.getElementById('validationErrorMessage');
-
-      const nameVal = (nameInput.value || '').trim();
-
-      if (!nameVal) {
-        errEl.textContent = "Please enter your full name.";
-        errEl.classList.remove('hidden');
-        return;
-      }
-
-      errEl.classList.add('hidden');
-      currentParticipantId = 'p_' + Date.now() + '_' + Math.floor(Math.random() * 10000);
-      currentPlayerName = nameVal;
-
-      sound.init();
-      sound.playBell();
-
-      launchParticipantQuizNow();
-    }
-
-    function launchParticipantQuizNow() {
-      score = 0;
-      correctCount = 0;
-      currentStreak = 0;
-      highestStreak = 0;
-      currentQuestionIndex = 0;
-      quizStartPerfTime = performance.now();
-
-      prepareQuiz();
-
-      document.getElementById('welcomeScreen').classList.add('hidden');
-      document.getElementById('resultsScreen').classList.add('hidden');
-      document.getElementById('quizScreen').classList.remove('hidden');
-
-      broadcastLiveQuestionAdvance(1);
-      renderQuestion();
-    }
-
-    function renderQuestion() {
-      hasAnswered = false;
-      clearInterval(questionTimerInterval);
-      questionStartTime = performance.now();
-
-      const q = questions[currentQuestionIndex];
-
-      document.getElementById('questionProgressText').textContent = `${currentQuestionIndex + 1} / ${questions.length}`;
-      document.getElementById('questionCategory').textContent = q.category;
-      document.getElementById('questionTitle').textContent = q.question;
-
-      const progressPercent = ((currentQuestionIndex) / questions.length) * 100;
-      document.getElementById('overallProgressBar').style.width = `${progressPercent}%`;
-
-      const container = document.getElementById('optionsContainer');
-      container.innerHTML = '';
-
-      q.options.forEach((optText, index) => {
-        const btn = document.createElement('button');
-        btn.className = `option-card w-full text-left p-3.5 sm:p-4 rounded-2xl bg-black/35 border border-amber-500/25 hover:bg-amber-500/10 text-amber-100 font-medium flex items-center justify-between text-sm sm:text-base group`;
-        btn.id = `optBtn_${index}`;
-        btn.onclick = () => lockInAnswer(index);
-
-        const letters = ['A', 'B', 'C', 'D'];
-        btn.innerHTML = `
-          <span class="flex items-center gap-3">
-            <span class="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-300 border border-amber-500/30 flex items-center justify-center text-xs font-bold font-mono group-hover:border-amber-400">
-              ${letters[index]}
-            </span>
-            <span class="text-amber-100 leading-snug">${escapeHtml(optText)}</span>
-          </span>
-          <span id="optIcon_${index}" class="w-6 h-6 flex items-center justify-center"></span>
-        `;
-        container.appendChild(btn);
-      });
-
-      const banner = document.getElementById('lockedInBanner');
-      banner.classList.add('hidden');
-      banner.classList.remove('flex');
-
-      updateTimerUI(QUESTION_TIME_LIMIT_MS);
-
-      let lastTickSec = 20;
-      questionTimerInterval = setInterval(() => {
-        const elapsed = performance.now() - questionStartTime;
-        const remaining = Math.max(0, QUESTION_TIME_LIMIT_MS - elapsed);
-
-        updateTimerUI(remaining);
-
-        const currentSec = Math.ceil(remaining / 1000);
-        if (currentSec <= 5 && currentSec > 0 && currentSec !== lastTickSec) {
-          lastTickSec = currentSec;
-          sound.playTick();
+        function cleanupStaleRecords() {
+            const resetTs = parseInt(localStorage.getItem(STORAGE_KEY_RESET_TS) || '0', 10);
+            let raw = localStorage.getItem(STORAGE_KEY_PARTICIPANTS);
+            if (!raw) return;
+            try {
+                let map = JSON.parse(raw);
+                let cleaned = {};
+                for (let id in map) {
+                    if (map[id].lastUpdated > resetTs) {
+                        cleaned[id] = map[id];
+                    }
+                }
+                localStorage.setItem(STORAGE_KEY_PARTICIPANTS, JSON.stringify(cleaned));
+            } catch (e) {
+                localStorage.removeItem(STORAGE_KEY_PARTICIPANTS);
+            }
         }
 
-        if (remaining <= 0) {
-          clearInterval(questionTimerInterval);
-          handleQuestionTimeout();
-        }
-      }, 50);
-
-      safeCreateIcons();
-    }
-
-    function updateTimerUI(remainingMs) {
-      const timerText = document.getElementById('timerSecondsText');
-      const timerBar = document.getElementById('timerBar');
-
-      const sec = Math.ceil(remainingMs / 1000);
-      timerText.textContent = `${sec}s`;
-      const ratio = (remainingMs / QUESTION_TIME_LIMIT_MS) * 100;
-      timerBar.style.width = `${ratio}%`;
-
-      if (remainingMs <= 5000) {
-        timerText.className = "font-mono font-bold text-red-400 text-xs sm:text-sm animate-pulse";
-        timerBar.className = "h-full bg-gradient-to-r from-red-600 to-red-400 rounded-full transition-all duration-75";
-      } else {
-        timerText.className = "font-mono font-bold text-amber-300 text-xs sm:text-sm";
-        timerBar.className = "h-full bg-gradient-to-r from-emerald-500 via-amber-400 to-red-500 rounded-full transition-all duration-75";
-      }
-    }
-
-    function lockInAnswer(selectedIndex) {
-      if (hasAnswered) return;
-      hasAnswered = true;
-      clearInterval(questionTimerInterval);
-
-      const elapsedMs = performance.now() - questionStartTime;
-      const remainingMs = Math.max(0, QUESTION_TIME_LIMIT_MS - elapsedMs);
-
-      userAnswers[currentQuestionIndex] = selectedIndex;
-      const q = questions[currentQuestionIndex];
-      const isCorrect = (selectedIndex === q.correctIndex);
-
-      const allButtons = document.querySelectorAll('.option-card');
-      allButtons.forEach(b => b.disabled = true);
-
-      if (selectedIndex !== null) {
-        const chosenBtn = document.getElementById(`optBtn_${selectedIndex}`);
-        if (chosenBtn) {
-          chosenBtn.classList.add('locked-in');
-          const iconSpan = document.getElementById(`optIcon_${selectedIndex}`);
-          if (iconSpan) {
-            iconSpan.innerHTML = `<i data-lucide="check" class="w-5 h-5 text-amber-300"></i>`;
-          }
-        }
-        sound.playLockIn();
-      }
-
-      if (isCorrect) {
-        correctCount++;
-        currentStreak++;
-        if (currentStreak > highestStreak) highestStreak = currentStreak;
-
-        const baseScore = 100;
-        const timeBonus = Math.round(remainingMs / 20);
-        const streakMultiplier = currentStreak > 1 ? 1 + (currentStreak * 0.05) : 1;
-        score += Math.round((baseScore + timeBonus) * streakMultiplier);
-      } else {
-        currentStreak = 0;
-      }
-
-      safeCreateIcons();
-
-      const isLastQ = (currentQuestionIndex === questions.length - 1);
-      broadcastLiveProgressReport(currentQuestionIndex + 1, isLastQ);
-
-      const banner = document.getElementById('lockedInBanner');
-      const msg = document.getElementById('lockedInMessage');
-      if (banner && msg) {
-        msg.textContent = isLastQ ? "Final answer locked! Calculating results..." : "Answer recorded! Moving to next question...";
-        banner.classList.remove('hidden');
-        banner.classList.add('flex');
-      }
-
-      setTimeout(() => {
-        if (!isLastQ) {
-          currentQuestionIndex++;
-          broadcastLiveQuestionAdvance(currentQuestionIndex + 1);
-          renderQuestion();
-        } else {
-          finishQuiz();
-        }
-      }, TRANSITION_DELAY_MS);
-    }
-
-    function handleQuestionTimeout() {
-      lockInAnswer(null);
-    }
-
-    function formatTimeDuration(totalMs) {
-      const minutes = Math.floor(totalMs / 60000);
-      const seconds = Math.floor((totalMs % 60000) / 1000);
-      const ms = Math.floor(totalMs % 1000);
-      return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}.${String(ms).padStart(3, '0')}`;
-    }
-
-    function broadcastLiveQuestionAdvance(newQuestionNum) {
-      totalElapsedDurationMs = Math.round(performance.now() - quizStartPerfTime);
-      const entry = {
-        id: currentParticipantId,
-        name: currentPlayerName,
-        score: score,
-        correctCount: correctCount,
-        answeredCount: currentQuestionIndex,
-        currentQuestionNumber: newQuestionNum,
-        totalQuestions: questions.length,
-        accuracy: currentQuestionIndex > 0 ? Math.round((correctCount / currentQuestionIndex) * 100) : 0,
-        streak: highestStreak,
-        durationMs: totalElapsedDurationMs,
-        durationFormatted: formatTimeDuration(totalElapsedDurationMs),
-        status: `Playing Q${newQuestionNum}/${questions.length}`,
-        isFinished: false,
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
-        date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
-        rawEpoch: Date.now()
-      };
-      broadcastLiveProgress(entry, false);
-    }
-
-    function broadcastLiveProgressReport(answeredCount, isFinished = false) {
-      totalElapsedDurationMs = Math.round(performance.now() - quizStartPerfTime);
-      const formattedDuration = formatTimeDuration(totalElapsedDurationMs);
-      const calculatedAccuracy = answeredCount > 0 ? Math.round((correctCount / answeredCount) * 100) : 0;
-
-      const entry = {
-        id: currentParticipantId,
-        name: currentPlayerName,
-        score: score,
-        correctCount: correctCount,
-        answeredCount: answeredCount,
-        currentQuestionNumber: answeredCount,
-        totalQuestions: questions.length,
-        accuracy: calculatedAccuracy,
-        streak: highestStreak,
-        durationMs: totalElapsedDurationMs,
-        durationFormatted: formattedDuration,
-        status: isFinished ? 'Completed' : `Q${answeredCount}/${questions.length}`,
-        isFinished: isFinished,
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
-        date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
-        rawEpoch: Date.now()
-      };
-
-      broadcastLiveProgress(entry, isFinished);
-    }
-
-    function finishQuiz() {
-      clearInterval(questionTimerInterval);
-      totalElapsedDurationMs = Math.round(performance.now() - quizStartPerfTime);
-      const formattedDuration = formatTimeDuration(totalElapsedDurationMs);
-
-      document.getElementById('quizScreen').classList.add('hidden');
-      document.getElementById('resultsScreen').classList.remove('hidden');
-
-      const accuracy = Math.round((correctCount / questions.length) * 100);
-
-      let rankTitle = "Ganesh Bhakt (Devotee)";
-      if (score >= 25000 && accuracy >= 85) {
-        rankTitle = "Param Super-Devotee 🌟";
-      } else if (score >= 18000) {
-        rankTitle = "Modak Master 🥟";
-      } else if (score >= 12000) {
-        rankTitle = "Mythology Scholar 📜";
-      } else {
-        rankTitle = "Seeker of Wisdom 🌱";
-      }
-
-      document.getElementById('resultPlayerGreeting').textContent = `${currentPlayerName}!`;
-      document.getElementById('rankBadgeText').textContent = rankTitle;
-      document.getElementById('resultFinalScore').textContent = score.toLocaleString();
-      document.getElementById('resultAccuracy').textContent = `${accuracy}%`;
-      document.getElementById('resultCorrectCount').textContent = `${correctCount} of ${questions.length} Correct`;
-      document.getElementById('resultMaxStreak').textContent = highestStreak;
-      document.getElementById('resultTotalTime').textContent = formattedDuration;
-
-      broadcastLiveProgressReport(questions.length, true);
-
-      buildAnswerReviewList();
-      sound.playVictory();
-      triggerConfetti();
-      safeCreateIcons();
-    }
-
-    function toggleAnswerReview() {
-      sound.playTap();
-      const reviewSection = document.getElementById('answersReviewSection');
-      const toggleBtnText = document.getElementById('toggleReviewText');
-      const isHidden = reviewSection.classList.contains('hidden');
-
-      if (isHidden) {
-        reviewSection.classList.remove('hidden');
-        toggleBtnText.textContent = "Hide Answer Review";
-        reviewSection.scrollIntoView({ behavior: 'smooth' });
-      } else {
-        reviewSection.classList.add('hidden');
-        toggleBtnText.textContent = "Review Answers & Lore";
-      }
-    }
-
-    function buildAnswerReviewList() {
-      const container = document.getElementById('reviewItemsContainer');
-      container.innerHTML = '';
-
-      questions.forEach((q, idx) => {
-        const userChoiceIndex = userAnswers[idx];
-        const isCorrect = (userChoiceIndex === q.correctIndex);
-        const userChoiceText = userChoiceIndex !== null ? q.options[userChoiceIndex] : "No answer selected (Timed out)";
-        const correctChoiceText = q.options[q.correctIndex];
-
-        const item = document.createElement('div');
-        item.className = `p-4 rounded-2xl border text-sm space-y-2 ${
-          isCorrect ? 'bg-emerald-950/30 border-emerald-500/40' : 'bg-red-950/20 border-red-500/30'
-        }`;
-
-        item.innerHTML = `
-          <div class="flex items-start justify-between gap-2">
-            <span class="font-bold text-amber-200">Q${idx + 1}. ${escapeHtml(q.question)}</span>
-            <span class="px-2 py-0.5 rounded text-[11px] font-bold shrink-0 ${
-              isCorrect ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' : 'bg-red-500/20 text-red-300 border border-red-500/30'
-            }">
-              ${isCorrect ? '✓ Correct' : '✗ Incorrect'}
-            </span>
-          </div>
-
-          <div class="text-xs space-y-1">
-            <p class="text-amber-100/80">
-              <span class="font-semibold text-amber-300">Your Answer:</span> ${escapeHtml(userChoiceText)}
-            </p>
-            ${!isCorrect ? `
-              <p class="text-emerald-300 font-semibold">
-                <span>Correct Answer:</span> ${escapeHtml(correctChoiceText)}
-              </p>
-            ` : ''}
-          </div>
-
-          <div class="bg-black/35 p-2.5 rounded-xl border border-amber-500/20 text-xs text-amber-200/90 leading-relaxed">
-            <span class="font-semibold text-amber-300">Sacred Lore:</span> ${escapeHtml(q.explanation)}
-          </div>
-        `;
-        container.appendChild(item);
-      });
-    }
-
-    function triggerConfetti() {
-      if (typeof confetti !== 'undefined') {
-        const colors = ['#f59e0b', '#ea580c', '#fbbf24', '#b91c1c', '#ffffff'];
-        confetti({
-          particleCount: 100,
-          spread: 80,
-          origin: { y: 0.6 },
-          colors: colors
-        });
-      }
-    }
-
-    function goToHome() {
-      sound.playTap();
-      clearInterval(questionTimerInterval);
-      document.getElementById('quizScreen').classList.add('hidden');
-      document.getElementById('resultsScreen').classList.add('hidden');
-      document.getElementById('welcomeScreen').classList.remove('hidden');
-    }
-
-    function shareScore() {
-      sound.playTap();
-      const shareText = `🪔 I scored ${score.toLocaleString()} points (${correctCount}/${questions.length} correct in ${formatTimeDuration(totalElapsedDurationMs)}) in the Ganesh Chaturthi Utsav Quiz! Ganpati Bappa Morya! 🙏`;
-      const tempTextArea = document.createElement('textarea');
-      tempTextArea.value = shareText;
-      document.body.appendChild(tempTextArea);
-      tempTextArea.select();
-      try {
-        document.execCommand('copy');
-        const notice = document.getElementById('shareNotice');
-        notice.classList.remove('hidden');
-        setTimeout(() => notice.classList.add('hidden'), 4000);
-      } catch (err) {}
-      document.body.removeChild(tempTextArea);
-    }
-
-    function copyQuizShareLink() {
-      sound.playTap();
-      const quizUrl = "https://vikasuikey.github.io/ganesh-chaturthi-quiz/";
-      const tempTextArea = document.createElement('textarea');
-      tempTextArea.value = quizUrl;
-      document.body.appendChild(tempTextArea);
-      tempTextArea.select();
-      try {
-        document.execCommand('copy');
-        const btnText = document.getElementById('copyLinkBtnText');
-        if (btnText) {
-          btnText.textContent = "Copied! ✓";
-          setTimeout(() => { btnText.textContent = "Copy Link"; }, 2500);
-        }
-        showLiveToast("Link Copied", "Quiz link copied to clipboard!", "launch");
-      } catch (e) {}
-      document.body.removeChild(tempTextArea);
-    }
-
-    function openHostAuthModal() {
-      sound.playTap();
-      const modal = document.getElementById('hostAuthModal');
-      const pinInput = document.getElementById('hostPinInput');
-      const err = document.getElementById('pinErrorMessage');
-      if (pinInput) pinInput.value = '';
-      if (err) err.classList.add('hidden');
-      if (!modal) return;
-      modal.classList.remove('hidden');
-      setTimeout(() => {
-        modal.classList.remove('opacity-0');
-        if (pinInput) pinInput.focus();
-      }, 20);
-      safeCreateIcons();
-    }
-
-    function closeHostAuthModal() {
-      sound.playTap();
-      const modal = document.getElementById('hostAuthModal');
-      if (!modal) return;
-      modal.classList.add('opacity-0');
-      setTimeout(() => modal.classList.add('hidden'), 250);
-    }
-
-    function verifyHostPin() {
-      const pinInput = document.getElementById('hostPinInput');
-      const err = document.getElementById('pinErrorMessage');
-      const entered = (pinInput ? pinInput.value : '').trim();
-      const currentPin = getHostPin();
-
-      if (entered === currentPin) {
-        sound.playBell();
-        closeHostAuthModal();
-        setTimeout(openHostLeaderboardModal, 260);
-      } else {
-        if (err) {
-          err.textContent = "Incorrect Host PIN! Please enter the correct PIN.";
-          err.classList.remove('hidden');
-        }
-        if (pinInput) {
-          pinInput.classList.add('border-red-500');
-          setTimeout(() => pinInput.classList.remove('border-red-500'), 1500);
-        }
-      }
-    }
-
-    function renderIndividualPodium() {
-      const container = document.getElementById('individualPodiumContainer');
-      if (!container) return;
-      const list = sortLeaderboardList(getHostLeaderboard());
-      const topThree = list.slice(0, 3);
-      const podiumOrder = [topThree[1], topThree[0], topThree[2]];
-      const configs = [
-        { rank: '#2', title: 'Runner-Up', color: 'border-slate-400 bg-slate-500/10 text-slate-200', icon: 'medal', scale: 'sm:translate-y-2' },
-        { rank: '#1', title: '👑 CHAMPION WINNER', color: 'winner-gold-card text-amber-200', icon: 'trophy', scale: 'sm:-translate-y-2 sm:scale-105 z-10' },
-        { rank: '#3', title: '3rd Place', color: 'border-amber-700 bg-amber-800/10 text-amber-500', icon: 'award', scale: 'sm:translate-y-3' },
-      ];
-
-      container.innerHTML = '';
-      podiumOrder.forEach((p, idx) => {
-        const conf = configs[idx];
-        const card = document.createElement('div');
-        const isWinner = (idx === 1 && p && p.score > 0);
-        card.className = `p-3.5 sm:p-4 rounded-2xl border text-center transition-all ${conf.color} ${conf.scale}`;
-        if (!p || !p.score) {
-          card.innerHTML = `
-            <div class="flex items-center justify-center gap-1.5 text-xs font-bold uppercase mb-1 opacity-70">
-              <i data-lucide="${conf.icon}" class="w-4 h-4"></i> ${conf.title}
-            </div>
-            <p class="font-festive text-lg text-amber-200/50">Awaiting Score</p>
-            <p class="text-[10px] text-amber-300/40">No submission yet</p>
-          `;
-        } else {
-          card.innerHTML = `
-            <div class="flex items-center justify-center gap-1.5 text-xs font-black uppercase mb-1 ${isWinner ? 'text-amber-300 drop-shadow' : ''}">
-              <i data-lucide="${conf.icon}" class="w-4 h-4 ${isWinner ? 'text-amber-300 animate-bounce' : ''}"></i> ${conf.title} (${conf.rank})
-            </div>
-            <h5 class="font-festive text-base sm:text-xl text-amber-100 font-extrabold tracking-wide truncate">${escapeHtml(p.name)}</h5>
-            <div class="mt-1 text-xl sm:text-2xl font-festive text-amber-300 drop-shadow">
-              ${Number(p.score).toLocaleString()} <span class="text-[10px] uppercase font-mono font-bold">pts</span>
-            </div>
-            <div class="text-[11px] text-amber-200/90 mt-1 flex justify-center gap-2">
-              <span><strong>${p.correctCount || 0}/30</strong> correct</span>
-              <span>• <strong>${p.accuracy || 0}%</strong> acc</span>
-            </div>
-            <div class="text-[10px] text-amber-300 mt-1.5 truncate bg-black/40 py-0.5 px-2 rounded-lg border border-amber-500/20 font-mono">
-              ⏱️ ${p.durationFormatted || '00:00.000'}
-            </div>
-          `;
-        }
-        container.appendChild(card);
-      });
-    }
-
-    function getHostPin() {
-      try {
-        return localStorage.getItem(STORAGE_KEY_PIN) || '787898';
-      } catch (e) {
-        return '787898';
-      }
-    }
-
-    function setHostPin(newPin) {
-      try {
-        localStorage.setItem(STORAGE_KEY_PIN, newPin);
-        return true;
-      } catch (e) {
-        return false;
-      }
-    }
-
-    function getHostLeaderboard() {
-      if (cachedCloudParticipants.length > 0) {
-        return [...cachedCloudParticipants];
-      }
-      try {
-        const stored = localStorage.getItem(STORAGE_KEY_LEADERBOARD);
-        if (stored !== null) {
-          const parsed = JSON.parse(stored);
-          if (Array.isArray(parsed)) return parsed;
-        }
-      } catch (e) {}
-      return [];
-    }
-
-    function sortLeaderboardList(list) {
-      return list.sort((a, b) => {
-        if (b.score !== a.score) return b.score - a.score;
-        if (b.correctCount !== a.correctCount) return b.correctCount - a.correctCount;
-        if (a.durationMs !== b.durationMs) return a.durationMs - b.durationMs;
-        return a.rawEpoch - b.rawEpoch;
-      });
-    }
-
-    function saveOrUpdateHostRecord(entry, isFinished = false, fromRemote = false) {
-      let list = getHostLeaderboard();
-      const existingIdx = list.findIndex(item => item.id === entry.id || item.name.trim().toLowerCase() === entry.name.trim().toLowerCase());
-
-      const oldRank = previousContestantRanks[entry.id] || (existingIdx !== -1 ? existingIdx + 1 : null);
-
-      if (existingIdx !== -1) {
-        const existing = list[existingIdx];
-        const isIncomingNewer = (entry.rawEpoch || 0) >= (existing.rawEpoch || 0);
-        const isHigherProgress = (entry.answeredCount || 0) >= (existing.answeredCount || 0);
-        
-        if (isIncomingNewer || isHigherProgress || entry.isFinished) {
-          list[existingIdx] = { ...existing, ...entry };
-        }
-      } else {
-        list.push(entry);
-      }
-
-      list = sortLeaderboardList(list);
-
-      const newRank = list.findIndex(item => item.id === entry.id) + 1;
-      let rankMovement = 0;
-      if (oldRank !== null && oldRank !== newRank) {
-        rankMovement = oldRank - newRank;
-      }
-      entry.rankMovement = rankMovement;
-
-      cachedCloudParticipants = [...list];
-
-      try {
-        localStorage.setItem(STORAGE_KEY_LEADERBOARD, JSON.stringify(list));
-      } catch (e) {}
-
-      if (isHostDashboardOpen) {
-        renderHostDashboard();
-      }
-    }
-
-    function setHostFilterTab(tab) {
-      sound.playTap();
-      currentHostFilterTab = tab;
-
-      const btnAll = document.getElementById('tabFilterAll');
-      const btnActive = document.getElementById('tabFilterActive');
-      const btnCompleted = document.getElementById('tabFilterCompleted');
-
-      const activeStyle = "px-2.5 py-1 rounded-lg font-bold bg-amber-500 text-kumkum-950 shadow transition-all text-xs";
-      const inactiveStyle = "px-2.5 py-1 rounded-lg font-bold text-amber-200/80 hover:text-amber-100 transition-all text-xs";
-
-      if (btnAll) btnAll.className = (tab === 'all') ? activeStyle : inactiveStyle;
-      if (btnActive) btnActive.className = (tab === 'active') ? activeStyle : inactiveStyle;
-      if (btnCompleted) btnCompleted.className = (tab === 'completed') ? activeStyle : inactiveStyle;
-
-      renderIndividualLeaderboard();
-    }
-
-    function openHostLeaderboardModal() {
-      isHostDashboardOpen = true;
-      syncRecentCloudMessages();
-      renderHostDashboard();
-      const modal = document.getElementById('hostLeaderboardModal');
-      if (!modal) return;
-      modal.classList.remove('hidden');
-      setTimeout(() => modal.classList.remove('opacity-0'), 20);
-
-      clearInterval(hostDashboardAutoSyncTimer);
-      hostDashboardAutoSyncTimer = setInterval(() => {
-        if (isHostDashboardOpen) {
-          syncRecentCloudMessages();
-        }
-      }, 6000);
-    }
-
-    function closeHostLeaderboardModal() {
-      isHostDashboardOpen = false;
-      clearInterval(hostDashboardAutoSyncTimer);
-      sound.playTap();
-      const modal = document.getElementById('hostLeaderboardModal');
-      if (!modal) return;
-      modal.classList.add('opacity-0');
-      setTimeout(() => modal.classList.add('hidden'), 250);
-    }
-
-    let currentFilterTerm = '';
-
-    function filterLeaderboardView() {
-      const searchInput = document.getElementById('leaderboardSearchInput');
-      currentFilterTerm = searchInput ? searchInput.value.toLowerCase().trim() : '';
-      renderIndividualLeaderboard();
-    }
-
-    function renderHostDashboard() {
-      renderIndividualPodium();
-      renderActiveParticipantsTicker();
-      renderIndividualLeaderboard();
-      safeCreateIcons();
-    }
-
-    function renderActiveParticipantsTicker() {
-      const ticker = document.getElementById('hostActiveContestantsTicker');
-      const badge = document.getElementById('hostActivePlayingCountBadge');
-      if (!ticker) return;
-
-      const allEntries = getHostLeaderboard();
-      const activeDevotees = allEntries.filter(p => !p.isFinished);
-      const completedDevotees = allEntries.filter(p => p.isFinished);
-
-      if (badge) badge.textContent = `${activeDevotees.length} Playing`;
-
-      const filterAllCount = document.getElementById('filterCountAll');
-      const filterActiveCount = document.getElementById('filterCountActive');
-      const filterCompletedCount = document.getElementById('filterCountCompleted');
-
-      if (filterAllCount) filterAllCount.textContent = allEntries.length;
-      if (filterActiveCount) filterActiveCount.textContent = activeDevotees.length;
-      if (filterCompletedCount) filterCompletedCount.textContent = completedDevotees.length;
-
-      ticker.innerHTML = '';
-
-      if (activeDevotees.length === 0) {
-        ticker.innerHTML = `
-          <div class="text-amber-300/60 text-xs py-1.5 flex items-center gap-2">
-            <i data-lucide="info" class="w-3.5 h-3.5 text-amber-400"></i>
-            <span>No devotees actively answering right now. Newly enrolled participants appear here live as they play!</span>
-          </div>
-        `;
-        return;
-      }
-
-      activeDevotees.forEach(p => {
-        const chip = document.createElement('div');
-        const progressPct = Math.min(100, Math.round(((p.answeredCount || 0) / (p.totalQuestions || 30)) * 100));
-
-        chip.className = "shrink-0 bg-emerald-950/40 border border-emerald-500/40 rounded-xl p-2 min-w-[170px] flex flex-col gap-1 shadow-sm";
-        chip.innerHTML = `
-          <div class="flex items-center justify-between gap-2">
-            <span class="font-bold text-amber-100 text-xs truncate max-w-[110px]">${escapeHtml(p.name)}</span>
-            <span class="px-1.5 py-0.2 rounded bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 font-mono text-[9px] font-bold">
-              Q${p.currentQuestionNumber || p.answeredCount || 1}/30
-            </span>
-          </div>
-          <div class="w-full bg-black/60 rounded-full h-1.5 overflow-hidden border border-emerald-500/20">
-            <div class="bg-gradient-to-r from-emerald-400 to-amber-400 h-full rounded-full transition-all duration-300" style="width: ${progressPct}%"></div>
-          </div>
-          <div class="flex items-center justify-between text-[10px] text-amber-200/80">
-            <span class="font-festive text-amber-300 font-bold">${Number(p.score || 0).toLocaleString()} pts</span>
-            <span>${p.correctCount || 0} Correct</span>
-          </div>
-        `;
-        ticker.appendChild(chip);
-      });
-    }
-
-    function renderIndividualLeaderboard() {
-      let allEntries = getHostLeaderboard();
-      allEntries = sortLeaderboardList(allEntries);
-
-      const totalCountText = document.getElementById('participantTotalCountText');
-      if (totalCountText) {
-        totalCountText.innerHTML = `<i data-lucide="users" class="w-4 h-4 text-amber-400"></i><span>${allEntries.length} Participant${allEntries.length === 1 ? '' : 's'} Recorded</span>`;
-      }
-
-      const container = document.getElementById('hostLeaderboardList');
-      if (!container) return;
-      container.innerHTML = '';
-
-      const filtered = allEntries.filter(entry => {
-        const matchesTerm = (entry.name || '').toLowerCase().includes(currentFilterTerm);
-        if (!matchesTerm) return false;
-
-        if (currentHostFilterTab === 'active') return !entry.isFinished;
-        if (currentHostFilterTab === 'completed') return entry.isFinished;
-        return true;
-      });
-
-      if (filtered.length === 0) {
-        container.innerHTML = `
-          <div class="text-center py-10 text-amber-300/60 text-sm space-y-2">
-            <i data-lucide="inbox" class="w-10 h-10 mx-auto text-amber-400/40"></i>
-            <p class="font-medium">${allEntries.length === 0 ? 'No participants have submitted yet.' : 'No participants matching the selected filter.'}</p>
-            <p class="text-xs text-amber-400/40">${allEntries.length === 0 ? 'When contestants answer questions, their ranks and points appear here live!' : 'Try switching filter tabs or clearing your search.'}</p>
-          </div>
-        `;
-        safeCreateIcons();
-        return;
-      }
-
-      const currentNewContestantRanks = {};
-
-      filtered.forEach((item, index) => {
-        const currentRank = index + 1;
-        currentNewContestantRanks[item.id] = currentRank;
-
-        const oldRank = previousContestantRanks[item.id] || currentRank;
-        const rankDiff = oldRank - currentRank;
-
-        let rankMovementTag = '';
-        let animationClass = '';
-        if (rankDiff > 0) {
-          rankMovementTag = `<span class="inline-flex items-center text-xs font-black text-emerald-400 bg-emerald-500/20 border border-emerald-400/30 px-1.5 py-0.5 rounded-md shadow animate-bounce">▲ +${rankDiff}</span>`;
-          animationClass = 'animate-rank-up';
-        } else if (rankDiff < 0) {
-          rankMovementTag = `<span class="inline-flex items-center text-xs font-black text-red-400 bg-red-500/20 border border-red-400/30 px-1.5 py-0.5 rounded-md shadow animate-pulse">▼ ${rankDiff}</span>`;
-          animationClass = 'animate-rank-down';
-        } else {
-          rankMovementTag = `<span class="inline-flex items-center text-[10px] text-amber-400/60 font-mono">━</span>`;
+        function getParticipantMap() {
+            const resetTs = parseInt(localStorage.getItem(STORAGE_KEY_RESET_TS) || '0', 10);
+            let raw = localStorage.getItem(STORAGE_KEY_PARTICIPANTS);
+            if (!raw) return {};
+            try {
+                let map = JSON.parse(raw);
+                let valid = {};
+                for (let id in map) {
+                    if (map[id].lastUpdated > resetTs) {
+                        valid[id] = map[id];
+                    }
+                }
+                return valid;
+            } catch (e) {
+                return {};
+            }
         }
 
-        const isOverallWinner = (index === 0 && !currentFilterTerm && currentHostFilterTab === 'all' && item.score > 0);
-        const isTopThree = index < 3 && !currentFilterTerm && currentHostFilterTab === 'all' && item.score > 0;
-        const isPlayingNow = !item.isFinished;
-        const progressPct = Math.min(100, Math.round(((item.answeredCount || 0) / (item.totalQuestions || 30)) * 100));
+        function upsertParticipantInStorage(record) {
+            const resetTs = parseInt(localStorage.getItem(STORAGE_KEY_RESET_TS) || '0', 10);
+            if (record.lastUpdated <= resetTs) return;
 
-        let rankNumberBadge = '';
-        if (isOverallWinner) {
-          rankNumberBadge = `
-            <div class="flex items-center gap-1.5 bg-amber-400 text-kumkum-950 font-black px-2.5 py-1 rounded-full text-xs shadow-lg uppercase tracking-wider animate-pulse">
-              <i data-lucide="crown" class="w-4 h-4 fill-kumkum-950 text-kumkum-950"></i>
-              <span>#1 WINNER</span>
-            </div>
-          `;
-        } else if (isTopThree && index === 1) {
-          rankNumberBadge = `<span class="text-slate-200 font-extrabold flex items-center gap-1 text-sm"><i data-lucide="medal" class="w-4 h-4 text-slate-300"></i> #2</span>`;
-        } else if (isTopThree && index === 2) {
-          rankNumberBadge = `<span class="text-amber-500 font-extrabold flex items-center gap-1 text-sm"><i data-lucide="award" class="w-4 h-4 text-amber-500"></i> #3</span>`;
-        } else {
-          rankNumberBadge = `<span class="text-amber-300/70 font-semibold font-mono text-xs">#${currentRank}</span>`;
+            let map = getParticipantMap();
+            map[record.id] = record;
+            localStorage.setItem(STORAGE_KEY_PARTICIPANTS, JSON.stringify(map));
+
+            if (bc) {
+                bc.postMessage({ type: 'SYNC_PARTICIPANT', record });
+            }
         }
 
-        const row = document.createElement('div');
-        row.className = `table-row-item ${animationClass}`;
+        // Dynamically generate a unique set of 30 questions per participant session
+        function generateUniqueParticipantQuestions() {
+            let pool = JSON.parse(JSON.stringify(MASTER_QUESTION_POOL));
+            // Shuffle pool using Fisher-Yates
+            for (let i = pool.length - 1; i > 0; i--) {
+                let j = Math.floor(Math.random() * (i + 1));
+                [pool[i], pool[j]] = [pool[j], pool[i]];
+            }
+            // Take exactly 30 unique questions
+            let selected = pool.slice(0, 30);
 
-        const statusPill = isPlayingNow ? `
-          <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-bold uppercase">
-            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span> Playing Q${item.currentQuestionNumber || item.answeredCount || 1}/30
-          </span>
-        ` : `
-          <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 text-[10px] font-bold uppercase">
-            <i data-lucide="check" class="w-3 h-3 text-amber-400"></i> Finished
-          </span>
-        `;
-
-        if (isOverallWinner) {
-          row.className += ` p-4 sm:p-5 rounded-3xl winner-gold-card flex flex-col sm:flex-row sm:items-center justify-between gap-3`;
-          row.innerHTML = `
-            <div class="flex items-center gap-3.5 flex-1">
-              <div class="flex flex-col items-center gap-1 shrink-0">
-                ${rankNumberBadge}
-                ${rankMovementTag}
-              </div>
-              <div class="flex-1">
-                <div class="flex items-center gap-2 flex-wrap">
-                  <p class="font-festive text-xl sm:text-2xl text-amber-100 font-black tracking-wide">${escapeHtml(item.name)}</p>
-                  ${statusPill}
-                </div>
-                <div class="w-full max-w-md bg-black/50 rounded-full h-1.5 my-1.5 overflow-hidden border border-amber-400/30">
-                  <div class="bg-gradient-to-r from-amber-400 to-orange-400 h-full rounded-full" style="width: ${progressPct}%"></div>
-                </div>
-                <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-amber-100/90 mt-1">
-                  <span>Correct: <strong class="text-emerald-300 font-bold text-sm">${item.correctCount || 0} / ${item.totalQuestions || 30}</strong></span>
-                  <span>• Accuracy: <strong class="text-emerald-300">${item.accuracy || 0}%</strong></span>
-                  <span>• Streak: <strong class="text-orange-300">${item.streak || 0}</strong></span>
-                  <span>• Time: <strong class="font-mono text-amber-200">${item.durationFormatted || '00:00.000'}</strong></span>
-                </div>
-              </div>
-            </div>
-            <div class="text-left sm:text-right shrink-0 bg-black/40 px-4 py-2 rounded-2xl border border-amber-400/40">
-              <span class="font-festive text-2xl sm:text-3xl text-amber-300 font-black drop-shadow">${Number(item.score).toLocaleString()}</span>
-              <span class="text-[10px] text-amber-200/80 block -mt-1 font-mono uppercase font-bold">Grand Points</span>
-            </div>
-          `;
-        } else {
-          row.className += ` p-3 sm:p-3.5 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 transition-all ${
-            isPlayingNow ? 'bg-emerald-950/20 border border-emerald-500/30 shadow-sm' :
-            isTopThree ? 'bg-amber-500/15 border border-amber-500/35' : 'bg-black/30 border border-amber-500/15'
-          }`;
-
-          row.innerHTML = `
-            <div class="flex items-center gap-3 flex-1">
-              <div class="w-12 flex flex-col items-center justify-center shrink-0">
-                ${rankNumberBadge}
-                ${rankMovementTag}
-              </div>
-              <div class="flex-1">
-                <div class="flex items-center gap-2 flex-wrap">
-                  <p class="font-bold text-amber-100 text-sm sm:text-base">${escapeHtml(item.name)}</p>
-                  ${statusPill}
-                </div>
-                <div class="w-full max-w-xs bg-black/40 rounded-full h-1.5 my-1 overflow-hidden border border-amber-500/20">
-                  <div class="bg-gradient-to-r ${isPlayingNow ? 'from-emerald-400 to-amber-400' : 'from-amber-400 to-orange-400'} h-full rounded-full" style="width: ${progressPct}%"></div>
-                </div>
-                <div class="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[11px] text-amber-300/70 mt-0.5">
-                  <span>Correct: <strong class="text-emerald-300 font-bold">${item.correctCount || 0}/${item.totalQuestions || 30}</strong></span>
-                  <span>• Acc: <strong class="text-amber-200">${item.accuracy || 0}%</strong></span>
-                  <span>• Streak: <strong class="text-orange-400">${item.streak || 0}</strong></span>
-                  <span>• Time: <strong class="font-mono text-amber-200">${item.durationFormatted || '00:00.000'}</strong></span>
-                </div>
-              </div>
-            </div>
-            <div class="text-left sm:text-right shrink-0">
-              <span class="font-festive text-lg sm:text-2xl text-amber-300">${Number(item.score).toLocaleString()}</span>
-              <span class="text-[10px] text-amber-400/60 block -mt-1 font-mono">pts</span>
-            </div>
-          `;
+            // Shuffle options for each selected question uniquely
+            return selected.map(q => {
+                let opts = q.options.map((text, idx) => ({ text, originalIdx: idx }));
+                for (let i = opts.length - 1; i > 0; i--) {
+                    let j = Math.floor(Math.random() * (i + 1));
+                    [opts[i], opts[j]] = [opts[j], opts[i]];
+                }
+                return {
+                    q: q.q,
+                    options: opts.map(o => o.text),
+                    correct: opts.findIndex(o => o.originalIdx === q.correct)
+                };
+            });
         }
-        container.appendChild(row);
-      });
 
-      previousContestantRanks = currentNewContestantRanks;
-      safeCreateIcons();
-    }
+        async function startParticipantQuiz(e) {
+            e.preventDefault();
+            const nameInput = document.getElementById('participantName').value.trim();
+            if (!nameInput) return;
 
-    function simulateLiveParticipantMovement() {
-      sound.playTap();
-      let list = getHostLeaderboard();
+            participantName = nameInput;
+            currentParticipantId = 'p_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+            currentQuestionIndex = 0;
+            score = 0;
+            correctCount = 0;
+            startTime = Date.now();
 
-      let targetPerson;
-      if (list.length > 0) {
-        const eligible = list.filter(p => !p.isFinished);
-        targetPerson = eligible.length > 0 ? eligible[Math.floor(Math.random() * eligible.length)] : list[Math.floor(Math.random() * list.length)];
-      } else {
-        const mockContestants = ["Aarav Sharma", "Pooja Deshmukh", "Rohan Kulkarni", "Sneha Nair", "Vikram Mehta"];
-        const randomName = mockContestants[Math.floor(Math.random() * mockContestants.length)];
-        targetPerson = { id: 'sim_' + randomName.replace(/\s+/g, '_').toLowerCase(), name: randomName };
-      }
+            const submitBtn = document.getElementById('enrollSubmitBtn');
+            submitBtn.innerHTML = `<span>Invoking Unique Questions...</span>`;
+            submitBtn.disabled = true;
 
-      const simId = targetPerson.id;
-      let existing = list.find(item => item.id === simId);
+            // Simulate real-time dynamic fetch delay for authentic feel
+            await new Promise(r => setTimeout(r, 400));
 
-      let currentAns = existing ? (existing.answeredCount || 0) + 1 : 1;
-      let currentCor = existing ? (existing.correctCount || 0) + 1 : 1;
-      let addedScore = Math.floor(Math.random() * 450) + 850;
-      let currentSc = existing ? existing.score + addedScore : addedScore;
-      let newDuration = (existing?.durationMs || 0) + Math.floor(Math.random() * 5000) + 4000;
+            // Generate unique randomized question set for this participant
+            shuffledQuestions = generateUniqueParticipantQuestions();
 
-      const simEntry = {
-        id: simId,
-        name: targetPerson.name,
-        score: currentSc,
-        correctCount: currentCor,
-        answeredCount: currentAns,
-        currentQuestionNumber: currentAns,
-        totalQuestions: 30,
-        accuracy: Math.round((currentCor / currentAns) * 100),
-        streak: (existing?.streak || 0) + 1,
-        durationMs: newDuration,
-        durationFormatted: formatTimeDuration(newDuration),
-        status: currentAns >= 30 ? 'Completed' : `Q${currentAns}/30 Live`,
-        isFinished: currentAns >= 30,
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
-        date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
-        rawEpoch: Date.now()
-      };
+            document.getElementById('welcomeScreen').classList.add('hidden');
+            document.getElementById('quizScreen').classList.remove('hidden');
 
-      broadcastLiveProgress(simEntry, simEntry.isFinished);
-    }
+            saveAndBroadcastProgress('playing');
+            loadQuestion();
+        }
 
-    function exportLeaderboardCSV() {
-      sound.playTap();
-      const entries = getHostLeaderboard();
-      if (entries.length === 0) {
-        showLiveToast("Export Failed", "No participant records available to export.", "down");
-        return;
-      }
+        function saveAndBroadcastProgress(status) {
+            if (!currentParticipantId) return;
+            const totalTimeSec = Math.floor((Date.now() - startTime) / 1000);
+            const answeredCount = currentQuestionIndex;
+            const accuracy = answeredCount > 0 ? Math.round((correctCount / answeredCount) * 100) : 0;
 
-      let csv = "Rank,Participant Name,Total Score,Correct Count,Total Answered,Accuracy (%),Highest Streak,Exact Duration (MM:SS.ms),Status,Submission Date,Submission Time\n";
-      entries.forEach((e, idx) => {
-        csv += `"${idx + 1}","${(e.name || '').replace(/"/g, '""')}","${e.score}","${e.correctCount || 0}","${e.answeredCount || 0}","${e.accuracy}","${e.streak || 0}","${e.durationFormatted || ''}","${e.status || ''}","${e.date || ''}","${e.timestamp || ''}"\n`;
-      });
+            const record = {
+                id: currentParticipantId,
+                name: participantName,
+                score: score,
+                correctCount: correctCount,
+                answeredCount: answeredCount,
+                totalQuestions: 30,
+                accuracy: accuracy,
+                timeTaken: totalTimeSec,
+                status: status,
+                lastUpdated: Date.now()
+            };
 
-      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.setAttribute("href", url);
-      link.setAttribute("download", `ganesh_quiz_individual_leaderboard_${Date.now()}.csv`);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
+            upsertParticipantInStorage(record);
+        }
 
-    function toggleChangePinView() {
-      sound.playTap();
-      const container = document.getElementById('changePinContainer');
-      const msg = document.getElementById('changePinMsg');
-      if (!container || !msg) return;
-      msg.classList.add('hidden');
-      container.classList.toggle('hidden');
-      if (!container.classList.contains('hidden')) {
-        const input = document.getElementById('newPinInput');
-        if (input) input.focus();
-      }
-    }
+        function loadQuestion() {
+            if (currentQuestionIndex >= shuffledQuestions.length) {
+                finishQuiz();
+                return;
+            }
 
-    function saveNewPin() {
-      const input = document.getElementById('newPinInput');
-      const msg = document.getElementById('changePinMsg');
-      if (!input || !msg) return;
-      const newPin = input.value.trim();
-      
-      if (newPin.length < 4) {
-        msg.textContent = "PIN must be at least 4 digits long.";
-        msg.className = "text-[11px] mt-1.5 text-red-400 font-semibold";
-        msg.classList.remove('hidden');
-        return;
-      }
-      setHostPin(newPin);
-      msg.textContent = "✓ Host PIN successfully updated to " + newPin;
-      msg.className = "text-[11px] mt-1.5 text-emerald-400 font-semibold";
-      msg.classList.remove('hidden');
-      input.value = '';
-      setTimeout(() => {
-        toggleChangePinView();
-      }, 1500);
-    }
+            const qData = shuffledQuestions[currentQuestionIndex];
+            document.getElementById('questionCounter').innerText = `Q ${currentQuestionIndex + 1}/30`;
+            document.getElementById('liveScoreDisplay').innerText = `${score} Pts`;
+            document.getElementById('questionTitle').innerText = qData.q;
 
-    function promptResetLeaderboard() {
-      sound.playTap();
-      const confirmModal = document.getElementById('resetConfirmModal');
-      if (!confirmModal) return;
-      confirmModal.classList.remove('hidden');
-      setTimeout(() => confirmModal.classList.remove('opacity-0'), 10);
-    }
+            const progressPct = (currentQuestionIndex / 30) * 100;
+            document.getElementById('quizProgressBar').style.width = `${progressPct}%`;
 
-    function cancelResetLeaderboard() {
-      sound.playTap();
-      const confirmModal = document.getElementById('resetConfirmModal');
-      if (!confirmModal) return;
-      confirmModal.classList.add('opacity-0');
-      setTimeout(() => confirmModal.classList.add('hidden'), 200);
-    }
+            const container = document.getElementById('optionsContainer');
+            container.innerHTML = '';
 
-    async function confirmResetLeaderboard() {
-      sound.playTap();
-      const resetTs = Date.now();
-      try {
-        localStorage.setItem(STORAGE_KEY_RESET_TS, resetTs.toString());
-        localStorage.removeItem(STORAGE_KEY_LEADERBOARD);
-        localStorage.setItem(STORAGE_KEY_LEADERBOARD, JSON.stringify([]));
-      } catch (e) {}
+            qData.options.forEach((optText, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-4 rounded-xl bg-temple-deep/80 border border-temple-border hover:border-marigold text-saffron-50 text-sm font-medium transition flex items-center justify-between group";
+                btn.innerHTML = `
+                    <span class="flex items-center">
+                        <span class="w-7 h-7 rounded-lg bg-temple-card border border-temple-border flex items-center justify-center text-xs font-bold text-marigold mr-3 group-hover:bg-marigold group-hover:text-temple-deep transition">${String.fromCharCode(65 + idx)}</span>
+                        <span>${optText}</span>
+                    </span>
+                    <i data-lucide="chevron-right" class="w-4 h-4 text-saffron-200/40 group-hover:text-marigold transition"></i>
+                `;
+                btn.onclick = () => selectAnswer(idx);
+                container.appendChild(btn);
+            });
 
-      cachedCloudParticipants = [];
-      previousContestantRanks = {};
+            if (window.lucide) lucide.createIcons();
 
-      const resetPacket = { type: 'RESET', ts: resetTs };
+            timeLeft = 20;
+            document.getElementById('timerDisplay').innerText = `${timeLeft}s`;
+            clearInterval(questionTimer);
+            questionTimer = setInterval(() => {
+                timeLeft--;
+                document.getElementById('timerDisplay').innerText = `${timeLeft}s`;
+                if (timeLeft <= 0) {
+                    clearInterval(questionTimer);
+                    lockInAction(null);
+                }
+            }, 1000);
+        }
 
-      if (liveQuizChannel) {
-        try { liveQuizChannel.postMessage(resetPacket); } catch (err) {}
-      }
+        function selectAnswer(selectedIndex) {
+            clearInterval(questionTimer);
+            lockInAction(selectedIndex);
+        }
 
-      try {
-        await fetch(CLOUD_PUB_URL, {
-          method: 'POST',
-          body: JSON.stringify(resetPacket),
-          headers: { 'Content-Type': 'text/plain' }
-        });
-      } catch (e) {}
+        function lockInAction(selectedIndex) {
+            const qData = shuffledQuestions[currentQuestionIndex];
+            const buttons = document.getElementById('optionsContainer').children;
 
-      cancelResetLeaderboard();
-      renderHostDashboard();
-      showLiveToast("Board Cleared", "Leaderboard scores have been reset across all devices.", "info");
-    }
+            Array.from(buttons).forEach(b => b.disabled = true);
 
-    function escapeHtml(str) {
-      if (!str) return '';
-      return String(str)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;');
-    }
+            if (selectedIndex !== null && selectedIndex === qData.correct) {
+                correctCount++;
+                const speedBonus = timeLeft * 5;
+                score += 100 + speedBonus;
+                if (buttons[selectedIndex]) {
+                    buttons[selectedIndex].classList.remove('bg-temple-deep/80', 'border-temple-border');
+                    buttons[selectedIndex].classList.add('bg-emerald-950/80', 'border-emerald-600', 'text-emerald-200');
+                }
+            } else if (selectedIndex !== null) {
+                if (buttons[selectedIndex]) {
+                    buttons[selectedIndex].classList.remove('bg-temple-deep/80', 'border-temple-border');
+                    buttons[selectedIndex].classList.add('bg-red-950/80', 'border-red-600', 'text-red-200');
+                }
+                if (buttons[qData.correct]) {
+                    buttons[qData.correct].classList.remove('bg-temple-deep/80', 'border-temple-border');
+                    buttons[qData.correct].classList.add('bg-emerald-950/80', 'border-emerald-600', 'text-emerald-200');
+                }
+            } else {
+                if (buttons[qData.correct]) {
+                    buttons[qData.correct].classList.add('bg-emerald-950/80', 'border-emerald-600');
+                }
+            }
 
-    window.goToHome = goToHome;
-    window.toggleSound = toggleSound;
-    window.openHostAuthModal = openHostAuthModal;
-    window.closeHostAuthModal = closeHostAuthModal;
-    window.verifyHostPin = verifyHostPin;
-    window.handleEnrollmentSubmit = handleEnrollmentSubmit;
-    window.closeHostLeaderboardModal = closeHostLeaderboardModal;
-    window.filterLeaderboardView = filterLeaderboardView;
-    window.toggleChangePinView = toggleChangePinView;
-    window.saveNewPin = saveNewPin;
-    window.exportLeaderboardCSV = exportLeaderboardCSV;
-    window.promptResetLeaderboard = promptResetLeaderboard;
-    window.cancelResetLeaderboard = cancelResetLeaderboard;
-    window.confirmResetLeaderboard = confirmResetLeaderboard;
-    window.toggleAnswerReview = toggleAnswerReview;
-    window.shareScore = shareScore;
-    window.copyQuizShareLink = copyQuizShareLink;
-    window.lockInAnswer = lockInAnswer;
-    window.manualSyncFromCloud = manualSyncFromCloud;
-    window.simulateLiveParticipantMovement = simulateLiveParticipantMovement;
-    window.setHostFilterTab = setHostFilterTab;
+            currentQuestionIndex++;
+            saveAndBroadcastProgress('playing');
 
-    window.addEventListener('load', () => {
-      safeCreateIcons();
-      initCloudSync();
-    });
-  </script>
+            setTimeout(() => {
+                loadQuestion();
+            }, 450);
+        }
+
+        function finishQuiz() {
+            clearInterval(questionTimer);
+            saveAndBroadcastProgress('completed');
+
+            document.getElementById('quizScreen').classList.add('hidden');
+            document.getElementById('resultsScreen').classList.remove('hidden');
+
+            const totalSec = Math.floor((Date.now() - startTime) / 1000);
+            document.getElementById('resFinalScore').innerText = `${score} Points`;
+            document.getElementById('resCorrectCount').innerText = `${correctCount} / 30`;
+            document.getElementById('resAccuracy').innerText = `${Math.round((correctCount / 30) * 100)}%`;
+            document.getElementById('resTimeTaken').innerText = `${totalSec}s`;
+        }
+
+        function openHostAuthModal() {
+            document.getElementById('hostAuthModal').classList.remove('hidden');
+            document.getElementById('hostPinInput').value = '';
+            document.getElementById('hostPinInput').focus();
+        }
+
+        function closeHostAuthModal() {
+            document.getElementById('hostAuthModal').classList.add('hidden');
+        }
+
+        function verifyHostPin(e) {
+            e.preventDefault();
+            const pin = document.getElementById('hostPinInput').value.trim();
+            if (pin === '787898') {
+                closeHostAuthModal();
+                document.getElementById('hostLeaderboardModal').classList.remove('hidden');
+                renderHostLeaderboard();
+            } else {
+                alert('Incorrect Security PIN. Default is 787898');
+            }
+        }
+
+        function closeHostLeaderboardModal() {
+            document.getElementById('hostLeaderboardModal').classList.add('hidden');
+        }
+
+        function syncHostDataNow() {
+            renderHostLeaderboard();
+        }
+
+        function setHostFilter(filter) {
+            hostFilter = filter;
+            ['all', 'active', 'completed'].forEach(f => {
+                const btn = document.getElementById(`tabFilter${f.charAt(0).toUpperCase() + f.slice(1)}`);
+                if (f === filter) {
+                    btn.className = "px-3 py-1.5 rounded-lg text-xs font-semibold bg-marigold text-temple-deep transition";
+                } else {
+                    btn.className = "px-3 py-1.5 rounded-lg text-xs font-semibold bg-temple-deep border border-temple-border text-saffron-200 hover:text-marigold transition";
+                }
+            });
+            renderHostLeaderboard();
+        }
+
+        function promptHostReset() {
+            document.getElementById('resetConfirmModal').classList.remove('hidden');
+        }
+
+        function closeResetModal() {
+            document.getElementById('resetConfirmModal').classList.add('hidden');
+        }
+
+        function confirmResetLeaderboard() {
+            const timestamp = Date.now();
+            localStorage.setItem(STORAGE_KEY_RESET_TS, timestamp);
+            localStorage.removeItem(STORAGE_KEY_PARTICIPANTS);
+
+            if (bc) {
+                bc.postMessage({ type: 'RESET_BOARD', timestamp });
+            }
+
+            closeResetModal();
+            renderHostLeaderboard();
+        }
+
+        function renderHostLeaderboard() {
+            const map = getParticipantMap();
+            let participants = Object.values(map);
+
+            participants.sort((a, b) => {
+                if (b.score !== a.score) return b.score - a.score;
+                if (b.correctCount !== a.correctCount) return b.correctCount - a.correctCount;
+                return a.timeTaken - b.timeTaken;
+            });
+
+            const activeList = participants.filter(p => p.status === 'playing');
+            const completedList = participants.filter(p => p.status === 'completed');
+
+            document.getElementById('tabFilterAll').innerText = `All (${participants.length})`;
+            document.getElementById('tabFilterActive').innerText = `🟢 Live (${activeList.length})`;
+            document.getElementById('tabFilterCompleted').innerText = `🏁 Finished (${completedList.length})`;
+            document.getElementById('activeCountBadge').innerText = `${activeList.length} Playing`;
+
+            const tickerEl = document.getElementById('hostActiveContestantsTicker');
+            if (activeList.length === 0) {
+                tickerEl.innerHTML = `<span class="text-xs text-saffron-200/50 italic py-2">No devotees currently answering questions...</span>`;
+            } else {
+                tickerEl.innerHTML = activeList.map(p => `
+                    <div class="bg-temple-deep border border-temple-border rounded-xl p-3 min-w-[200px] shrink-0 space-y-1.5">
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-xs text-saffron-50 truncate max-w-[120px]">${escapeHtml(p.name)}</span>
+                            <span class="text-[10px] bg-emerald-950 text-emerald-300 px-2 py-0.5 rounded-full border border-emerald-800">Q ${p.answeredCount}/30</span>
+                        </div>
+                        <div class="flex justify-between items-center text-[11px] text-saffron-200/70">
+                            <span>Score: <strong class="text-marigold">${p.score}</strong></span>
+                            <span>${p.accuracy}% Acc</span>
+                        </div>
+                        <div class="w-full bg-temple-card rounded-full h-1 overflow-hidden">
+                            <div class="bg-marigold h-full" style="width: ${(p.answeredCount / 30) * 100}%"></div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            const podiumEl = document.getElementById('hostPodiumContainer');
+            const top3 = participants.slice(0, 3);
+            const podiumStyles = [
+                { border: 'border-amber-400', badge: 'bg-amber-400 text-temple-deep', label: '1st Winner' },
+                { border: 'border-slate-300', badge: 'bg-slate-300 text-temple-deep', label: '2nd Runner-up' },
+                { border: 'border-amber-700', badge: 'bg-amber-700 text-white', label: '3rd Place' }
+            ];
+
+            podiumEl.innerHTML = [0, 1, 2].map(i => {
+                const p = top3[i];
+                const st = podiumStyles[i];
+                if (!p) {
+                    return `
+                        <div class="bg-temple-card/50 border border-temple-border/50 rounded-2xl p-4 text-center flex flex-col justify-center items-center opacity-40">
+                            <div class="w-10 h-10 rounded-full bg-temple-deep flex items-center justify-center text-xs font-bold mb-2">${i+1}</div>
+                            <p class="text-xs text-saffron-200/50">Waiting for contestant...</p>
+                        </div>
+                    `;
+                }
+                return `
+                    <div class="bg-temple-card border ${st.border} rounded-2xl p-4 text-center relative shadow-lg">
+                        <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 px-2.5 py-0.5 rounded-full text-[10px] font-bold ${st.badge}">
+                            ${st.label}
+                        </div>
+                        <div class="w-12 h-12 mx-auto mt-2 mb-2 rounded-full bg-temple-deep border border-temple-border flex items-center justify-center text-marigold font-cinzel font-bold text-lg">
+                            #${i+1}
+                        </div>
+                        <h4 class="font-bold text-sm text-saffron-50 truncate">${escapeHtml(p.name)}</h4>
+                        <p class="text-marigold font-bold text-base mt-1">${p.score} <span class="text-xs font-normal text-saffron-200/70">Pts</span></p>
+                        <div class="mt-2 pt-2 border-t border-temple-border/50 flex justify-around text-[11px] text-saffron-200/70">
+                            <span>Acc: <strong>${p.accuracy}%</strong></span>
+                            <span>Time: <strong>${p.timeTaken}s</strong></span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            const searchQuery = (document.getElementById('hostSearchInput').value || '').toLowerCase();
+            let filtered = participants.filter(p => {
+                if (hostFilter === 'active' && p.status !== 'playing') return false;
+                if (hostFilter === 'completed' && p.status !== 'completed') return false;
+                if (searchQuery && !p.name.toLowerCase().includes(searchQuery)) return false;
+                return true;
+            });
+
+            const tbody = document.getElementById('hostLeaderboardTableBody');
+            if (filtered.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" class="text-center py-8 text-saffron-200/50 italic">No participant records match your criteria.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = filtered.map((p) => {
+                const rank = participants.findIndex(x => x.id === p.id) + 1;
+                const statusBadge = p.status === 'playing' 
+                    ? `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-emerald-950 text-emerald-300 border border-emerald-800"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5 animate-pulse"></span>Playing Q${p.answeredCount}</span>`
+                    : `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-temple-deep text-marigold border border-temple-border">✓ Completed</span>`;
+                
+                return `
+                    <tr class="hover:bg-temple-card/50 transition">
+                        <td class="py-3 px-3 font-cinzel font-bold text-marigold">#${rank}</td>
+                        <td class="py-3 px-3 font-semibold text-saffron-50">${escapeHtml(p.name)}</td>
+                        <td class="py-3 px-3">${statusBadge}</td>
+                        <td class="py-3 px-3">
+                            <div class="flex items-center space-x-2">
+                                <span class="text-xs text-saffron-200/70">${p.answeredCount}/30</span>
+                                <div class="w-16 bg-temple-deep rounded-full h-1.5 overflow-hidden">
+                                    <div class="bg-marigold h-full" style="width: ${(p.answeredCount / 30) * 100}%"></div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="py-3 px-3 text-right font-bold text-marigold">${p.score}</td>
+                        <td class="py-3 px-3 text-right text-saffron-100">${p.accuracy}%</td>
+                        <td class="py-3 px-3 text-right text-saffron-200/70">${p.timeTaken}s</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function escapeHtml(text) {
+            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+    </script>
 </body>
 </html>
